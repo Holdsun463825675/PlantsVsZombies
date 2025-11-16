@@ -6,6 +6,7 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
     public AudioSource audioSource;
+    public float clipVolume;
 
     private void Awake()
     {
@@ -19,6 +20,7 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
         }
         audioSource = GetComponent<AudioSource>();
+        clipVolume = 1.0f;
     }
 
     private void Start()
@@ -41,12 +43,12 @@ public class AudioManager : MonoBehaviour
         if (audioSource) audioSource.Stop();
     }
 
-    public void playClip(string path, float volume=1.0f)
+    public void playClip(string path)
     {
         AudioClip ac = Resources.Load<AudioClip>(path);
         if (ac != null)
         {
-            AudioSource.PlayClipAtPoint(ac, transform.position, GameManager.Instance.clipVolume);
+            AudioSource.PlayClipAtPoint(ac, transform.position, clipVolume);
         }
     }
 }

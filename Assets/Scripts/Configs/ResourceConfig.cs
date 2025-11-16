@@ -8,6 +8,11 @@ public class ResourceConfig
     public const string music_selectCard = "Audio/Music/SelectCard";
     public const string music_day = "Audio/Music/Day";
 
+    public const string sound_buttonandputdown_bleep = "Audio/Sound/buttonandputdown/bleep";
+    public const string sound_buttonandputdown_buttonclick = "Audio/Sound/buttonandputdown/buttonclick";
+    public const string sound_buttonandputdown_ceramic = "Audio/Sound/buttonandputdown/ceramic";
+    public const string sound_buttonandputdown_gravebutton = "Audio/Sound/buttonandputdown/gravebutton";
+    public const string sound_buttonandputdown_pause = "Audio/Sound/buttonandputdown/pause";
     public const string sound_buttonandputdown_tap = "Audio/Sound/buttonandputdown/tap";
     public const string sound_buttonandputdown_tap2 = "Audio/Sound/buttonandputdown/tap2";
 

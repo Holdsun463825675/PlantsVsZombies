@@ -10,6 +10,7 @@ public class PauseAndContinue : MonoBehaviour
 
     public void onClick()
     {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_gravebutton);
         GameManager.Instance.PauseAndContinue();
         if (GameManager.Instance.state == GameState.Paused) buttonText.text = "Continue";
         else buttonText.text = "Pause";

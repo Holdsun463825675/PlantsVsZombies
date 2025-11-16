@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour
 
     public GameState state;
 
-    public float clipVolume = 1.0f;
     public float difficulty = 1.0f;
     public bool autoCollected = true;
     public bool plantHealth = true;
@@ -131,26 +130,32 @@ public class GameManager : MonoBehaviour
 
     public void SetBgmVolume(float volume)
     {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
         AudioManager.Instance.audioSource.volume = volume;
     }
     public void SetClipVolume(float volume)
     {
-        this.clipVolume = volume;
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
+        AudioManager.Instance.clipVolume = volume;
     }
     public void SetDifficulty(float difficulty)
     {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
         this.difficulty = difficulty;
     }
     public void ToggleAutoCollected()
     {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_ceramic);
         autoCollected = !autoCollected;
     }
     public void TogglePlantHealth()
     {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_ceramic);
         plantHealth = !plantHealth;
     }
     public void ToggleZombieHealth()
     {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_ceramic);
         zombieHealth = !zombieHealth;
     }
 
@@ -182,12 +187,14 @@ public class GameManager : MonoBehaviour
 
     public void BacktoHome()
     {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_gravebutton);
         SceneManager.LoadScene("MenuScene");
         AudioManager.Instance.playBgm(ResourceConfig.music_mainMenu);
     }
 
     public void Restart()
     {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_gravebutton);
         string currentSceneName = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene(currentSceneName);
     }

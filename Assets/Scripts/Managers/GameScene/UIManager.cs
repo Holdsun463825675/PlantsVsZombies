@@ -186,12 +186,14 @@ public class UIManager : MonoBehaviour
 
     public void OpenMenu()
     {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_pause);
         Menu.SetActive(true);
         if (GameManager.Instance.state == GameState.Processing) GameManager.Instance.Pause();
     }
 
     public void CloseMenu()
     {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_gravebutton);
         Menu.SetActive(false);
         if (GameManager.Instance.state == GameState.Paused) GameManager.Instance.Continue();
     }

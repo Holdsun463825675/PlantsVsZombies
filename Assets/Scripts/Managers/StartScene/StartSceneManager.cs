@@ -19,6 +19,7 @@ public class StartSceneManager : MonoBehaviour
 
     public void onPlayButtonClick()
     {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_buttonclick);
         SceneManager.LoadScene("MenuScene");
     }
 }

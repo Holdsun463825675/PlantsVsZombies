@@ -111,6 +111,7 @@ public class CardManager : MonoBehaviour
 
     public void onCompleteSelectingCard()
     {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_tap);
         GameManager.Instance.setState(GameState.Ready);
     }
 }
