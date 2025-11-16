@@ -62,8 +62,6 @@ public class Plant : MonoBehaviour, IClickable
             shootPlaceCollider.GetComponent<TriggerForwarder>().SetParentHandler(this);
             shootPlaceCollider.enabled = false;
         }
-
-        setState(PlantState.Suspension);
         PlantManager.Instance.addPlant(this);
     }
 
@@ -72,12 +70,12 @@ public class Plant : MonoBehaviour, IClickable
         ClickPriority priority = gameObject.AddComponent<ClickPriority>();
         priority.priority = 1;
         priority.isClickable = true;
+        setState(PlantState.Suspension);
     }
 
     void FixedUpdate()
     {
         HPText.text = $"{currHealth}/{maxHealth}";
-        HPText.gameObject.SetActive(GameManager.Instance.plantHealth);
         if (GameManager.Instance.state == GameState.Paused || 
             GameManager.Instance.state == GameState.Losing || 
             GameManager.Instance.state == GameState.Winning) return;
@@ -124,7 +122,7 @@ public class Plant : MonoBehaviour, IClickable
         if (state == PlantState.Suspension)
         {
             this.state = state;
-            if (HPText) HPText.gameObject.SetActive(GameManager.Instance.plantHealth);
+            if (HPText) HPText.gameObject.SetActive(false);
             if (shadow) shadow.gameObject.SetActive(false);
             if (shootPlaceCollider) shootPlaceCollider.enabled = false;
             anim.enabled = false;
