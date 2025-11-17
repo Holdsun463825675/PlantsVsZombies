@@ -44,10 +44,10 @@ public class Plant : MonoBehaviour, IClickable
 
     protected virtual void Awake()
     {
-        anim = GetComponent<Animator>();
         c2d = GetComponent<Collider2D>();
         maxHealth = 300; currHealth = maxHealth;
         cell = null; targets = new List<Zombie>();
+        anim = GetComponent<Animator>();
         Transform child = transform.Find("HPText");
         if (child) HPText = child.GetComponent<TextMeshPro>();
         if (HPText) HPText.gameObject.SetActive(false);

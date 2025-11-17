@@ -652,6 +652,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+  clipVolume: 0
 --- !u!81 &77389526
 AudioListener:
   m_ObjectHideFlags: 0
@@ -8889,7 +8890,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  clipVolume: 1
   difficulty: 1
   autoCollected: 1
   plantHealth: 1

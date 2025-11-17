@@ -27,14 +27,13 @@ public class PeaShooter : Plant
         shootTimer += Time.fixedDeltaTime;
         if (shootTimer >= shootTime)
         {
-            setState(PlantState.Effect);
+            if (shootPlace && targets.Count != 0) setState(PlantState.Effect);
             shootTimer = 0.0f;
         }
     }
 
     public void shoot()
     {
-        if (!shootPlace || targets.Count == 0) return;
         AudioManager.Instance.playClip(ResourceConfig.sound_plantshoot_throw);
         Pea pea = GameObject.Instantiate(peaPrefab, shootPlace.position, Quaternion.identity);
         pea.setState(PeaState.ToBeUsed);
