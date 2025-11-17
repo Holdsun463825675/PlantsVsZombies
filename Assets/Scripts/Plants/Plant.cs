@@ -91,6 +91,9 @@ public class Plant : MonoBehaviour, IClickable
             case PlantState.Effect:
                 EffectUpdate();
                 break;
+            case PlantState.Die:
+                DieUpdate();
+                break;
             default:
                 break;
         }
@@ -149,7 +152,7 @@ public class Plant : MonoBehaviour, IClickable
         if (state == PlantState.Die)
         {
             this.state = state;
-            if (HPText) HPText.gameObject.SetActive(GameManager.Instance.plantHealth);
+            if (HPText) HPText.gameObject.SetActive(false);
             if (shadow) shadow.gameObject.SetActive(false);
             if (shootPlaceCollider) shootPlaceCollider.enabled = false;
             if (cell) cell.setFlag(type, false);
@@ -177,17 +180,22 @@ public class Plant : MonoBehaviour, IClickable
 
     private void SuspensionUpdate()
     {
-
+        if (HPText) HPText.gameObject.SetActive(false);
     }
 
     protected virtual void IdleUpdate()
     {
-
+        if (HPText) HPText.gameObject.SetActive(GameManager.Instance.plantHealth);
     }
 
     protected virtual void EffectUpdate()
     {
+        if (HPText) HPText.gameObject.SetActive(GameManager.Instance.plantHealth);
+    }
 
+    protected virtual void DieUpdate()
+    {
+        if (HPText) HPText.gameObject.SetActive(false);
     }
 
     // 父物体处理触发事件的方法
