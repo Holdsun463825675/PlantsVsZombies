@@ -54,6 +54,9 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.LevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currLevelConfig.levelName;
         // 地图
         MapManager.Instance.setMap(currLevelConfig.mapID);
+        CameraManager.Instance.getMap();
+        SunManager.Instance.getMap();
+        ZombieManager.Instance.getMap();
         // 时间
         // 是否掉落阳光
         SunManager.Instance.setIsDropSun(currLevelConfig.dropSun);

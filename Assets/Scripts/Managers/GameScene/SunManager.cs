@@ -40,7 +40,7 @@ public class SunManager : MonoBehaviour
 
     private void Start()
     {
-        dropSunPositions = MapManager.Instance.currMap.dropSunPositions;
+        
     }
 
     void FixedUpdate()
@@ -55,6 +55,11 @@ public class SunManager : MonoBehaviour
             dropSunTimer = 0.0f;
             dropSun();
         }
+    }
+
+    public void getMap()
+    {
+        dropSunPositions = MapManager.Instance.currMap.dropSunPositions;
     }
 
     // ÔÝÍ£¼ÌÐø

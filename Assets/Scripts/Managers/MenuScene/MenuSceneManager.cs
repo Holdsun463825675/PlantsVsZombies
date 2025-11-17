@@ -17,10 +17,9 @@ public class MenuSceneManager : MonoBehaviour
 
     }
 
-    public void onPlayGameButtonClick()
+    public void onAdventureButtonClick()
     {
         AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
-        LevelConfigManager.Instance.GetLevelConfig(1);
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("AdventureScene");
     }
 }

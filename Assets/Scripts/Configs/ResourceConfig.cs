@@ -67,9 +67,9 @@ public class ResourceConfig
 
     public static readonly string[] image_win_awards = new string[]
     {
-        "Images/Card/card_peashooter",
-        "Images/Card/card_sunflower",
-        "Images/Card/card_cherrybomb"
+        "Images_old/Card/card_peashooter",
+        "Images_old/Card/card_sunflower",
+        "Images_old/Card/card_cherrybomb"
     };
 
 }

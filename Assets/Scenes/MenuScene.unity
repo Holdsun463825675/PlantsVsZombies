@@ -151,7 +151,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 820ee976f4eebba4d9199d596db22ac6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currLevelConfig: {fileID: 0}
 --- !u!4 &246163804
 Transform:
   m_ObjectHideFlags: 0
@@ -199,6 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+  clipVolume: 0
 --- !u!81 &688001561
 AudioListener:
   m_ObjectHideFlags: 0
@@ -331,7 +331,7 @@ GameObject:
   - component: {fileID: 741911483}
   - component: {fileID: 741911482}
   m_Layer: 5
-  m_Name: PlayGameButton
+  m_Name: AdventureButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -402,7 +402,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1170056222}
         m_TargetAssemblyTypeName: MenuSceneManager, Assembly-CSharp
-        m_MethodName: onPlayGameButtonClick
+        m_MethodName: onAdventureButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WinAward : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class WinAward : MonoBehaviour
 
     public void onCompleteEnlarge()
     {
-        GameManager.Instance.BacktoHome();
+        AudioManager.Instance.playBgm(ResourceConfig.music_mainMenu);
+        SceneManager.LoadScene("AdventureScene");
     }
 }

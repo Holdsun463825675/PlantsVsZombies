@@ -23,9 +23,7 @@ public class CameraManager : MonoBehaviour
 
     private void Start()
     {
-        UIPlaces = MapManager.Instance.currMap.cameraPositions;
-        beginPlace = UIPlaces[0]; endPlace = UIPlaces[1]; losingPlace = UIPlaces[2];
-        UI.transform.position = losingPlace.transform.position;
+
     }
 
     private void FixedUpdate()
@@ -52,6 +50,13 @@ public class CameraManager : MonoBehaviour
                 break;
         }
 
+    }
+
+    public void getMap()
+    {
+        UIPlaces = MapManager.Instance.currMap.cameraPositions;
+        beginPlace = UIPlaces[0]; endPlace = UIPlaces[1]; losingPlace = UIPlaces[2];
+        UI.transform.position = losingPlace.transform.position;
     }
 
     public void setState(GameState state)

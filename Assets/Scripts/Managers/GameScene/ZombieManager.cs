@@ -56,10 +56,7 @@ public class ZombieManager : MonoBehaviour
 
     private void Start()
     {
-        zombiePreviewingPlace = MapManager.Instance.currMap.zombiePreviewingPlace;
-        zombieSpawnPlaceList = MapManager.Instance.currMap.zombieSpawnPositions;
-        orderInLayers = new int[zombieSpawnPlaceList.Count];
-        for (int i = 0; i < orderInLayers.Length; i++) orderInLayers[i] = i * rowMaxSortingOrder;
+
     }
 
     private void FixedUpdate()
@@ -68,17 +65,25 @@ public class ZombieManager : MonoBehaviour
         switch (state)
         {
             case ZombieSpawnState.NotStarted:
-                NotStartedUpdate(); 
+                NotStartedUpdate();
                 break;
             case ZombieSpawnState.Processing:
-                ProcessingUpdate(); 
+                ProcessingUpdate();
                 break;
             case ZombieSpawnState.End:
-                EndUpdate(); 
+                EndUpdate();
                 break;
             default:
                 break;
         }
+    }
+
+    public void getMap()
+    {
+        zombiePreviewingPlace = MapManager.Instance.currMap.zombiePreviewingPlace;
+        zombieSpawnPlaceList = MapManager.Instance.currMap.zombieSpawnPositions;
+        orderInLayers = new int[zombieSpawnPlaceList.Count];
+        for (int i = 0; i < orderInLayers.Length; i++) orderInLayers[i] = i * rowMaxSortingOrder;
     }
 
     public void setConfig(
