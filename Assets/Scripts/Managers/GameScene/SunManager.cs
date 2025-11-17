@@ -33,8 +33,8 @@ public class SunManager : MonoBehaviour
     {
         Instance = this;
         isDropSun = false;
-        dropSunTime = 8.0f;
-        dropSunTimer = 2.0f;
+        dropSunTime = 6.0f;
+        dropSunTimer = 0.0f;
         state = SunSpawnState.Disable;
     }
 
@@ -52,8 +52,10 @@ public class SunManager : MonoBehaviour
         dropSunTimer += Time.fixedDeltaTime;
         if (dropSunTimer > dropSunTime)
         {
-            dropSunTimer = 0.0f;
             dropSun();
+            dropSunTimer = 0.0f;
+            dropSunTime += 0.2f; // Ñô¹âÔ½µôÔ½Âý
+            if (dropSunTime > 10.0f) dropSunTime = 10.0f;
         }
     }
 

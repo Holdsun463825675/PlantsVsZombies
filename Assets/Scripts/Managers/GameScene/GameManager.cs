@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
                 AudioManager.Instance.stopBgm();
                 AudioManager.Instance.playClip(ResourceConfig.sound_lose_losemusic);
                 PlantManager.Instance.Pause();
-                PropertyManager.Instance.Pause();
+                ProductManager.Instance.Pause();
                 SunManager.Instance.Pause();
                 ZombieManager.Instance.Pause();
                 break;
@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviour
     {
         setState(GameState.Paused);
         PlantManager.Instance.Pause();
-        PropertyManager.Instance.Pause();
+        ProductManager.Instance.Pause();
         SunManager.Instance.Pause();
         ZombieManager.Instance.Pause();
     }
@@ -183,7 +183,7 @@ public class GameManager : MonoBehaviour
         state = GameState.Processing;
         UIManager.Instance.setState(GameState.Processing);
         PlantManager.Instance.Continue();
-        PropertyManager.Instance.Continue();
+        ProductManager.Instance.Continue();
         SunManager.Instance.Continue();
         ZombieManager.Instance.Continue();
     }

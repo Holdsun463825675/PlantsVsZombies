@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public enum CardState
 {
+    None,
     SelectingCard_NotSelected,
     SelectingCard_Selected,
     GameReady,
@@ -16,7 +18,7 @@ public enum CardState
 
 public class Card : MonoBehaviour
 {
-    private CardState state = CardState.SelectingCard_NotSelected;
+    private CardState state;
 
     public PlantID plantID;
     public float cdTime = 7.5f;
@@ -24,9 +26,14 @@ public class Card : MonoBehaviour
     public int cost = 100;
 
     public GameObject Card_Original;
+    public TextMeshProUGUI costText;
     public Image Card_Mask_Unavailable;
     public Image Card_Mask_CoolingDown;
 
+    private void Start()
+    {
+        costText.text = $"{cost}";
+    }
 
     void FixedUpdate()
     {

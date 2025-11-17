@@ -65,11 +65,4 @@ public class ResourceConfig
     public const string sound_lose_losemusic = "Audio/Sound/lose/losemusic";
     public const string sound_lose_scream = "Audio/Sound/lose/scream";
 
-    public static readonly string[] image_win_awards = new string[]
-    {
-        "Images_old/Card/card_peashooter",
-        "Images_old/Card/card_sunflower",
-        "Images_old/Card/card_cherrybomb"
-    };
-
 }

@@ -19,7 +19,7 @@ public class LevelConfigs
         {
             levelID = 0,
             levelName = "Test",
-            mapID = 1,
+            mapID = 3,
             time = TimeOfDay.Day,
             dropSun = true,
             startingSun = 50,
@@ -30,10 +30,7 @@ public class LevelConfigs
                 ZombieID.NormalZombie
             },
             zombieWaves = new List<ZombieWave> {
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 1.0f,largeWave = true},
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 2.0f,largeWave = true},
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 3.0f,largeWave = true},
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 4.0f,largeWave = true},
+
             }
         });
 

@@ -185,6 +185,11 @@ public class ZombieManager : MonoBehaviour
 
     private void ProcessingUpdate()
     {
+        if (currWaveNumber >= zombieWaves.Count)
+        {
+            setState(ZombieSpawnState.End);
+            return;
+        } 
         if (zombieList.Count > 0) lastDeadZombiePosition = zombieList[0].transform.position;
 
         spawnTimer += Time.fixedDeltaTime;
@@ -233,7 +238,6 @@ public class ZombieManager : MonoBehaviour
                 }
             }
         }
-        if (currWaveNumber >= zombieWaves.Count) setState(ZombieSpawnState.End);   
     }
 
     private void EndUpdate()

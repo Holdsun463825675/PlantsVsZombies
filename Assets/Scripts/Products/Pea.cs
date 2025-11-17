@@ -8,7 +8,7 @@ public enum PeaState
     Used
 }
 
-public class Pea : Property
+public class Pea : Product
 {
     private int attackPoint = 20;
     private float x_speed, x_accelerated_speed, y_speed, y_accelerated_speed;

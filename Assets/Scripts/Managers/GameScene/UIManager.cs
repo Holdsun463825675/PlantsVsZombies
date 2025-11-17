@@ -146,21 +146,9 @@ public class UIManager : MonoBehaviour
         LevelProcess.GetComponent<Slider>().value = value;
     }
 
-    public void setWinAward(int award_idx)
+    public void setWinAward(int award_idx=0)
     {
-        if (WinAward != null)
-        {
-            Image awardImage = WinAward.GetComponent<Image>();
-            if (awardImage != null)
-            {
-                Sprite awardSprite = Resources.Load<Sprite>(ResourceConfig.image_win_awards[award_idx]);
-                if (awardSprite != null)
-                {
-                    awardImage.sprite = awardSprite;
-                    awardImage.SetNativeSize();
-                }
-            }
-        }
+
     }
 
     public void playReadytoPlay()

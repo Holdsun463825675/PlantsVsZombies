@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Property : MonoBehaviour
+public class Product : MonoBehaviour
 {
     protected virtual void Awake()
     {
-        PropertyManager.Instance.addProperty(this);
+        ProductManager.Instance.addProduct(this);
     }
 
     public virtual void Pause()
