@@ -36,6 +36,7 @@ public class Plant : MonoBehaviour, IClickable
 
     private Cell cell;
 
+    private SpriteRenderer spriteRenderer;
     private Animator anim;
     private Collider2D c2d;
     private Collider2D shootPlaceCollider;
@@ -44,6 +45,7 @@ public class Plant : MonoBehaviour, IClickable
 
     protected virtual void Awake()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         c2d = GetComponent<Collider2D>();
         maxHealth = 300; currHealth = maxHealth;
         cell = null; targets = new List<Zombie>();
@@ -76,6 +78,8 @@ public class Plant : MonoBehaviour, IClickable
     void FixedUpdate()
     {
         HPText.text = $"{currHealth}/{maxHealth}";
+        if (state == PlantState.Suspension) HPText.gameObject.SetActive(false);
+        else HPText.gameObject.SetActive(GameManager.Instance.plantHealth);
         if (GameManager.Instance.state == GameState.Paused || 
             GameManager.Instance.state == GameState.Losing || 
             GameManager.Instance.state == GameState.Winning) return;
@@ -131,6 +135,7 @@ public class Plant : MonoBehaviour, IClickable
             anim.enabled = false;
             c2d.enabled = false;
             if (cell) cell.setFlag(type, false);
+            spriteRenderer.sortingLayerName = "Hand";
         }
         if (state == PlantState.Idle)
         {
@@ -140,6 +145,7 @@ public class Plant : MonoBehaviour, IClickable
             if (shootPlaceCollider) shootPlaceCollider.enabled = true;
             if (GameManager.Instance.state != GameState.Paused) anim.enabled = true;
             c2d.enabled = true;
+            spriteRenderer.sortingLayerName = "Plant";
         }
         if (state == PlantState.Effect)
         {
@@ -148,6 +154,7 @@ public class Plant : MonoBehaviour, IClickable
             if (shootPlaceCollider) shootPlaceCollider.enabled = true;
             anim.SetTrigger(AnimatorConfig.plant_isEffect);
             c2d.enabled = true;
+            spriteRenderer.sortingLayerName = "Plant";
         }
         if (state == PlantState.Die)
         {
@@ -157,6 +164,7 @@ public class Plant : MonoBehaviour, IClickable
             if (shootPlaceCollider) shootPlaceCollider.enabled = false;
             if (cell) cell.setFlag(type, false);
             Destroy(gameObject);
+            spriteRenderer.sortingLayerName = "Plant";
         }
     }
 

@@ -12068,11 +12068,11 @@ RectTransform:
   - {fileID: 175831266}
   - {fileID: 1011568837}
   - {fileID: 1353720645}
+  - {fileID: 931466968}
   - {fileID: 1045728601}
   - {fileID: 1827232499}
   - {fileID: 1031369923}
   - {fileID: 2022108018}
-  - {fileID: 931466968}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

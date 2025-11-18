@@ -22,7 +22,7 @@ public class LevelConfigs
             mapID = 3,
             time = TimeOfDay.Day,
             dropSun = true,
-            startingSun = 50,
+            startingSun = 1000,
             cardType = TypeOfCard.Autonomy,
             award_idx = 0,
 
@@ -30,7 +30,10 @@ public class LevelConfigs
                 ZombieID.NormalZombie
             },
             zombieWaves = new List<ZombieWave> {
-
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 1.0f,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 1.0f,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 1.0f,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 2.0f,largeWave = false},
             }
         });
 

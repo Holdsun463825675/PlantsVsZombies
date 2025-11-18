@@ -55,8 +55,11 @@ TagManager:
   - name: Zombie
     uniqueID: 512235905
     locked: 0
-  - name: Property
+  - name: Product
     uniqueID: 3872407057
+    locked: 0
+  - name: Hand
+    uniqueID: 2850321921
     locked: 0
   - name: Foreground
     uniqueID: 776895803
