@@ -5,8 +5,10 @@ using UnityEngine;
 
 public enum PlantID
 {
+    None,
     PeaShooter,
-    Sunflower
+    Sunflower,
+    CherryBomb
 }
 
 public enum PlantState
@@ -79,7 +81,7 @@ public class Plant : MonoBehaviour, IClickable
     {
         HPText.text = $"{currHealth}/{maxHealth}";
         if (state == PlantState.Suspension) HPText.gameObject.SetActive(false);
-        else HPText.gameObject.SetActive(GameManager.Instance.plantHealth);
+        else HPText.gameObject.SetActive(JSONSaveSystem.Instance.userData.settingsData.plantHealth);
         if (GameManager.Instance.state == GameState.Paused || 
             GameManager.Instance.state == GameState.Losing || 
             GameManager.Instance.state == GameState.Winning) return;
@@ -140,7 +142,7 @@ public class Plant : MonoBehaviour, IClickable
         if (state == PlantState.Idle)
         {
             this.state = state;
-            if (HPText) HPText.gameObject.SetActive(GameManager.Instance.plantHealth);
+            if (HPText) HPText.gameObject.SetActive(JSONSaveSystem.Instance.userData.settingsData.plantHealth);
             if (shadow) shadow.gameObject.SetActive(true);
             if (shootPlaceCollider) shootPlaceCollider.enabled = true;
             if (GameManager.Instance.state != GameState.Paused) anim.enabled = true;
@@ -149,7 +151,7 @@ public class Plant : MonoBehaviour, IClickable
         }
         if (state == PlantState.Effect)
         {
-            if (HPText) HPText.gameObject.SetActive(GameManager.Instance.plantHealth);
+            if (HPText) HPText.gameObject.SetActive(JSONSaveSystem.Instance.userData.settingsData.plantHealth);
             if (shadow) shadow.gameObject.SetActive(true);
             if (shootPlaceCollider) shootPlaceCollider.enabled = true;
             anim.SetTrigger(AnimatorConfig.plant_isEffect);
@@ -193,12 +195,12 @@ public class Plant : MonoBehaviour, IClickable
 
     protected virtual void IdleUpdate()
     {
-        if (HPText) HPText.gameObject.SetActive(GameManager.Instance.plantHealth);
+        
     }
 
     protected virtual void EffectUpdate()
     {
-        if (HPText) HPText.gameObject.SetActive(GameManager.Instance.plantHealth);
+        
     }
 
     protected virtual void DieUpdate()

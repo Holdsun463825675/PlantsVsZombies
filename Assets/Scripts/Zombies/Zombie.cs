@@ -100,7 +100,7 @@ public class Zombie : MonoBehaviour, IClickable
     void FixedUpdate()
     {
         HPText.text = $"{currHealth}/{maxHealth}";
-        HPText.gameObject.SetActive(GameManager.Instance.zombieHealth);
+        HPText.gameObject.SetActive(JSONSaveSystem.Instance.userData.settingsData.zombieHealth);
         if (GameManager.Instance.state == GameState.Paused || GameManager.Instance.state == GameState.Losing) return;
 
         HealthPercentage = (float)currHealth / (float)maxHealth;

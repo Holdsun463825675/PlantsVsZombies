@@ -265,6 +265,7 @@ GameObject:
   m_Component:
   - component: {fileID: 282447623}
   - component: {fileID: 282447622}
+  - component: {fileID: 282447624}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -299,6 +300,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &282447624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282447621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ca4d2928c796b341b2a9cce45552e72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LevelList:
+  - {fileID: 8741006263617160643}
+  - {fileID: 2063469054}
 --- !u!1 &303277474
 GameObject:
   m_ObjectHideFlags: 0
@@ -827,7 +843,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4677612902849489507, guid: 8f04d93a16c74974cb798c0749351248, type: 3}
       propertyPath: m_Name
-      value: Level_1-2
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6036345066015565847, guid: 8f04d93a16c74974cb798c0749351248, type: 3}
       propertyPath: m_Sprite
@@ -917,6 +933,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 5513095169d99fb4ca774b80dba6e2e5, type: 3}
+    - target: {fileID: 8801855218071533560, guid: 8f04d93a16c74974cb798c0749351248, type: 3}
+      propertyPath: m_Name
+      value: Completed
+      objectReference: {fileID: 0}
     - target: {fileID: 9167104191772385396, guid: 8f04d93a16c74974cb798c0749351248, type: 3}
       propertyPath: m_SizeDelta.x
       value: 54.9068
@@ -943,6 +963,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7256130501111914238, guid: 8f04d93a16c74974cb798c0749351248, type: 3}
   m_PrefabInstance: {fileID: 2063469052}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2063469054 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4677612902849489507, guid: 8f04d93a16c74974cb798c0749351248, type: 3}
+  m_PrefabInstance: {fileID: 2063469052}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8741006263617160642
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -957,7 +982,7 @@ PrefabInstance:
       objectReference: {fileID: 282447622}
     - target: {fileID: 4677612902849489507, guid: 8f04d93a16c74974cb798c0749351248, type: 3}
       propertyPath: m_Name
-      value: Level_1-1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7256130501111914238, guid: 8f04d93a16c74974cb798c0749351248, type: 3}
       propertyPath: m_Pivot.x
@@ -1039,19 +1064,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7452120332254820221, guid: 8f04d93a16c74974cb798c0749351248, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 5513095169d99fb4ca774b80dba6e2e5, type: 3}
-    - target: {fileID: 8801855218071533560, guid: 8f04d93a16c74974cb798c0749351248, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f04d93a16c74974cb798c0749351248, type: 3}
+--- !u!1 &8741006263617160643 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4677612902849489507, guid: 8f04d93a16c74974cb798c0749351248, type: 3}
+  m_PrefabInstance: {fileID: 8741006263617160642}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

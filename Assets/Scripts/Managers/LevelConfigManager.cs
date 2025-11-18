@@ -50,22 +50,4 @@ public class LevelConfigManager : MonoBehaviour
         }
 
     }
-
-    public bool IsLevelUnlocked(int levelID)
-    {
-        // 检查关卡解锁条件
-        int maxCompletedLevel = PlayerPrefs.GetInt("MaxCompletedLevel", 0);
-        return levelID <= maxCompletedLevel + 1;
-    }
-
-    public List<LevelConfig> GetAvailableLevels()
-    {
-        List<LevelConfig> availableLevels = new List<LevelConfig>();
-        foreach (var config in levelConfigs)
-        {
-            if (IsLevelUnlocked(config.levelID))
-                availableLevels.Add(config);
-        }
-        return availableLevels;
-    }
 }

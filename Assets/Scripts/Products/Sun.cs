@@ -51,7 +51,7 @@ public class Sun : MonoBehaviour, IClickable
 
         // 自动收集
         autoCollectedTimer += Time.fixedDeltaTime;
-        if (GameManager.Instance.autoCollected && autoCollectedTimer > autoCollectedTime) setState(SunState.Collected);
+        if (JSONSaveSystem.Instance.userData.settingsData.autoCollected && autoCollectedTimer > autoCollectedTime) setState(SunState.Collected);
 
         kinematicsUpdate();
         switch (state)

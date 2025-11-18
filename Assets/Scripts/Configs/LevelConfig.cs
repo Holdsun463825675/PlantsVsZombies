@@ -5,12 +5,13 @@ using UnityEngine;
 public class LevelConfig
 {
     public int levelID; // 关卡ID
+    public int nextLevelID; // 下一关
+    public PlantID awardPlantID; // 通关奖励植物
     public string levelName; // 关卡名称
     public int mapID; // 地图
     public TimeOfDay time; // 时间
     public bool dropSun; // 是否掉落阳光
     public int startingSun; // 初始阳光
-    public int award_idx = 0; // 战利品
 
     public TypeOfCard cardType; // 选卡类型：自选卡0、固定选卡1、传送带2
     

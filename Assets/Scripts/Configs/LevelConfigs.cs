@@ -19,12 +19,13 @@ public class LevelConfigs
         {
             levelID = 0,
             levelName = "Test",
+            nextLevelID = 1,
+            awardPlantID = PlantID.Sunflower,
             mapID = 3,
             time = TimeOfDay.Day,
             dropSun = true,
             startingSun = 1000,
             cardType = TypeOfCard.Autonomy,
-            award_idx = 0,
 
             zombieID = new List<ZombieID> {
                 ZombieID.NormalZombie
@@ -42,12 +43,13 @@ public class LevelConfigs
         {
             levelID = 1,
             levelName = "1-1",
+            nextLevelID = 2,
+            awardPlantID = PlantID.Sunflower,
             mapID = 1,
             time = TimeOfDay.Day,
             dropSun = true,
             startingSun = 150,
             cardType = TypeOfCard.Autonomy,
-            award_idx = 1,
 
             zombieID = new List<ZombieID> {
                 ZombieID.NormalZombie
@@ -65,12 +67,13 @@ public class LevelConfigs
         {
             levelID = 2,
             levelName = "1-2",
+            nextLevelID = 3,
+            awardPlantID = PlantID.CherryBomb,
             mapID = 2,
             time = TimeOfDay.Day,
             dropSun = true,
             startingSun = 50,
             cardType = TypeOfCard.Autonomy,
-            award_idx = 2,
 
             zombieID = new List<ZombieID> {
                 ZombieID.NormalZombie

@@ -18,6 +18,7 @@ public class CardManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        showCards();
         setState(GameState.NotStarted);
     }
 
@@ -39,6 +40,15 @@ public class CardManager : MonoBehaviour
                     cardPanel[i].transform.SetParent(cardPanelUI.transform);
                 } 
             } 
+        }
+    }
+
+    private void showCards()
+    {
+        foreach (Card card in cardPanel)
+        {
+            if (JSONSaveSystem.Instance.userData.unlockedPlants.Contains(card.plantID)) card.gameObject.SetActive(true);
+            else card.gameObject.SetActive(false);
         }
     }
 

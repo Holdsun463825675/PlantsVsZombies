@@ -423,6 +423,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootPlaceColliderName: ShootPlace
-  id: 1
+  id: 2
   type: 0
   sunPrefab: {fileID: 2991446236001545762, guid: 653122858d4fc234dbeee27854a887d8, type: 3}

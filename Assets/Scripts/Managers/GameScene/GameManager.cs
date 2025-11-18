@@ -25,11 +25,6 @@ public class GameManager : MonoBehaviour
 
     public GameState state;
 
-    public float difficulty = 1.0f;
-    public bool autoCollected = true;
-    public bool plantHealth = true;
-    public bool zombieHealth = true;
-
     private LevelConfig currLevelConfig;
 
     private void Awake()
@@ -72,7 +67,6 @@ public class GameManager : MonoBehaviour
             currLevelConfig.healthPercentageThreshold);
         UIManager.Instance.initLevelProcess(currLevelConfig.zombieWaves);
         // Õ½ÀûÆ·
-        UIManager.Instance.setWinAward(currLevelConfig.award_idx);
         setState(GameState.Previewing);
     }
 
@@ -125,41 +119,13 @@ public class GameManager : MonoBehaviour
             case GameState.Winning:
                 UIManager.Instance.setState(GameState.Winning);
                 SunManager.Instance.setState(SunSpawnState.Disable);
+                JSONSaveSystem.Instance.CompleteLevel(currLevelConfig.levelID);
+                JSONSaveSystem.Instance.UnlockLevel(currLevelConfig.nextLevelID);
+                JSONSaveSystem.Instance.unlockPlant(currLevelConfig.awardPlantID);
                 break;
             default:
                 break;
         }
-    }
-
-    public void SetBgmVolume(float volume)
-    {
-        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
-        AudioManager.Instance.audioSource.volume = volume;
-    }
-    public void SetClipVolume(float volume)
-    {
-        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
-        AudioManager.Instance.clipVolume = volume;
-    }
-    public void SetDifficulty(float difficulty)
-    {
-        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
-        this.difficulty = difficulty;
-    }
-    public void ToggleAutoCollected()
-    {
-        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_ceramic);
-        autoCollected = !autoCollected;
-    }
-    public void TogglePlantHealth()
-    {
-        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_ceramic);
-        plantHealth = !plantHealth;
-    }
-    public void ToggleZombieHealth()
-    {
-        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_ceramic);
-        zombieHealth = !zombieHealth;
     }
 
 

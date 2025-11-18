@@ -6,7 +6,6 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
     public AudioSource audioSource;
-    public float clipVolume;
 
     private void Awake()
     {
@@ -20,11 +19,11 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
         }
         audioSource = GetComponent<AudioSource>();
-        clipVolume = 1.0f;
     }
 
     private void Start()
     {
+        audioSource.volume = JSONSaveSystem.Instance.userData.settingsData.music;
         playBgm(ResourceConfig.music_mainMenu);
     }
 
@@ -48,7 +47,7 @@ public class AudioManager : MonoBehaviour
         AudioClip ac = Resources.Load<AudioClip>(path);
         if (ac != null)
         {
-            AudioSource.PlayClipAtPoint(ac, transform.position, clipVolume);
+            AudioSource.PlayClipAtPoint(ac, transform.position, JSONSaveSystem.Instance.userData.settingsData.sound);
         }
     }
 }

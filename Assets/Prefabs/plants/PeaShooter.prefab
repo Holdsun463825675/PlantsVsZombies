@@ -407,7 +407,7 @@ BoxCollider2D:
   m_Offset: {x: -0.0195328, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0.35}
     oldSize: {x: 2.5, y: 2.5}
     newSize: {x: 1.1833333, y: 1.1833333}
     adaptiveTilingThreshold: 0.5
@@ -430,7 +430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootPlaceColliderName: ShootPlace
-  id: 0
+  id: 1
   type: 0
   peaPrefab: {fileID: -5438986234417754464, guid: c8c007efe54e53a4cb7f50c82c384f2d, type: 3}
 --- !u!1 &8331213625222948287
