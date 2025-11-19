@@ -14,12 +14,13 @@ public class AdventureSceneManager : MonoBehaviour
 
     public void Start()
     {
-
+        AudioManager.Instance.playBgm(ResourceConfig.music_selectCard);
     }
 
     public void onBacktoHomeButtonClick()
     {
         AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
+        AudioManager.Instance.playBgm(ResourceConfig.music_mainMenu);
         SceneManager.LoadScene("MenuScene");
     }
 

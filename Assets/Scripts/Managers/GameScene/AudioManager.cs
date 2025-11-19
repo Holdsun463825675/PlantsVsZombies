@@ -23,8 +23,12 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        audioSource.volume = SettingSystem.Instance.settingsData.music;
         playBgm(ResourceConfig.music_mainMenu);
+    }
+
+    private void FixedUpdate()
+    {
+        audioSource.volume = SettingSystem.Instance.settingsData.music;
     }
 
     public void playBgm(string path)
