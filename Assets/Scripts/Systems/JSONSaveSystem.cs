@@ -7,7 +7,7 @@ using static JSONSaveSystem;
 public class JSONSaveSystem : MonoBehaviour
 {
     public static JSONSaveSystem Instance { get; private set; }
-    private const string METADATA_KEY = "fghjfsdfghasdfghsdff";
+    private const string METADATA_KEY = "jhgfdfghdrfghjuytred";
 
     private Metadata metadata;
     public UserData userData;
@@ -25,12 +25,14 @@ public class JSONSaveSystem : MonoBehaviour
         else Destroy(gameObject);
     }
 
+    [System.Serializable]
     public class Metadata
     {
         public List<string> userIDs = new List<string>();
         public string currentUserID;
     }
 
+    [System.Serializable]
     public class UserData
     {
         public string userID;
@@ -40,6 +42,7 @@ public class JSONSaveSystem : MonoBehaviour
         public SettingsData settingsData = new SettingsData();
     }
 
+    [System.Serializable]
     public class LevelData
     {
         public int levelID;
@@ -47,6 +50,7 @@ public class JSONSaveSystem : MonoBehaviour
         public bool completed;
     }
 
+    [System.Serializable]
     public class SettingsData
     {
         public float music;

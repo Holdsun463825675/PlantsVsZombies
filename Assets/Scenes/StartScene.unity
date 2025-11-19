@@ -592,9 +592,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 957503944}
+  - component: {fileID: 957503946}
   - component: {fileID: 957503945}
   m_Layer: 0
-  m_Name: JSONSaveSystem
+  m_Name: Systems
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -625,6 +626,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 359fa688eb342e342b10cb882cd52129, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  userData:
+    userID: 
+    name: 
+    unlockedPlants: 
+    levelDatas: []
+    settingsData:
+      music: 0
+      sound: 0
+      difficulty: 0
+      autoCollected: 0
+      plantHealth: 0
+      zombieHealth: 0
+--- !u!114 &957503946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957503943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d09251616ce509438ba00e0257ebf8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1005267034
@@ -943,7 +968,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
-  clipVolume: 0
 --- !u!81 &1697863721
 AudioListener:
   m_ObjectHideFlags: 0
