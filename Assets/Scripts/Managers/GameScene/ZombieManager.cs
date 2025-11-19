@@ -206,7 +206,7 @@ public class ZombieManager : MonoBehaviour
                     AudioManager.Instance.playClip(ResourceConfig.sound_textsound_awooga);
                     UIManager.Instance.activateLevelProcess();
                 }
-                currWaveSurplusWeight = zombieWaves[currWaveNumber].spawnWeight * JSONSaveSystem.Instance.userData.settingsData.difficulty; // 根据难度设置出怪权重
+                currWaveSurplusWeight = zombieWaves[currWaveNumber].spawnWeight * SettingSystem.Instance.settingsData.difficulty; // 根据难度设置出怪权重
                 spawnZombie();
                 currWaveNumber++;
                 spawnTimer = 0.0f;
@@ -228,7 +228,7 @@ public class ZombieManager : MonoBehaviour
                     expectedProcess = (float)(currWaveNumber + 1) / (float)zombieWaves.Count; // 出怪进度大走一步
                     AudioManager.Instance.playClip(ResourceConfig.sound_textsound_siren);
                     UIManager.Instance.Flags[currLargeWave++].GetComponent<Animator>().enabled = true;
-                    currWaveSurplusWeight = zombieWaves[currWaveNumber].spawnWeight * JSONSaveSystem.Instance.userData.settingsData.difficulty; // 根据难度设置出怪权重
+                    currWaveSurplusWeight = zombieWaves[currWaveNumber].spawnWeight * SettingSystem.Instance.settingsData.difficulty; // 根据难度设置出怪权重
                     spawnOneZombie(ZombieID.FlagZombie); // 生成旗帜僵尸
                     spawnZombie();
                     currWaveNumber++;

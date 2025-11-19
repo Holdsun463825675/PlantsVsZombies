@@ -23,7 +23,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        audioSource.volume = JSONSaveSystem.Instance.userData.settingsData.music;
+        audioSource.volume = SettingSystem.Instance.settingsData.music;
         playBgm(ResourceConfig.music_mainMenu);
     }
 
@@ -47,7 +47,7 @@ public class AudioManager : MonoBehaviour
         AudioClip ac = Resources.Load<AudioClip>(path);
         if (ac != null)
         {
-            AudioSource.PlayClipAtPoint(ac, transform.position, JSONSaveSystem.Instance.userData.settingsData.sound);
+            AudioSource.PlayClipAtPoint(ac, transform.position, SettingSystem.Instance.settingsData.sound);
         }
     }
 }

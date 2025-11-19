@@ -92,7 +92,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void LoadSettingsToMenu()
+    private void LoadSettingsToMenu()
     {
         // 获取所有UI组件
         Slider musicSlider = Menu.transform.Find("Music/MusicSlider").GetComponent<Slider>();
@@ -106,12 +106,12 @@ public class UIManager : MonoBehaviour
         RemoveAllListeners(musicSlider, soundSlider, difficultySlider, autoCollectedToggle, plantHealthToggle, zombieHealthToggle);
 
         // 设置值（不会触发事件）
-        musicSlider.value = JSONSaveSystem.Instance.userData.settingsData.music;
-        soundSlider.value = JSONSaveSystem.Instance.userData.settingsData.sound;
-        difficultySlider.value = JSONSaveSystem.Instance.userData.settingsData.difficulty;
-        autoCollectedToggle.isOn = JSONSaveSystem.Instance.userData.settingsData.autoCollected;
-        plantHealthToggle.isOn = JSONSaveSystem.Instance.userData.settingsData.plantHealth;
-        zombieHealthToggle.isOn = JSONSaveSystem.Instance.userData.settingsData.zombieHealth;
+        musicSlider.value = SettingSystem.Instance.settingsData.music;
+        soundSlider.value = SettingSystem.Instance.settingsData.sound;
+        difficultySlider.value = SettingSystem.Instance.settingsData.difficulty;
+        autoCollectedToggle.isOn = SettingSystem.Instance.settingsData.autoCollected;
+        plantHealthToggle.isOn = SettingSystem.Instance.settingsData.plantHealth;
+        zombieHealthToggle.isOn = SettingSystem.Instance.settingsData.zombieHealth;
 
         // 重新添加监听器
         AddAllListeners(musicSlider, soundSlider, difficultySlider, autoCollectedToggle, plantHealthToggle, zombieHealthToggle);
@@ -143,9 +143,9 @@ public class UIManager : MonoBehaviour
                 // 根据Slider名称添加不同的监听器
                 switch (slider.name)
                 {
-                    case "MusicSlider":slider.onValueChanged.AddListener(SetBgmVolume);break;
-                    case "SoundSlider":slider.onValueChanged.AddListener(SetClipVolume);break;
-                    case "DifficultySlider":slider.onValueChanged.AddListener(SetDifficulty);break;
+                    case "MusicSlider":slider.onValueChanged.AddListener(SettingSystem.Instance.SetBgmVolume);break;
+                    case "SoundSlider":slider.onValueChanged.AddListener(SettingSystem.Instance.SetClipVolume);break;
+                    case "DifficultySlider":slider.onValueChanged.AddListener(SettingSystem.Instance.SetDifficulty);break;
                 }
             }
             else if (element is Toggle toggle)
@@ -153,9 +153,9 @@ public class UIManager : MonoBehaviour
                 // 根据Toggle名称添加不同的监听器
                 switch (toggle.name)
                 {
-                    case "AutoCollected":toggle.onValueChanged.AddListener(ToggleAutoCollected);break;
-                    case "PlantHealth":toggle.onValueChanged.AddListener(TogglePlantHealth);break;
-                    case "ZombieHealth":toggle.onValueChanged.AddListener(ToggleZombieHealth);break;
+                    case "AutoCollected":toggle.onValueChanged.AddListener(SettingSystem.Instance.ToggleAutoCollected);break;
+                    case "PlantHealth":toggle.onValueChanged.AddListener(SettingSystem.Instance.TogglePlantHealth);break;
+                    case "ZombieHealth":toggle.onValueChanged.AddListener(SettingSystem.Instance.ToggleZombieHealth);break;
                 }
             }
         }
@@ -252,35 +252,5 @@ public class UIManager : MonoBehaviour
         if (GameManager.Instance.state == GameState.Paused) GameManager.Instance.Continue();
     }
 
-    public void SetBgmVolume(float volume)
-    {
-        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
-        AudioManager.Instance.audioSource.volume = volume;
-        JSONSaveSystem.Instance.SaveSettings_Music(volume);
-    }
-    public void SetClipVolume(float volume)
-    {
-        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
-        JSONSaveSystem.Instance.SaveSettings_Sound(volume);
-    }
-    public void SetDifficulty(float difficulty)
-    {
-        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
-        JSONSaveSystem.Instance.SaveSettings_Difficulty(difficulty);
-    }
-    public void ToggleAutoCollected(bool autoCollected)
-    {
-        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_ceramic);
-        JSONSaveSystem.Instance.SaveSettings_AutoCollected(autoCollected);
-    }
-    public void TogglePlantHealth(bool plantHealth)
-    {
-        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_ceramic);
-        JSONSaveSystem.Instance.SaveSettings_PlantHealth(plantHealth);
-    }
-    public void ToggleZombieHealth(bool zombieHealth)
-    {
-        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_ceramic);
-        JSONSaveSystem.Instance.SaveSettings_ZombieHealth(zombieHealth);
-    }
+
 }

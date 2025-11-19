@@ -81,7 +81,7 @@ public class Plant : MonoBehaviour, IClickable
     {
         HPText.text = $"{currHealth}/{maxHealth}";
         if (state == PlantState.Suspension) HPText.gameObject.SetActive(false);
-        else HPText.gameObject.SetActive(JSONSaveSystem.Instance.userData.settingsData.plantHealth);
+        else HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.plantHealth);
         if (GameManager.Instance.state == GameState.Paused || 
             GameManager.Instance.state == GameState.Losing || 
             GameManager.Instance.state == GameState.Winning) return;
@@ -142,7 +142,7 @@ public class Plant : MonoBehaviour, IClickable
         if (state == PlantState.Idle)
         {
             this.state = state;
-            if (HPText) HPText.gameObject.SetActive(JSONSaveSystem.Instance.userData.settingsData.plantHealth);
+            if (HPText) HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.plantHealth);
             if (shadow) shadow.gameObject.SetActive(true);
             if (shootPlaceCollider) shootPlaceCollider.enabled = true;
             if (GameManager.Instance.state != GameState.Paused) anim.enabled = true;
@@ -151,7 +151,7 @@ public class Plant : MonoBehaviour, IClickable
         }
         if (state == PlantState.Effect)
         {
-            if (HPText) HPText.gameObject.SetActive(JSONSaveSystem.Instance.userData.settingsData.plantHealth);
+            if (HPText) HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.plantHealth);
             if (shadow) shadow.gameObject.SetActive(true);
             if (shootPlaceCollider) shootPlaceCollider.enabled = true;
             anim.SetTrigger(AnimatorConfig.plant_isEffect);
