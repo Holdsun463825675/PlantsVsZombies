@@ -129,6 +129,7 @@ public class JSONSaveSystem : MonoBehaviour
         SaveGameData();
 
         if (!selected) userData = prev_userData;
+        else LoadUserData(newUserID);
 
         Debug.Log($"创建新用户: {newUserData.name} (ID: {newUserID})");
     }

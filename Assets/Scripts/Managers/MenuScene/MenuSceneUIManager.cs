@@ -186,8 +186,8 @@ public class MenuSceneUIManager : MonoBehaviour
 
     public void onNewClick()
     {
-        JSONSaveSystem.Instance.CreateNewUser(false);
-        LoadUsersToMenu();
+        JSONSaveSystem.Instance.CreateNewUser(true);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void onDeleteClick()
