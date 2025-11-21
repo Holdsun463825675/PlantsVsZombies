@@ -324,7 +324,7 @@ public class ZombieManager : MonoBehaviour
             }
         }
 
-        currWaveSurplusWeight = zombieWaves[currWaveNumber].spawnWeight * SettingSystem.Instance.settingsData.difficulty; // 根据难度设置出怪权重
+        currWaveSurplusWeight = zombieWaves[currWaveNumber].spawnWeight * SettingSystem.Instance.settingsData.spawnMultiplier; // 根据难度设置出怪权重
         if (!zombieWaves[currWaveNumber].largeWave) // 小波
         {
             expectedProcess = (float)currWaveNumber / (float)zombieWaves.Count;

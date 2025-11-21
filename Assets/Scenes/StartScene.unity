@@ -629,6 +629,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 359fa688eb342e342b10cb882cd52129, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  metadata:
+    userIDs: []
+    userNames:
+      keys: []
+      values: []
+    currentUserID: 
   userData:
     userID: 
     name: 

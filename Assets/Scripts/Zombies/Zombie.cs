@@ -264,7 +264,7 @@ public class Zombie : MonoBehaviour, IClickable
     {
         dieMode = mode;
         anim.SetBool(AnimatorConfig.zombie_underAttack, true);
-        AddHealth(-point);
+        AddHealth(-(int)((float)point * SettingSystem.Instance.settingsData.hurtRate)); // 根据受伤比例计算伤害
     }
 
     protected virtual void Attack()
@@ -322,5 +322,11 @@ public class Zombie : MonoBehaviour, IClickable
         ZombieManager.Instance.removeZombie(this);
         Destroy(gameObject);
         Destroy(zombieHead);
+    }
+
+    private void kill(int dieMode=0)
+    {
+        this.dieMode = dieMode;
+        setHealthState(ZombieHealthState.Die);
     }
 }

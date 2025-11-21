@@ -7,7 +7,7 @@ using static JSONSaveSystem;
 public class JSONSaveSystem : MonoBehaviour
 {
     public static JSONSaveSystem Instance { get; private set; }
-    private const string METADATA_KEY = "MetaData_1";
+    private const string METADATA_KEY = "MetaData_shfeufhuewh";
 
     public Metadata metadata;
     public UserData userData;
@@ -118,8 +118,19 @@ public class JSONSaveSystem : MonoBehaviour
             userID = newUserID,
             name = $"Player_{newUserID.Substring(0, 8)}",
             unlockedPlants = { PlantID.PeaShooter },
-            levelDatas = { new LevelData { levelID = 1, unlocked = true, completed = false } },
-            settingsData = new SettingsData { music = 1.0f, sound = 1.0f, difficulty = 1.0f, autoCollected = false, plantHealth = false, zombieHealth = false },
+            levelDatas = { new LevelData {
+                levelID = 1, 
+                unlocked = true, 
+                completed = false 
+            } },
+            settingsData = new SettingsData { 
+                music = 1.0f, 
+                sound = 1.0f, 
+                spawnMultiplier = 1.0f, 
+                hurtRate = 1.0f, 
+                autoCollected = false, 
+                plantHealth = false, 
+                zombieHealth = false },
         };
         metadata.userIDs.Add(newUserID);
         metadata.userNames[newUserID] = newUserData.name;

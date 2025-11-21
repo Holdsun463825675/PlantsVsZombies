@@ -8,7 +8,8 @@ public class SettingsData
 {
     public float music;
     public float sound;
-    public float difficulty;
+    public float spawnMultiplier; // ½©Ê¬³ö¹Ö±¶ÂÊ
+    public float hurtRate; // ½©Ê¬ÊÜÉË±ÈÀý
     public bool autoCollected;
     public bool plantHealth;
     public bool zombieHealth;
@@ -37,7 +38,8 @@ public class SettingSystem : MonoBehaviour
             settingsData = new SettingsData();
             settingsData.music = 1.0f;
             settingsData.sound = 1.0f;
-            settingsData.difficulty = 1.0f;
+            settingsData.spawnMultiplier = 1.0f;
+            settingsData.hurtRate = 1.0f;
             settingsData.autoCollected = true;
             settingsData.plantHealth = true;
             settingsData.zombieHealth = true;
@@ -65,12 +67,22 @@ public class SettingSystem : MonoBehaviour
         settingsData.sound = volume;
         SaveSettingsData();
     }
-    public void SetDifficulty(float difficulty)
+    public void SetSpawnMultiplier(float level)
     {
         AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
-        settingsData.difficulty = difficulty;
+        if (SettingConfig.spawnMultiplierMap.ContainsKey(level)) settingsData.spawnMultiplier = SettingConfig.spawnMultiplierMap[level];
+        else settingsData.spawnMultiplier = 1.0f;
         SaveSettingsData();
     }
+
+    public void SetHurtRate(float level)
+    {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
+        if (SettingConfig.hurtRateMap.ContainsKey(level)) settingsData.hurtRate = SettingConfig.hurtRateMap[level];
+        else settingsData.hurtRate = 1.0f;
+        SaveSettingsData();
+    }
+
     public void ToggleAutoCollected(bool autoCollected)
     {
         AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_ceramic);

@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -95,24 +97,28 @@ public class UIManager : MonoBehaviour
         // 获取所有UI组件
         Slider musicSlider = Menu.transform.Find("Music/MusicSlider").GetComponent<Slider>();
         Slider soundSlider = Menu.transform.Find("Sound/SoundSlider").GetComponent<Slider>();
-        Slider difficultySlider = Menu.transform.Find("Difficulty/DifficultySlider").GetComponent<Slider>();
+        Slider spawnMultiplierSlider = Menu.transform.Find("Difficulty/SpawnMultiplier/SpawnMultiplierSlider").GetComponent<Slider>();
+        Slider hurtRateSlider = Menu.transform.Find("Difficulty/HurtRate/HurtRateSlider").GetComponent<Slider>();
         Toggle autoCollectedToggle = Menu.transform.Find("AutoCollected").GetComponent<Toggle>();
         Toggle plantHealthToggle = Menu.transform.Find("PlantHealth").GetComponent<Toggle>();
         Toggle zombieHealthToggle = Menu.transform.Find("ZombieHealth").GetComponent<Toggle>();
 
-        // 临时移除所有监听器
-        RemoveAllListeners(musicSlider, soundSlider, difficultySlider, autoCollectedToggle, plantHealthToggle, zombieHealthToggle);
+        AddAllListeners(musicSlider, soundSlider, spawnMultiplierSlider, hurtRateSlider);
 
-        // 设置值（不会触发事件）
+        // 临时移除所有Toggle监听器
+        RemoveAllListeners(autoCollectedToggle, plantHealthToggle, zombieHealthToggle);
+        
+        // 设置值
         musicSlider.value = SettingSystem.Instance.settingsData.music;
         soundSlider.value = SettingSystem.Instance.settingsData.sound;
-        difficultySlider.value = SettingSystem.Instance.settingsData.difficulty;
+        spawnMultiplierSlider.value = SettingConfig.spawnMultiplierMap.FirstOrDefault(x => Mathf.Approximately(x.Value, SettingSystem.Instance.settingsData.spawnMultiplier)).Key;
+        hurtRateSlider.value = SettingConfig.hurtRateMap.FirstOrDefault(x => Mathf.Approximately(x.Value, SettingSystem.Instance.settingsData.hurtRate)).Key;
         autoCollectedToggle.isOn = SettingSystem.Instance.settingsData.autoCollected;
         plantHealthToggle.isOn = SettingSystem.Instance.settingsData.plantHealth;
         zombieHealthToggle.isOn = SettingSystem.Instance.settingsData.zombieHealth;
 
-        // 重新添加监听器
-        AddAllListeners(musicSlider, soundSlider, difficultySlider, autoCollectedToggle, plantHealthToggle, zombieHealthToggle);
+        // 重新添加Toggle监听器
+        AddAllListeners(autoCollectedToggle, plantHealthToggle, zombieHealthToggle);
     }
 
     // 临时移除监听器
@@ -143,7 +149,8 @@ public class UIManager : MonoBehaviour
                 {
                     case "MusicSlider":slider.onValueChanged.AddListener(SettingSystem.Instance.SetBgmVolume);break;
                     case "SoundSlider":slider.onValueChanged.AddListener(SettingSystem.Instance.SetClipVolume);break;
-                    case "DifficultySlider":slider.onValueChanged.AddListener(SettingSystem.Instance.SetDifficulty);break;
+                    case "SpawnMultiplierSlider": slider.onValueChanged.AddListener(OnSpawnMultiplierSliderChanged);break;
+                    case "HurtRateSlider": slider.onValueChanged.AddListener(OnHurtRateSliderChanged);break;
                 }
             }
             else if (element is Toggle toggle)
@@ -158,6 +165,23 @@ public class UIManager : MonoBehaviour
             }
         }
     }
+
+    private void OnSpawnMultiplierSliderChanged(float sliderValue)
+    {
+        SettingSystem.Instance.SetSpawnMultiplier(sliderValue);
+        float value = 1.0f;
+        if (SettingConfig.spawnMultiplierMap.ContainsKey(sliderValue)) value = SettingConfig.spawnMultiplierMap[sliderValue];
+        Menu.transform.Find("Difficulty/SpawnMultiplier/Instruction").GetComponent<TextMeshProUGUI>().text = "×" + value.ToString("F2");
+    }
+
+    private void OnHurtRateSliderChanged(float sliderValue)
+    {
+        SettingSystem.Instance.SetHurtRate(sliderValue);
+        float value = 1.0f;
+        if (SettingConfig.hurtRateMap.ContainsKey(sliderValue)) value = SettingConfig.hurtRateMap[sliderValue];
+        Menu.transform.Find("Difficulty/HurtRate/Instruction").GetComponent<TextMeshProUGUI>().text = "×" + value.ToString("F2");
+    }
+
 
     // 复制RectTransform的所有属性（除了anchoredPosition.x）
     public void CopyRectTransformProperties(RectTransform source, RectTransform target, float newX)
