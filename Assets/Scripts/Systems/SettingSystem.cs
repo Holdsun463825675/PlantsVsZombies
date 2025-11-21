@@ -32,11 +32,13 @@ public class SettingSystem : MonoBehaviour
 
     private void Start()
     {
+        if (!JSONSaveSystem.Instance) return; // ≤‚ ‘”√
         settingsData = JSONSaveSystem.Instance.userData.settingsData;
     }
 
     public void SaveSettingsData()
     {
+        if (!JSONSaveSystem.Instance) return; // ≤‚ ‘”√
         JSONSaveSystem.Instance.SaveSettings(settingsData);
     }
 

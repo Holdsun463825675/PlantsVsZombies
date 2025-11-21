@@ -12,7 +12,6 @@ public class AnimatorConfig
     public const string zombie_healthPercentage = "HealthPercentage";
     public const string zombie_underAttack = "UnderAttack";
     public const string zombie_dieMode = "DieMode";
-    public const int zombie_dieModeNum = 3;
     public const string zombie_speedLevel = "SpeedLevel";
 
     public const string pea_used = "Used";

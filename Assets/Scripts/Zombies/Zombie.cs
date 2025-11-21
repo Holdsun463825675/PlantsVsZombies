@@ -36,19 +36,22 @@ public class Zombie : MonoBehaviour, IClickable
     protected int attackPoint;
     protected bool isLostHealth;
     public float spawnWeight;
+    public GameObject zombieHeadPrefab;
+    private GameObject zombieHead;
 
     private float groanTime, groanTimer;
     private float HealthPercentage;
     private int dieMode;
-    private float speedLevel;
+    protected float speedLevel;
     private Transform losingGame;
 
     private ZombieMoveState moveState;
     private ZombieHealthState healthState;
 
     private TextMeshPro HPText;
-    private Animator lostHeadAnim;
+    private Transform lostHeadPlace;
     private List<Plant> targets;
+    private Animator lostHeadAnim;
 
     private Animator anim;
     private Collider2D c2d;
@@ -79,13 +82,8 @@ public class Zombie : MonoBehaviour, IClickable
         Transform child = transform.Find("HPText");
         if (child) HPText = child.GetComponent<TextMeshPro>();
         if (HPText) HPText.gameObject.SetActive(true);
-        child = transform.Find("LostHead");
-        if (child) lostHeadAnim = child.GetComponent<Animator>();
-        if (lostHeadAnim)
-        {
-            lostHeadAnim.enabled = false;
-            lostHeadAnim.gameObject.SetActive(false);
-        }
+        child = transform.Find("LostHeadPlace");
+        if (child) lostHeadPlace = child.GetComponent<Transform>();
     }
 
     void Start()
@@ -183,8 +181,7 @@ public class Zombie : MonoBehaviour, IClickable
     {
         int count = 0;
         this.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder; count++;
-        if (lostHeadAnim) lostHeadAnim.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder + count; count++;
-        if (HPText) HPText.sortingOrder = sortingOrder + count; count++;
+        if (HPText) HPText.sortingOrder = sortingOrder + ++count; count++;
         return count;
     }
 
@@ -215,19 +212,15 @@ public class Zombie : MonoBehaviour, IClickable
         }
         if (state == ZombieHealthState.LostHead)
         {
+            zombieHead = GameObject.Instantiate(zombieHeadPrefab, lostHeadPlace.position, Quaternion.identity);
+            zombieHead.GetComponent<SpriteRenderer>().sortingOrder = this.GetComponent<SpriteRenderer>().sortingOrder + 1;
+            lostHeadAnim = zombieHead.GetComponent<Animator>();
             AudioManager.Instance.playClip(ResourceConfig.sound_zombiedie_limbsPop);
-            if (lostHeadAnim)
-            {
-                lostHeadAnim.gameObject.SetActive(true);
-                lostHeadAnim.enabled = true;
-            }
         }
         if (state == ZombieHealthState.Die)
         {
-            ZombieManager.Instance.removeZombie(this);
             c2d.enabled = false;
-            anim.SetFloat(AnimatorConfig.zombie_dieMode, (float)dieMode / (float)AnimatorConfig.zombie_dieModeNum);
-            Destroy(gameObject, 2);
+            anim.SetInteger(AnimatorConfig.zombie_dieMode, dieMode);
         }
     }
 
@@ -245,15 +238,6 @@ public class Zombie : MonoBehaviour, IClickable
         newPosition.x += x_speed * Time.fixedDeltaTime;
         newPosition.y += y_speed * Time.fixedDeltaTime;
         transform.position = newPosition;
-
-        // 掉头动画不移动
-        if (healthState == ZombieHealthState.LostHead && lostHeadAnim)
-        {
-            newPosition = lostHeadAnim.gameObject.transform.position;
-            newPosition.x -= x_speed * Time.fixedDeltaTime;
-            newPosition.y -= y_speed * Time.fixedDeltaTime;
-            lostHeadAnim.gameObject.transform.position = newPosition;
-        }
     }
 
     private void groanUpdate()
@@ -325,12 +309,19 @@ public class Zombie : MonoBehaviour, IClickable
         
     }
 
-    private void DieSound()
+    private void DeathSound()
     {
         if (dieMode == 0)
         {
             int idx = Random.Range(0, ResourceConfig.sound_zombiedie_fallings.Length);
             AudioManager.Instance.playClip(ResourceConfig.sound_zombiedie_fallings[idx]);
         }
+    }
+
+    private void onDeathAnimComplete()
+    {
+        ZombieManager.Instance.removeZombie(this);
+        Destroy(gameObject);
+        Destroy(zombieHead);
     }
 }

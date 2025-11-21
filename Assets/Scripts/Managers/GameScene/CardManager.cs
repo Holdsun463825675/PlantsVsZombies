@@ -45,6 +45,12 @@ public class CardManager : MonoBehaviour
 
     private void showCards()
     {
+        if (!JSONSaveSystem.Instance) // ≤‚ ‘”√
+        {
+            foreach (Card card in cardPanel) card.gameObject.SetActive(true);
+            return;
+        }
+
         foreach (Card card in cardPanel)
         {
             if (JSONSaveSystem.Instance.userData.unlockedPlants.Contains(card.plantID)) card.gameObject.SetActive(true);
