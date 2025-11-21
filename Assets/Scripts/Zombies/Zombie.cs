@@ -102,13 +102,12 @@ public class Zombie : MonoBehaviour, IClickable
         if (GameManager.Instance.state == GameState.Paused || GameManager.Instance.state == GameState.Losing) return;
 
         HealthPercentage = (float)currHealth / (float)maxHealth;
+        anim.SetFloat(AnimatorConfig.zombie_healthPercentage, HealthPercentage);
+        anim.SetFloat(AnimatorConfig.zombie_speedLevel, speedLevel);
         if (HealthPercentage >= 0.666f) setHealthState(ZombieHealthState.Healthy);
         if (HealthPercentage >= 0.333f && HealthPercentage < 0.666f) setHealthState(ZombieHealthState.LostArm);
         if (HealthPercentage >= 0.001f && HealthPercentage < 0.333f) setHealthState(ZombieHealthState.LostHead);
         if (HealthPercentage < 0.001f) setHealthState(ZombieHealthState.Die);
-
-        anim.SetFloat(AnimatorConfig.zombie_healthPercentage, HealthPercentage);
-        anim.SetFloat(AnimatorConfig.zombie_speedLevel, speedLevel);
 
         switch (healthState)
         {
