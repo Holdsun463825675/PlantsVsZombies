@@ -15,8 +15,8 @@ public class ZombieManager : MonoBehaviour
     public static ZombieManager Instance { get; private set; }
 
     private int rowMaxSortingOrder = 5000;
+    private float spawnMaxTime = 30.0f;
     private float spawnTime = 30.0f;
-    private float spawnMinTime = 8.0f;
     private float hugeWaveDuration = 5.0f; // 大波延迟出怪时间
     private float hugeWaveDurationTimer = 0.0f;
     private bool isPlayingHugeWave = false;
@@ -26,9 +26,11 @@ public class ZombieManager : MonoBehaviour
     private float currProcess = 0.0f;
     private float expectedProcess = 0.0f;
     private int currLargeWave = 0;
+
     private Vector2 lastDeadZombiePosition;
     private PolygonCollider2D zombiePreviewingPlace;
     private List<Transform> zombieSpawnPlaceList;
+    private int[] spawnProtection;
 
     private List<Zombie> zombieList = new List<Zombie>();
     private List<Zombie> lastWaveZombieList = new List<Zombie>();
@@ -47,6 +49,7 @@ public class ZombieManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        spawnTime = spawnMaxTime;
         state = ZombieSpawnState.NotStarted;
         zombiePreviewingList = new List<Zombie>();
         zombieID = new List<ZombieID>();
@@ -84,18 +87,19 @@ public class ZombieManager : MonoBehaviour
         zombieSpawnPlaceList = MapManager.Instance.currMap.zombieSpawnPositions;
         orderInLayers = new int[zombieSpawnPlaceList.Count];
         for (int i = 0; i < orderInLayers.Length; i++) orderInLayers[i] = i * rowMaxSortingOrder;
+        spawnProtection = new int[zombieSpawnPlaceList.Count];
     }
 
     public void setConfig(
         List<ZombieID> zombieID, 
         List<ZombieWave> zombieWaves, 
-        float spawnTime = 30.0f,
+        float spawnMaxTime = 30.0f,
         float spawnTimer = 12.0f,
         float healthPercentageThreshold = 0.5f)
     {
         this.zombieID = zombieID;
         this.zombieWaves = zombieWaves;
-        this.spawnTime = spawnTime;
+        this.spawnMaxTime = spawnMaxTime;
         this.spawnTimer = spawnTimer;
         this.healthPercentageThreshold = healthPercentageThreshold;
     }
@@ -192,29 +196,20 @@ public class ZombieManager : MonoBehaviour
         } 
         if (zombieList.Count > 0) lastDeadZombiePosition = zombieList[0].transform.position;
 
+        
         spawnTimer += Time.fixedDeltaTime;
         levelProcessUpdate();
 
         // 小波
         if (!zombieWaves[currWaveNumber].largeWave)
         {
-            if (spawnTimer >= spawnTime || currWaveNumber > 0 && spawnTimer >= spawnMinTime && getZombieHealthPercentage() < healthPercentageThreshold)
-            {
-                expectedProcess = (float)currWaveNumber / (float)zombieWaves.Count;
-                if (currWaveNumber == 0)
-                {
-                    AudioManager.Instance.playClip(ResourceConfig.sound_textsound_awooga);
-                    UIManager.Instance.activateLevelProcess();
-                }
-                currWaveSurplusWeight = zombieWaves[currWaveNumber].spawnWeight * SettingSystem.Instance.settingsData.difficulty; // 根据难度设置出怪权重
-                spawnZombie();
-                currWaveNumber++;
-                spawnTimer = 0.0f;
-            }
+            getSpawnTime(); // 根据当前波僵尸血量调整出怪时间
+            if (spawnTimer >= spawnTime) nextWave();
         }
         else // 大波
         {
-            if (spawnTimer >= spawnTime || currWaveNumber > 0 && spawnTimer >= spawnMinTime && zombieList.Count == 0)
+            // 下一波是大波时，不需要根据当前波僵尸血量调整出怪时间
+            if (spawnTimer >= spawnTime || currWaveNumber > 0 && zombieList.Count == 0)
             {
                 if (currWaveNumber == 0) UIManager.Instance.activateLevelProcess();
                 if (!isPlayingHugeWave)
@@ -223,19 +218,7 @@ public class ZombieManager : MonoBehaviour
                     UIManager.Instance.playHugeWave();
                 }
                 hugeWaveDurationTimer += Time.fixedDeltaTime;
-                if (hugeWaveDurationTimer >= hugeWaveDuration)
-                {
-                    expectedProcess = (float)(currWaveNumber + 1) / (float)zombieWaves.Count; // 出怪进度大走一步
-                    AudioManager.Instance.playClip(ResourceConfig.sound_textsound_siren);
-                    UIManager.Instance.Flags[currLargeWave++].GetComponent<Animator>().enabled = true;
-                    currWaveSurplusWeight = zombieWaves[currWaveNumber].spawnWeight * SettingSystem.Instance.settingsData.difficulty; // 根据难度设置出怪权重
-                    spawnOneZombie(ZombieID.FlagZombie); // 生成旗帜僵尸
-                    spawnZombie();
-                    currWaveNumber++;
-                    spawnTimer = 0.0f;
-                    hugeWaveDurationTimer = 0.0f;
-                    isPlayingHugeWave = false;
-                }
+                if (hugeWaveDurationTimer >= hugeWaveDuration) nextWave();
             }
         }
     }
@@ -243,6 +226,7 @@ public class ZombieManager : MonoBehaviour
     private void EndUpdate()
     {
         spawnTimer += Time.fixedDeltaTime;
+        getSpawnTime();
         levelProcessUpdate();
         if (zombieList.Count > 0) lastDeadZombiePosition = zombieList[0].transform.position;
         else // 出怪结束且僵尸全部死亡
@@ -263,6 +247,15 @@ public class ZombieManager : MonoBehaviour
         return (float)currZombieHealth / (float)lastWaveZombieHealth;
     }
 
+    private void getSpawnTime() // 根据当前波僵尸血量调整出怪时间
+    {
+        if (currWaveNumber > 0)
+        {
+            float currZombieHealthPercentage = getZombieHealthPercentage();
+            if (currZombieHealthPercentage < healthPercentageThreshold) spawnTime = spawnMaxTime * (currZombieHealthPercentage / healthPercentageThreshold);
+        }
+    }
+
     private void spawnZombie()
     {
         if (currWaveNumber + 1 == zombieWaves.Count) UIManager.Instance.playFinalWave(); // 最后一波
@@ -273,6 +266,7 @@ public class ZombieManager : MonoBehaviour
 
     private void spawnOneZombie(ZombieID ID=ZombieID.None)
     {
+        // 获取预制体
         Zombie zombiePrefab = null;
         if (ID == ZombieID.None)
         {
@@ -295,9 +289,15 @@ public class ZombieManager : MonoBehaviour
             if (!zombiePrefab) return;
         }
 
+        // 在某一行生成
+        int row = 0;
+        while (true)
+        {
+            // 随机行
+            row = Random.Range(0, zombieSpawnPlaceList.Count);
+            if (spawnProtection[row] == 0) break;
+        }
 
-        // 随机行
-        int row = Random.Range(0, zombieSpawnPlaceList.Count);
         Zombie zombie = GameObject.Instantiate(zombiePrefab, zombieSpawnPlaceList[row].position, Quaternion.identity);
         if (zombie)
         {
@@ -309,5 +309,43 @@ public class ZombieManager : MonoBehaviour
             orderInLayers[row] += count;
             zombie.setGameMode(); // 设置游戏模式
         }
+    }
+
+    private void nextWave()
+    {
+        // 更新出怪保护
+        bool feasible = false;
+        while (!feasible)
+        {
+            for (int i = 0; i < spawnProtection.Length; i++)
+            {
+                if (spawnProtection[i] > 0) spawnProtection[i]--;
+                if (spawnProtection[i] == 0) feasible = true;
+            }
+        }
+
+        currWaveSurplusWeight = zombieWaves[currWaveNumber].spawnWeight * SettingSystem.Instance.settingsData.difficulty; // 根据难度设置出怪权重
+        if (!zombieWaves[currWaveNumber].largeWave) // 小波
+        {
+            expectedProcess = (float)currWaveNumber / (float)zombieWaves.Count;
+            if (currWaveNumber == 0)
+            {
+                AudioManager.Instance.playClip(ResourceConfig.sound_textsound_awooga);
+                UIManager.Instance.activateLevelProcess();
+            }
+        }
+        else // 大波
+        {
+            expectedProcess = (float)(currWaveNumber + 1) / (float)zombieWaves.Count; // 出怪进度大走一步
+            AudioManager.Instance.playClip(ResourceConfig.sound_textsound_siren);
+            UIManager.Instance.Flags[currLargeWave++].GetComponent<Animator>().enabled = true;
+            hugeWaveDurationTimer = 0.0f;
+            isPlayingHugeWave = false;
+            spawnOneZombie(ZombieID.FlagZombie); // 生成旗帜僵尸
+        }
+        spawnZombie();
+        currWaveNumber++;
+        spawnTime = spawnMaxTime;
+        spawnTimer = 0.0f;
     }
 }

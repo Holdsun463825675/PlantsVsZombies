@@ -32,7 +32,17 @@ public class SettingSystem : MonoBehaviour
 
     private void Start()
     {
-        if (!JSONSaveSystem.Instance) return; // ≤‚ ‘”√
+        if (!JSONSaveSystem.Instance) // ≤‚ ‘”√
+        {
+            settingsData = new SettingsData();
+            settingsData.music = 1.0f;
+            settingsData.sound = 1.0f;
+            settingsData.difficulty = 1.0f;
+            settingsData.autoCollected = true;
+            settingsData.plantHealth = true;
+            settingsData.zombieHealth = true;
+            return;
+        }
         settingsData = JSONSaveSystem.Instance.userData.settingsData;
     }
 

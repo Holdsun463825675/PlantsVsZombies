@@ -17,7 +17,7 @@ public class LevelConfig
     
     public List<ZombieID> zombieID; // 出现的僵尸
     public List<ZombieWave> zombieWaves; // 每波僵尸
-    public float spawnTime = 30.0f; // 每波间隔
+    public float spawnMaxTime = 30.0f; // 每波最大间隔
     public float spawnTimer = 12.0f; // 初始波冷却
     public float healthPercentageThreshold = 0.5f; // 小波血量阈值
 }

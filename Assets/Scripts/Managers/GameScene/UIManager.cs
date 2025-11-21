@@ -40,13 +40,11 @@ public class UIManager : MonoBehaviour
         WinAward.SetActive(false);
         LevelText.SetActive(false);
         LevelProcess.SetActive(false);
-
-        LoadSettingsToMenu();
     }
 
     private void Start()
     {
-
+        LoadSettingsToMenu();
     }
 
     public void setState(GameState state)
