@@ -121,9 +121,9 @@ public class CameraManager : MonoBehaviour
             UI.transform.position = newPosition;
 
             setState(GameState.Processing);
-            // TODO: 加入小推车
-
-            UIManager.Instance.playReadytoPlay();
+            // 加入小推车
+            if (GameManager.Instance.currLevelConfig.cleaner) CleanerManager.Instance.setState(GameState.Ready);
+            else UIManager.Instance.playReadytoPlay();
         }
     }
 

@@ -58,6 +58,9 @@ TagManager:
   - name: Product
     uniqueID: 3872407057
     locked: 0
+  - name: Props
+    uniqueID: 2897448025
+    locked: 0
   - name: Hand
     uniqueID: 2850321921
     locked: 0

@@ -12,6 +12,7 @@ public class LevelConfig
     public TimeOfDay time; // 时间
     public bool dropSun; // 是否掉落阳光
     public int startingSun; // 初始阳光
+    public bool cleaner = true; // 是否有小推车
 
     public TypeOfCard cardType; // 选卡类型：自选卡0、固定选卡1、传送带2
     

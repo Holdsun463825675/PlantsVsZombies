@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     public GameState state;
 
-    private LevelConfig currLevelConfig;
+    public LevelConfig currLevelConfig;
 
     private void Awake()
     {
@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
         // µØÍ¼
         MapManager.Instance.setMap(currLevelConfig.mapID);
         CameraManager.Instance.getMap();
+        CleanerManager.Instance.getMap();
         SunManager.Instance.getMap();
         ZombieManager.Instance.getMap();
         // Ê±¼ä
@@ -82,11 +83,13 @@ public class GameManager : MonoBehaviour
                 UIManager.Instance.setState(GameState.Previewing);
                 AudioManager.Instance.playBgm(ResourceConfig.music_selectCard);
                 CameraManager.Instance.setState(GameState.Previewing);
+                CleanerManager.Instance.setState(GameState.Previewing);
                 ZombieManager.Instance.setZombiePreviewing(true);
                 break;
             case GameState.SelectingCard:
                 UIManager.Instance.setState(GameState.SelectingCard);
                 CameraManager.Instance.setState(GameState.SelectingCard);
+                CleanerManager.Instance.setState(GameState.SelectingCard);
                 CardManager.Instance.setState(GameState.SelectingCard);
                 break;
             case GameState.Ready:
@@ -97,6 +100,7 @@ public class GameManager : MonoBehaviour
             case GameState.Processing:
                 AudioManager.Instance.playBgm(ResourceConfig.music_day);
                 CameraManager.Instance.setState(GameState.Processing);
+                CleanerManager.Instance.setState(GameState.Processing);
                 CardManager.Instance.setState(GameState.Processing);
                 UIManager.Instance.setState(GameState.Processing);
                 SunManager.Instance.setState(SunSpawnState.Enable);
@@ -104,10 +108,12 @@ public class GameManager : MonoBehaviour
                 ZombieManager.Instance.setState(ZombieSpawnState.Processing);
                 break;
             case GameState.Paused:
+                CleanerManager.Instance.setState(GameState.Paused);
                 UIManager.Instance.setState(GameState.Paused);
                 break;
             case GameState.Losing:
                 CameraManager.Instance.setState(GameState.Losing);
+                CleanerManager.Instance.setState(GameState.Losing);
                 CardManager.Instance.setState(GameState.Losing);
                 AudioManager.Instance.stopBgm();
                 AudioManager.Instance.playClip(ResourceConfig.sound_lose_losemusic);
@@ -150,6 +156,7 @@ public class GameManager : MonoBehaviour
     public void Continue()
     {
         state = GameState.Processing;
+        CleanerManager.Instance.setState(GameState.Processing);
         UIManager.Instance.setState(GameState.Processing);
         PlantManager.Instance.Continue();
         ProductManager.Instance.Continue();

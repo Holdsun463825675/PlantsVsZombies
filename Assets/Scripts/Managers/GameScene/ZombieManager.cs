@@ -16,6 +16,7 @@ public class ZombieManager : MonoBehaviour
 
     private int rowMaxSortingOrder = 5000;
     private float spawnMaxTime = 30.0f;
+    private float spawnMinTime = 2.0f;
     private float spawnTime = 30.0f;
     private float hugeWaveDuration = 5.0f; // 大波延迟出怪时间
     private float hugeWaveDurationTimer = 0.0f;
@@ -30,13 +31,13 @@ public class ZombieManager : MonoBehaviour
     private Vector2 lastDeadZombiePosition;
     private PolygonCollider2D zombiePreviewingPlace;
     private List<Transform> zombieSpawnPlaceList;
-    private int[] spawnProtection;
-
+    
     private List<Zombie> zombieList = new List<Zombie>();
     private List<Zombie> lastWaveZombieList = new List<Zombie>();
 
     private ZombieSpawnState state;
     private int[] orderInLayers;
+    public int[] spawnProtection;
 
     public List<Zombie> zombiePrefabList;
 
@@ -252,7 +253,10 @@ public class ZombieManager : MonoBehaviour
         if (currWaveNumber > 0)
         {
             float currZombieHealthPercentage = getZombieHealthPercentage();
-            if (currZombieHealthPercentage < healthPercentageThreshold) spawnTime = spawnMaxTime * (currZombieHealthPercentage / healthPercentageThreshold);
+            if (currZombieHealthPercentage < healthPercentageThreshold)
+            {
+                spawnTime = (spawnMaxTime - spawnMinTime) * (currZombieHealthPercentage / healthPercentageThreshold) + spawnMinTime;
+            }
         }
     }
 

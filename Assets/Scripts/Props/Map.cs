@@ -11,4 +11,7 @@ public class Map : MonoBehaviour
     public List<Transform> zombieSpawnPositions;
     public List<Transform> endlinePositions;
     public List<Transform> cameraPositions;
+    public List<Cleaner> cleaners;
+    public List<Transform> cleanerPositions_begin;
+    public List<Transform> cleanerPositions_end;
 }
