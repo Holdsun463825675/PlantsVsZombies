@@ -327,8 +327,6 @@ public class Zombie : MonoBehaviour, IClickable
     public void kill(int dieMode=0)
     {
         this.dieMode = dieMode;
-        ZombieManager.Instance.removeZombie(this);
-        Destroy(gameObject);
-        if (zombieHead) Destroy(zombieHead);
+        currHealth = 0;
     }
 }
