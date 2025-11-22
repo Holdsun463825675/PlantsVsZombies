@@ -52,6 +52,7 @@ public class Cleaner : MonoBehaviour
             case CleanerState.Enable:
                 c2d.enabled = true;
                 ZombieManager.Instance.spawnProtection[row] += 3; // ³ö¹Ö±£»¤
+                AudioManager.Instance.playClip(ResourceConfig.sound_other_lawnmower);
                 Tween tween = transform.DOMove(CleanerManager.Instance.cleanerPositions_end[row].position, 3f)
                         .SetEase(Ease.Linear)
                         .OnComplete(() =>{

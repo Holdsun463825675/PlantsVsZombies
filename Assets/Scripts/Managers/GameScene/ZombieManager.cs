@@ -16,13 +16,13 @@ public class ZombieManager : MonoBehaviour
 
     private int rowMaxSortingOrder = 5000;
     private float spawnMaxTime = 30.0f;
-    private float spawnMinTime = 2.0f;
     private float spawnTime = 30.0f;
+    private float normalWaveDuration = 3.0f; // 小波延迟出怪时间
     private float hugeWaveDuration = 5.0f; // 大波延迟出怪时间
-    private float hugeWaveDurationTimer = 0.0f;
+    private float waveDurationTimer = 0.0f;
     private bool isPlayingHugeWave = false;
     private float spawnTimer = 12.0f;
-    private float healthPercentageThreshold = 0.5f;
+    private float healthPercentageThreshold = 0.6f;
     private int lastWaveZombieHealth = 0;
     private float currProcess = 0.0f;
     private float expectedProcess = 0.0f;
@@ -205,21 +205,27 @@ public class ZombieManager : MonoBehaviour
         if (!zombieWaves[currWaveNumber].largeWave)
         {
             getSpawnTime(); // 根据当前波僵尸血量调整出怪时间
-            if (spawnTimer >= spawnTime) nextWave();
+            if (spawnTimer >= spawnTime)
+            {
+                spawnTimer = spawnTime;
+                waveDurationTimer += Time.fixedDeltaTime;
+                if (waveDurationTimer >= normalWaveDuration) nextWave();
+            }
         }
         else // 大波
         {
             // 下一波是大波时，不需要根据当前波僵尸血量调整出怪时间
             if (spawnTimer >= spawnTime || currWaveNumber > 0 && zombieList.Count == 0)
             {
+                spawnTimer = spawnTime;
                 if (currWaveNumber == 0) UIManager.Instance.activateLevelProcess();
                 if (!isPlayingHugeWave)
                 {
                     isPlayingHugeWave = true;
                     UIManager.Instance.playHugeWave();
                 }
-                hugeWaveDurationTimer += Time.fixedDeltaTime;
-                if (hugeWaveDurationTimer >= hugeWaveDuration) nextWave();
+                waveDurationTimer += Time.fixedDeltaTime;
+                if (waveDurationTimer >= hugeWaveDuration) nextWave();
             }
         }
     }
@@ -255,7 +261,7 @@ public class ZombieManager : MonoBehaviour
             float currZombieHealthPercentage = getZombieHealthPercentage();
             if (currZombieHealthPercentage < healthPercentageThreshold)
             {
-                spawnTime = (spawnMaxTime - spawnMinTime) * (currZombieHealthPercentage / healthPercentageThreshold) + spawnMinTime;
+                spawnTime = spawnMaxTime * (currZombieHealthPercentage / healthPercentageThreshold);
             }
         }
     }
@@ -343,7 +349,6 @@ public class ZombieManager : MonoBehaviour
             expectedProcess = (float)(currWaveNumber + 1) / (float)zombieWaves.Count; // 出怪进度大走一步
             AudioManager.Instance.playClip(ResourceConfig.sound_textsound_siren);
             UIManager.Instance.Flags[currLargeWave++].GetComponent<Animator>().enabled = true;
-            hugeWaveDurationTimer = 0.0f;
             isPlayingHugeWave = false;
             spawnOneZombie(ZombieID.FlagZombie); // 生成旗帜僵尸
         }
@@ -351,5 +356,6 @@ public class ZombieManager : MonoBehaviour
         currWaveNumber++;
         spawnTime = spawnMaxTime;
         spawnTimer = 0.0f;
+        waveDurationTimer = 0.0f;
     }
 }

@@ -37,8 +37,9 @@ public class ResourceConfig
         "Audio/Sound/other/groan4",
         "Audio/Sound/other/groan5",
         "Audio/Sound/other/groan6",
-    
     };
+    public const string sound_other_lawnmower = "Audio/Sound/other/lawnmower";
+
     public static readonly string[] sound_zombieeat_chomps = new string[]
     {
         "Audio/Sound/zombieeat/chomp",
