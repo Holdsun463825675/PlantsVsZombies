@@ -76,12 +76,12 @@ public class Sun : MonoBehaviour, IClickable
     // ÔÝÍ£¼ÌÐø¹¦ÄÜ
     public void Pause()
     {
-        if (state != SunState.Collected) anim.enabled = false;
+        anim.enabled = false;
     }
 
     public void Continue()
     {
-        if (state != SunState.Collected) anim.enabled = true;
+        anim.enabled = true;
     }
 
     public void setTargetY(float y)

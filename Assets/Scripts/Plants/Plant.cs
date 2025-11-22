@@ -82,8 +82,8 @@ public class Plant : MonoBehaviour, IClickable
         HPText.text = $"{currHealth}/{maxHealth}";
         if (state == PlantState.Suspension) HPText.gameObject.SetActive(false);
         else HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.plantHealth);
-        if (GameManager.Instance.state == GameState.Paused || 
-            GameManager.Instance.state == GameState.Losing || 
+        if (GameManager.Instance.state == GameState.Paused ||
+            GameManager.Instance.state == GameState.Losing ||
             GameManager.Instance.state == GameState.Winning) return;
 
         switch (state)

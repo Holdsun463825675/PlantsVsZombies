@@ -16,6 +16,7 @@ public class SunManager : MonoBehaviour
 
     public SunSpawnState state;
     private int sun = 50;
+    private int maxSun = 9990;
     private bool isDropSun;
     private float dropSunTime;
     private float dropSunTimer;
@@ -104,6 +105,7 @@ public class SunManager : MonoBehaviour
     public void AddSun(int num)
     {
         sun += num;
+        if (sun > maxSun) sun = maxSun;
     }
 
     public Vector2 getSunCollectedPosition()

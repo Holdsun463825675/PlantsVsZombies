@@ -8,6 +8,7 @@ public class SettingsData
 {
     public float music;
     public float sound;
+    public float gameSpeed;
     public float spawnMultiplier; // ½©Ê¬³ö¹Ö±¶ÂÊ
     public float hurtRate; // ½©Ê¬ÊÜÉË±ÈÀý
     public bool autoCollected;
@@ -38,6 +39,7 @@ public class SettingSystem : MonoBehaviour
             settingsData = new SettingsData();
             settingsData.music = 1.0f;
             settingsData.sound = 1.0f;
+            settingsData.gameSpeed = 1.0f;
             settingsData.spawnMultiplier = 1.0f;
             settingsData.hurtRate = 1.0f;
             settingsData.autoCollected = true;
@@ -56,20 +58,23 @@ public class SettingSystem : MonoBehaviour
 
     public void SetBgmVolume(float volume)
     {
-        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
         AudioManager.Instance.audioSource.volume = volume;
         settingsData.music = volume;
         SaveSettingsData();
     }
     public void SetClipVolume(float volume)
     {
-        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
         settingsData.sound = volume;
+        SaveSettingsData();
+    }
+    public void SetGameSpeed(float level)
+    {
+        if (SettingConfig.gameSpeedMap.ContainsKey(level)) settingsData.gameSpeed = SettingConfig.gameSpeedMap[level];
+        else settingsData.gameSpeed = 1.0f;
         SaveSettingsData();
     }
     public void SetSpawnMultiplier(float level)
     {
-        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
         if (SettingConfig.spawnMultiplierMap.ContainsKey(level)) settingsData.spawnMultiplier = SettingConfig.spawnMultiplierMap[level];
         else settingsData.spawnMultiplier = 1.0f;
         SaveSettingsData();
@@ -77,27 +82,23 @@ public class SettingSystem : MonoBehaviour
 
     public void SetHurtRate(float level)
     {
-        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
         if (SettingConfig.hurtRateMap.ContainsKey(level)) settingsData.hurtRate = SettingConfig.hurtRateMap[level];
         else settingsData.hurtRate = 1.0f;
         SaveSettingsData();
     }
 
-    public void ToggleAutoCollected(bool autoCollected)
+    public void SetAutoCollected(bool autoCollected)
     {
-        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_ceramic);
         settingsData.autoCollected = autoCollected;
         SaveSettingsData();
     }
-    public void TogglePlantHealth(bool plantHealth)
+    public void SetPlantHealth(bool plantHealth)
     {
-        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_ceramic);
         settingsData.plantHealth = plantHealth;
         SaveSettingsData();
     }
-    public void ToggleZombieHealth(bool zombieHealth)
+    public void SetZombieHealth(bool zombieHealth)
     {
-        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_ceramic);
         settingsData.zombieHealth = zombieHealth;
         SaveSettingsData();
     }

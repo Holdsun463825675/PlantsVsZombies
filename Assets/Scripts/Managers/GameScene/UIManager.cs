@@ -97,47 +97,27 @@ public class UIManager : MonoBehaviour
         // 获取所有UI组件
         Slider musicSlider = Menu.transform.Find("Music/MusicSlider").GetComponent<Slider>();
         Slider soundSlider = Menu.transform.Find("Sound/SoundSlider").GetComponent<Slider>();
+        Slider gameSpeedSlider = Menu.transform.Find("GameSpeed/GameSpeedSlider").GetComponent<Slider>();
         Slider spawnMultiplierSlider = Menu.transform.Find("Difficulty/SpawnMultiplier/SpawnMultiplierSlider").GetComponent<Slider>();
         Slider hurtRateSlider = Menu.transform.Find("Difficulty/HurtRate/HurtRateSlider").GetComponent<Slider>();
         Toggle autoCollectedToggle = Menu.transform.Find("AutoCollected").GetComponent<Toggle>();
         Toggle plantHealthToggle = Menu.transform.Find("PlantHealth").GetComponent<Toggle>();
         Toggle zombieHealthToggle = Menu.transform.Find("ZombieHealth").GetComponent<Toggle>();
 
-        AddAllListeners(musicSlider, soundSlider, spawnMultiplierSlider, hurtRateSlider);
+        AddAllListeners(musicSlider, soundSlider, gameSpeedSlider, spawnMultiplierSlider, hurtRateSlider,
+            autoCollectedToggle, plantHealthToggle, zombieHealthToggle);
 
-        // 临时移除所有Toggle监听器
-        RemoveAllListeners(autoCollectedToggle, plantHealthToggle, zombieHealthToggle);
-        
         // 设置值
         musicSlider.value = SettingSystem.Instance.settingsData.music;
         soundSlider.value = SettingSystem.Instance.settingsData.sound;
+        gameSpeedSlider.value = SettingConfig.gameSpeedMap.FirstOrDefault(x => Mathf.Approximately(x.Value, SettingSystem.Instance.settingsData.gameSpeed)).Key;
         spawnMultiplierSlider.value = SettingConfig.spawnMultiplierMap.FirstOrDefault(x => Mathf.Approximately(x.Value, SettingSystem.Instance.settingsData.spawnMultiplier)).Key;
         hurtRateSlider.value = SettingConfig.hurtRateMap.FirstOrDefault(x => Mathf.Approximately(x.Value, SettingSystem.Instance.settingsData.hurtRate)).Key;
         autoCollectedToggle.isOn = SettingSystem.Instance.settingsData.autoCollected;
         plantHealthToggle.isOn = SettingSystem.Instance.settingsData.plantHealth;
         zombieHealthToggle.isOn = SettingSystem.Instance.settingsData.zombieHealth;
-
-        // 重新添加Toggle监听器
-        AddAllListeners(autoCollectedToggle, plantHealthToggle, zombieHealthToggle);
     }
 
-    // 临时移除监听器
-    private void RemoveAllListeners(params Selectable[] uiElements)
-    {
-        foreach (Selectable element in uiElements)
-        {
-            if (element is Slider slider)
-            {
-                slider.onValueChanged = new Slider.SliderEvent();
-            }
-            else if (element is Toggle toggle)
-            {
-                toggle.onValueChanged = new Toggle.ToggleEvent();
-            }
-        }
-    }
-
-    // 重新添加监听器
     private void AddAllListeners(params Selectable[] uiElements)
     {
         foreach (Selectable element in uiElements)
@@ -147,8 +127,9 @@ public class UIManager : MonoBehaviour
                 // 根据Slider名称添加不同的监听器
                 switch (slider.name)
                 {
-                    case "MusicSlider":slider.onValueChanged.AddListener(SettingSystem.Instance.SetBgmVolume);break;
-                    case "SoundSlider":slider.onValueChanged.AddListener(SettingSystem.Instance.SetClipVolume);break;
+                    case "MusicSlider":slider.onValueChanged.AddListener(OnMusicSliderChanged);break;
+                    case "SoundSlider":slider.onValueChanged.AddListener(OnSoundSliderChanged);break;
+                    case "GameSpeedSlider":slider.onValueChanged.AddListener(OnGameSpeedSliderChanged);break;
                     case "SpawnMultiplierSlider": slider.onValueChanged.AddListener(OnSpawnMultiplierSliderChanged);break;
                     case "HurtRateSlider": slider.onValueChanged.AddListener(OnHurtRateSliderChanged);break;
                 }
@@ -158,16 +139,38 @@ public class UIManager : MonoBehaviour
                 // 根据Toggle名称添加不同的监听器
                 switch (toggle.name)
                 {
-                    case "AutoCollected":toggle.onValueChanged.AddListener(SettingSystem.Instance.ToggleAutoCollected);break;
-                    case "PlantHealth":toggle.onValueChanged.AddListener(SettingSystem.Instance.TogglePlantHealth);break;
-                    case "ZombieHealth":toggle.onValueChanged.AddListener(SettingSystem.Instance.ToggleZombieHealth);break;
+                    case "AutoCollected":toggle.onValueChanged.AddListener(OnAutoCollectedToggleChanged);break;
+                    case "PlantHealth":toggle.onValueChanged.AddListener(OnPlantHealthToggleChanged);break;
+                    case "ZombieHealth":toggle.onValueChanged.AddListener(OnZombieHealthToggleChanged);break;
                 }
             }
         }
     }
 
+    private void OnMusicSliderChanged(float sliderValue)
+    {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
+        SettingSystem.Instance.SetBgmVolume(sliderValue);
+    }
+
+    private void OnSoundSliderChanged(float sliderValue)
+    {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
+        SettingSystem.Instance.SetClipVolume(sliderValue);
+    }
+
+    private void OnGameSpeedSliderChanged(float sliderValue)
+    {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
+        SettingSystem.Instance.SetGameSpeed(sliderValue);
+        float value = 1.0f;
+        if (SettingConfig.gameSpeedMap.ContainsKey(sliderValue)) value = SettingConfig.gameSpeedMap[sliderValue];
+        Menu.transform.Find("GameSpeed/Instruction").GetComponent<TextMeshProUGUI>().text = "×" + value.ToString("F2");
+    }
+
     private void OnSpawnMultiplierSliderChanged(float sliderValue)
     {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
         SettingSystem.Instance.SetSpawnMultiplier(sliderValue);
         float value = 1.0f;
         if (SettingConfig.spawnMultiplierMap.ContainsKey(sliderValue)) value = SettingConfig.spawnMultiplierMap[sliderValue];
@@ -176,10 +179,29 @@ public class UIManager : MonoBehaviour
 
     private void OnHurtRateSliderChanged(float sliderValue)
     {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
         SettingSystem.Instance.SetHurtRate(sliderValue);
         float value = 1.0f;
         if (SettingConfig.hurtRateMap.ContainsKey(sliderValue)) value = SettingConfig.hurtRateMap[sliderValue];
         Menu.transform.Find("Difficulty/HurtRate/Instruction").GetComponent<TextMeshProUGUI>().text = "×" + value.ToString("F2");
+    }
+
+    private void OnAutoCollectedToggleChanged(bool isOn)
+    {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_ceramic);
+        SettingSystem.Instance.SetAutoCollected(isOn);
+    }
+
+    private void OnPlantHealthToggleChanged(bool isOn)
+    {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_ceramic);
+        SettingSystem.Instance.SetPlantHealth(isOn);
+    }
+
+    private void OnZombieHealthToggleChanged(bool isOn)
+    {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_ceramic);
+        SettingSystem.Instance.SetZombieHealth(isOn);
     }
 
 

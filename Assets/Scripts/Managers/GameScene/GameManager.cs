@@ -80,6 +80,7 @@ public class GameManager : MonoBehaviour
             case GameState.NotStarted:
                 break;
             case GameState.Previewing:
+                GameSpeedManager.Instance.SetGameSpeed(1.0f);
                 UIManager.Instance.setState(GameState.Previewing);
                 AudioManager.Instance.playBgm(ResourceConfig.music_selectCard);
                 CameraManager.Instance.setState(GameState.Previewing);
@@ -98,6 +99,7 @@ public class GameManager : MonoBehaviour
                 CardManager.Instance.setState(GameState.Ready);
                 break;
             case GameState.Processing:
+                GameSpeedManager.Instance.SetGameSpeed(SettingSystem.Instance.settingsData.gameSpeed);
                 AudioManager.Instance.playBgm(ResourceConfig.music_day);
                 CameraManager.Instance.setState(GameState.Processing);
                 CleanerManager.Instance.setState(GameState.Processing);
@@ -110,13 +112,18 @@ public class GameManager : MonoBehaviour
             case GameState.Paused:
                 CleanerManager.Instance.setState(GameState.Paused);
                 UIManager.Instance.setState(GameState.Paused);
+                PlantManager.Instance.Pause();
+                ProductManager.Instance.Pause();
+                SunManager.Instance.Pause();
+                ZombieManager.Instance.Pause();
                 break;
             case GameState.Losing:
+                GameSpeedManager.Instance.SetGameSpeed(1.0f);
+                AudioManager.Instance.stopBgm();
+                AudioManager.Instance.playClip(ResourceConfig.sound_lose_losemusic);
                 CameraManager.Instance.setState(GameState.Losing);
                 CleanerManager.Instance.setState(GameState.Losing);
                 CardManager.Instance.setState(GameState.Losing);
-                AudioManager.Instance.stopBgm();
-                AudioManager.Instance.playClip(ResourceConfig.sound_lose_losemusic);
                 PlantManager.Instance.Pause();
                 ProductManager.Instance.Pause();
                 SunManager.Instance.Pause();
@@ -147,17 +154,14 @@ public class GameManager : MonoBehaviour
     public void Pause()
     {
         setState(GameState.Paused);
-        PlantManager.Instance.Pause();
-        ProductManager.Instance.Pause();
-        SunManager.Instance.Pause();
-        ZombieManager.Instance.Pause();
     }
 
     public void Continue()
     {
         state = GameState.Processing;
-        CleanerManager.Instance.setState(GameState.Processing);
+        GameSpeedManager.Instance.SetGameSpeed(SettingSystem.Instance.settingsData.gameSpeed);
         UIManager.Instance.setState(GameState.Processing);
+        CleanerManager.Instance.setState(GameState.Processing);
         PlantManager.Instance.Continue();
         ProductManager.Instance.Continue();
         SunManager.Instance.Continue();
@@ -166,6 +170,7 @@ public class GameManager : MonoBehaviour
 
     public void BacktoHome()
     {
+        GameSpeedManager.Instance.SetGameSpeed(1.0f);
         AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_gravebutton);
         SceneManager.LoadScene("MenuScene");
         AudioManager.Instance.playBgm(ResourceConfig.music_mainMenu);

@@ -19,10 +19,6 @@ public class HandManager : MonoBehaviour
     {
         // ¼ì²âÊó±êÓÒ¼üµã»÷£¬0=×ó¼ü, 1=ÓÒ¼ü, 2=ÖĞ¼ü
         if (Input.GetMouseButtonDown(1)) CancelPlant();
-    }
-
-    private void FixedUpdate()
-    {
         FollowCursor();
     }
 

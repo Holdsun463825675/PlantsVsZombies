@@ -7,7 +7,7 @@ using static JSONSaveSystem;
 public class JSONSaveSystem : MonoBehaviour
 {
     public static JSONSaveSystem Instance { get; private set; }
-    private const string METADATA_KEY = "MetaData_shfeufhuewh";
+    private const string METADATA_KEY = "MetaData_heuiwfhuierdji";
 
     public Metadata metadata;
     public UserData userData;
@@ -126,6 +126,7 @@ public class JSONSaveSystem : MonoBehaviour
             settingsData = new SettingsData { 
                 music = 1.0f, 
                 sound = 1.0f, 
+                gameSpeed = 1.0f,
                 spawnMultiplier = 1.0f, 
                 hurtRate = 1.0f, 
                 autoCollected = false, 

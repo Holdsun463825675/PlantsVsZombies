@@ -40,6 +40,7 @@ public class Zombie : MonoBehaviour, IClickable
     private GameObject zombieHead;
 
     private float groanTime, groanTimer;
+    private float healthLossTime, healthLossTimer; // 掉头后多久掉1滴血
     private float HealthPercentage;
     private int dieMode;
     protected float speedLevel;
@@ -72,6 +73,7 @@ public class Zombie : MonoBehaviour, IClickable
         speedLevel = (-x_Speed - base_x_Speed) / base_x_Speed;
         HealthPercentage = 1.0f;
         groanTime = 23.0f + Random.Range(0.0f, 2.0f); groanTimer = 23.0f;
+        healthLossTime = 0.05f; healthLossTimer = 0.0f;
         dieMode = 0;
         moveState = ZombieMoveState.Stop;
         targets = new List<Plant>();
@@ -86,7 +88,7 @@ public class Zombie : MonoBehaviour, IClickable
         if (child) lostHeadPlace = child.GetComponent<Transform>();
     }
 
-    void Start()
+    private void Start()
     {
         ClickPriority priority = gameObject.AddComponent<ClickPriority>();
         priority.priority = 1;
@@ -95,7 +97,7 @@ public class Zombie : MonoBehaviour, IClickable
         losingGame = MapManager.Instance.currMap.endlinePositions[0];
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         HPText.text = $"{currHealth}/{maxHealth}";
         HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.zombieHealth);
@@ -298,9 +300,14 @@ public class Zombie : MonoBehaviour, IClickable
     {
         dieMode = 0;
         kinematicsUpdate();
-        // 每更新2次掉1血
-        if (isLostHealth) AddHealth(-1);
-        isLostHealth = !isLostHealth;
+        if (Time.timeScale <= 0) return; // 暂停时不掉血
+
+        healthLossTimer += Time.fixedDeltaTime;
+        if (healthLossTimer >= healthLossTime)
+        {
+            AddHealth(-1);
+            healthLossTimer = healthLossTimer - healthLossTime;
+        }
     }
 
     private void DieUpdate()
