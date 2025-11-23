@@ -27,19 +27,6 @@ public class Cleaner : MonoBehaviour
         setState(CleanerState.Disable);
     }
 
-    private void FixedUpdate()
-    {
-        switch (state)
-        {
-            case CleanerState.Disable:
-                DisableUpdate();
-                break;
-            case CleanerState.Enable:
-                EnableUpdate();
-                break;
-        }
-    }
-
     public void setState(CleanerState state)
     {
         if (this.state == state) return;
@@ -65,16 +52,6 @@ public class Cleaner : MonoBehaviour
                 break;
         }
         this.state = state;
-    }
-
-    private void DisableUpdate()
-    {
-
-    }
-
-    private void EnableUpdate()
-    {
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

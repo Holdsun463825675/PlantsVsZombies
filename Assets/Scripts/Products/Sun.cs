@@ -1,6 +1,8 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public enum SunState
 {
@@ -10,32 +12,29 @@ public enum SunState
     Collected
 }
 
-public class Sun : MonoBehaviour, IClickable
+public class Sun : Product, IClickable
 {
     public SunState state;
 
     private int value = 25;
 
-    private float survivalTime, collectedTime, autoCollectedTime;
-    private float survivalTimer, collectedTimer, autoCollectedTimer;
+    private float survivalTime, autoCollectedTime, collectedTime;
+    private float survivalTimer, autoCollectedTimer;
 
-    private float x_speed, x_accelerated_speed, y_speed, y_accelerated_speed;
+    private float verticalSpeed = 1.0f;
+    private float producedbySunflowerMoveTime = 1.0f;
     private float target_y;
 
     private Animator anim;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         state = SunState.Stop;
-        survivalTime = 30.0f; collectedTime = 0.5f; autoCollectedTime = 1.0f;
-        survivalTimer = 0.0f; collectedTimer = 0.0f; autoCollectedTimer = 0.0f;
-        x_speed = 0.0f;
-        x_accelerated_speed = 0.0f;
-        y_speed = 0.0f;
-        y_accelerated_speed = 0.0f;
+        survivalTime = 30.0f; autoCollectedTime = 1.0f; collectedTime = 0.5f;
+        survivalTimer = 0.0f; autoCollectedTimer = 0.0f;
         target_y = 0.0f;
         anim = GetComponent<Animator>();
-        SunManager.Instance.addSun(this);
     }
 
     void Start()
@@ -53,34 +52,27 @@ public class Sun : MonoBehaviour, IClickable
         autoCollectedTimer += Time.fixedDeltaTime;
         if (SettingSystem.Instance.settingsData.autoCollected && autoCollectedTimer > autoCollectedTime) setState(SunState.Collected);
 
-        kinematicsUpdate();
-        switch (state)
+        if (state == SunState.Stop)
         {
-            case SunState.Vertical:
-                VerticalUpdate();
-                break;
-            case SunState.ProducedbySunflower:
-                ProducedbySunflowerUpdate();
-                break;
-            case SunState.Stop:
-                StopUpdate();
-                break;
-            case SunState.Collected:
-                CollectedUpdate();
-                break;
-            default:
-                break;
+            survivalTimer += Time.fixedDeltaTime;
+            if (survivalTimer >= survivalTime)
+            {
+                ProductManager.Instance.removeProduct(this);
+                Destroy(gameObject);
+            }
         }
     }
 
     // 暂停继续功能
-    public void Pause()
+    public override void Pause()
     {
+        transform.DOPause();
         anim.enabled = false;
     }
 
-    public void Continue()
+    public override void Continue()
     {
+        transform.DOPlay();
         anim.enabled = true;
     }
 
@@ -92,85 +84,55 @@ public class Sun : MonoBehaviour, IClickable
     public void setState(SunState state)
     {
         if (this.state == state) return;
-        if (state == SunState.Vertical)
-        {
-            x_speed = 0.0f;
-            x_accelerated_speed = 0.0f;
-            y_speed = -1.0f;
-            y_accelerated_speed = 0.0f;
-        }
-        if (state == SunState.ProducedbySunflower)
-        {
-            x_speed = Random.Range(0.25f, 0.75f) * (Random.Range(0, 2) * 2 - 1);
-            x_accelerated_speed = 0.0f;
-            y_speed = Random.Range(0.75f, 1.25f);
-            y_accelerated_speed = -2.0f;
-        }
-        if (state == SunState.Stop)
-        {
-            x_speed = 0.0f;
-            x_accelerated_speed = 0.0f;
-            y_speed = 0.0f;
-            y_accelerated_speed = 0.0f;
-        }
-        if (state == SunState.Collected)
-        {
-            AudioManager.Instance.playClip(ResourceConfig.sound_collectitem_sun);
-            if (GameManager.Instance.state != GameState.Paused) anim.enabled = true;
-            GetComponent<CircleCollider2D>().enabled = false;
-            Vector2 collectedPosition = SunManager.Instance.getSunCollectedPosition();
-            float collected_target_x = collectedPosition.x;
-            float collected_target_y = collectedPosition.y;
-            x_speed = (collected_target_x - transform.position.x) / collectedTime;
-            x_accelerated_speed = 0.0f;
-            y_speed = (collected_target_y - transform.position.y) / collectedTime;
-            y_accelerated_speed = 0.0f;
-        }
         this.state = state;
+        switch (state)
+        {
+            case SunState.Vertical:
+                transform.DOMove(new Vector2(transform.position.x, target_y), Mathf.Abs(transform.position.y - target_y) / verticalSpeed)
+                    .SetEase(Ease.Linear)
+                    .OnComplete(() => setState(SunState.Stop));
+                break;
+            case SunState.ProducedbySunflower:
+                // 计算中间控制点（抛物线顶点）
+                Vector3 startPosition = transform.position;
+                float target_x = transform.position.x + Random.Range(0.5f, 1.0f) * (Random.Range(0, 2) * 2 - 1);
+                Vector3 endPosition = new Vector3(target_x, target_y, transform.position.z);
+                Vector3 midPoint = (startPosition + endPosition) * 0.5f;
+                midPoint.y += Random.Range(0.5f, 0.75f);
+
+                // 创建路径点数组
+                Vector3[] path = new Vector3[] { startPosition, midPoint, endPosition };
+
+                // 使用DOPath进行抛物线移动
+                transform.DOPath(path, producedbySunflowerMoveTime, PathType.CatmullRom)
+                      .SetEase(Ease.InOutSine)
+                      .OnComplete(() => setState(SunState.Stop));
+                break;
+            case SunState.Stop:
+                break;
+            case SunState.Collected:
+                AudioManager.Instance.playClip(ResourceConfig.sound_collectitem_sun);
+                Vector2 collectedPosition = SunManager.Instance.collectedTarget.position;
+
+                // 消除当前所有移动
+                transform.DOKill();
+                transform.DOMove(SunManager.Instance.collectedTarget.position, collectedTime)
+                    .SetEase(Ease.OutSine)
+                    .OnComplete(() => {
+                        SunManager.Instance.AddSun(value);
+                        ProductManager.Instance.removeProduct(this);
+                        Destroy(gameObject);
+                    });
+
+                if (GameManager.Instance.state != GameState.Paused) anim.enabled = true;
+                else transform.DOPause();
+                GetComponent<CircleCollider2D>().enabled = false;
+                break;
+        }
     }
 
     public void OnClick()
     {    
         setState(SunState.Collected);
-    }
-
-    private void kinematicsUpdate()
-    {
-        Vector3 newPosition = transform.position;
-        newPosition.x += x_speed * Time.fixedDeltaTime;
-        newPosition.y += y_speed * Time.fixedDeltaTime;
-        transform.position = newPosition;
-
-        x_speed += x_accelerated_speed * Time.fixedDeltaTime;
-        y_speed += y_accelerated_speed * Time.fixedDeltaTime;
-    }
-
-    private void VerticalUpdate()
-    {
-        if (transform.position.y < target_y) setState(SunState.Stop);
-    }
-
-    private void ProducedbySunflowerUpdate()
-    {
-        if (transform.position.y < target_y) setState(SunState.Stop);
-    }
-
-    private void StopUpdate()
-    {
-        survivalTimer += Time.fixedDeltaTime;
-        if (survivalTimer > survivalTime)
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    private void CollectedUpdate()
-    {
-        collectedTimer += Time.fixedDeltaTime;
-        if (collectedTimer > collectedTime)
-        {
-            SunManager.Instance.AddSun(value);
-            Destroy(gameObject);
-        }
     }
 }

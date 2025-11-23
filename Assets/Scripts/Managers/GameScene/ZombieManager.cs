@@ -95,7 +95,7 @@ public class ZombieManager : MonoBehaviour
         List<ZombieID> zombieID, 
         List<ZombieWave> zombieWaves, 
         float spawnMaxTime = 30.0f,
-        float spawnTimer = 12.0f,
+        float spawnTimer = 15.0f,
         float healthPercentageThreshold = 0.5f)
     {
         this.zombieID = zombieID;

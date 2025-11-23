@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -28,8 +29,8 @@ public class Zombie : MonoBehaviour, IClickable
 {
     // 需继承实现
     public ZombieID zombieID;
-    protected float base_x_Speed;
-    protected float x_Speed, x_speed, y_Speed, y_speed;
+    protected float baseSpeed;
+    protected float speed;
     protected int maxHealth, currHealth;
     protected int maxArmor1Health, currArmor1Health;
     protected int maxArmor2Health, currArmor2Health;
@@ -60,9 +61,8 @@ public class Zombie : MonoBehaviour, IClickable
     protected virtual void Awake()
     {
         zombieID = ZombieID.None;
-        base_x_Speed = 0.2f;
-        x_Speed = -Random.Range(1.0f, 2.0f) * base_x_Speed;
-        x_speed = 0.0f;
+        baseSpeed = 0.2f;
+        speed = Random.Range(1.0f, 2.0f) * baseSpeed;
         maxHealth = 270; currHealth = maxHealth;
         maxArmor1Health = 0; currArmor1Health = maxArmor1Health;
         maxArmor2Health = 0; currArmor2Health = maxArmor2Health;
@@ -70,7 +70,7 @@ public class Zombie : MonoBehaviour, IClickable
         isLostHealth = false;
         spawnWeight = 1.0f;
 
-        speedLevel = (-x_Speed - base_x_Speed) / base_x_Speed;
+        speedLevel = (speed - baseSpeed) / baseSpeed;
         HealthPercentage = 1.0f;
         groanTime = 23.0f + Random.Range(0.0f, 2.0f); groanTimer = 23.0f;
         healthLossTime = 0.05f; healthLossTimer = 0.0f;
@@ -93,8 +93,6 @@ public class Zombie : MonoBehaviour, IClickable
         ClickPriority priority = gameObject.AddComponent<ClickPriority>();
         priority.priority = 1;
         priority.isClickable = true;
-
-        losingGame = MapManager.Instance.currMap.endlinePositions[0];
     }
 
     private void FixedUpdate()
@@ -130,17 +128,27 @@ public class Zombie : MonoBehaviour, IClickable
     {
         c2d.enabled = true;
         anim.SetBool(AnimatorConfig.zombie_game, true);
+        Debug.Log(anim.speed);
+        losingGame = MapManager.Instance.currMap.endlinePositions[0];
+        Vector3 target = new Vector3(losingGame.position.x, transform.position.y, transform.position.z);
+        transform.DOMove(target, Vector3.Distance(target, transform.position) / speed)
+            .SetEase(Ease.Linear)
+            .OnComplete(() => {
+                if (healthState == ZombieHealthState.Healthy || healthState == ZombieHealthState.LostArm) GameManager.Instance.setState(GameState.Losing);
+            });
     }
 
     // 暂停继续功能
     public void Pause()
     {
+        if (moveState == ZombieMoveState.Move) transform.DOPause();
         anim.enabled = false;
         if ((healthState == ZombieHealthState.LostHead || healthState == ZombieHealthState.Die) && lostHeadAnim) lostHeadAnim.enabled = false;
     }
 
     public void Continue()
     {
+        if (moveState == ZombieMoveState.Move) transform.DOPlay();
         anim.enabled = true;
         if ((healthState == ZombieHealthState.LostHead || healthState == ZombieHealthState.Die) && lostHeadAnim) lostHeadAnim.enabled = true;
     }
@@ -188,15 +196,9 @@ public class Zombie : MonoBehaviour, IClickable
 
     public void setMoveState(ZombieMoveState state)
     {
-        if (state == ZombieMoveState.Move)
-        {
-            x_speed = x_Speed;
-        }
-        if (state == ZombieMoveState.Stop)
-        {
-            x_speed = 0.0f;
-        }
-        this.moveState = state;
+        moveState = state;
+        if (state == ZombieMoveState.Move) transform.DOPlay();
+        if (state == ZombieMoveState.Stop) transform.DOPause();
     }
 
     public void setHealthState(ZombieHealthState state)
@@ -220,6 +222,7 @@ public class Zombie : MonoBehaviour, IClickable
         }
         if (state == ZombieHealthState.Die)
         {
+            transform.DOKill();
             c2d.enabled = false;
             anim.SetInteger(AnimatorConfig.zombie_dieMode, dieMode);
         }
@@ -230,15 +233,11 @@ public class Zombie : MonoBehaviour, IClickable
         if (anim.GetBool(AnimatorConfig.zombie_game) == false) return;
         if (targets.Count != 0)
         {
+            setMoveState(ZombieMoveState.Stop);
             anim.SetBool(AnimatorConfig.zombie_isAttack, true);
             return;
         }
         anim.SetBool(AnimatorConfig.zombie_isAttack, false);
-
-        Vector3 newPosition = transform.position;
-        newPosition.x += x_speed * Time.fixedDeltaTime;
-        newPosition.y += y_speed * Time.fixedDeltaTime;
-        transform.position = newPosition;
     }
 
     private void groanUpdate()
@@ -286,14 +285,12 @@ public class Zombie : MonoBehaviour, IClickable
     {
         kinematicsUpdate();
         groanUpdate();
-        if (transform.position.x <= losingGame.position.x) GameManager.Instance.setState(GameState.Losing);
     }
 
     private void LostArmUpdate()
     {
         kinematicsUpdate();
         groanUpdate();
-        if (transform.position.x <= losingGame.position.x) GameManager.Instance.setState(GameState.Losing);
     }
 
     private void LostHeadUpdate()
@@ -305,8 +302,8 @@ public class Zombie : MonoBehaviour, IClickable
         healthLossTimer += Time.fixedDeltaTime;
         if (healthLossTimer >= healthLossTime)
         {
-            AddHealth(-1);
-            healthLossTimer = healthLossTimer - healthLossTime;
+            AddHealth(-(int)(healthLossTimer / healthLossTime));
+            healthLossTimer = healthLossTimer % healthLossTime;
         }
     }
 

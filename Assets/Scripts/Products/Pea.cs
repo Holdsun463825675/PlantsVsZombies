@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,8 +12,7 @@ public enum PeaState
 public class Pea : Product
 {
     private int attackPoint = 20;
-    private float x_speed, x_accelerated_speed, y_speed, y_accelerated_speed;
-    private float target_min_x, target_max_x;
+    public float speed = 5.0f;
 
     private PeaState state;
 
@@ -25,8 +25,7 @@ public class Pea : Product
 
     protected override void Awake()
     {
-        target_min_x = MapManager.Instance.currMap.endlinePositions[0].position.x;
-        target_max_x = MapManager.Instance.currMap.endlinePositions[1].position.x;
+        base.Awake();
         shadow = transform.Find("Shadow");
         sr = GetComponent<SpriteRenderer>();
         c2d = GetComponent<Collider2D>();
@@ -40,31 +39,16 @@ public class Pea : Product
         setState(PeaState.ToBeUsed);
     }
 
-    private void FixedUpdate()
-    {
-        if (GameManager.Instance.state == GameState.Paused || GameManager.Instance.state == GameState.Losing) return;
-
-        switch (state)
-        {
-            case PeaState.ToBeUsed:
-                ToBeUsedUpdate(); 
-                break;
-            case PeaState.Used:
-                UsedUpdate(); 
-                break;
-            default:
-                break;
-        }
-    }
-
     // ÔÝÍ£¼ÌÐø¹¦ÄÜ
     public override void Pause()
     {
+        transform.DOPause();
         if (state == PeaState.Used && peaBulletHitAnim) peaBulletHitAnim.enabled = false;
     }
 
     public override void Continue()
     {
+        transform.DOPlay();
         if (state == PeaState.Used && peaBulletHitAnim) peaBulletHitAnim.enabled = true;
     }
 
@@ -84,10 +68,10 @@ public class Pea : Product
             c2d.enabled = true;
             if (shadow) shadow.gameObject.SetActive(true);
             target = null;
-            setSpeed();
         }
         if (state == PeaState.Used)
         {
+            transform.DOKill();
             c2d.enabled = false;
             if (shadow) shadow.gameObject.SetActive(false);
             sr.enabled = false;
@@ -102,38 +86,18 @@ public class Pea : Product
                 int idx = Random.Range(0, ResourceConfig.sound_bullethit_splats.Length);
                 AudioManager.Instance.playClip(ResourceConfig.sound_bullethit_splats[idx]);
             }
+            ProductManager.Instance.removeProduct(this);
             Destroy(gameObject, 1);
         }
         this.state = state;
     }
 
-    public void setSpeed(float x_speed=5.0f, float x_accelerated_speed=0.0f, float y_speed=0.0f, float y_accelerated_speed=0.0f)
+    public void moveToPlace(Vector3 position, float speed=5.0f)
     {
-        this.x_speed = x_speed;
-        this.x_accelerated_speed = x_accelerated_speed;
-        this.y_speed = y_speed;
-        this.y_accelerated_speed = y_accelerated_speed;
-    }
-
-    private void kinematicsUpdate()
-    {
-        Vector3 newPosition = transform.position;
-        newPosition.x += x_speed * Time.fixedDeltaTime;
-        newPosition.y += y_speed * Time.fixedDeltaTime;
-        transform.position = newPosition;
-
-        x_speed += x_accelerated_speed * Time.fixedDeltaTime;
-        y_speed += y_accelerated_speed * Time.fixedDeltaTime;
-    }
-
-    private void ToBeUsedUpdate()
-    {
-        kinematicsUpdate();
-        if (transform.position.x <= target_min_x || transform.position.x >= target_max_x) Destroy(gameObject);
-    }
-
-    private void UsedUpdate()
-    {
-
+        transform.DOMove(position, Vector3.Distance(transform.position, position) / speed)
+            .SetEase(Ease.Linear)
+            .OnComplete(() => {
+                ProductManager.Instance.removeProduct(this);
+                Destroy(gameObject);});
     }
 }

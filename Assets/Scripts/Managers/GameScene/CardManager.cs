@@ -1,6 +1,8 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardManager : MonoBehaviour
 {
@@ -9,9 +11,16 @@ public class CardManager : MonoBehaviour
     public GameObject cardListUI;
     public GameObject cardPanelUI;
 
+    private float UIMoveTime = 0.2f;
+    private float cardMoveTime = 0.2f;
     private List<Card> cardList = new List<Card>();
     public List<Card> cardPanel;
 
+    public Transform cardListUIBeginPlace;
+    public Transform cardListUIEndPlace;
+    public Transform cardPanelUIBeginPlace;
+    public Transform cardPanelUIEndPlace;
+    public Button readyButton;
     public List<Transform> cardListCardPlace;
     public List<Transform> cardPanelCardPlace;
 
@@ -22,25 +31,61 @@ public class CardManager : MonoBehaviour
         setState(GameState.NotStarted);
     }
 
+    private Dictionary<Card, Tween> activeCardTweens = new Dictionary<Card, Tween>();
+
     private void FixedUpdate()
     {
         if (GameManager.Instance.state == GameState.SelectingCard)
         {
-            // 设置位置与父物体
             for (int i = 0; i < cardList.Count; i++)
             {
-                moveToPlace(cardList[i], cardListCardPlace[i]);
-                cardList[i].transform.SetParent(cardListUI.transform);
+                MoveCardWithTween(cardList[i], cardListCardPlace[i], cardListUI.transform);
             }
+
+            bool selectedFlag = true; // 卡片是否都被选了
             for (int i = 0; i < cardPanel.Count; i++)
             {
                 if (!cardList.Contains(cardPanel[i]))
                 {
-                    moveToPlace(cardPanel[i], cardPanelCardPlace[i]);
-                    cardPanel[i].transform.SetParent(cardPanelUI.transform);
-                } 
-            } 
+                    MoveCardWithTween(cardPanel[i], cardPanelCardPlace[i], cardPanelUI.transform);
+                    if (cardPanel[i].gameObject.activeSelf) selectedFlag = false;
+                }
+            }
+
+            // 卡槽选满或卡片全被选才能开始游戏
+            if (cardList.Count == cardListCardPlace.Count || selectedFlag) readyButton.enabled = true;
+            else readyButton.enabled = false;
         }
+    }
+
+    private void MoveCardWithTween(Card card, Transform targetPlace, Transform parent)
+    {
+        // 如果目标位置与当前位置相同，跳过
+        if (card.transform.position == targetPlace.position) return;
+
+        // 检查是否已经有活跃的Tween
+        if (activeCardTweens.ContainsKey(card))
+        {
+            var existingTween = activeCardTweens[card];
+            if (existingTween != null && existingTween.IsActive())
+            {
+                // 如果目标位置没变，继续当前的Tween
+                if (existingTween is Tweener tweener) return;
+            }
+            else activeCardTweens.Remove(card);
+        }
+
+        // 创建新的Tween
+        Tween tween = card.transform.DOMove(targetPlace.position, cardMoveTime)
+            .SetEase(Ease.OutCubic)
+            .SetUpdate(UpdateType.Fixed) // 使用FixedUpdate更新
+            .OnComplete(() =>
+            {
+                // Tween完成后的清理
+                if (activeCardTweens.ContainsKey(card)) activeCardTweens.Remove(card);
+            });
+
+        activeCardTweens[card] = tween;
     }
 
     private void showCards()
@@ -69,17 +114,29 @@ public class CardManager : MonoBehaviour
             case GameState.Previewing:
                 cardListUI.SetActive(false);
                 cardPanelUI.SetActive(false);
+                cardListUI.transform.position = cardListUIBeginPlace.position;
+                cardPanelUI.transform.position = cardPanelUIBeginPlace.position;
                 break;
             case GameState.SelectingCard:
                 foreach (Card card in cardList) if (card) card.setState(CardState.SelectingCard_Selected);
                 cardListUI.SetActive(true);
+                cardListUI.transform.DOMove(cardListUIEndPlace.position, UIMoveTime);
                 foreach (Card card in cardPanel) if (card) card.setState(CardState.SelectingCard_NotSelected);
                 cardPanelUI.SetActive(true);
+                cardPanelUI.transform.DOMove(cardPanelUIEndPlace.position, UIMoveTime);
+
                 break;
             case GameState.Ready:
-                foreach (Card card in cardList) if (card) card.setState(CardState.GameReady);
+                foreach (Card card in cardList)
+                {
+                    if (card)
+                    {
+                        card.transform.SetParent(cardListUI.transform);
+                        card.setState(CardState.GameReady);
+                    } 
+                }
                 cardListUI.SetActive(true);
-                cardPanelUI.SetActive(false);
+                cardPanelUI.transform.DOMove(cardPanelUIBeginPlace.position, UIMoveTime).OnComplete(() => GameManager.Instance.setState(GameState.Ready));
                 break;
             case GameState.Processing:
                 foreach (Card card in cardList) if (card) card.setState(CardState.CoolingDown);
@@ -120,14 +177,9 @@ public class CardManager : MonoBehaviour
         return false;
     }
 
-    private void moveToPlace(Card card, Transform trans)
-    {
-        card.transform.position = trans.transform.position;
-    }
-
     public void onCompleteSelectingCard()
     {
         AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_tap);
-        GameManager.Instance.setState(GameState.Ready);
+        setState(GameState.Ready);
     }
 }

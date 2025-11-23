@@ -32,7 +32,7 @@ public class Sunflower : Plant
     public void produceSun()
     {
         Sun sun = GameObject.Instantiate(sunPrefab, transform.position, Quaternion.identity);
-        sun.setState(SunState.ProducedbySunflower);
         sun.setTargetY(transform.position.y - 0.3f);
+        sun.setState(SunState.ProducedbySunflower);
     }
 }

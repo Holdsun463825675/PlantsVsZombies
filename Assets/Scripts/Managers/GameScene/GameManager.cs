@@ -82,6 +82,7 @@ public class GameManager : MonoBehaviour
             case GameState.Previewing:
                 GameSpeedManager.Instance.SetGameSpeed(1.0f);
                 UIManager.Instance.setState(GameState.Previewing);
+                CardManager.Instance.setState(GameState.Previewing);
                 AudioManager.Instance.playBgm(ResourceConfig.music_selectCard);
                 CameraManager.Instance.setState(GameState.Previewing);
                 CleanerManager.Instance.setState(GameState.Previewing);
@@ -96,12 +97,10 @@ public class GameManager : MonoBehaviour
             case GameState.Ready:
                 UIManager.Instance.setState(GameState.Ready);
                 CameraManager.Instance.setState(GameState.Ready);
-                CardManager.Instance.setState(GameState.Ready);
                 break;
             case GameState.Processing:
                 GameSpeedManager.Instance.SetGameSpeed(SettingSystem.Instance.settingsData.gameSpeed);
                 AudioManager.Instance.playBgm(ResourceConfig.music_day);
-                CameraManager.Instance.setState(GameState.Processing);
                 CleanerManager.Instance.setState(GameState.Processing);
                 CardManager.Instance.setState(GameState.Processing);
                 UIManager.Instance.setState(GameState.Processing);
@@ -114,7 +113,6 @@ public class GameManager : MonoBehaviour
                 UIManager.Instance.setState(GameState.Paused);
                 PlantManager.Instance.Pause();
                 ProductManager.Instance.Pause();
-                SunManager.Instance.Pause();
                 ZombieManager.Instance.Pause();
                 break;
             case GameState.Losing:
@@ -126,7 +124,6 @@ public class GameManager : MonoBehaviour
                 CardManager.Instance.setState(GameState.Losing);
                 PlantManager.Instance.Pause();
                 ProductManager.Instance.Pause();
-                SunManager.Instance.Pause();
                 ZombieManager.Instance.Pause();
                 break;
             case GameState.Winning:
@@ -164,7 +161,6 @@ public class GameManager : MonoBehaviour
         CleanerManager.Instance.setState(GameState.Processing);
         PlantManager.Instance.Continue();
         ProductManager.Instance.Continue();
-        SunManager.Instance.Continue();
         ZombieManager.Instance.Continue();
     }
 

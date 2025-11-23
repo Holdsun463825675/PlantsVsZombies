@@ -37,6 +37,8 @@ public class PeaShooter : Plant
         AudioManager.Instance.playClip(ResourceConfig.sound_plantshoot_throw);
         Pea pea = GameObject.Instantiate(peaPrefab, shootPlace.position, Quaternion.identity);
         pea.setState(PeaState.ToBeUsed);
+        float target_x = MapManager.Instance.currMap.endlinePositions[1].position.x;
+        pea.moveToPlace(new Vector3(target_x, shootPlace.position.y, shootPlace.position.z));
     }
 
 }

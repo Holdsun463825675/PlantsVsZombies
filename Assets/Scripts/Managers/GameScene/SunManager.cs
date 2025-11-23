@@ -22,12 +22,11 @@ public class SunManager : MonoBehaviour
     private float dropSunTimer;
     private List<Transform> dropSunPositions;
 
-    private List<Sun> sunList = new List<Sun>();
     public int Sun { get { return sun; } }
 
     public Sun sunPrefab;
     public TextMeshProUGUI sunText;
-    public GameObject collectedTarget;
+    public Transform collectedTarget;
     
 
     void Awake()
@@ -65,27 +64,6 @@ public class SunManager : MonoBehaviour
         dropSunPositions = MapManager.Instance.currMap.dropSunPositions;
     }
 
-    // ÔÝÍ£¼ÌÐø
-    public void Pause()
-    {
-        foreach (Sun sun in sunList) if (sun) sun.Pause();
-    }
-
-    public void Continue()
-    {
-        foreach (Sun sun in sunList) if (sun) sun.Continue();
-    }
-
-    public void addSun(Sun sun)
-    {
-        sunList.Add(sun);
-    }
-
-    public void removeSun(Sun sun)
-    {
-        sunList.Remove(sun);
-    }
-
     public void setIsDropSun(bool flag)
     {
         this.isDropSun = flag;
@@ -108,11 +86,6 @@ public class SunManager : MonoBehaviour
         if (sun > maxSun) sun = maxSun;
     }
 
-    public Vector2 getSunCollectedPosition()
-    {
-        return collectedTarget.transform.position;
-    }
-
     public void dropSun()
     {
         Vector2 begin_position = dropSunPositions[0].position;
@@ -121,7 +94,7 @@ public class SunManager : MonoBehaviour
         float begin_x = Random.Range(end_min_position.x, end_max_position.x), begin_y = begin_position.y;
         float end_y = Random.Range(end_min_position.y, end_max_position.y);
         Sun sun = GameObject.Instantiate(sunPrefab, new Vector3(begin_x, begin_y, 0), Quaternion.identity);
-        sun.setState(SunState.Vertical);
         sun.setTargetY(end_y);
+        sun.setState(SunState.Vertical);
     }
 }
