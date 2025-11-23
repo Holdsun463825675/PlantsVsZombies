@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3653197061336817033}
   - component: {fileID: 6892463725285930857}
   - component: {fileID: 2333555720181572096}
+  - component: {fileID: 5542274040628052336}
   m_Layer: 0
   m_Name: NormalZombie_Head
   m_TagString: Untagged
@@ -106,3 +107,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5542274040628052336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143894914790227004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db2449dd01e462498afc1e79eef140c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

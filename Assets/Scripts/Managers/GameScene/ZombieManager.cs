@@ -63,7 +63,7 @@ public class ZombieManager : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (GameManager.Instance.state == GameState.Paused || GameManager.Instance.state == GameState.Losing) return;
         switch (state)
@@ -178,7 +178,7 @@ public class ZombieManager : MonoBehaviour
         }
         // 出怪进度更新
         float speed = 1.0f / (float)zombieWaves.Count;
-        currProcess += speed * Time.fixedDeltaTime;
+        currProcess += speed * Time.deltaTime;
         if (currProcess > expectedProcess) currProcess = expectedProcess;
         UIManager.Instance.setLevelProcess(currProcess);
     }
@@ -198,7 +198,7 @@ public class ZombieManager : MonoBehaviour
         if (zombieList.Count > 0) lastDeadZombiePosition = zombieList[0].transform.position;
 
         
-        spawnTimer += Time.fixedDeltaTime;
+        spawnTimer += Time.deltaTime;
         levelProcessUpdate();
 
         // 小波
@@ -208,7 +208,7 @@ public class ZombieManager : MonoBehaviour
             if (spawnTimer >= spawnTime)
             {
                 spawnTimer = spawnTime;
-                waveDurationTimer += Time.fixedDeltaTime;
+                waveDurationTimer += Time.deltaTime;
                 if (waveDurationTimer >= normalWaveDuration) nextWave();
             }
         }
@@ -224,7 +224,7 @@ public class ZombieManager : MonoBehaviour
                     isPlayingHugeWave = true;
                     UIManager.Instance.playHugeWave();
                 }
-                waveDurationTimer += Time.fixedDeltaTime;
+                waveDurationTimer += Time.deltaTime;
                 if (waveDurationTimer >= hugeWaveDuration) nextWave();
             }
         }
@@ -232,7 +232,7 @@ public class ZombieManager : MonoBehaviour
 
     private void EndUpdate()
     {
-        spawnTimer += Time.fixedDeltaTime;
+        spawnTimer += Time.deltaTime;
         getSpawnTime();
         levelProcessUpdate();
         if (zombieList.Count > 0) lastDeadZombiePosition = zombieList[0].transform.position;

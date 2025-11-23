@@ -12,10 +12,7 @@ public class GameSpeedManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
+        Instance = this;
     }
 
     public void SetGameSpeed(float speed)

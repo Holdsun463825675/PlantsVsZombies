@@ -35,7 +35,7 @@ public class Card : MonoBehaviour
         costText.text = $"{cost}";
     }
 
-    void FixedUpdate()
+    void Update()
     {
         Card_Mask_CoolingDown.fillAmount = (cdTime - cdTimer) / cdTime;
         if (GameManager.Instance.state == GameState.Paused && state == CardState.CoolingDown) return;
@@ -116,7 +116,7 @@ public class Card : MonoBehaviour
 
     private void CoolingDownUpdate()
     {
-        cdTimer += Time.fixedDeltaTime;
+        cdTimer += Time.deltaTime;
 
         if (cdTimer >= cdTime)
         {

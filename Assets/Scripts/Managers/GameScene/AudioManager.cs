@@ -26,7 +26,7 @@ public class AudioManager : MonoBehaviour
         playBgm(ResourceConfig.music_mainMenu);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         audioSource.volume = SettingSystem.Instance.settingsData.music;
     }

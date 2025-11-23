@@ -33,7 +33,7 @@ public class CardManager : MonoBehaviour
 
     private Dictionary<Card, Tween> activeCardTweens = new Dictionary<Card, Tween>();
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (GameManager.Instance.state == GameState.SelectingCard)
         {
@@ -78,7 +78,6 @@ public class CardManager : MonoBehaviour
         // 创建新的Tween
         Tween tween = card.transform.DOMove(targetPlace.position, cardMoveTime)
             .SetEase(Ease.OutCubic)
-            .SetUpdate(UpdateType.Fixed) // 使用FixedUpdate更新
             .OnComplete(() =>
             {
                 // Tween完成后的清理

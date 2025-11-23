@@ -77,7 +77,7 @@ public class Plant : MonoBehaviour, IClickable
         setState(PlantState.Suspension);
     }
 
-    void FixedUpdate()
+    void Update()
     {
         HPText.text = $"{currHealth}/{maxHealth}";
         if (state == PlantState.Suspension) HPText.gameObject.SetActive(false);

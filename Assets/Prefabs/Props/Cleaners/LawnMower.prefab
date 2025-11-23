@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1315149122559563101}
   - component: {fileID: 8400387742245381970}
   - component: {fileID: 7533792521758291600}
+  - component: {fileID: 6113921258815807459}
   - component: {fileID: 2789654258571822680}
   m_Layer: 0
   m_Name: LawnMower
@@ -107,6 +108,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6113921258815807459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2340763000312541629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db2449dd01e462498afc1e79eef140c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!61 &2789654258571822680
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -95,7 +95,7 @@ public class Zombie : MonoBehaviour, IClickable
         priority.isClickable = true;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         HPText.text = $"{currHealth}/{maxHealth}";
         HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.zombieHealth);
@@ -128,7 +128,6 @@ public class Zombie : MonoBehaviour, IClickable
     {
         c2d.enabled = true;
         anim.SetBool(AnimatorConfig.zombie_game, true);
-        Debug.Log(anim.speed);
         losingGame = MapManager.Instance.currMap.endlinePositions[0];
         Vector3 target = new Vector3(losingGame.position.x, transform.position.y, transform.position.z);
         transform.DOMove(target, Vector3.Distance(target, transform.position) / speed)
@@ -244,7 +243,7 @@ public class Zombie : MonoBehaviour, IClickable
     {
         if (anim.GetBool(AnimatorConfig.zombie_game) == false || healthState == ZombieHealthState.LostHead || healthState == ZombieHealthState.Die) return;
         // ½©Ê¬½ÐÉù
-        groanTimer += Time.fixedDeltaTime;
+        groanTimer += Time.deltaTime;
         if (groanTimer >= groanTime)
         {
             int idx = Random.Range(0, ResourceConfig.sound_other_groans.Length);
@@ -299,11 +298,14 @@ public class Zombie : MonoBehaviour, IClickable
         kinematicsUpdate();
         if (Time.timeScale <= 0) return; // ÔÝÍ£Ê±²»µôÑª
 
-        healthLossTimer += Time.fixedDeltaTime;
-        if (healthLossTimer >= healthLossTime)
+        healthLossTimer += Time.deltaTime;
+        // TODO: ÐþÑ§
+        if (healthLossTimer >= healthLossTime / Time.timeScale)
         {
-            AddHealth(-(int)(healthLossTimer / healthLossTime));
-            healthLossTimer = healthLossTimer % healthLossTime;
+            //AddHealth(-(int)(healthLossTimer / healthLossTime));
+            //healthLossTimer = healthLossTimer % healthLossTime;
+            AddHealth(-1);
+            healthLossTimer = 0.0f;
         }
     }
 

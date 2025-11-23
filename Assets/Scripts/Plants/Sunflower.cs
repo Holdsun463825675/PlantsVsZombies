@@ -20,7 +20,7 @@ public class Sunflower : Plant
     {
         base.IdleUpdate();
 
-        produceTimer += Time.fixedDeltaTime;
+        produceTimer += Time.deltaTime;
         if (produceTimer >= produceTime)
         {
             setState(PlantState.Effect);

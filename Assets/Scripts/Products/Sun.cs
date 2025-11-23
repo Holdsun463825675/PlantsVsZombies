@@ -44,17 +44,18 @@ public class Sun : Product, IClickable
         priority.isClickable = true;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (GameManager.Instance.state == GameState.Paused || GameManager.Instance.state == GameState.Losing) return;
 
         // 自动收集
-        autoCollectedTimer += Time.fixedDeltaTime;
-        if (SettingSystem.Instance.settingsData.autoCollected && autoCollectedTimer > autoCollectedTime) setState(SunState.Collected);
+        autoCollectedTimer += Time.deltaTime;
+        if (SettingSystem.Instance.settingsData.autoCollected && 
+            autoCollectedTimer > autoCollectedTime / Time.timeScale) setState(SunState.Collected); // TODO: 玄学
 
         if (state == SunState.Stop)
         {
-            survivalTimer += Time.fixedDeltaTime;
+            survivalTimer += Time.deltaTime;
             if (survivalTimer >= survivalTime)
             {
                 ProductManager.Instance.removeProduct(this);

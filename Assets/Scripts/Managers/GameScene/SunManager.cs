@@ -43,13 +43,13 @@ public class SunManager : MonoBehaviour
         
     }
 
-    void FixedUpdate()
+    void Update()
     {
         sunText.text = sun.ToString();
         if (GameManager.Instance.state == GameState.Paused || GameManager.Instance.state == GameState.Losing) return;
 
         if (state == SunSpawnState.Disable) return;
-        dropSunTimer += Time.fixedDeltaTime;
+        dropSunTimer += Time.deltaTime;
         if (dropSunTimer > dropSunTime)
         {
             dropSun();

@@ -24,8 +24,9 @@ public class PeaShooter : Plant
     {
         base.IdleUpdate();
 
-        shootTimer += Time.fixedDeltaTime;
-        if (shootTimer >= shootTime)
+        shootTimer += Time.deltaTime;
+        // TODO: ะþัง
+        if (shootTimer >= shootTime / Time.timeScale)
         {
             if (shootPlace && targets.Count != 0) setState(PlantState.Effect);
             shootTimer = 0.0f;
