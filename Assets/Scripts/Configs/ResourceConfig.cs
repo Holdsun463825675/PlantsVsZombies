@@ -28,6 +28,27 @@ public class ResourceConfig
         "Audio/Sound/bullethit/splat2",
         "Audio/Sound/bullethit/splat3",
     };
+    public static readonly string[] sound_bullethit_plastichits = new string[]
+    {
+        "Audio/Sound/bullethit/plastichit",
+        "Audio/Sound/bullethit/plastichit2",
+    };
+    public static readonly string[] sound_bullethit_shieldhits = new string[]
+    {
+        "Audio/Sound/bullethit/shieldhit",
+        "Audio/Sound/bullethit/shieldhit2",
+    };
+    public static readonly string[] sound_bullethit_melonimpacts = new string[]
+    {
+        "Audio/Sound/bullethit/melonimpact",
+        "Audio/Sound/bullethit/melonimpact2",
+    };
+    public static readonly string[] sound_bullethit_kernelpults = new string[]
+    {
+        "Audio/Sound/bullethit/kernelpult",
+        "Audio/Sound/bullethit/kernelpult2",
+    };
+    public const string sound_bullethit_butter = "Audio/Sound/bullethit/butter";
 
     public static readonly string[] sound_other_groans = new string[]
     {

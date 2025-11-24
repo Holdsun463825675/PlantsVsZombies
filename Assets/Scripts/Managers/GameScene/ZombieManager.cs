@@ -96,7 +96,7 @@ public class ZombieManager : MonoBehaviour
         List<ZombieWave> zombieWaves, 
         float spawnMaxTime = 30.0f,
         float spawnTimer = 15.0f,
-        float healthPercentageThreshold = 0.5f)
+        float healthPercentageThreshold = 0.6f)
     {
         this.zombieID = zombieID;
         this.zombieWaves = zombieWaves;
@@ -120,6 +120,7 @@ public class ZombieManager : MonoBehaviour
                         if (zombie.zombieID == zombieID[i])
                         {
                             Zombie z = GameObject.Instantiate(zombie, randomPoint, Quaternion.identity).GetComponent<Zombie>();
+                            z.setSortingOrder((int)(5.0f - z.transform.position.y * 1000));
                             zombiePreviewingList.Add(z);
                         }
                     }
@@ -271,6 +272,8 @@ public class ZombieManager : MonoBehaviour
         if (currWaveNumber + 1 == zombieWaves.Count) UIManager.Instance.playFinalWave(); // 最后一波
         lastWaveZombieHealth = 0;
         lastWaveZombieList.Clear();
+        if (zombieWaves[currWaveNumber].largeWave) spawnOneZombie(ZombieID.FlagZombie); // 大波生成旗帜僵尸
+        for (int i = 0; i < zombieWaves[currWaveNumber].certainlySpawn; i++) spawnOneZombie(zombieWaves[currWaveNumber].zombieIDs[i]); // 必定生成的僵尸
         while (currWaveSurplusWeight > 0.0f) spawnOneZombie();
     }
 
@@ -350,7 +353,6 @@ public class ZombieManager : MonoBehaviour
             AudioManager.Instance.playClip(ResourceConfig.sound_textsound_siren);
             UIManager.Instance.Flags[currLargeWave++].GetComponent<Animator>().enabled = true;
             isPlayingHugeWave = false;
-            spawnOneZombie(ZombieID.FlagZombie); // 生成旗帜僵尸
         }
         spawnZombie();
         currWaveNumber++;

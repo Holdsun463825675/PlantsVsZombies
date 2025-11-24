@@ -27,15 +27,13 @@ public class LevelConfigs
             startingSun = 1000,
             cardType = TypeOfCard.Autonomy,
 
-            zombieID = new List<ZombieID> {
-                ZombieID.NormalZombie
-            },
+            zombieID = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.BucketZombie, ZombieID.FootballZombie},
             zombieWaves = new List<ZombieWave> {
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 2.0f,largeWave = true},
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 2.0f,largeWave = true},
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 2.0f,largeWave = true},
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 2.0f,largeWave = true},
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 2.0f,largeWave = true},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 1.0f,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ConeHeadZombie},spawnWeight = 2.0f,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.BucketZombie},spawnWeight = 4.0f,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.FootballZombie},spawnWeight = 6.0f,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.FootballZombie, ZombieID.BucketZombie, ZombieID.ConeHeadZombie, ZombieID.NormalZombie},spawnWeight = 15.0f,largeWave = true,certainlySpawn = 3},
             },
             spawnTimer = 28.0f,
         });
@@ -53,9 +51,7 @@ public class LevelConfigs
             startingSun = 150,
             cardType = TypeOfCard.Autonomy,
 
-            zombieID = new List<ZombieID> {
-                ZombieID.NormalZombie
-            },
+            zombieID = new List<ZombieID> {ZombieID.NormalZombie},
             zombieWaves = new List<ZombieWave> {
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 1.0f,largeWave = false},
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 1.0f,largeWave = false},
@@ -77,9 +73,7 @@ public class LevelConfigs
             startingSun = 50,
             cardType = TypeOfCard.Autonomy,
 
-            zombieID = new List<ZombieID> {
-                ZombieID.NormalZombie
-            },
+            zombieID = new List<ZombieID> {ZombieID.NormalZombie},
             zombieWaves = new List<ZombieWave> {
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 1.0f,largeWave = false},
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 1.0f,largeWave = false},

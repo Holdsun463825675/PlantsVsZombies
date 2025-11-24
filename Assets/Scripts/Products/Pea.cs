@@ -83,8 +83,7 @@ public class Pea : Product
             if (target)
             {
                 target.UnderAttack(attackPoint);
-                int idx = Random.Range(0, ResourceConfig.sound_bullethit_splats.Length);
-                AudioManager.Instance.playClip(ResourceConfig.sound_bullethit_splats[idx]);
+                AudioManager.Instance.playHitClip(this, target);
             }
             ProductManager.Instance.removeProduct(this);
             Destroy(gameObject, 1);

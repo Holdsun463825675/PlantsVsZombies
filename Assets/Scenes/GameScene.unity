@@ -6458,6 +6458,9 @@ MonoBehaviour:
   zombiePrefabList:
   - {fileID: 4830124518830002080, guid: ea73b058e42a5324385760968c721425, type: 3}
   - {fileID: 499211846909925685, guid: a404df31bfa346f459bc4f3f1f487402, type: 3}
+  - {fileID: 1359318295134815022, guid: 7b6412a5764a01d4b8979961dff5072e, type: 3}
+  - {fileID: 6481633356066568012, guid: 0ed2750702e08e644be301a768307185, type: 3}
+  - {fileID: 3820642943901012786, guid: 3860b3377cc1ba84d9e69dfbd9776166, type: 3}
 --- !u!114 &1315778095
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -85,3 +85,5 @@ Thumbs.db
 
 # Project-specific ignore rules
 /[Pp]rojectSettings/Packages/
+Assets/TextMesh Pro/Fonts/SIMKAI SDF.asset
+Assets/TextMesh Pro/Fonts/SIMKAI SDF.asset.meta

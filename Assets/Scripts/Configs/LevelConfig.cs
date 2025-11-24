@@ -41,4 +41,5 @@ public class ZombieWave
     public List<ZombieID> zombieIDs; // 会出现的僵尸
     public float spawnWeight; // 出怪权重
     public bool largeWave; // 是否为大波
+    public int certainlySpawn = 0; // 必定出现的前几种僵尸
 }

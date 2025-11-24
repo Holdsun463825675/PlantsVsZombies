@@ -9,6 +9,9 @@ public enum ZombieID
     None,
     NormalZombie,
     FlagZombie,
+    ConeHeadZombie,
+    BucketZombie,
+    FootballZombie,
 }
 
 public enum ZombieMoveState
@@ -25,15 +28,24 @@ public enum ZombieHealthState
     Die
 }
 
+public enum ZombieUnderAttackSound
+{
+    Splat,
+    Plastic,
+    Shield,
+}
+
 public class Zombie : MonoBehaviour, IClickable
 {
     // 需继承实现
     public ZombieID zombieID;
     protected float baseSpeed;
     protected float speed;
+
     protected int maxHealth, currHealth;
     protected int maxArmor1Health, currArmor1Health;
     protected int maxArmor2Health, currArmor2Health;
+
     protected int attackPoint;
     protected bool isLostHealth;
     public float spawnWeight;
@@ -50,6 +62,9 @@ public class Zombie : MonoBehaviour, IClickable
     private ZombieMoveState moveState;
     private ZombieHealthState healthState;
 
+    public ZombieUnderAttackSound underAttackSound;
+    public int underAttackSoundPriority;
+
     private TextMeshPro HPText;
     private Transform lostHeadPlace;
     private List<Plant> targets;
@@ -63,9 +78,11 @@ public class Zombie : MonoBehaviour, IClickable
         zombieID = ZombieID.None;
         baseSpeed = 0.2f;
         speed = Random.Range(1.0f, 2.0f) * baseSpeed;
+
         maxHealth = 270; currHealth = maxHealth;
         maxArmor1Health = 0; currArmor1Health = maxArmor1Health;
         maxArmor2Health = 0; currArmor2Health = maxArmor2Health;
+
         attackPoint = 50;
         isLostHealth = false;
         spawnWeight = 1.0f;
@@ -76,6 +93,10 @@ public class Zombie : MonoBehaviour, IClickable
         healthLossTime = 0.05f; healthLossTimer = 0.0f;
         dieMode = 0;
         moveState = ZombieMoveState.Stop;
+
+        underAttackSound = ZombieUnderAttackSound.Splat;
+        underAttackSoundPriority = 1;
+
         targets = new List<Plant>();
         anim = GetComponent<Animator>();
         anim.SetBool(AnimatorConfig.zombie_game, false);
@@ -95,14 +116,18 @@ public class Zombie : MonoBehaviour, IClickable
         priority.isClickable = true;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
-        HPText.text = $"{currHealth}/{maxHealth}";
+        HPText.text = $"HP: {currHealth}/{maxHealth}";
+        if (currArmor1Health > 0) HPText.text = $"A1: {currArmor1Health}/{maxArmor1Health}\n" + HPText.text;
+        if (currArmor2Health > 0) HPText.text = $"A2: {currArmor2Health}/{maxArmor2Health}\n" + HPText.text;
+
         HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.zombieHealth);
         if (GameManager.Instance.state == GameState.Paused || GameManager.Instance.state == GameState.Losing) return;
 
         HealthPercentage = (float)currHealth / (float)maxHealth;
         anim.SetFloat(AnimatorConfig.zombie_healthPercentage, HealthPercentage);
+        anim.SetFloat(AnimatorConfig.zombie_armor1HealthPercentage, maxArmor1Health == 0.0f ? 0.0f : (float)currArmor1Health / (float)maxArmor1Health);
         anim.SetFloat(AnimatorConfig.zombie_speedLevel, speedLevel);
         if (HealthPercentage >= 0.666f) setHealthState(ZombieHealthState.Healthy);
         if (HealthPercentage >= 0.333f && HealthPercentage < 0.666f) setHealthState(ZombieHealthState.LostArm);
@@ -177,12 +202,12 @@ public class Zombie : MonoBehaviour, IClickable
 
     public int getMaxHealth()
     {
-        return maxHealth;
+        return maxHealth + maxArmor1Health + maxArmor2Health;
     }
 
     public int getCurrHealth()
     {
-        return currHealth;
+        return currHealth + currArmor1Health + currArmor2Health;
     }
 
     public int setSortingOrder(int sortingOrder)
@@ -253,18 +278,34 @@ public class Zombie : MonoBehaviour, IClickable
         }
     }
 
-    public void AddHealth(int point)
+    public void AddCurrHealth(int point)
     {
         currHealth += point;
         if (currHealth > maxHealth) currHealth = maxHealth;
         if (currHealth <= 0) currHealth = 0;
     }
 
+    public int AddArmor1Health(int point) // 返回溢出的扣血伤害
+    {
+        currArmor1Health += point;
+        if (currArmor1Health > maxArmor1Health) currArmor1Health = maxArmor1Health;
+        if (currArmor1Health < 0)
+        {
+            int res = -currArmor1Health;
+            currArmor1Health = 0;
+            return res;
+        }
+        return 0;
+    }
+
     public void UnderAttack(int point, int mode=0)
     {
         dieMode = mode;
         anim.SetBool(AnimatorConfig.zombie_underAttack, true);
-        AddHealth(-(int)((float)point * SettingSystem.Instance.settingsData.hurtRate)); // 根据受伤比例计算伤害
+        int hurtPoint = (int)((float)point * SettingSystem.Instance.settingsData.hurtRate); // 根据受伤比例计算伤害
+
+        if (currArmor1Health > 0) AddCurrHealth(-AddArmor1Health(-hurtPoint));
+        else AddCurrHealth(-hurtPoint);
     }
 
     protected virtual void Attack()
@@ -304,7 +345,7 @@ public class Zombie : MonoBehaviour, IClickable
         {
             //AddHealth(-(int)(healthLossTimer / healthLossTime));
             //healthLossTimer = healthLossTimer % healthLossTime;
-            AddHealth(-1);
+            AddCurrHealth(-1);
             healthLossTimer = 0.0f;
         }
     }
@@ -333,6 +374,8 @@ public class Zombie : MonoBehaviour, IClickable
     public void kill(int dieMode=0)
     {
         this.dieMode = dieMode;
+        currArmor2Health = 0;
+        currArmor1Health = 0;
         currHealth = 0;
     }
 }
