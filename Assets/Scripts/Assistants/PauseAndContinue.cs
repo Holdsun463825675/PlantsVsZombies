@@ -12,7 +12,7 @@ public class PauseAndContinue : MonoBehaviour
     {
         AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_gravebutton);
         GameManager.Instance.PauseAndContinue();
-        if (GameManager.Instance.state == GameState.Paused) buttonText.text = "Continue";
-        else buttonText.text = "Pause";
+        if (GameManager.Instance.state == GameState.Paused) buttonText.text = "¼ÌÐø";
+        else buttonText.text = "ÔÝÍ£";
     }
 }
