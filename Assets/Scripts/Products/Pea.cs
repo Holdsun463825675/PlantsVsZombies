@@ -54,6 +54,7 @@ public class Pea : Product
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (target != null) return; // 保证只攻击一个目标
         if (collision.tag == TagConfig.zombie)
         {
             target = collision.GetComponent<Zombie>();
@@ -63,6 +64,8 @@ public class Pea : Product
 
     public void setState(PeaState state)
     {
+        if (this.state == state) return;
+        this.state = state;
         if (state == PeaState.ToBeUsed)
         {
             c2d.enabled = true;
@@ -88,7 +91,6 @@ public class Pea : Product
             ProductManager.Instance.removeProduct(this);
             Destroy(gameObject, 1);
         }
-        this.state = state;
     }
 
     public void moveToPlace(Vector3 position, float speed=5.0f)

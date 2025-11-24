@@ -85,6 +85,8 @@ public class UIManager : MonoBehaviour
                 AudioManager.Instance.playClip(ResourceConfig.sound_lose_scream);
                 break;
             case GameState.Winning:
+                MenuButton.GetComponent<Button>().enabled = false;
+                PauseAndContinue.GetComponent<Button>().enabled = false;
                 WinAward.SetActive(true);
                 break;
             default:
