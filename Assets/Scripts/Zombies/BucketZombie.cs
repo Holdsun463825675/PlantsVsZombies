@@ -9,7 +9,7 @@ public class BucketZombie : Zombie
         base.Awake();
         zombieID = ZombieID.BucketZombie;
         spawnWeight = 4.0f;
-        maxArmor1Health = 1110; currArmor1Health = maxArmor1Health;
+        maxArmor1Health = 1100; currArmor1Health = maxArmor1Health;
 
         underAttackSound = ZombieUnderAttackSound.Shield;
         underAttackSoundPriority = 2;

@@ -9,10 +9,10 @@ public class FootballZombie : Zombie
         base.Awake();
         zombieID = ZombieID.FootballZombie;
         spawnWeight = 6.0f;
-        baseSpeed = 0.2f;
-        speed = Random.Range(0.5f, 0.7f);
+        baseSpeed = 0.1f;
+        speed = Random.Range(0.5f, 0.6f);
         speedLevel = (speed - 0.5f) / baseSpeed;
-        maxArmor1Health = 1200; currArmor1Health = maxArmor1Health;
+        maxArmor1Health = 1400; currArmor1Health = maxArmor1Health;
 
         underAttackSound = ZombieUnderAttackSound.Plastic;
         underAttackSoundPriority = 1;

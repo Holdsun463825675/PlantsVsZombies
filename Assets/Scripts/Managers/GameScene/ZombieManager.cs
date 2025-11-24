@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -31,7 +32,8 @@ public class ZombieManager : MonoBehaviour
     private Vector2 lastDeadZombiePosition;
     private PolygonCollider2D zombiePreviewingPlace;
     private List<Transform> zombieSpawnPlaceList;
-    
+
+    private List<int> zombieNum; // 每一行的僵尸数量，控制每波出怪
     private List<Zombie> zombieList = new List<Zombie>();
     private List<Zombie> lastWaveZombieList = new List<Zombie>();
 
@@ -86,6 +88,7 @@ public class ZombieManager : MonoBehaviour
     {
         zombiePreviewingPlace = MapManager.Instance.currMap.zombiePreviewingPlace;
         zombieSpawnPlaceList = MapManager.Instance.currMap.zombieSpawnPositions;
+        zombieNum = new int[zombieSpawnPlaceList.Count].ToList();
         orderInLayers = new int[zombieSpawnPlaceList.Count];
         for (int i = 0; i < orderInLayers.Length; i++) orderInLayers[i] = i * rowMaxSortingOrder;
         spawnProtection = new int[zombieSpawnPlaceList.Count];
@@ -267,9 +270,23 @@ public class ZombieManager : MonoBehaviour
         }
     }
 
+    public int getMinZombieNumRow() // 获取当前出怪数量最少的行
+    {
+        if (zombieNum == null || zombieNum.Count == 0) return -1;
+
+        float minValue = zombieNum.Min();
+        var minIndices = zombieNum.Select((value, index) => new { value, index })
+                            .Where(x => Mathf.Approximately(x.value, minValue))
+                            .Select(x => x.index)
+                            .ToList();
+
+        return minIndices[Random.Range(0, minIndices.Count)];
+    }
+
     private void spawnZombie()
     {
         if (currWaveNumber + 1 == zombieWaves.Count) UIManager.Instance.playFinalWave(); // 最后一波
+        zombieNum = new int[zombieSpawnPlaceList.Count].ToList();
         lastWaveZombieHealth = 0;
         lastWaveZombieList.Clear();
         if (zombieWaves[currWaveNumber].largeWave) spawnOneZombie(ZombieID.FlagZombie); // 大波生成旗帜僵尸
@@ -302,14 +319,21 @@ public class ZombieManager : MonoBehaviour
             if (!zombiePrefab) return;
         }
 
-        // 在某一行生成
-        int row = 0;
-        while (true)
+        // 在僵尸数量最少的行生成
+        int row = getMinZombieNumRow();
+        zombieNum[row]++;
+        if (spawnProtection[row] > 0)
         {
-            // 随机行
-            row = Random.Range(0, zombieSpawnPlaceList.Count);
-            if (spawnProtection[row] == 0) break;
+            spawnOneZombie(ID); // 有出怪保护则重新生成
+            return;
         }
+        //int row = 0;
+        //while (true)
+        //{
+        //    // 随机行
+        //    row = Random.Range(0, zombieSpawnPlaceList.Count);
+        //    if (spawnProtection[row] == 0) break;
+        //}
 
         Zombie zombie = GameObject.Instantiate(zombiePrefab, zombieSpawnPlaceList[row].position, Quaternion.identity);
         if (zombie)
