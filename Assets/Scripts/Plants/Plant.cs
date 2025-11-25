@@ -11,6 +11,7 @@ public enum PlantID
     Sunflower,
     CherryBomb,
     WallNut,
+    Repeater,
 }
 
 public enum PlantState
@@ -91,12 +92,12 @@ public class Plant : MonoBehaviour, IClickable
     }
 
     // ÔÝÍ£¼ÌÐø¹¦ÄÜ
-    public void Pause()
+    public virtual void Pause()
     {
         if (state != PlantState.Suspension) anim.enabled = false;
     }
 
-    public void Continue()
+    public virtual void Continue()
     {
         if (state != PlantState.Suspension) anim.enabled = true;
     }
