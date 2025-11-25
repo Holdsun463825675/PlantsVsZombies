@@ -445,7 +445,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.30098623, y: 0.63485074}
+  m_Offset: {x: -0.30098623, y: 0.50886714}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.68, y: 0.18}
@@ -456,7 +456,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.3946072, y: 1.4000001}
+  m_Size: {x: 0.3946072, y: 1.1480329}
   m_EdgeRadius: 0
 --- !u!50 &8675972934703587791
 Rigidbody2D:
@@ -500,3 +500,5 @@ MonoBehaviour:
   zombieID: 4
   spawnWeight: 4
   zombieHeadPrefab: {fileID: 1143894914790227004, guid: 7cb14b8ed54ed8a43a393cba0fb33cc6, type: 3}
+  underAttackSound: 0
+  underAttackSoundPriority: 0

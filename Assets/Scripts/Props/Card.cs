@@ -78,9 +78,8 @@ public class Card : MonoBehaviour
                 Card_Mask_CoolingDown.gameObject.SetActive(false);
                 break;
             case CardState.GameReady:
-                Card_Mask_CoolingDown.fillAmount = 1.0f;
                 Card_Mask_Unavailable.gameObject.SetActive(true);
-                Card_Mask_CoolingDown.gameObject.SetActive(true);
+                Card_Mask_CoolingDown.gameObject.SetActive(false);
                 break;
             case CardState.Ready:
                 Card_Mask_Unavailable.gameObject.SetActive(false);

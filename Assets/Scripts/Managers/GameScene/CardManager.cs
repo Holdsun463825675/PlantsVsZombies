@@ -14,15 +14,15 @@ public class CardManager : MonoBehaviour
     private float UIMoveTime = 0.2f;
     private float cardMoveTime = 0.2f;
     private List<Card> cardList = new List<Card>();
+    public List<Transform> cardListCardPlace;
     public List<Card> cardPanel;
+    public List<Transform> cardPanelCardPlace;
 
     public Transform cardListUIBeginPlace;
     public Transform cardListUIEndPlace;
     public Transform cardPanelUIBeginPlace;
     public Transform cardPanelUIEndPlace;
     public Button readyButton;
-    public List<Transform> cardListCardPlace;
-    public List<Transform> cardPanelCardPlace;
 
     private void Awake()
     {

@@ -9,6 +9,8 @@ public class PeaShooter : AttackPlant
     protected override void Awake()
     {
         base.Awake();
+        id = PlantID.PeaShooter;
+        type = PlantType.Normal;
         attackTime = 1.5f;
         attackTimer = Random.Range(0.0f, attackTime);
     }

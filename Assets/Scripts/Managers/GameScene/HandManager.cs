@@ -6,7 +6,6 @@ public class HandManager : MonoBehaviour
 {
     public static HandManager Instance { get; private set; }
 
-    public List<Plant> plantList;
     private Plant currPlant = null;
     private Card currCard = null;
 
@@ -74,7 +73,7 @@ public class HandManager : MonoBehaviour
 
     private Plant GetPlantPrefab(PlantID plantID)
     {
-        foreach (Plant plant in plantList)
+        foreach (Plant plant in PlantManager.Instance.plantPrefabList)
         {
             if (plant.id == plantID) return plant;
         }
@@ -86,7 +85,7 @@ public class HandManager : MonoBehaviour
         if (!currPlant) return;
 
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mouseWorldPosition.z = 0;
-        currPlant.transform.position = mouseWorldPosition;
+        Vector3 plantPosition = new Vector3(mouseWorldPosition.x, mouseWorldPosition.y - 0.5f, 0);
+        currPlant.transform.position = plantPosition;
     }
 }

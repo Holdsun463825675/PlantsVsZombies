@@ -454,7 +454,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.39999962, y: 1.4309483}
+  m_Size: {x: 0.4, y: 1.15}
   m_EdgeRadius: 0
 --- !u!50 &8675972934703587791
 Rigidbody2D:
@@ -498,3 +498,5 @@ MonoBehaviour:
   zombieID: 2
   spawnWeight: 1
   zombieHeadPrefab: {fileID: 1143894914790227004, guid: 7cb14b8ed54ed8a43a393cba0fb33cc6, type: 3}
+  underAttackSound: 0
+  underAttackSoundPriority: 0

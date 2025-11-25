@@ -9,6 +9,8 @@ public class Sunflower : ProductionPlant
     protected override void Awake()
     {
         base.Awake();
+        id = PlantID.Sunflower;
+        type = PlantType.Normal;
         produceTimer = 17.0f + Random.Range(0.0f, 2.0f);
     }
 

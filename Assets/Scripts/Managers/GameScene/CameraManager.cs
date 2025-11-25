@@ -9,6 +9,7 @@ public class CameraManager : MonoBehaviour
     public static CameraManager Instance { get; private set; }
 
     public GameObject UI;
+    public Canvas cardUI;
     private List<Transform> UIPlaces;
 
     private float previewPauseTime = 1.5f;
@@ -42,11 +43,13 @@ public class CameraManager : MonoBehaviour
                 UI.transform.position = losingPlace.position;
                 break;
             case GameState.Previewing:
+                cardUI.sortingLayerName = "Foreground";
                 previewingPause();
                 break;
             case GameState.SelectingCard:
                 break;
             case GameState.Ready:
+                cardUI.sortingLayerName = "CardList";
                 readyMove();
                 break;
             case GameState.Processing:

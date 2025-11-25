@@ -9,7 +9,7 @@ public enum PlantID
     None,
     PeaShooter,
     Sunflower,
-    CherryBomb
+    CherryBomb,
 }
 
 public enum PlantState
@@ -27,11 +27,11 @@ public enum PlantType
 
 public class Plant : MonoBehaviour, IClickable
 {
-    private PlantState state = PlantState.None;
+    protected PlantState state = PlantState.None;
     public PlantID id = PlantID.None;
     public PlantType type = PlantType.Normal;
 
-    private int maxHealth, currHealth;
+    protected int maxHealth, currHealth;
     private TextMeshPro HPText;
     private Transform shadow;
 
@@ -138,8 +138,8 @@ public class Plant : MonoBehaviour, IClickable
                 if (HPText) HPText.gameObject.SetActive(false);
                 if (shadow) shadow.gameObject.SetActive(false);
                 if (cell) cell.setFlag(type, false);
-                Destroy(gameObject);
                 spriteRenderer.sortingLayerName = "Plant";
+                Destroy(gameObject);
                 break;
             default:
                 break;
@@ -151,14 +151,14 @@ public class Plant : MonoBehaviour, IClickable
         this.cell = cell; 
     }
 
-    public void AddHealth(int point)
+    protected virtual void AddHealth(int point)
     {
         currHealth += point;
         if (currHealth > maxHealth) currHealth = maxHealth;
         if (currHealth <= 0) setState(PlantState.Die);
     }
 
-    public void UnderAttack(int point)
+    public virtual void UnderAttack(int point, int type=0)
     {
         AddHealth(-point);
         anim.SetBool(AnimatorConfig.plant_underAttack, true);

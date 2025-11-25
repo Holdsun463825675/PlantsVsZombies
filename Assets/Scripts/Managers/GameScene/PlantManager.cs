@@ -6,6 +6,7 @@ public class PlantManager : MonoBehaviour
 {
     public static PlantManager Instance { get; private set; }
 
+    public List<Plant> plantPrefabList;
     private List<Plant> plantList = new List<Plant>();
 
     private void Awake()
