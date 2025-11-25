@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
         SunManager.Instance.getMap();
         ZombieManager.Instance.getMap();
         // 时间
+        // 音乐
         // 是否掉落阳光
         SunManager.Instance.setIsDropSun(currLevelConfig.dropSun);
         // 初始阳光
@@ -100,7 +101,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Processing:
                 GameSpeedManager.Instance.SetGameSpeed(SettingSystem.Instance.settingsData.gameSpeed);
-                AudioManager.Instance.playBgm(ResourceConfig.music_day);
+                AudioManager.Instance.playBgm(currLevelConfig.music);
                 CleanerManager.Instance.setState(GameState.Processing);
                 CardManager.Instance.setState(GameState.Processing);
                 UIManager.Instance.setState(GameState.Processing);

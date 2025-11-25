@@ -10,6 +10,7 @@ public class LevelConfig
     public string levelName; // 关卡名称
     public int mapID; // 地图
     public TimeOfDay time; // 时间
+    public string music; // 背景音乐
     public bool dropSun; // 是否掉落阳光
     public int startingSun; // 初始阳光
     public bool cleaner = true; // 是否有小推车

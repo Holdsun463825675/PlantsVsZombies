@@ -13,12 +13,12 @@ public class Pea : Product
 {
     private int attackPoint = 20;
     public float speed = 5.0f;
+    public Effect peaBulletHitPrefab;
 
     private PeaState state;
 
     private Transform shadow;
     private SpriteRenderer sr;
-    private Animator peaBulletHitAnim;
     private Collider2D c2d;
 
     private Zombie target;
@@ -30,12 +30,6 @@ public class Pea : Product
         sr = GetComponent<SpriteRenderer>();
         c2d = GetComponent<Collider2D>();
         Transform child = transform.Find("PeaBulletHit");
-        if (child) peaBulletHitAnim = child.GetComponent<Animator>();
-        if (peaBulletHitAnim)
-        {
-            peaBulletHitAnim.enabled = false;
-            peaBulletHitAnim.gameObject.SetActive(false);
-        }
         setState(PeaState.ToBeUsed);
     }
 
@@ -43,13 +37,11 @@ public class Pea : Product
     public override void Pause()
     {
         transform.DOPause();
-        if (state == PeaState.Used && peaBulletHitAnim) peaBulletHitAnim.enabled = false;
     }
 
     public override void Continue()
     {
         transform.DOPlay();
-        if (state == PeaState.Used && peaBulletHitAnim) peaBulletHitAnim.enabled = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -78,18 +70,16 @@ public class Pea : Product
             c2d.enabled = false;
             if (shadow) shadow.gameObject.SetActive(false);
             sr.enabled = false;
-            if (peaBulletHitAnim)
-            {
-                peaBulletHitAnim.gameObject.SetActive(true);
-                peaBulletHitAnim.enabled = true;
-            }
             if (target)
             {
                 target.UnderAttack(attackPoint);
                 AudioManager.Instance.playHitClip(this, target);
+                //生成特效
+                Debug.Log(transform.position);
+                GameObject.Instantiate(peaBulletHitPrefab, transform.position, Quaternion.identity);
             }
             ProductManager.Instance.removeProduct(this);
-            Destroy(gameObject, 1);
+            Destroy(gameObject);
         }
     }
 

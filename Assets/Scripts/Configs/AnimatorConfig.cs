@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class AnimatorConfig
 {
-    public const string plant_isEffect = "isEffect";
+    public const string plant_Attack = "Attack";
+    public const string plant_Produce = "Produce";
     public const string plant_underAttack = "UnderAttack";
 
     public const string zombie_game = "Game";

@@ -7,6 +7,13 @@ public class ResourceConfig
     public const string music_mainMenu = "Audio/Music/MainMenu";
     public const string music_selectCard = "Audio/Music/SelectCard";
     public const string music_day = "Audio/Music/Day";
+    public const string music_night = "Audio/Music/Night";
+    public const string music_pool = "Audio/Music/Pool";
+    public const string music_fog = "Audio/Music/Fog";
+    public const string music_roof = "Audio/Music/Roof";
+    public const string music_loon = "Audio/Music/loon";
+    public const string music_ultimateBattle = "Audio/Music/UltimateBattle";
+
 
     public const string sound_buttonandputdown_bleep = "Audio/Sound/buttonandputdown/bleep";
     public const string sound_buttonandputdown_buttonclick = "Audio/Sound/buttonandputdown/buttonclick";

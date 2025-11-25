@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public enum PlantID
 {
@@ -13,9 +14,9 @@ public enum PlantID
 
 public enum PlantState
 {
+    None,
     Suspension,
     Idle,
-    Effect,
     Die
 }
 
@@ -26,10 +27,8 @@ public enum PlantType
 
 public class Plant : MonoBehaviour, IClickable
 {
-    public string shootPlaceColliderName = "ShootPlace";
-
-    private PlantState state;
-    public PlantID id = PlantID.PeaShooter;
+    private PlantState state = PlantState.None;
+    public PlantID id = PlantID.None;
     public PlantType type = PlantType.Normal;
 
     private int maxHealth, currHealth;
@@ -39,33 +38,21 @@ public class Plant : MonoBehaviour, IClickable
     private Cell cell;
 
     private SpriteRenderer spriteRenderer;
-    private Animator anim;
+    protected Animator anim;
     private Collider2D c2d;
-    private Collider2D shootPlaceCollider;
-
-    protected List<Zombie> targets;
 
     protected virtual void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         c2d = GetComponent<Collider2D>();
         maxHealth = 300; currHealth = maxHealth;
-        cell = null; targets = new List<Zombie>();
+        cell = null;
         anim = GetComponent<Animator>();
         Transform child = transform.Find("HPText");
         if (child) HPText = child.GetComponent<TextMeshPro>();
         if (HPText) HPText.gameObject.SetActive(false);
         shadow = transform.Find("Shadow");
         if (shadow) shadow.gameObject.SetActive(false);
-
-        // 设置子物体碰撞器
-        child = transform.Find(shootPlaceColliderName);
-        if (child) shootPlaceCollider = child.GetComponent<Collider2D>();
-        if (shootPlaceCollider)
-        {
-            shootPlaceCollider.GetComponent<TriggerForwarder>().SetParentHandler(this);
-            shootPlaceCollider.enabled = false;
-        }
         PlantManager.Instance.addPlant(this);
     }
 
@@ -93,9 +80,6 @@ public class Plant : MonoBehaviour, IClickable
                 break;
             case PlantState.Idle:
                 IdleUpdate();
-                break;
-            case PlantState.Effect:
-                EffectUpdate();
                 break;
             case PlantState.Die:
                 DieUpdate();
@@ -126,47 +110,39 @@ public class Plant : MonoBehaviour, IClickable
         return state; 
     }
 
-    public void setState(PlantState state)
+    public virtual void setState(PlantState state)
     {
-        if (state == PlantState.Suspension)
+        if (this.state == state) return;
+        this.state = state;
+        switch (state)
         {
-            this.state = state;
-            if (HPText) HPText.gameObject.SetActive(false);
-            if (shadow) shadow.gameObject.SetActive(false);
-            if (shootPlaceCollider) shootPlaceCollider.enabled = false;
-            anim.enabled = false;
-            c2d.enabled = false;
-            if (cell) cell.setFlag(type, false);
-            spriteRenderer.sortingLayerName = "Hand";
-        }
-        if (state == PlantState.Idle)
-        {
-            this.state = state;
-            if (HPText) HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.plantHealth);
-            if (shadow) shadow.gameObject.SetActive(true);
-            if (shootPlaceCollider) shootPlaceCollider.enabled = true;
-            if (GameManager.Instance.state != GameState.Paused) anim.enabled = true;
-            c2d.enabled = true;
-            spriteRenderer.sortingLayerName = "Plant";
-        }
-        if (state == PlantState.Effect)
-        {
-            if (HPText) HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.plantHealth);
-            if (shadow) shadow.gameObject.SetActive(true);
-            if (shootPlaceCollider) shootPlaceCollider.enabled = true;
-            anim.SetTrigger(AnimatorConfig.plant_isEffect);
-            c2d.enabled = true;
-            spriteRenderer.sortingLayerName = "Plant";
-        }
-        if (state == PlantState.Die)
-        {
-            this.state = state;
-            if (HPText) HPText.gameObject.SetActive(false);
-            if (shadow) shadow.gameObject.SetActive(false);
-            if (shootPlaceCollider) shootPlaceCollider.enabled = false;
-            if (cell) cell.setFlag(type, false);
-            Destroy(gameObject);
-            spriteRenderer.sortingLayerName = "Plant";
+            case PlantState.Suspension:
+                this.state = state;
+                if (HPText) HPText.gameObject.SetActive(false);
+                if (shadow) shadow.gameObject.SetActive(false);
+                anim.enabled = false;
+                c2d.enabled = false;
+                if (cell) cell.setFlag(type, false);
+                spriteRenderer.sortingLayerName = "Hand";
+                break;
+            case PlantState.Idle:
+                this.state = state;
+                if (HPText) HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.plantHealth);
+                if (shadow) shadow.gameObject.SetActive(true);
+                if (GameManager.Instance.state != GameState.Paused) anim.enabled = true;
+                c2d.enabled = true;
+                spriteRenderer.sortingLayerName = "Plant";
+                break;
+            case PlantState.Die:
+                this.state = state;
+                if (HPText) HPText.gameObject.SetActive(false);
+                if (shadow) shadow.gameObject.SetActive(false);
+                if (cell) cell.setFlag(type, false);
+                Destroy(gameObject);
+                spriteRenderer.sortingLayerName = "Plant";
+                break;
+            default:
+                break;
         }
     }
 
@@ -198,32 +174,19 @@ public class Plant : MonoBehaviour, IClickable
         
     }
 
-    protected virtual void EffectUpdate()
-    {
-        
-    }
-
     protected virtual void DieUpdate()
     {
         if (HPText) HPText.gameObject.SetActive(false);
     }
 
     // 父物体处理触发事件的方法
-    public void OnChildTriggerEnter2D(Collider2D collision)
+    public virtual void OnChildTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == TagConfig.zombie)
-        {
-            Zombie target = collision.GetComponent<Zombie>();
-            if (target && !targets.Contains(target)) targets.Add(target);
-        }
+
     }
 
-    public void OnChildTriggerExit2D(Collider2D collision)
+    public virtual void OnChildTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == TagConfig.zombie)
-        {
-            Zombie target = collision.GetComponent<Zombie>();
-            if (target) targets.Remove(target);
-        }
+
     }
 }
