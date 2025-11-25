@@ -89,7 +89,7 @@ public class Zombie : MonoBehaviour, IClickable
 
         speedLevel = (speed - baseSpeed) / baseSpeed;
         HealthPercentage = 1.0f;
-        groanTime = 23.0f + Random.Range(0.0f, 2.0f); groanTimer = 23.0f;
+        groanTime = 24.0f; groanTimer = 19.0f + Random.Range(0.0f, 2.0f);
         healthLossTime = 0.05f; healthLossTimer = 0.0f;
         dieMode = 0;
         moveState = ZombieMoveState.Stop;
@@ -274,7 +274,6 @@ public class Zombie : MonoBehaviour, IClickable
             int idx = Random.Range(0, ResourceConfig.sound_other_groans.Length);
             AudioManager.Instance.playClip(ResourceConfig.sound_other_groans[idx]);
             groanTimer = 0.0f;
-            groanTime = 23.0f + Random.Range(0.0f, 2.0f);
         }
     }
 

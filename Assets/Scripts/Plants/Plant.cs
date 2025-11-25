@@ -10,6 +10,7 @@ public enum PlantID
     PeaShooter,
     Sunflower,
     CherryBomb,
+    WallNut,
 }
 
 public enum PlantState

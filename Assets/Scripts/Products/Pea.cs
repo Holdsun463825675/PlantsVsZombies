@@ -75,7 +75,6 @@ public class Pea : Product
                 target.UnderAttack(attackPoint);
                 AudioManager.Instance.playHitClip(this, target);
                 //生成特效
-                Debug.Log(transform.position);
                 GameObject.Instantiate(peaBulletHitPrefab, transform.position, Quaternion.identity);
             }
             ProductManager.Instance.removeProduct(this);

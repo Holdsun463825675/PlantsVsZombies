@@ -16,8 +16,9 @@ public class Sunflower : ProductionPlant
 
     protected override void Produce()
     {
-        Sun sun = GameObject.Instantiate(sunPrefab, transform.position, Quaternion.identity);
-        sun.setTargetY(transform.position.y - 0.3f);
+        Vector3 sunPosition = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+        Sun sun = GameObject.Instantiate(sunPrefab, sunPosition, Quaternion.identity);
+        sun.setTargetY(transform.position.y);
         sun.setState(SunState.ProducedbySunflower);
     }
 }
