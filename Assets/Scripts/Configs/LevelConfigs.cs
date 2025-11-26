@@ -25,7 +25,7 @@ public class LevelConfigs
             time = TimeOfDay.Day,
             music = ResourceConfig.music_ultimateBattle,
             dropSun = true,
-            startingSun = 1000,
+            startingSun = 8000,
             cardType = TypeOfCard.Autonomy,
 
             zombieID = new List<ZombieID> {ZombieID.BucketZombie},

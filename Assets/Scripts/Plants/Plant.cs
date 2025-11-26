@@ -12,6 +12,8 @@ public enum PlantID
     CherryBomb,
     WallNut,
     Repeater,
+    GtalingPea,
+    TwinSunflower,
 }
 
 public enum PlantState

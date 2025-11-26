@@ -13,7 +13,7 @@ public class GtalingPea : AttackPlant
     protected override void Awake()
     {
         base.Awake();
-        id = PlantID.None; // TODO: ´ýÐÞ¸Ä
+        id = PlantID.GtalingPea;
         type = PlantType.Normal;
         attackTime = 1.5f;
         attackTimer = Random.Range(0.0f, attackTime);
