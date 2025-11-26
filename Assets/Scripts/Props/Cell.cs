@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Cell : MonoBehaviour, IClickable
 {
+    private int rowMaxSortingOrder = 5000;
+    public int row;
     public Dictionary<PlantType, bool> flag = new Dictionary<PlantType, bool>();
 
     void Start()
@@ -53,11 +56,35 @@ public class Cell : MonoBehaviour, IClickable
         return new Vector3(transform.position.x, target_y, transform.position.z);
     }
 
+    private int getPlantSortingOrder(Plant plant)
+    {
+        int res = row * rowMaxSortingOrder;
+        switch (plant.type)
+        {
+            case PlantType.Carrier:
+                res += 4;
+                break;
+            case PlantType.Surrounding:
+                res += 12;
+                break;
+            case PlantType.Normal:
+                res += 8;
+                break;
+            case PlantType.Flight:
+                res += 16;
+                break;
+            default:
+                break;
+        }
+        return res;
+    }
+
     public bool PlantPlant(Plant plant)
     {
         if (plant == null) return false;
         if (!PlantAvailable(plant.type)) return false;
         setFlag(plant.type, true);
+        plant.setSortingOrder(getPlantSortingOrder(plant));
         plant.transform.position = plantPlace(plant);
         return true;
     }

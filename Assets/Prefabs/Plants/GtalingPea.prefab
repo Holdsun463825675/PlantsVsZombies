@@ -442,7 +442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14fb5bea4455cfd43b081740499f366c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 6
+  id: 8
   type: 0
   attackPlaceName: AttackPlace
   peaPrefab: {fileID: -5438986234417754464, guid: c8c007efe54e53a4cb7f50c82c384f2d, type: 3}

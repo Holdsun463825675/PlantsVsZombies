@@ -12,6 +12,8 @@ public enum PlantID
     CherryBomb,
     WallNut,
     Repeater,
+    TallNut,
+    Pumpkin,
     GtalingPea,
     TwinSunflower,
 }
@@ -155,6 +157,14 @@ public class Plant : MonoBehaviour, IClickable
     public void setCell(Cell cell)
     {
         this.cell = cell; 
+    }
+
+    public int setSortingOrder(int sortingOrder)
+    {
+        int count = 0;
+        this.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder; count++;
+        if (HPText) HPText.sortingOrder = sortingOrder + ++count; count++;
+        return count;
     }
 
     protected virtual void AddHealth(int point)

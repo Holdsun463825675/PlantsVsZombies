@@ -314,13 +314,22 @@ public class Zombie : MonoBehaviour, IClickable
         else AddCurrHealth(-hurtPoint);
     }
 
+    private Plant getAttackTarget()
+    {
+        foreach (Plant plant in targets) if (plant.type == PlantType.Surrounding) return plant;
+        foreach (Plant plant in targets) if (plant.type == PlantType.Normal) return plant;
+        foreach (Plant plant in targets) if (plant.type == PlantType.Carrier) return plant;
+        foreach (Plant plant in targets) if (plant.type == PlantType.Flight) return plant;
+        return null;
+    }
+
     protected virtual void Attack()
     {
         if (anim.GetBool(AnimatorConfig.zombie_game) == false || healthState == ZombieHealthState.LostHead || healthState == ZombieHealthState.Die) return;
         if (targets.Count != 0)
         {
             int idx = Random.Range(0, ResourceConfig.sound_zombieeat_chomps.Length);
-            Plant target = targets[0];
+            Plant target = getAttackTarget();
             target.UnderAttack(attackPoint);
         }
     }
