@@ -34,6 +34,7 @@ public class Plant : MonoBehaviour, IClickable
     public PlantType type = PlantType.Normal;
 
     protected int maxHealth, currHealth;
+    protected int underAttackSound; // 受击音效，0正常，1轻柔，2子弹
     private TextMeshPro HPText;
     private Transform shadow;
 
@@ -48,6 +49,7 @@ public class Plant : MonoBehaviour, IClickable
         spriteRenderer = GetComponent<SpriteRenderer>();
         c2d = GetComponent<Collider2D>();
         maxHealth = 300; currHealth = maxHealth;
+        underAttackSound = 0;
         cell = null;
         anim = GetComponent<Animator>();
         Transform child = transform.Find("HPText");
@@ -160,10 +162,31 @@ public class Plant : MonoBehaviour, IClickable
         if (currHealth <= 0) setState(PlantState.Die);
     }
 
+    protected void playUnderAttackSound()
+    {
+        switch (underAttackSound)
+        {
+            case (0):
+                if (state == PlantState.Die) AudioManager.Instance.playClip(ResourceConfig.sound_zombieeat_gulp);
+                else AudioManager.Instance.playClip(ResourceConfig.sound_zombieeat_chomps[Random.Range(0, ResourceConfig.sound_zombieeat_chomps.Length)]);
+                break;
+            case (1):
+                if (state == PlantState.Die) AudioManager.Instance.playClip(ResourceConfig.sound_zombieeat_gulp);
+                else AudioManager.Instance.playClip(ResourceConfig.sound_zombieeat_chompsoft);
+                break;
+            case (2):
+                AudioManager.Instance.playClip(ResourceConfig.sound_bullethit_splats[Random.Range(0, ResourceConfig.sound_bullethit_splats.Length)]);
+                break;
+            default:
+                break;
+        }
+    }
+
     public virtual void UnderAttack(int point, int type=0)
     {
         AddHealth(-point);
         anim.SetBool(AnimatorConfig.plant_underAttack, true);
+        playUnderAttackSound();
     }
 
     private void SuspensionUpdate()

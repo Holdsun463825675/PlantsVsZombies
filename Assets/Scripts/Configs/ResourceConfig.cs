@@ -74,6 +74,7 @@ public class ResourceConfig
         "Audio/Sound/zombieeat/chomp",
         "Audio/Sound/zombieeat/chomp2"
     };
+    public const string sound_zombieeat_chompsoft = "Audio/Sound/zombieeat/chompsoft";
     public const string sound_zombieeat_gulp = "Audio/Sound/zombieeat/gulp";
 
     public const string sound_zombiedie_limbsPop = "Audio/Sound/zombiedie/limbs_pop";

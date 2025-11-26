@@ -45,6 +45,7 @@ public class Zombie : MonoBehaviour, IClickable
     protected int maxHealth, currHealth;
     protected int maxArmor1Health, currArmor1Health;
     protected int maxArmor2Health, currArmor2Health;
+    protected float lostArmHealthPercentage, lostHeadPercentage, dieHealthPercentage;
 
     protected int attackPoint;
     protected bool isLostHealth;
@@ -82,6 +83,7 @@ public class Zombie : MonoBehaviour, IClickable
         maxHealth = 270; currHealth = maxHealth;
         maxArmor1Health = 0; currArmor1Health = maxArmor1Health;
         maxArmor2Health = 0; currArmor2Health = maxArmor2Health;
+        lostArmHealthPercentage = 0.666f; lostHeadPercentage = 0.333f; dieHealthPercentage = 1e-10f;
 
         attackPoint = 50;
         isLostHealth = false;
@@ -129,10 +131,10 @@ public class Zombie : MonoBehaviour, IClickable
         anim.SetFloat(AnimatorConfig.zombie_healthPercentage, HealthPercentage);
         anim.SetFloat(AnimatorConfig.zombie_armor1HealthPercentage, maxArmor1Health == 0.0f ? 0.0f : (float)currArmor1Health / (float)maxArmor1Health);
         anim.SetFloat(AnimatorConfig.zombie_speedLevel, speedLevel);
-        if (HealthPercentage >= 0.666f) setHealthState(ZombieHealthState.Healthy);
-        if (HealthPercentage >= 0.333f && HealthPercentage < 0.666f) setHealthState(ZombieHealthState.LostArm);
-        if (HealthPercentage >= 0.001f && HealthPercentage < 0.333f) setHealthState(ZombieHealthState.LostHead);
-        if (HealthPercentage < 0.001f) setHealthState(ZombieHealthState.Die);
+        if (HealthPercentage >= lostArmHealthPercentage) setHealthState(ZombieHealthState.Healthy);
+        if (HealthPercentage >= lostHeadPercentage && HealthPercentage < lostArmHealthPercentage) setHealthState(ZombieHealthState.LostArm);
+        if (HealthPercentage >= dieHealthPercentage && HealthPercentage < lostHeadPercentage) setHealthState(ZombieHealthState.LostHead);
+        if (HealthPercentage < dieHealthPercentage) setHealthState(ZombieHealthState.Die);
 
         switch (healthState)
         {
@@ -208,6 +210,11 @@ public class Zombie : MonoBehaviour, IClickable
     public int getCurrHealth()
     {
         return currHealth + currArmor1Health + currArmor2Health;
+    }
+
+    public ZombieHealthState getHealthState()
+    {
+        return healthState; 
     }
 
     public int setSortingOrder(int sortingOrder)
@@ -315,8 +322,6 @@ public class Zombie : MonoBehaviour, IClickable
             int idx = Random.Range(0, ResourceConfig.sound_zombieeat_chomps.Length);
             Plant target = targets[0];
             target.UnderAttack(attackPoint);
-            if (target == null || target.getState() == PlantState.Die) AudioManager.Instance.playClip(ResourceConfig.sound_zombieeat_gulp);
-            else AudioManager.Instance.playClip(ResourceConfig.sound_zombieeat_chomps[idx]);
         }
     }
 

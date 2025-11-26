@@ -8,10 +8,14 @@ public class ProductionPlant : Plant
     protected float produceTime;
     protected float produceTimer;
 
+    public string producePlaceName = "ProducePlace";
+    protected Transform producePlace;
+
     protected override void Awake()
     {
         base.Awake();
         produceTime = 24.0f; produceTimer = 0.0f;
+        producePlace = transform.Find(producePlaceName).GetComponent<Transform>();
     }
 
     protected override void IdleUpdate()

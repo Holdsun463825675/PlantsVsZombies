@@ -89,7 +89,11 @@ public class AshPlant : Plant
 
     public override void UnderAttack(int point, int type=0)
     {
-        if (ashState == AshPlantState.Explode && type == 0) return; // 爆炸时不受啃咬伤害
+        if (ashState == AshPlantState.Explode && type == 0) // 爆炸时不受啃咬伤害，只有音效
+        {
+            playUnderAttackSound();
+            return;
+        }
         base.UnderAttack(point, type);
     }
 

@@ -58,9 +58,10 @@ public class Cleaner : MonoBehaviour
     {
         if (collision.tag == TagConfig.zombie)
         {
-            setState(CleanerState.Enable);
             Zombie zombie = collision.GetComponent<Zombie>();
-            zombie.kill(dieMode);
+            // 僵尸不掉头时触发
+            if (zombie.getHealthState() == ZombieHealthState.Healthy || zombie.getHealthState() == ZombieHealthState.LostArm) setState(CleanerState.Enable);
+            if (state == CleanerState.Enable) zombie.kill(dieMode); // 生效时机制杀
         }
     }
 
