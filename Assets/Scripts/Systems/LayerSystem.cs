@@ -22,8 +22,6 @@ public class LayerSystem : MonoBehaviour
         SetupCustomLayers();
     }
 
-
-    [MenuItem("PVZ/Setup Layers")]
     public static void SetupCustomLayers()
     {
         SetupCollisionMatrix();

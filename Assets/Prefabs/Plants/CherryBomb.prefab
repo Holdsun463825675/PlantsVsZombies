@@ -126,8 +126,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 3
-  m_fontSizeBase: 3
+  m_fontSize: 2.5
+  m_fontSizeBase: 2.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -434,6 +434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 3
   type: 0
+  prePlantID: 0
   anim: {fileID: 0}
   explodeEffect: {fileID: -2485962915469677168, guid: 2b1a8e48f41b7ba4f9a5f3f0037a1078, type: 3}
   attackPlaceName: AttackPlace

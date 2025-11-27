@@ -126,8 +126,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 3
-  m_fontSizeBase: 3
+  m_fontSize: 2.5
+  m_fontSizeBase: 2.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -444,6 +444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 8
   type: 0
+  prePlantID: 0
   anim: {fileID: 0}
   attackPlaceName: AttackPlace
   peaPrefab: {fileID: -5438986234417754464, guid: c8c007efe54e53a4cb7f50c82c384f2d, type: 3}

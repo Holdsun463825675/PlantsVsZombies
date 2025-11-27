@@ -275,7 +275,11 @@ public class ZombieManager : MonoBehaviour
         float minWeight = 9999;
         foreach (ZombieID id in zombieWaves[currWaveNumber].zombieIDs)
         {
-            foreach (Zombie zombie in zombiePrefabList) minWeight = Mathf.Min(minWeight, zombie.spawnWeight);
+            foreach (Zombie zombie in zombiePrefabList)
+            {
+                if (zombie.zombieID != id) continue;
+                minWeight = Mathf.Min(minWeight, zombie.spawnWeight);
+            } 
         }
         return minWeight;
     }
