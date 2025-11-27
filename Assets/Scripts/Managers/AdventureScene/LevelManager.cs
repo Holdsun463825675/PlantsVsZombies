@@ -24,6 +24,11 @@ public class LevelManager : MonoBehaviour
     {
         foreach (GameObject go in LevelList)
         {
+            if (!JSONSaveSystem.Instance) // ≤‚ ‘
+            {
+                go.SetActive(true);
+                continue;
+            }
             bool unlocked = false;
             foreach (var level in JSONSaveSystem.Instance.userData.levelDatas)
             {

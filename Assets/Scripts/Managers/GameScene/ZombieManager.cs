@@ -270,6 +270,16 @@ public class ZombieManager : MonoBehaviour
         }
     }
 
+    private float getWaveMinZombieWeight()
+    {
+        float minWeight = 9999;
+        foreach (ZombieID id in zombieWaves[currWaveNumber].zombieIDs)
+        {
+            foreach (Zombie zombie in zombiePrefabList) minWeight = Mathf.Min(minWeight, zombie.spawnWeight);
+        }
+        return minWeight;
+    }
+
     public int getMinZombieNumRow() // 获取当前出怪数量最少的行
     {
         if (zombieNum == null || zombieNum.Count == 0) return -1;
@@ -308,7 +318,7 @@ public class ZombieManager : MonoBehaviour
                 if (go.GetComponent<Zombie>().zombieID == zombieID) zombiePrefab = go.GetComponent<Zombie>();
             }
             // 不符要求重新生成
-            if (!zombiePrefab || zombiePrefab.spawnWeight > currWaveSurplusWeight && zombiePrefab.spawnWeight > 1.0f) return;
+            if (!zombiePrefab || zombiePrefab.spawnWeight > currWaveSurplusWeight && zombiePrefab.spawnWeight > getWaveMinZombieWeight()) return;
         }
         else
         {

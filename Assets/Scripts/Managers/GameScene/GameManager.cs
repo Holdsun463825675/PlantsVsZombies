@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     public GameState state;
 
     public LevelConfig currLevelConfig;
+    private float gameSpeed;
 
     private void Awake()
     {
@@ -72,6 +73,8 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.initLevelProcess(currLevelConfig.zombieWaves);
         // 战利品
         setState(GameState.Previewing);
+        // 固定游戏速度
+        gameSpeed = currLevelConfig.gameSpeed;
     }
 
     public void setState(GameState state)
@@ -102,7 +105,7 @@ public class GameManager : MonoBehaviour
                 CameraManager.Instance.setState(GameState.Ready);
                 break;
             case GameState.Processing:
-                GameSpeedManager.Instance.SetGameSpeed(SettingSystem.Instance.settingsData.gameSpeed);
+                GameSpeedManager.Instance.SetGameSpeed(gameSpeed != -1 ? gameSpeed : SettingSystem.Instance.settingsData.gameSpeed);
                 AudioManager.Instance.playBgm(currLevelConfig.music);
                 CleanerManager.Instance.setState(GameState.Processing);
                 CardManager.Instance.setState(GameState.Processing);
@@ -161,7 +164,7 @@ public class GameManager : MonoBehaviour
     public void Continue()
     {
         state = GameState.Processing;
-        GameSpeedManager.Instance.SetGameSpeed(SettingSystem.Instance.settingsData.gameSpeed);
+        GameSpeedManager.Instance.SetGameSpeed(gameSpeed != -1 ? gameSpeed : SettingSystem.Instance.settingsData.gameSpeed);
         UIManager.Instance.setState(GameState.Processing);
         CleanerManager.Instance.setState(GameState.Processing);
         PlantManager.Instance.Continue();

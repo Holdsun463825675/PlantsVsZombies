@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
@@ -18,6 +19,11 @@ public class Cell : MonoBehaviour, IClickable
         priority.isClickable = true;
     }
 
+    private void Update()
+    {
+        if (!HandManager.Instance.currPlant) unsetVirtualPlant();
+    }
+
     private void OnMouseEnter()
     {
         setVirtualPlant(HandManager.Instance.currPlant);
@@ -26,10 +32,6 @@ public class Cell : MonoBehaviour, IClickable
     private void OnMouseExit()
     {
         unsetVirtualPlant();
-    }
-    private void Update()
-    {
-        if (!HandManager.Instance.currPlant) unsetVirtualPlant();
     }
 
     public void OnClick()
@@ -128,6 +130,7 @@ public class Cell : MonoBehaviour, IClickable
         if (!PlantAvailable(plant)) return;
         Plant virtualPlantPrefab = PlantManager.Instance.GetPlantPrefab(plant.id);
         virtualPlant = GameObject.Instantiate(virtualPlantPrefab);
+        virtualPlant.setSortingOrder(virtualPlant.GetComponent<SpriteRenderer>().sortingOrder - 1);
         virtualPlant.transform.position = plantPlace(virtualPlant);
         // 调整透明度
         Color currentColor = virtualPlant.GetComponent<SpriteRenderer>().color;

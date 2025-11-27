@@ -13,8 +13,6 @@ public class LevelConfig
     public string music; // 背景音乐
     public bool dropSun; // 是否掉落阳光
     public int startingSun; // 初始阳光
-    public bool cleaner = true; // 是否有小推车
-    public bool shovel = true; // 是否可用铲子
 
     public TypeOfCard cardType; // 选卡类型：自选卡0、固定选卡1、传送带2
     
@@ -25,6 +23,9 @@ public class LevelConfig
     public float healthPercentageThreshold = 0.6f; // 小波血量阈值
 
     // 其他
+    public bool cleaner = true; // 是否有小推车
+    public bool shovel = true; // 是否可用铲子
+    public float gameSpeed = -1; // 固定游戏速度
     public bool awardShovel = false; // 通关奖励铲子
 }
 
