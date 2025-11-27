@@ -275,6 +275,7 @@ GameObject:
   - component: {fileID: 1172616660531236270}
   - component: {fileID: 2471237257151784739}
   - component: {fileID: 2829521174800719997}
+  - component: {fileID: 8243399421828250435}
   m_Layer: 0
   m_Name: Repeater
   m_TagString: Plant
@@ -446,6 +447,33 @@ MonoBehaviour:
   type: 0
   attackPlaceName: AttackPlace
   peaPrefab: {fileID: -5438986234417754464, guid: c8c007efe54e53a4cb7f50c82c384f2d, type: 3}
+--- !u!50 &8243399421828250435
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749402821575749281}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &8331213625222948287
 GameObject:
   m_ObjectHideFlags: 0

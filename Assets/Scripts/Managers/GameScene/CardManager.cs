@@ -10,6 +10,7 @@ public class CardManager : MonoBehaviour
 
     public GameObject cardListUI;
     public GameObject cardPanelUI;
+    public GameObject slotUI;
 
     private float UIMoveTime = 0.2f;
     private float cardMoveTime = 0.2f;
@@ -22,6 +23,7 @@ public class CardManager : MonoBehaviour
     public Transform cardListUIEndPlace;
     public Transform cardPanelUIBeginPlace;
     public Transform cardPanelUIEndPlace;
+    public Transform slotPlace;
     public Button readyButton;
 
     private void Awake()
@@ -109,14 +111,17 @@ public class CardManager : MonoBehaviour
             case GameState.NotStarted:
                 cardListUI.SetActive(false);
                 cardPanelUI.SetActive(false);
+                slotUI.SetActive(false);
                 break;
             case GameState.Previewing:
                 cardListUI.SetActive(false);
                 cardPanelUI.SetActive(false);
+                slotUI.SetActive(false);
                 cardListUI.transform.position = cardListUIBeginPlace.position;
                 cardPanelUI.transform.position = cardPanelUIBeginPlace.position;
                 break;
             case GameState.SelectingCard:
+                slotUI.SetActive(false);
                 foreach (Card card in cardList) if (card) card.setState(CardState.SelectingCard_Selected);
                 cardListUI.SetActive(true);
                 cardListUI.transform.DOMove(cardListUIEndPlace.position, UIMoveTime);
@@ -126,6 +131,7 @@ public class CardManager : MonoBehaviour
 
                 break;
             case GameState.Ready:
+                slotUI.SetActive(false);
                 foreach (Card card in cardList)
                 {
                     if (card)
@@ -141,18 +147,22 @@ public class CardManager : MonoBehaviour
                 foreach (Card card in cardList) if (card) card.setState(CardState.CoolingDown);
                 cardListUI.SetActive(true);
                 cardPanelUI.SetActive(false);
+                slotUI.SetActive(true);
                 break;
             case GameState.Paused:
                 cardListUI.SetActive(true);
                 cardPanelUI.SetActive(false);
+                slotUI.SetActive(true);
                 break;
             case GameState.Losing:
                 cardListUI.SetActive(false);
                 cardPanelUI.SetActive(false);
+                slotUI.SetActive(false);
                 break;
             case GameState.Winning:
-                cardListUI.SetActive(false);
+                cardListUI.SetActive(true);
                 cardPanelUI.SetActive(false);
+                slotUI.SetActive(true);
                 break;
             default:
                 break;

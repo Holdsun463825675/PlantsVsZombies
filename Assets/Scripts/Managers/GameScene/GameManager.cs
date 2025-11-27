@@ -130,6 +130,7 @@ public class GameManager : MonoBehaviour
             case GameState.Winning:
                 UIManager.Instance.setState(GameState.Winning);
                 SunManager.Instance.setState(SunSpawnState.Disable);
+                CardManager.Instance.setState(GameState.Winning);
                 if (JSONSaveSystem.Instance) // ≤‚ ‘
                 {
                     JSONSaveSystem.Instance.CompleteLevel(currLevelConfig.levelID);

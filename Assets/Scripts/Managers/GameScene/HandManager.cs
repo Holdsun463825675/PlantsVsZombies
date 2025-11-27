@@ -8,6 +8,7 @@ public class HandManager : MonoBehaviour
 
     private Plant currPlant = null;
     private Card currCard = null;
+    private Shovel currShovel = null;
 
     void Awake()
     {
@@ -17,7 +18,11 @@ public class HandManager : MonoBehaviour
     private void Update()
     {
         // ¼ì²âÊó±êÓÒ¼üµã»÷£¬0=×ó¼ü, 1=ÓÒ¼ü, 2=ÖÐ¼ü
-        if (Input.GetMouseButtonDown(1)) CancelPlant();
+        if (Input.GetMouseButtonDown(1))
+        {
+            CancelPlant();
+            CancelShovel();
+        } 
         FollowCursor();
     }
 
@@ -42,6 +47,7 @@ public class HandManager : MonoBehaviour
 
     public void SuspendPlant(Card card, PlantID plantID)
     {
+        CancelShovel();
         CancelPlant();
         Plant plant = GetPlantPrefab(plantID);
         if (plant == null)
@@ -71,6 +77,21 @@ public class HandManager : MonoBehaviour
         }
     }
 
+    public void SuspendShovel(Shovel shovel)
+    {
+        CancelPlant();
+        currShovel = shovel;
+    }
+
+    public void CancelShovel()
+    {
+        if (currShovel)
+        {
+            currShovel.setState(ShovelState.TobeUsed);
+            currShovel = null;
+        }
+    }
+
     private Plant GetPlantPrefab(PlantID plantID)
     {
         foreach (Plant plant in PlantManager.Instance.plantPrefabList)
@@ -82,10 +103,9 @@ public class HandManager : MonoBehaviour
 
     void FollowCursor()
     {
-        if (!currPlant) return;
-
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 plantPosition = new Vector3(mouseWorldPosition.x, mouseWorldPosition.y - 0.5f, 0);
-        currPlant.transform.position = plantPosition;
+        Vector3 mousePosition = new Vector3(mouseWorldPosition.x, mouseWorldPosition.y - 0.5f, 0);
+        if (currPlant) currPlant.transform.position = mousePosition;
+        if (currShovel) currShovel.transform.position = mousePosition;
     }
 }

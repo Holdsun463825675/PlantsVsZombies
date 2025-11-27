@@ -21,6 +21,7 @@ public class ResourceConfig
     public const string sound_buttonandputdown_ceramic = "Audio/Sound/buttonandputdown/ceramic";
     public const string sound_buttonandputdown_gravebutton = "Audio/Sound/buttonandputdown/gravebutton";
     public const string sound_buttonandputdown_pause = "Audio/Sound/buttonandputdown/pause";
+    public const string sound_buttonandputdown_shovel = "Audio/Sound/buttonandputdown/shovel";
     public const string sound_buttonandputdown_tap = "Audio/Sound/buttonandputdown/tap";
     public const string sound_buttonandputdown_tap2 = "Audio/Sound/buttonandputdown/tap2";
 
@@ -28,6 +29,7 @@ public class ResourceConfig
 
     public const string sound_placeplant_selectcard = "Audio/Sound/placeplant/selectcard";
     public const string sound_placeplant_plant = "Audio/Sound/placeplant/plant";
+    public const string sound_placeplant_plant2 = "Audio/Sound/placeplant/plant2";
     public const string sound_plantshoot_throw = "Audio/Sound/plantshoot/throw";
 
     public static readonly string[] sound_bullethit_splats = new string[]

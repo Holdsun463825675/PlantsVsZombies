@@ -262,7 +262,8 @@ public class Zombie : MonoBehaviour, IClickable
     private void kinematicsUpdate()
     {
         if (anim.GetBool(AnimatorConfig.zombie_game) == false) return;
-        if (targets.Count != 0)
+        Plant target = getAttackTarget();
+        if (target)
         {
             setMoveState(ZombieMoveState.Stop);
             anim.SetBool(AnimatorConfig.zombie_isAttack, true);
@@ -319,19 +320,14 @@ public class Zombie : MonoBehaviour, IClickable
         foreach (Plant plant in targets) if (plant.type == PlantType.Surrounding) return plant;
         foreach (Plant plant in targets) if (plant.type == PlantType.Normal) return plant;
         foreach (Plant plant in targets) if (plant.type == PlantType.Carrier) return plant;
-        foreach (Plant plant in targets) if (plant.type == PlantType.Flight) return plant;
-        return null;
+        return null; // 不吃飞行类植物
     }
 
     protected virtual void Attack()
     {
         if (anim.GetBool(AnimatorConfig.zombie_game) == false || healthState == ZombieHealthState.LostHead || healthState == ZombieHealthState.Die) return;
-        if (targets.Count != 0)
-        {
-            int idx = Random.Range(0, ResourceConfig.sound_zombieeat_chomps.Length);
-            Plant target = getAttackTarget();
-            target.UnderAttack(attackPoint);
-        }
+        Plant target = getAttackTarget();
+        if (target) target.UnderAttack(attackPoint);
     }
 
     private void HealthyUpdate()

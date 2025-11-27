@@ -265,6 +265,7 @@ GameObject:
   - component: {fileID: 1172616660531236270}
   - component: {fileID: 2471237257151784739}
   - component: {fileID: -5042170457422932962}
+  - component: {fileID: -2288381291368371391}
   m_Layer: 0
   m_Name: CherryBomb
   m_TagString: Plant
@@ -436,6 +437,33 @@ MonoBehaviour:
   type: 0
   explodeEffect: {fileID: -2485962915469677168, guid: 2b1a8e48f41b7ba4f9a5f3f0037a1078, type: 3}
   attackPlaceName: AttackPlace
+--- !u!50 &-2288381291368371391
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749402821575749281}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &8331213625222948287
 GameObject:
   m_ObjectHideFlags: 0
