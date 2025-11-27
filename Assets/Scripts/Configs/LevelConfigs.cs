@@ -19,7 +19,7 @@ public class LevelConfigs
         {
             levelID = 0,
             levelName = "Test",
-            nextLevelID = 1,
+            nextLevelID = new List<int>{ 1 },
             awardPlantID = PlantID.Sunflower,
             mapID = 3,
             time = TimeOfDay.Day,
@@ -74,13 +74,12 @@ public class LevelConfigs
             },
             spawnTimer = 15.0f,
         });
-
         // 1-1
         levelConfigs.Add(new LevelConfig
         {
             levelID = 1,
             levelName = "1-1",
-            nextLevelID = 2,
+            nextLevelID = new List<int> { 2 },
             awardPlantID = PlantID.Sunflower,
             mapID = 1,
             time = TimeOfDay.Day,
@@ -95,15 +94,14 @@ public class LevelConfigs
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 1.0f,largeWave = false},
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 1.0f,largeWave = false},
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 2.0f,largeWave = false},
-            }
+            },
         });
-
         // 1-2
         levelConfigs.Add(new LevelConfig
         {
             levelID = 2,
             levelName = "1-2",
-            nextLevelID = 3,
+            nextLevelID = new List<int>{ 3 },
             awardPlantID = PlantID.CherryBomb,
             mapID = 2,
             time = TimeOfDay.Day,
@@ -124,15 +122,14 @@ public class LevelConfigs
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 3.0f,largeWave = false},
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 3.0f,largeWave = false},
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 6.0f,largeWave = true},
-            }
+            },
         });
-
         // 1-3
         levelConfigs.Add(new LevelConfig
         {
             levelID = 3,
             levelName = "1-3",
-            nextLevelID = 4,
+            nextLevelID = new List<int> { 4 },
             awardPlantID = PlantID.WallNut,
             mapID = 2,
             time = TimeOfDay.Day,
@@ -153,16 +150,15 @@ public class LevelConfigs
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie},spawnWeight = 4.0f,largeWave = false},
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie},spawnWeight = 4.0f,largeWave = false},
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ConeHeadZombie, ZombieID.NormalZombie},spawnWeight = 8.0f,largeWave = true,certainlySpawn=1},
-            }
+            },
         });
-
         // 1-4
         levelConfigs.Add(new LevelConfig
         {
             levelID = 4,
             levelName = "1-4",
-            nextLevelID = 5,
-            awardPlantID = PlantID.Repeater,
+            nextLevelID = new List<int> { 5 },
+            awardPlantID = PlantID.None,
             mapID = 3,
             time = TimeOfDay.Day,
             music = ResourceConfig.music_day,
@@ -182,7 +178,9 @@ public class LevelConfigs
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie},spawnWeight = 4.0f,largeWave = false},
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie},spawnWeight = 5.0f,largeWave = false},
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ConeHeadZombie, ZombieID.NormalZombie},spawnWeight = 10.0f,largeWave = true,certainlySpawn=1},
-            }
+            },
+
+            awardShovel = true,
         });
     }
 }

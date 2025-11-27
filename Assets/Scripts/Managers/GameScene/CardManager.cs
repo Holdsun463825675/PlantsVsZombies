@@ -8,12 +8,15 @@ public class CardManager : MonoBehaviour
 {
     public static CardManager Instance { get; private set; }
 
+    public bool isShovel;
+
+    private float UIMoveTime = 0.2f;
+    private float cardMoveTime = 0.2f;
+
     public GameObject cardListUI;
     public GameObject cardPanelUI;
     public GameObject slotUI;
 
-    private float UIMoveTime = 0.2f;
-    private float cardMoveTime = 0.2f;
     private List<Card> cardList = new List<Card>();
     public List<Transform> cardListCardPlace;
     public List<Card> cardPanel;
@@ -104,6 +107,12 @@ public class CardManager : MonoBehaviour
         }
     }
 
+    public void setConfigs(bool shovel)
+    {
+        isShovel = shovel;
+        if (JSONSaveSystem.Instance) isShovel &= JSONSaveSystem.Instance.userData.shovel;
+    }
+
     public void setState(GameState state)
     {
         switch (state)
@@ -147,12 +156,12 @@ public class CardManager : MonoBehaviour
                 foreach (Card card in cardList) if (card) card.setState(CardState.CoolingDown);
                 cardListUI.SetActive(true);
                 cardPanelUI.SetActive(false);
-                slotUI.SetActive(true);
+                slotUI.SetActive(isShovel);
                 break;
             case GameState.Paused:
                 cardListUI.SetActive(true);
                 cardPanelUI.SetActive(false);
-                slotUI.SetActive(true);
+                slotUI.SetActive(isShovel);
                 break;
             case GameState.Losing:
                 cardListUI.SetActive(false);
@@ -162,7 +171,7 @@ public class CardManager : MonoBehaviour
             case GameState.Winning:
                 cardListUI.SetActive(true);
                 cardPanelUI.SetActive(false);
-                slotUI.SetActive(true);
+                slotUI.SetActive(isShovel);
                 break;
             default:
                 break;

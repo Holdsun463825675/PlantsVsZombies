@@ -14,6 +14,12 @@ public class PlantManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Update()
+    {
+        if (HandManager.Instance.currPlant) setPlantTwinkle(HandManager.Instance.currPlant.prePlantID); // 要种植的前置植物闪烁
+        else setPlantTwinkle(PlantID.None);
+    }
+
     // 暂停继续
     public void Pause()
     {
@@ -33,5 +39,26 @@ public class PlantManager : MonoBehaviour
     public void removePlant(Plant plant)
     {
         plantList.Remove(plant);
+    }
+
+    public Plant GetPlantPrefab(PlantID plantID)
+    {
+        foreach (Plant plant in plantPrefabList)
+        {
+            if (plant.id == plantID) return plant;
+        }
+        return null;
+    }
+
+    private void setPlantTwinkle(PlantID id)
+    {
+        foreach (Plant plant in plantList)
+        {
+            if (plant)
+            {
+                if (plant.id == id) plant.anim.SetBool(AnimatorConfig.plant_twinkle, true);
+                else plant.anim.SetBool(AnimatorConfig.plant_twinkle, false);
+            }
+        }
     }
 }

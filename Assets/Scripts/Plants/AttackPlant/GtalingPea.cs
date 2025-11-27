@@ -15,6 +15,7 @@ public class GtalingPea : AttackPlant
         base.Awake();
         id = PlantID.GtalingPea;
         type = PlantType.Normal;
+        prePlantID = PlantID.Repeater;
         attackTime = 1.5f;
         attackTimer = Random.Range(0.0f, attackTime);
         assList = new List<GameObject>();

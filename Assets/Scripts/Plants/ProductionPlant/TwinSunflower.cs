@@ -11,6 +11,7 @@ public class TwinSunflower : ProductionPlant
         base.Awake();
         id = PlantID.TwinSunflower;
         type = PlantType.Normal;
+        prePlantID = PlantID.Sunflower;
         produceTimer = 17.0f + Random.Range(0.0f, 2.0f);
     }
 

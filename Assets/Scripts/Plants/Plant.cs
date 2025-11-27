@@ -36,6 +36,7 @@ public class Plant : MonoBehaviour, IClickable
     protected PlantState state = PlantState.None;
     public PlantID id = PlantID.None;
     public PlantType type = PlantType.Normal;
+    public PlantID prePlantID = PlantID.None; // 种植的前置植物
 
     protected int maxHealth, currHealth;
     protected int underAttackSound; // 受击音效，0正常，1轻柔，2子弹
@@ -130,13 +131,14 @@ public class Plant : MonoBehaviour, IClickable
                 if (shadow) shadow.gameObject.SetActive(false);
                 anim.enabled = false;
                 c2d.enabled = false;
-                if (cell) cell.setFlag(type, false);
+                if (cell) cell.removePlant(this);
                 spriteRenderer.sortingLayerName = "Hand";
                 break;
             case PlantState.Idle:
                 this.state = state;
                 if (HPText) HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.plantHealth);
                 if (shadow) shadow.gameObject.SetActive(true);
+                if (cell) cell.addPlant(this);
                 if (GameManager.Instance.state != GameState.Paused) anim.enabled = true;
                 c2d.enabled = true;
                 spriteRenderer.sortingLayerName = "Plant";
@@ -145,7 +147,7 @@ public class Plant : MonoBehaviour, IClickable
                 this.state = state;
                 if (HPText) HPText.gameObject.SetActive(false);
                 if (shadow) shadow.gameObject.SetActive(false);
-                if (cell) cell.setFlag(type, false);
+                if (cell) cell.removePlant(this);
                 spriteRenderer.sortingLayerName = "Plant";
                 Destroy(gameObject);
                 break;

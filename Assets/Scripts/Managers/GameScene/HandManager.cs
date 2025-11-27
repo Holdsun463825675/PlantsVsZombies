@@ -6,7 +6,7 @@ public class HandManager : MonoBehaviour
 {
     public static HandManager Instance { get; private set; }
 
-    private Plant currPlant = null;
+    public Plant currPlant = null;
     private Card currCard = null;
     private Shovel currShovel = null;
 
@@ -49,12 +49,8 @@ public class HandManager : MonoBehaviour
     {
         CancelShovel();
         CancelPlant();
-        Plant plant = GetPlantPrefab(plantID);
-        if (plant == null)
-        {
-            Debug.Log("未找到要种植的植物");
-            return;
-        }
+        Plant plant = PlantManager.Instance.GetPlantPrefab(plantID);
+        if (plant == null) return;
         AudioManager.Instance.playClip(ResourceConfig.sound_placeplant_selectcard);
         currPlant = GameObject.Instantiate(plant);
         currPlant.setState(PlantState.Suspension);
@@ -90,15 +86,6 @@ public class HandManager : MonoBehaviour
             currShovel.setState(ShovelState.TobeUsed);
             currShovel = null;
         }
-    }
-
-    private Plant GetPlantPrefab(PlantID plantID)
-    {
-        foreach (Plant plant in PlantManager.Instance.plantPrefabList)
-        {
-            if (plant.id == plantID) return plant;
-        }
-        return null;
     }
 
     void FollowCursor()

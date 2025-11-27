@@ -42,9 +42,10 @@ public class JSONSaveSystem : MonoBehaviour
     {
         public string userID;
         public string name;
-        public List<PlantID> unlockedPlants = new List<PlantID>();
-        public List<LevelData> levelDatas = new List<LevelData>();
-        public SettingsData settingsData = new SettingsData();
+        public List<PlantID> unlockedPlants = new List<PlantID>(); // 已解锁的植物
+        public List<LevelData> levelDatas = new List<LevelData>(); // 关卡数据
+        public SettingsData settingsData = new SettingsData(); // 设置数据
+        public bool shovel; // 是否解锁铲子
     }
 
     [System.Serializable]
@@ -132,6 +133,7 @@ public class JSONSaveSystem : MonoBehaviour
                 autoCollected = false, 
                 plantHealth = false, 
                 zombieHealth = false },
+            shovel = false,
         };
         metadata.userIDs.Add(newUserID);
         metadata.userNames[newUserID] = newUserData.name;
@@ -253,6 +255,12 @@ public class JSONSaveSystem : MonoBehaviour
     public void SaveSettings(SettingsData data)
     {
         userData.settingsData = data;
+        SaveGameData();
+    }
+
+    public void unlockShovel()
+    {
+        userData.shovel = true;
         SaveGameData();
     }
 }

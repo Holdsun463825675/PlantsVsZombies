@@ -7,7 +7,9 @@ public class Cell : MonoBehaviour, IClickable
 {
     private int rowMaxSortingOrder = 5000;
     public int row;
-    public Dictionary<PlantType, bool> flag = new Dictionary<PlantType, bool>();
+    public Dictionary<PlantType, List<Plant>> plants = new Dictionary<PlantType, List<Plant>>();
+    private Plant virtualPlant;
+
 
     void Start()
     {
@@ -16,20 +18,61 @@ public class Cell : MonoBehaviour, IClickable
         priority.isClickable = true;
     }
 
+    private void OnMouseEnter()
+    {
+        setVirtualPlant(HandManager.Instance.currPlant);
+    }
+
+    private void OnMouseExit()
+    {
+        unsetVirtualPlant();
+    }
+    private void Update()
+    {
+        if (!HandManager.Instance.currPlant) unsetVirtualPlant();
+    }
+
     public void OnClick()
     {
         HandManager.Instance.PlantPlant(this);
     }
 
-    public void setFlag(PlantType plantType, bool flag)
+    public void addPlant(Plant plant)
     {
-        this.flag[plantType] = flag;
+        if (!plants.ContainsKey(plant.type)) plants.Add(plant.type, new List<Plant>());
+        if (!plants[plant.type].Contains(plant)) plants[plant.type].Add(plant);
+    }
+
+    public void removePlant(Plant plant)
+    {
+        if (!plants.ContainsKey(plant.type)) return;
+        plants[plant.type].Remove(plant);
+    }
+
+    private Plant getPlant(PlantID id)
+    {
+        foreach (PlantType plantType in plants.Keys)
+        {
+            foreach (Plant pl in plants[plantType])
+            {
+                if (pl.id == id) return pl;
+            }
+        }
+        return null;
     }
 
     // 判断是否可种植植物
-    public bool PlantAvailable(PlantType plantType)
+    public bool PlantAvailable(Plant plant)
     {
-        if (flag.ContainsKey(plantType) && flag[plantType]) return false;
+        if (plant.prePlantID == PlantID.None) // 不需要前置植物
+        {
+            if (plants.ContainsKey(plant.type) && plants[plant.type].Count > 0) return false;
+        }
+        else // 需要前置植物
+        {
+            Plant prePlant = getPlant(plant.prePlantID);
+            if (prePlant == null) return false;
+        }
         return true;
     }
 
@@ -79,11 +122,39 @@ public class Cell : MonoBehaviour, IClickable
         return res;
     }
 
+    private void setVirtualPlant(Plant plant)
+    {
+        if (plant == null) return;
+        if (!PlantAvailable(plant)) return;
+        Plant virtualPlantPrefab = PlantManager.Instance.GetPlantPrefab(plant.id);
+        virtualPlant = GameObject.Instantiate(virtualPlantPrefab);
+        virtualPlant.transform.position = plantPlace(virtualPlant);
+        // 调整透明度
+        Color currentColor = virtualPlant.GetComponent<SpriteRenderer>().color;
+        Color newColor = new Color(currentColor.r, currentColor.g, currentColor.b, 127f / 255f);
+        virtualPlant.GetComponent<SpriteRenderer>().color = newColor;
+    }
+
+    private void unsetVirtualPlant()
+    {
+        if (virtualPlant)
+        {
+            Destroy(virtualPlant.gameObject);
+            virtualPlant = null;
+        }
+    }
+
     public bool PlantPlant(Plant plant)
     {
         if (plant == null) return false;
-        if (!PlantAvailable(plant.type)) return false;
-        setFlag(plant.type, true);
+        if (!PlantAvailable(plant)) return false;
+
+        if (plant.prePlantID != PlantID.None) // 需要前置植物
+        {
+            getPlant(plant.prePlantID).setState(PlantState.Die); // 替换前置植物
+        }
+
+        addPlant(plant);
         plant.setSortingOrder(getPlantSortingOrder(plant));
         plant.transform.position = plantPlace(plant);
         return true;
