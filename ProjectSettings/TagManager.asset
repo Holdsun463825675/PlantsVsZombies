@@ -18,15 +18,15 @@ TagManager:
   - Ground Surfaces
   - Buildings
   - Obstacles
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Background
+  - Plant
+  - Zombie
+  - AttackPlace
+  - Cell
+  - Shovel
+  - Bullet
+  - Sun
+  - Card
   - 
   - 
   - 

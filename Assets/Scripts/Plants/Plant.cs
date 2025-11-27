@@ -45,7 +45,7 @@ public class Plant : MonoBehaviour, IClickable
     private Cell cell;
 
     private SpriteRenderer spriteRenderer;
-    protected Animator anim;
+    public Animator anim;
     private Collider2D c2d;
 
     protected virtual void Awake()

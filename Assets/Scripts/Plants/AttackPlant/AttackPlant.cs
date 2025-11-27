@@ -19,9 +19,9 @@ public class AttackPlant : Plant
         attackTime = 1.5f; attackTimer = Random.Range(0, attackTime);
         targets = new List<Zombie>();
         // 设置子物体碰撞器
-        attackPlace = transform.Find(attackPlaceName);
+        attackPlace = transform.Find(attackPlaceName).transform;
         attackPlaceCollider = attackPlace.GetComponent<Collider2D>();
-        attackPlaceCollider.GetComponent<TriggerForwarder>().SetParentHandler(this);
+        attackPlaceCollider.GetComponent<TriggerForwarder>().SetPlantParentHandler(this);
         attackPlaceCollider.enabled = false;
     }
 

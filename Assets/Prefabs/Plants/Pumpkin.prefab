@@ -269,7 +269,6 @@ GameObject:
   - component: {fileID: 8193462541552468794}
   - component: {fileID: 3118828049759323650}
   - component: {fileID: 3135196182746449433}
-  - component: {fileID: 3437698302818618592}
   m_Layer: 0
   m_Name: Pumpkin
   m_TagString: Plant
@@ -438,30 +437,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 7
   type: 2
---- !u!50 &3437698302818618592
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6469508829374695944}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  anim: {fileID: 0}

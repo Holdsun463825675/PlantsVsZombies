@@ -15,11 +15,23 @@ public class Shovel : MonoBehaviour
     public ShovelState state;
     private Plant target;
     private SpriteRenderer spriteRenderer;
+    private Collider2D c2d;
+
+    public string shovelPlaceName = "ShovelPlace";
+    protected Collider2D shovelPlaceCollider;
 
     private void Awake()
     {
         target = null;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        c2d = GetComponent<Collider2D>();
+        shovelPlaceCollider = transform.Find(shovelPlaceName).GetComponent<Collider2D>();
+        shovelPlaceCollider.GetComponent<TriggerForwarder>().SetShovelParentHandler(this);
+        shovelPlaceCollider.enabled = false;
+    }
+
+    private void Start()
+    {
         setState(ShovelState.TobeUsed);
     }
 
@@ -30,13 +42,16 @@ public class Shovel : MonoBehaviour
         switch (state)
         {
             case ShovelState.None:
+                shovelPlaceCollider.enabled = false;
                 break;
             case ShovelState.TobeUsed:
                 target = null;
                 transform.position = CardManager.Instance.slotPlace.position;
+                shovelPlaceCollider.enabled = false;
                 spriteRenderer.sortingLayerName = "CardList";
                 break;
             case ShovelState.Suspension:
+                shovelPlaceCollider.enabled = true;
                 spriteRenderer.sortingLayerName = "Hand";
                 break;
             default:
@@ -74,13 +89,26 @@ public class Shovel : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    // 父物体处理触发事件的方法
+    public void OnChildTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == TagConfig.plant) target = collision.GetComponent<Plant>();
+        if (collision.tag == TagConfig.plant)
+        {
+            if (target) target.anim.SetBool(AnimatorConfig.plant_selected, false);
+            target = collision.GetComponent<Plant>();
+            target.anim.SetBool(AnimatorConfig.plant_selected, true);
+        }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public void OnChildTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == TagConfig.plant) target = null;
+        if (collision.tag == TagConfig.plant)
+        {
+            if (target)
+            {
+                target.anim.SetBool(AnimatorConfig.plant_selected, false);
+                target = null;
+            }
+        }
     }
 }

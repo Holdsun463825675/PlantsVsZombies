@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class TriggerForwarder : MonoBehaviour, IClickable
 {
-    private Plant parentHandler;
+    private Plant plantParentHandler;
+    private Shovel shovelParentHandler;
 
     void Start()
     {
@@ -13,19 +14,26 @@ public class TriggerForwarder : MonoBehaviour, IClickable
         priority.isClickable = false;
     }
 
-    public void SetParentHandler(Plant handler)
+    public void SetPlantParentHandler(Plant handler)
     {
-        parentHandler = handler;
+        plantParentHandler = handler;
+    }
+
+    public void SetShovelParentHandler(Shovel handler)
+    {
+        shovelParentHandler = handler;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        parentHandler?.OnChildTriggerEnter2D(collision);
+        plantParentHandler?.OnChildTriggerEnter2D(collision);
+        shovelParentHandler?.OnChildTriggerEnter2D(collision);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        parentHandler?.OnChildTriggerExit2D(collision);
+        plantParentHandler?.OnChildTriggerExit2D(collision);
+        shovelParentHandler?.OnChildTriggerExit2D(collision);
     }
 
     public void OnClick()

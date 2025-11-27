@@ -27,7 +27,7 @@ public class AshPlant : Plant
         targets = new List<Zombie>();
         // 设置子物体碰撞器
         attackPlaceCollider = transform.Find(attackPlaceName).GetComponent<Collider2D>();
-        attackPlaceCollider.GetComponent<TriggerForwarder>().SetParentHandler(this);
+        attackPlaceCollider.GetComponent<TriggerForwarder>().SetPlantParentHandler(this);
         attackPlaceCollider.enabled = false;
     }
 
