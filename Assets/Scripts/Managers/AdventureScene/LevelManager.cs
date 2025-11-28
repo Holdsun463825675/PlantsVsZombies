@@ -24,6 +24,7 @@ public class LevelManager : MonoBehaviour
     {
         foreach (GameObject go in LevelList)
         {
+            if (!go) return;
             if (!JSONSaveSystem.Instance) // ≤‚ ‘
             {
                 go.SetActive(true);

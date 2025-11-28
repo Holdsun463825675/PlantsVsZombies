@@ -23,6 +23,7 @@ public class MenuSceneUIManager : MonoBehaviour
     {
         Instance = this;
 
+        if (!SettingsMenu) return;
         SettingsMenu.SetActive(false);
         Users.transform.Find("UserLabel/Text").GetComponent<TextMeshProUGUI>().text = JSONSaveSystem.Instance.userData.name;
         Users.SetActive(true);
@@ -32,6 +33,7 @@ public class MenuSceneUIManager : MonoBehaviour
 
     private void Start()
     {
+        if (!SettingsMenu) return;
         currUserID = JSONSaveSystem.Instance.metadata.currentUserID;
         selectedUserID = JSONSaveSystem.Instance.metadata.currentUserID;
         LoadSettingsToMenu();
@@ -50,8 +52,7 @@ public class MenuSceneUIManager : MonoBehaviour
         Toggle plantHealthToggle = SettingsMenu.transform.Find("PlantHealth").GetComponent<Toggle>();
         Toggle zombieHealthToggle = SettingsMenu.transform.Find("ZombieHealth").GetComponent<Toggle>();
 
-        AddAllListeners(musicSlider, soundSlider, gameSpeedSlider, spawnMultiplierSlider, hurtRateSlider,
-            autoCollectedToggle, plantHealthToggle, zombieHealthToggle);
+        AddAllListeners(musicSlider, soundSlider, gameSpeedSlider, spawnMultiplierSlider, hurtRateSlider);
 
         // …Ë÷√÷µ
         musicSlider.value = SettingSystem.Instance.settingsData.music;
@@ -62,6 +63,8 @@ public class MenuSceneUIManager : MonoBehaviour
         autoCollectedToggle.isOn = SettingSystem.Instance.settingsData.autoCollected;
         plantHealthToggle.isOn = SettingSystem.Instance.settingsData.plantHealth;
         zombieHealthToggle.isOn = SettingSystem.Instance.settingsData.zombieHealth;
+
+        AddAllListeners(autoCollectedToggle, plantHealthToggle, zombieHealthToggle);
     }
 
     private void AddAllListeners(params Selectable[] uiElements)
@@ -260,6 +263,9 @@ public class MenuSceneUIManager : MonoBehaviour
 
     public void setSettingsMenu(bool isOn)
     {
+        if (isOn && SettingsMenu.activeSelf) return;
+        if (isOn) AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_pause);
+        else AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_gravebutton);
         SettingsMenu.SetActive(isOn);
     }
 

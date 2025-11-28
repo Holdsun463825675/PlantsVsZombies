@@ -591,6 +591,8 @@ GameObject:
   m_Component:
   - component: {fileID: 614700321}
   - component: {fileID: 614700320}
+  - component: {fileID: 614700323}
+  - component: {fileID: 614700322}
   m_Layer: 0
   m_Name: Systems
   m_TagString: Untagged
@@ -634,6 +636,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &614700322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614700319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdaa70d56be42dd49ac9e0147b0ad0fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &614700323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614700319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 453ba9afdaf913745b4c1b0aad7d8cff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &622160001
 GameObject:
   m_ObjectHideFlags: 0
@@ -2366,5 +2392,5 @@ SceneRoots:
   - {fileID: 303277477}
   - {fileID: 282447623}
   - {fileID: 652199348}
-  - {fileID: 614700321}
   - {fileID: 203974698}
+  - {fileID: 614700321}

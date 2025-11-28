@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
     {
         Instance = this;
 
+        if (!PreviewingText) return;
         PreviewingText.SetActive(false);
         MenuButton.SetActive(false);
         Menu.SetActive(false);
@@ -46,6 +47,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        if (!Menu) return;
         LoadSettingsToMenu();
     }
 
@@ -106,8 +108,7 @@ public class UIManager : MonoBehaviour
         Toggle plantHealthToggle = Menu.transform.Find("PlantHealth").GetComponent<Toggle>();
         Toggle zombieHealthToggle = Menu.transform.Find("ZombieHealth").GetComponent<Toggle>();
 
-        AddAllListeners(musicSlider, soundSlider, gameSpeedSlider, spawnMultiplierSlider, hurtRateSlider,
-            autoCollectedToggle, plantHealthToggle, zombieHealthToggle);
+        AddAllListeners(musicSlider, soundSlider, gameSpeedSlider, spawnMultiplierSlider, hurtRateSlider);
 
         // …Ë÷√÷µ
         musicSlider.value = SettingSystem.Instance.settingsData.music;
@@ -118,6 +119,8 @@ public class UIManager : MonoBehaviour
         autoCollectedToggle.isOn = SettingSystem.Instance.settingsData.autoCollected;
         plantHealthToggle.isOn = SettingSystem.Instance.settingsData.plantHealth;
         zombieHealthToggle.isOn = SettingSystem.Instance.settingsData.zombieHealth;
+
+        AddAllListeners(autoCollectedToggle, plantHealthToggle, zombieHealthToggle);
     }
 
     private void AddAllListeners(params Selectable[] uiElements)
@@ -286,6 +289,7 @@ public class UIManager : MonoBehaviour
 
     public void OpenMenu()
     {
+        if (Menu.activeSelf) return;
         AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_pause);
         Menu.SetActive(true);
         if (GameManager.Instance.state == GameState.Processing) GameManager.Instance.Pause();
@@ -297,6 +301,4 @@ public class UIManager : MonoBehaviour
         Menu.SetActive(false);
         if (GameManager.Instance.state == GameState.Paused) GameManager.Instance.Continue();
     }
-
-
 }

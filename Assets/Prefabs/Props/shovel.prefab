@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 7819335849609088566}
   - component: {fileID: 3705177134898294235}
   m_Layer: 16
-  m_Name: shovel
+  m_Name: Shovel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

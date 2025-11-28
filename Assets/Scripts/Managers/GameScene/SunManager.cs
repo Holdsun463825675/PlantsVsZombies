@@ -45,6 +45,7 @@ public class SunManager : MonoBehaviour
 
     void Update()
     {
+        if (!sunText) return;
         sunText.text = sun.ToString();
         if (GameManager.Instance.state == GameState.Paused || GameManager.Instance.state == GameState.Losing) return;
 

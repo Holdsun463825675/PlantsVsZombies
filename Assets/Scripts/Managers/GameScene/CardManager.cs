@@ -96,7 +96,7 @@ public class CardManager : MonoBehaviour
     {
         if (!JSONSaveSystem.Instance) // ≤‚ ‘”√
         {
-            foreach (Card card in cardPanel) card.gameObject.SetActive(true);
+            foreach (Card card in cardPanel) if (card) card.gameObject.SetActive(true);
             return;
         }
 
@@ -118,9 +118,6 @@ public class CardManager : MonoBehaviour
         switch (state)
         {
             case GameState.NotStarted:
-                cardListUI.SetActive(false);
-                cardPanelUI.SetActive(false);
-                slotUI.SetActive(false);
                 break;
             case GameState.Previewing:
                 cardListUI.SetActive(false);
@@ -199,5 +196,10 @@ public class CardManager : MonoBehaviour
     {
         AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_tap);
         setState(GameState.Ready);
+    }
+
+    public List<Card> getCardList()
+    {
+        return cardList;
     }
 }

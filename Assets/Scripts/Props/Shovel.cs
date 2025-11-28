@@ -45,7 +45,11 @@ public class Shovel : MonoBehaviour
                 shovelPlaceCollider.enabled = false;
                 break;
             case ShovelState.TobeUsed:
-                target = null;
+                if (target)
+                {
+                    target.anim.SetBool(AnimatorConfig.plant_selected, false);
+                    target = null;
+                }
                 transform.position = CardManager.Instance.slotPlace.position;
                 shovelPlaceCollider.enabled = false;
                 spriteRenderer.sortingLayerName = "CardList";
@@ -59,7 +63,7 @@ public class Shovel : MonoBehaviour
         }
     }
 
-    private void OnMouseDown()
+    public void OnMouseDown()
     {
         switch (state)
         {
