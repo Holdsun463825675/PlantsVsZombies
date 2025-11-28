@@ -68,7 +68,7 @@ public class KeyboardInputSystem : MonoBehaviour
     {
         if (!CardManager.Instance || !CardManager.Instance.slotUI || !CardManager.Instance.slotUI.activeSelf) return;
         Shovel shovel = FindObjectOfType<Shovel>();
-        if (shovel) shovel.OnMouseDown();
+        if (shovel) shovel.OnClick();
     }
 
     private void ToggleFullScreen() // F1ÇÐ»»È«ÆÁ

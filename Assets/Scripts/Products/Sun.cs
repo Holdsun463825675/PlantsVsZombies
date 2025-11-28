@@ -40,7 +40,7 @@ public class Sun : Product, IClickable
     void Start()
     {
         ClickPriority priority = gameObject.AddComponent<ClickPriority>();
-        priority.priority = 30001;
+        priority.priority = 30002;
         priority.isClickable = true;
     }
 

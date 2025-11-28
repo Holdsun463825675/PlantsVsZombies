@@ -10,12 +10,11 @@ public enum ShovelState
     Suspension,
 }
 
-public class Shovel : MonoBehaviour
+public class Shovel : MonoBehaviour, IClickable
 {
     public ShovelState state;
     private Plant target;
     private SpriteRenderer spriteRenderer;
-    private Collider2D c2d;
 
     public string shovelPlaceName = "ShovelPlace";
     protected Collider2D shovelPlaceCollider;
@@ -24,7 +23,6 @@ public class Shovel : MonoBehaviour
     {
         target = null;
         spriteRenderer = GetComponent<SpriteRenderer>();
-        c2d = GetComponent<Collider2D>();
         shovelPlaceCollider = transform.Find(shovelPlaceName).GetComponent<Collider2D>();
         shovelPlaceCollider.GetComponent<TriggerForwarder>().SetShovelParentHandler(this);
         shovelPlaceCollider.enabled = false;
@@ -32,6 +30,9 @@ public class Shovel : MonoBehaviour
 
     private void Start()
     {
+        ClickPriority priority = gameObject.AddComponent<ClickPriority>();
+        priority.priority = 30001;
+        priority.isClickable = true;
         setState(ShovelState.TobeUsed);
     }
 
@@ -63,7 +64,7 @@ public class Shovel : MonoBehaviour
         }
     }
 
-    public void OnMouseDown()
+    public void OnClick()
     {
         switch (state)
         {
