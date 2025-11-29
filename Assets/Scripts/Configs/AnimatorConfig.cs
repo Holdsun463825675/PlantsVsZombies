@@ -19,6 +19,7 @@ public class AnimatorConfig
     public const string zombie_underAttack = "UnderAttack";
     public const string zombie_dieMode = "DieMode";
     public const string zombie_speedLevel = "SpeedLevel";
+    public const string zombie_speedRatio = "SpeedRatio";
 
     public const string pea_used = "Used";
 

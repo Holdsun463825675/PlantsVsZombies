@@ -1,0 +1,148 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6140155057123429449
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3805881610444012574}
+  m_Layer: 0
+  m_Name: ProducePlace
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3805881610444012574
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6140155057123429449}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.66, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1824931901540569095}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &6191626499800560011
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2471237257151784739, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.x
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 2471237257151784739, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.y
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 2471237257151784739, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1.3333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2471237257151784739, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1.3333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 3211362565714934121, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 71bce90f271adde41b7ccdf5e7e21c9d, type: 3}
+    - target: {fileID: 4749402821575749281, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_Name
+      value: ProductionPlant
+      objectReference: {fileID: 0}
+    - target: {fileID: 5275848274595824352, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 512297ce324f3cf4894eb069436d62c0, type: 2}
+    - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 779738872464982599, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3805881610444012574}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4749402821575749281, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1900014464698834081}
+  m_SourcePrefab: {fileID: 100100000, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+--- !u!1 &1442374318070914858 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4749402821575749281, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+  m_PrefabInstance: {fileID: 6191626499800560011}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1900014464698834081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442374318070914858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee61f385bdcfa5b4292eb8536953b8b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  type: 0
+  prePlantID: 0
+  anim: {fileID: 0}
+  producePlaceName: ProducePlace
+--- !u!4 &1824931901540569095 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+  m_PrefabInstance: {fileID: 6191626499800560011}
+  m_PrefabAsset: {fileID: 0}

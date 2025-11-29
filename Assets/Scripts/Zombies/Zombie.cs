@@ -41,6 +41,7 @@ public class Zombie : MonoBehaviour, IClickable
     public ZombieID zombieID;
     protected float baseSpeed;
     protected float speed;
+    private float speedRatio;
 
     protected int maxHealth, currHealth;
     protected int maxArmor1Health, currArmor1Health;
@@ -74,11 +75,14 @@ public class Zombie : MonoBehaviour, IClickable
     private Animator anim;
     private Collider2D c2d;
 
+    private Tween currentMoveTween;
+
     protected virtual void Awake()
     {
         zombieID = ZombieID.None;
         baseSpeed = 0.2f;
         speed = Random.Range(1.0f, 2.0f) * baseSpeed;
+        speedRatio = 1.0f;
 
         maxHealth = 270; currHealth = maxHealth;
         maxArmor1Health = 0; currArmor1Health = maxArmor1Health;
@@ -128,9 +132,16 @@ public class Zombie : MonoBehaviour, IClickable
         if (GameManager.Instance.state == GameState.Paused || GameManager.Instance.state == GameState.Losing) return;
 
         HealthPercentage = (float)currHealth / (float)maxHealth;
+
         anim.SetFloat(AnimatorConfig.zombie_healthPercentage, HealthPercentage);
+
         anim.SetFloat(AnimatorConfig.zombie_armor1HealthPercentage, maxArmor1Health == 0.0f ? 0.0f : (float)currArmor1Health / (float)maxArmor1Health);
+
         anim.SetFloat(AnimatorConfig.zombie_speedLevel, speedLevel);
+        // ¼õËÙ±ÈÀý
+        anim.SetFloat(AnimatorConfig.zombie_speedRatio, speedRatio);
+        if (currentMoveTween != null) currentMoveTween.timeScale = speedRatio;
+
         if (HealthPercentage >= lostArmHealthPercentage) setHealthState(ZombieHealthState.Healthy);
         if (HealthPercentage >= lostHeadPercentage && HealthPercentage < lostArmHealthPercentage) setHealthState(ZombieHealthState.LostArm);
         if (HealthPercentage >= dieHealthPercentage && HealthPercentage < lostHeadPercentage) setHealthState(ZombieHealthState.LostHead);
@@ -157,7 +168,7 @@ public class Zombie : MonoBehaviour, IClickable
         anim.SetBool(AnimatorConfig.zombie_game, true);
         losingGame = MapManager.Instance.currMap.endlinePositions[0];
         Vector3 target = new Vector3(losingGame.position.x, transform.position.y, transform.position.z);
-        transform.DOMove(target, Vector3.Distance(target, transform.position) / speed)
+        currentMoveTween = transform.DOMove(target, Vector3.Distance(target, transform.position) / speed)
             .SetEase(Ease.Linear)
             .OnComplete(() => {
                 if (healthState == ZombieHealthState.Healthy || healthState == ZombieHealthState.LostArm) GameManager.Instance.setState(GameState.Losing);
