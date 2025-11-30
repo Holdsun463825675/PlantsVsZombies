@@ -61,6 +61,7 @@ public class KeyboardInputSystem : MonoBehaviour
         if (!CardManager.Instance) return;
         List<Card> cardList = CardManager.Instance.getCardList();
         if ((num + 9) % 10 >= cardList.Count) return;
+        if (cardList[(num + 9) % 10].GetComponent<Button>().enabled == false) return;
         cardList[(num + 9) % 10].OnClick();
     }
 
