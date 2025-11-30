@@ -27,6 +27,7 @@ public class LevelConfig
     // 其他
     public bool cleaner = true; // 是否有小推车
     public bool shovel = true; // 是否可用铲子
+    public float generateCardTime = 6.0f; // 传送带出生成植物间隔
     public float gameSpeed = -1; // 固定游戏速度
 }
 

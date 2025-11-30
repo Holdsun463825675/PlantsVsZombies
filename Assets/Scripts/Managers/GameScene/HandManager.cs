@@ -67,6 +67,14 @@ public class HandManager : MonoBehaviour
         AudioManager.Instance.playClip(ResourceConfig.sound_placeplant_plant);
         if (currCard)
         {
+            if (GameManager.Instance.currLevelConfig.cardType == TypeOfCard.Conveyor) // 传送带关种植后销毁卡片
+            {
+                CardManager.Instance.removeCard(currCard);
+                Destroy(currCard.gameObject);
+                currCard = null;
+                return;
+            }
+            // 其他关卡种植
             SunManager.Instance.AddSun(-currCard.cost);
             currCard.setState(CardState.CoolingDown);
             currCard = null;

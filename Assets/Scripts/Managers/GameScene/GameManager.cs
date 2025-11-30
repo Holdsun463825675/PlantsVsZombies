@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
         // 初始阳光
         SunManager.Instance.setSun(currLevelConfig.startingSun);
         // 是否可用铲子
-        CardManager.Instance.setConfigs(currLevelConfig.fixedCards, currLevelConfig.shovel);
+        CardManager.Instance.setConfigs(currLevelConfig.fixedCards, currLevelConfig.shovel, currLevelConfig.generateCardTime);
         // 选卡类型：自选卡0、固定选卡1、传送带2
         // 僵尸
         ZombieManager.Instance.setConfig(
@@ -117,6 +117,7 @@ public class GameManager : MonoBehaviour
             case GameState.Paused:
                 CleanerManager.Instance.setState(GameState.Paused);
                 UIManager.Instance.setState(GameState.Paused);
+                CardManager.Instance.Pause();
                 PlantManager.Instance.Pause();
                 ProductManager.Instance.Pause();
                 ZombieManager.Instance.Pause();
@@ -167,6 +168,7 @@ public class GameManager : MonoBehaviour
         GameSpeedManager.Instance.SetGameSpeed(gameSpeed != -1 ? gameSpeed : SettingSystem.Instance.settingsData.gameSpeed);
         UIManager.Instance.setState(GameState.Processing);
         CleanerManager.Instance.setState(GameState.Processing);
+        CardManager.Instance.Continue();
         PlantManager.Instance.Continue();
         ProductManager.Instance.Continue();
         ZombieManager.Instance.Continue();

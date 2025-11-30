@@ -33,6 +33,11 @@ public class Card : MonoBehaviour
     private void Start()
     {
         costText.text = $"{cost}";
+        if (GameManager.Instance && GameManager.Instance.currLevelConfig.cardType == TypeOfCard.Conveyor)
+        {
+            costText.text = "";
+            cost = 0;
+        }
     }
 
     void Update()
