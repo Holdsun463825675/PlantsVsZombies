@@ -41,7 +41,7 @@ public class Zombie : MonoBehaviour, IClickable
     public ZombieID zombieID;
     protected float baseSpeed;
     protected float speed;
-    private float speedRatio;
+    public float speedRatio;
     private float speedChangeDuration;
 
     protected int maxHealth, currHealth;

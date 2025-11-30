@@ -46,8 +46,8 @@ public class GameManager : MonoBehaviour
         if (currLevelConfig == null) return;
         // 关卡ID
         // 关卡名称
-        UIManager.Instance.PreviewingText.GetComponent<TextMeshProUGUI>().text = "Level: " + currLevelConfig.levelName;
-        UIManager.Instance.LevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currLevelConfig.levelName;
+        UIManager.Instance.PreviewingText.GetComponent<TextMeshProUGUI>().text = "关卡：" + currLevelConfig.levelName;
+        UIManager.Instance.LevelText.GetComponent<TextMeshProUGUI>().text = "关卡：" + currLevelConfig.levelName;
         // 地图
         MapManager.Instance.setMap(currLevelConfig.mapID);
         CameraManager.Instance.getMap();

@@ -15,6 +15,6 @@ public class SnowyPea : Pea
     protected override void Attack()
     {
         base.Attack();
-        target.setSpeedRatio(speedRatio);
+        if (target.speedRatio >= speedRatio) target.setSpeedRatio(speedRatio);
     }
 }

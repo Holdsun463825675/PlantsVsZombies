@@ -309,6 +309,8 @@ public class UIManager : MonoBehaviour
         Image image = WinAward.GetComponent<Image>();
         if (GameManager.Instance.currLevelConfig.awardPlantID != PlantID.None) // 植物奖励
         {
+            // 已解锁则不掉落
+            if (JSONSaveSystem.Instance && JSONSaveSystem.Instance.userData.unlockedPlants.Contains(GameManager.Instance.currLevelConfig.awardPlantID)) return;
             image.sprite = Resources.Load<Sprite>(ResourceConfig.image_plants + $"{GameManager.Instance.currLevelConfig.awardPlantID}" + "/Icon");
             image.SetNativeSize();
             return;
@@ -318,6 +320,7 @@ public class UIManager : MonoBehaviour
             case PropID.None:
                 break;
             case PropID.Shovel:
+                if (JSONSaveSystem.Instance && JSONSaveSystem.Instance.userData.shovel) return;
                 image.sprite = Resources.Load<Sprite>(ResourceConfig.image_props + $"{GameManager.Instance.currLevelConfig.awardPropID}");
                 image.SetNativeSize();
                 break;
