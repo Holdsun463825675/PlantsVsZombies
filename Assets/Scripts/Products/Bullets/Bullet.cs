@@ -3,34 +3,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PeaState
+public enum BulletState
 {
     ToBeUsed,
     Used
 }
 
-public class Pea : Product
+public enum BulletHitSound
 {
-    private int attackPoint = 20;
-    public float speed = 5.0f;
-    public Effect peaBulletHitPrefab;
+    None,
+    Kernelpult,
+    Butter,
+    Melon
+}
 
-    private PeaState state;
+public class Bullet : Product
+{
+    private int attackPoint;
+    public float speed;
+    protected int targetNum; // 最多可攻击的目标（-1为无限）
+    public Effect BulletHitPrefab;
+
+    public BulletHitSound hitSound;
+    public int hitSoundPriority;
+
+    protected BulletState state;
 
     private Transform shadow;
     private SpriteRenderer sr;
     private Collider2D c2d;
 
-    private Zombie target;
+    protected Zombie target;
 
     protected override void Awake()
     {
         base.Awake();
+        attackPoint = 20;
+        speed = 5.0f;
+        targetNum = 1;
+        hitSound = BulletHitSound.None;
+        hitSoundPriority = 0;
+
         shadow = transform.Find("Shadow");
         sr = GetComponent<SpriteRenderer>();
         c2d = GetComponent<Collider2D>();
         Transform child = transform.Find("PeaBulletHit");
-        setState(PeaState.ToBeUsed);
+        setState(BulletState.ToBeUsed);
     }
 
     // 暂停继续功能
@@ -46,48 +64,54 @@ public class Pea : Product
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (target != null) return; // 保证只攻击一个目标
+        if (targetNum == 0) return; // 攻击次数用完
         if (collision.tag == TagConfig.zombie)
         {
+            if (target == collision.GetComponent<Zombie>()) return; // 不攻击重复目标
             target = collision.GetComponent<Zombie>();
-            setState(PeaState.Used);
+            Attack();
+            if (targetNum == 0) setState(BulletState.Used);
         }
     }
 
-    public void setState(PeaState state)
+    protected virtual void Attack()
+    {
+        if (!target) return;
+        if (targetNum > 0) targetNum--;
+        target.UnderAttack(attackPoint);
+        AudioManager.Instance.playHitClip(this, target);
+        //生成特效
+        if (BulletHitPrefab) GameObject.Instantiate(BulletHitPrefab, transform.position, Quaternion.identity);
+    }
+
+    public void setState(BulletState state)
     {
         if (this.state == state) return;
         this.state = state;
-        if (state == PeaState.ToBeUsed)
+        if (state == BulletState.ToBeUsed)
         {
             c2d.enabled = true;
             if (shadow) shadow.gameObject.SetActive(true);
             target = null;
         }
-        if (state == PeaState.Used)
+        if (state == BulletState.Used)
         {
             transform.DOKill();
             c2d.enabled = false;
             if (shadow) shadow.gameObject.SetActive(false);
             sr.enabled = false;
-            if (target)
-            {
-                target.UnderAttack(attackPoint);
-                AudioManager.Instance.playHitClip(this, target);
-                //生成特效
-                GameObject.Instantiate(peaBulletHitPrefab, transform.position, Quaternion.identity);
-            }
             ProductManager.Instance.removeProduct(this);
             Destroy(gameObject);
         }
     }
 
-    public void moveToPlace(Vector3 position, float speed=5.0f)
+    public void moveToPlace(Vector3 position, float speed = 5.0f)
     {
         transform.DOMove(position, Vector3.Distance(transform.position, position) / speed)
             .SetEase(Ease.Linear)
             .OnComplete(() => {
                 ProductManager.Instance.removeProduct(this);
-                Destroy(gameObject);});
+                Destroy(gameObject);
+            });
     }
 }

@@ -42,6 +42,7 @@ public class Zombie : MonoBehaviour, IClickable
     protected float baseSpeed;
     protected float speed;
     private float speedRatio;
+    private float speedChangeDuration;
 
     protected int maxHealth, currHealth;
     protected int maxArmor1Health, currArmor1Health;
@@ -83,6 +84,7 @@ public class Zombie : MonoBehaviour, IClickable
         baseSpeed = 0.2f;
         speed = Random.Range(1.0f, 2.0f) * baseSpeed;
         speedRatio = 1.0f;
+        speedChangeDuration = 0.0f;
 
         maxHealth = 270; currHealth = maxHealth;
         maxArmor1Health = 0; currArmor1Health = maxArmor1Health;
@@ -296,6 +298,16 @@ public class Zombie : MonoBehaviour, IClickable
         }
     }
 
+    private void speedChangeUpdate()
+    {
+        if (speedChangeDuration <= 0.0f)
+        {
+            speedRatio = 1.0f;
+            return;
+        }
+        speedChangeDuration -= Time.deltaTime;
+    }
+
     public void AddCurrHealth(int point)
     {
         currHealth += point;
@@ -326,6 +338,12 @@ public class Zombie : MonoBehaviour, IClickable
         else AddCurrHealth(-hurtPoint);
     }
 
+    public void setSpeedRatio(float speedRatio, float speedChangeDuration=12.0f)
+    {
+        this.speedChangeDuration = speedChangeDuration;
+        this.speedRatio = speedRatio;
+    }
+
     private Plant getAttackTarget()
     {
         foreach (Plant plant in targets) if (plant.type == PlantType.Surrounding) return plant;
@@ -345,18 +363,22 @@ public class Zombie : MonoBehaviour, IClickable
     {
         kinematicsUpdate();
         groanUpdate();
+        speedChangeUpdate();
     }
 
     private void LostArmUpdate()
     {
         kinematicsUpdate();
         groanUpdate();
+        speedChangeUpdate();
     }
 
     private void LostHeadUpdate()
     {
         dieMode = 0;
         kinematicsUpdate();
+        speedChangeUpdate();
+
         if (Time.timeScale <= 0) return; // ÔÝÍ£Ê±²»µôÑª
 
         healthLossTimer += Time.deltaTime;

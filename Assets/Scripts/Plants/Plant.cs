@@ -11,6 +11,7 @@ public enum PlantID
     Sunflower,
     CherryBomb,
     WallNut,
+    SnowPea,
     Repeater,
     TallNut,
     Pumpkin,

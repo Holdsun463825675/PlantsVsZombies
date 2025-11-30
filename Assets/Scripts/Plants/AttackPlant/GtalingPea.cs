@@ -37,7 +37,7 @@ public class GtalingPea : AttackPlant
     {
         AudioManager.Instance.playClip(ResourceConfig.sound_plantshoot_throw);
         Pea pea = GameObject.Instantiate(peaPrefab, attackPlace.position, Quaternion.identity);
-        pea.setState(PeaState.ToBeUsed);
+        pea.setState(BulletState.ToBeUsed);
         float target_x = MapManager.Instance.currMap.endlinePositions[1].position.x;
         pea.moveToPlace(new Vector3(target_x, attackPlace.position.y, attackPlace.position.z));
     }

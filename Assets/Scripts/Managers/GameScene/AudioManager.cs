@@ -52,20 +52,20 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void playHitClip(Product product, Zombie zombie)
+    public void playHitClip(Bullet bullet, Zombie zombie)
     {
         string hitSound = "", underAttackSound = "";
-        switch (product.hitSound)
+        switch (bullet.hitSound)
         {
-            case ProductHitSound.None:
+            case BulletHitSound.None:
                 break;
-            case ProductHitSound.Kernelpult:
+            case BulletHitSound.Kernelpult:
                 hitSound = ResourceConfig.sound_bullethit_kernelpults[Random.Range(0, ResourceConfig.sound_bullethit_kernelpults.Length)];
                 break;
-            case ProductHitSound.Butter:
+            case BulletHitSound.Butter:
                 hitSound = ResourceConfig.sound_bullethit_butter;
                 break;
-            case ProductHitSound.Melon:
+            case BulletHitSound.Melon:
                 hitSound = ResourceConfig.sound_bullethit_melonimpacts[Random.Range(0, ResourceConfig.sound_bullethit_melonimpacts.Length)];
                 break;
         }
@@ -81,11 +81,11 @@ public class AudioManager : MonoBehaviour
                 underAttackSound = ResourceConfig.sound_bullethit_shieldhits[Random.Range(0, ResourceConfig.sound_bullethit_shieldhits.Length)];
                 break;
         }
-        if (product.hitSoundPriority == zombie.underAttackSoundPriority)
+        if (bullet.hitSoundPriority == zombie.underAttackSoundPriority)
         {
             playClip(hitSound); playClip(underAttackSound);
         }
-        else if (product.hitSoundPriority > zombie.underAttackSoundPriority) playClip(hitSound);
+        else if (bullet.hitSoundPriority > zombie.underAttackSoundPriority) playClip(hitSound);
         else playClip(underAttackSound);
     }
 }
