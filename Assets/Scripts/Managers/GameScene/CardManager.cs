@@ -162,6 +162,7 @@ public class CardManager : MonoBehaviour
                     {
                         addCard(card);
                         card.setState(CardState.SelectingCard_Selected);
+                        card.gameObject.SetActive(true);
                         card.GetComponent<Button>().enabled = false;
                     }
                 }
@@ -274,6 +275,7 @@ public class CardManager : MonoBehaviour
         if (flag)
         {
             newCard.setState(CardState.Ready);
+            newCard.gameObject.SetActive(true);
             newCard.transform.SetParent(ConveyorUI.transform);
         } 
         else Destroy(newCard);
