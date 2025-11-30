@@ -64,7 +64,7 @@ public class UIManager : MonoBehaviour
                 break;
             case GameState.SelectingCard:
                 PreviewingText.SetActive(false);
-                MenuButton.SetActive(true);
+                MenuButton.SetActive(GameManager.Instance.currLevelConfig.cardType == TypeOfCard.Autonomy);
                 break;
             case GameState.Ready:
                 MenuButton.SetActive(false);

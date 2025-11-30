@@ -28,6 +28,7 @@ public class LevelConfigs
             dropSun = true,
             startingSun = 8000,
             cardType = TypeOfCard.Autonomy,
+            //fixedCards = new List<PlantID> { PlantID.PeaShooter, PlantID.Sunflower, PlantID.CherryBomb, PlantID.WallNut, PlantID.SnowPea, PlantID.Repeater, PlantID.TallNut, PlantID.Pumpkin, PlantID.GtalingPea, PlantID.TwinSunflower},
 
             zombieID = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.BucketZombie, ZombieID.FootballZombie },
             zombieWaves = new List<ZombieWave> {

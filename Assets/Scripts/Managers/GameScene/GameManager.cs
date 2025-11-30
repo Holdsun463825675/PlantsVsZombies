@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
         // 初始阳光
         SunManager.Instance.setSun(currLevelConfig.startingSun);
         // 是否可用铲子
-        CardManager.Instance.setConfigs(currLevelConfig.shovel);
+        CardManager.Instance.setConfigs(currLevelConfig.fixedCards, currLevelConfig.shovel);
         // 选卡类型：自选卡0、固定选卡1、传送带2
         // 僵尸
         ZombieManager.Instance.setConfig(

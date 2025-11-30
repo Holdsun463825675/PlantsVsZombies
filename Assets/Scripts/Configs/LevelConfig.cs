@@ -5,7 +5,7 @@ using UnityEngine;
 public class LevelConfig
 {
     public int levelID; // 关卡ID
-    public List<int> nextLevelID; // 通关后解锁的关卡
+    public List<int> nextLevelID = new List<int>(); // 通关后解锁的关卡
     public PlantID awardPlantID = PlantID.None; // 通关奖励植物
     public PropID awardPropID = PropID.None; // 通关奖励道具
     public string levelName; // 关卡名称
@@ -15,7 +15,8 @@ public class LevelConfig
     public bool dropSun; // 是否掉落阳光
     public int startingSun; // 初始阳光
 
-    public TypeOfCard cardType; // 选卡类型：自选卡0、固定选卡1、传送带2
+    public TypeOfCard cardType; // 选卡类型
+    public List<PlantID> fixedCards = new List<PlantID>(); // 固定选卡/传送带卡
     
     public List<ZombieID> zombieID; // 出现的僵尸
     public List<ZombieWave> zombieWaves; // 每波僵尸

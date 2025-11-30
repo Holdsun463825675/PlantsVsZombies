@@ -73,7 +73,9 @@ public class CameraManager : MonoBehaviour
     {
         UI.transform.DOMove(endPlace.position, previewMoveTime)
             .SetEase(Ease.InOutSine)
-            .OnComplete(() => GameManager.Instance.setState(GameState.SelectingCard));
+            .OnComplete(() => {
+                GameManager.Instance.setState(GameState.SelectingCard);
+            });
     }
 
     private void readyMove()

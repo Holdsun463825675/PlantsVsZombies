@@ -107,8 +107,21 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    public void setConfigs(bool shovel)
+    public void setConfigs(List<PlantID> fixedCards, bool shovel)
     {
+        foreach (PlantID ID in fixedCards)
+        {
+            foreach (Card card in cardPanel)
+            {
+                if (card.plantID == ID)
+                {
+                    addCard(card);
+                    card.setState(CardState.SelectingCard_Selected);
+                    card.GetComponent<Button>().enabled = false;
+                }
+            }
+        }
+
         isShovel = shovel;
         if (JSONSaveSystem.Instance) isShovel &= JSONSaveSystem.Instance.userData.shovel;
     }
@@ -129,12 +142,14 @@ public class CardManager : MonoBehaviour
             case GameState.SelectingCard:
                 slotUI.SetActive(false);
                 foreach (Card card in cardList) if (card) card.setState(CardState.SelectingCard_Selected);
-                cardListUI.SetActive(true);
+                cardListUI.SetActive(GameManager.Instance.currLevelConfig.cardType == TypeOfCard.Autonomy);
                 cardListUI.transform.DOMove(cardListUIEndPlace.position, UIMoveTime);
                 foreach (Card card in cardPanel) if (card) card.setState(CardState.SelectingCard_NotSelected);
-                cardPanelUI.SetActive(true);
-                cardPanelUI.transform.DOMove(cardPanelUIEndPlace.position, UIMoveTime);
-
+                cardPanelUI.SetActive(GameManager.Instance.currLevelConfig.cardType == TypeOfCard.Autonomy);
+                cardPanelUI.transform.DOMove(cardPanelUIEndPlace.position, UIMoveTime)
+                    .OnComplete(() => {
+                        if (GameManager.Instance.currLevelConfig.cardType != TypeOfCard.Autonomy) setState(GameState.Ready);
+                    });
                 break;
             case GameState.Ready:
                 slotUI.SetActive(false);
@@ -142,11 +157,11 @@ public class CardManager : MonoBehaviour
                 {
                     if (card)
                     {
+                        card.GetComponent<Button>().enabled = true;
                         card.transform.SetParent(cardListUI.transform);
                         card.setState(CardState.GameReady);
-                    } 
+                    }
                 }
-                cardListUI.SetActive(true);
                 cardPanelUI.transform.DOMove(cardPanelUIBeginPlace.position, UIMoveTime).OnComplete(() => GameManager.Instance.setState(GameState.Ready));
                 break;
             case GameState.Processing:

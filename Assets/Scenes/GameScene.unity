@@ -1325,7 +1325,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8849135777268351668, guid: 6909eeeec12b04c439e5767d71914244, type: 3}
       propertyPath: plantID
-      value: 9
+      value: 41
       objectReference: {fileID: 0}
     - target: {fileID: 8849135777268351668, guid: 6909eeeec12b04c439e5767d71914244, type: 3}
       propertyPath: Card_Original
@@ -2435,7 +2435,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8849135777268351668, guid: 6909eeeec12b04c439e5767d71914244, type: 3}
       propertyPath: plantID
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8849135777268351668, guid: 6909eeeec12b04c439e5767d71914244, type: 3}
       propertyPath: Card_Original
@@ -2982,7 +2982,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8849135777268351668, guid: 6909eeeec12b04c439e5767d71914244, type: 3}
       propertyPath: plantID
-      value: 7
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 8849135777268351668, guid: 6909eeeec12b04c439e5767d71914244, type: 3}
       propertyPath: Card_Original
@@ -5242,7 +5242,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8849135777268351668, guid: 6909eeeec12b04c439e5767d71914244, type: 3}
       propertyPath: plantID
-      value: 10
+      value: 42
       objectReference: {fileID: 0}
     - target: {fileID: 8849135777268351668, guid: 6909eeeec12b04c439e5767d71914244, type: 3}
       propertyPath: Card_Original
@@ -5667,7 +5667,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8849135777268351668, guid: 6909eeeec12b04c439e5767d71914244, type: 3}
       propertyPath: plantID
-      value: 8
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 8849135777268351668, guid: 6909eeeec12b04c439e5767d71914244, type: 3}
       propertyPath: Card_Original
@@ -7234,7 +7234,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8849135777268351668, guid: 6909eeeec12b04c439e5767d71914244, type: 3}
       propertyPath: plantID
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8849135777268351668, guid: 6909eeeec12b04c439e5767d71914244, type: 3}
       propertyPath: Card_Original
