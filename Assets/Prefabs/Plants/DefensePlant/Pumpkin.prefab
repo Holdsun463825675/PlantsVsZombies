@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad735529f97517b4dac1e1f07a34a4a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 8
+  id: 31
   type: 2
   prePlantID: 0
   anim: {fileID: 0}

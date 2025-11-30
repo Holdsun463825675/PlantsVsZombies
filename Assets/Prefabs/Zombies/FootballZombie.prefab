@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52987e67e46951f489839502eed589b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zombieID: 5
+  zombieID: 8
   spawnWeight: 6
   zombieHeadPrefab: {fileID: 1143894914790227004, guid: 7cb14b8ed54ed8a43a393cba0fb33cc6, type: 3}
   underAttackSound: 0

@@ -6,7 +6,6 @@ public class PlantManager : MonoBehaviour
 {
     public static PlantManager Instance { get; private set; }
 
-    public List<Plant> plantPrefabList;
     private List<Plant> plantList = new List<Plant>();
 
     private void Awake()
@@ -39,15 +38,6 @@ public class PlantManager : MonoBehaviour
     public void removePlant(Plant plant)
     {
         plantList.Remove(plant);
-    }
-
-    public Plant GetPlantPrefab(PlantID plantID)
-    {
-        foreach (Plant plant in plantPrefabList)
-        {
-            if (plant.id == plantID) return plant;
-        }
-        return null;
     }
 
     private void setPlantTwinkle(PlantID id)

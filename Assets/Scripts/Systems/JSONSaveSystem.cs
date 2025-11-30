@@ -258,9 +258,18 @@ public class JSONSaveSystem : MonoBehaviour
         SaveGameData();
     }
 
-    public void unlockShovel()
+    public void unlockProp(PropID ID)
     {
-        userData.shovel = true;
+        switch (ID)
+        {
+            case PropID.None:
+                break;
+            case PropID.Shovel:
+                userData.shovel = true;
+                break;
+            default:
+                break;
+        }
         SaveGameData();
     }
 }

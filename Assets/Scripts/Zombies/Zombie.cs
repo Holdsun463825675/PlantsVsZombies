@@ -6,12 +6,12 @@ using UnityEngine;
 
 public enum ZombieID
 {
-    None,
-    NormalZombie,
-    FlagZombie,
-    ConeHeadZombie,
-    BucketZombie,
-    FootballZombie,
+    None = 0,
+    NormalZombie = 1,
+    FlagZombie = 2,
+    ConeHeadZombie = 3,
+    BucketZombie = 5,
+    FootballZombie = 8,
 }
 
 public enum ZombieMoveState
@@ -341,6 +341,7 @@ public class Zombie : MonoBehaviour, IClickable
     public void setSpeedRatio(float speedRatio, float speedChangeDuration=12.0f)
     {
         this.speedChangeDuration = speedChangeDuration;
+        if (speedRatio < this.speedRatio) AudioManager.Instance.playClip(ResourceConfig.sound_zombie_frozen);
         this.speedRatio = speedRatio;
     }
 

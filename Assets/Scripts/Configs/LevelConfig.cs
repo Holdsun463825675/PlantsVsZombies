@@ -6,7 +6,8 @@ public class LevelConfig
 {
     public int levelID; // 关卡ID
     public List<int> nextLevelID; // 通关后解锁的关卡
-    public PlantID awardPlantID; // 通关奖励植物
+    public PlantID awardPlantID = PlantID.None; // 通关奖励植物
+    public PropID awardPropID = PropID.None; // 通关奖励道具
     public string levelName; // 关卡名称
     public int mapID; // 地图
     public TimeOfDay time; // 时间
@@ -26,7 +27,6 @@ public class LevelConfig
     public bool cleaner = true; // 是否有小推车
     public bool shovel = true; // 是否可用铲子
     public float gameSpeed = -1; // 固定游戏速度
-    public bool awardShovel = false; // 通关奖励铲子
 }
 
 public enum TimeOfDay

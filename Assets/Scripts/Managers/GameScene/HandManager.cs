@@ -49,7 +49,7 @@ public class HandManager : MonoBehaviour
     {
         CancelShovel();
         CancelPlant();
-        Plant plant = PlantManager.Instance.GetPlantPrefab(plantID);
+        Plant plant = PrefabSystem.Instance.GetPlantPrefab(plantID);
         if (plant == null) return;
         AudioManager.Instance.playClip(ResourceConfig.sound_placeplant_selectcard);
         currPlant = GameObject.Instantiate(plant);

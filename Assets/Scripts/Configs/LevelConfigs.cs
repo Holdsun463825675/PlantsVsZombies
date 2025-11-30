@@ -20,7 +20,8 @@ public class LevelConfigs
             levelID = 0,
             levelName = "Test",
             nextLevelID = new List<int> { 1 },
-            awardPlantID = PlantID.Sunflower,
+            awardPlantID = PlantID.None,
+            awardPropID = PropID.Shovel,
             mapID = 3,
             time = TimeOfDay.Day,
             music = ResourceConfig.music_day,
@@ -119,6 +120,7 @@ public class LevelConfigs
             levelName = "1-4",
             nextLevelID = new List<int> { 8 },
             awardPlantID = PlantID.None,
+            awardPropID = PropID.Shovel,
             mapID = 3,
             time = TimeOfDay.Day,
             music = ResourceConfig.music_day,
@@ -139,8 +141,6 @@ public class LevelConfigs
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie},spawnWeight = 5.0f,largeWave = false},
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ConeHeadZombie, ZombieID.NormalZombie},spawnWeight = 10.0f,largeWave = true,certainlySpawn=1},
             },
-
-            awardShovel = true,
         });
         // 1-5
         levelConfigs.Add(new LevelConfig

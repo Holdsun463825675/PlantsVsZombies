@@ -128,7 +128,7 @@ public class Cell : MonoBehaviour, IClickable
     {
         if (plant == null) return;
         if (!PlantAvailable(plant)) return;
-        Plant virtualPlantPrefab = PlantManager.Instance.GetPlantPrefab(plant.id);
+        Plant virtualPlantPrefab = PrefabSystem.Instance.GetPlantPrefab(plant.id);
         virtualPlant = GameObject.Instantiate(virtualPlantPrefab);
         virtualPlant.setSortingOrder(virtualPlant.GetComponent<SpriteRenderer>().sortingOrder - 1);
         virtualPlant.transform.position = plantPlace(virtualPlant);

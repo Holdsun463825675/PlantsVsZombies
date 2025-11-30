@@ -18,6 +18,7 @@ public class SnowPea : AttackPlant
     protected override void Attack()
     {
         AudioManager.Instance.playClip(ResourceConfig.sound_plantshoot_throw);
+        AudioManager.Instance.playClip(ResourceConfig.sound_plant_snowyPea);
         Pea pea = GameObject.Instantiate(peaPrefab, attackPlace.position, Quaternion.identity);
         pea.setState(BulletState.ToBeUsed);
         float target_x = MapManager.Instance.currMap.endlinePositions[1].position.x;

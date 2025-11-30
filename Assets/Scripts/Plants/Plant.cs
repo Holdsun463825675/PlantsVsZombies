@@ -6,17 +6,17 @@ using static UnityEngine.GraphicsBuffer;
 
 public enum PlantID
 {
-    None,
-    PeaShooter,
-    Sunflower,
-    CherryBomb,
-    WallNut,
-    SnowPea,
-    Repeater,
-    TallNut,
-    Pumpkin,
-    GtalingPea,
-    TwinSunflower,
+    None = 0,
+    PeaShooter = 1,
+    Sunflower = 2,
+    CherryBomb = 3,
+    WallNut = 4,
+    SnowPea = 6,
+    Repeater = 8,
+    TallNut = 24,
+    Pumpkin = 31,
+    GtalingPea = 41,
+    TwinSunflower = 42,
 }
 
 public enum PlantState

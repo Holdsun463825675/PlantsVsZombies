@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour
                     JSONSaveSystem.Instance.CompleteLevel(currLevelConfig.levelID);
                     foreach (int id in currLevelConfig.nextLevelID) JSONSaveSystem.Instance.UnlockLevel(id);
                     JSONSaveSystem.Instance.unlockPlant(currLevelConfig.awardPlantID);
-                    if (currLevelConfig.awardShovel) JSONSaveSystem.Instance.unlockShovel();
+                    JSONSaveSystem.Instance.unlockProp(currLevelConfig.awardPropID);
                 }
                 break;
             default:

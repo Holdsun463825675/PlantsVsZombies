@@ -30,6 +30,9 @@ public class ResourceConfig
     public const string sound_placeplant_selectcard = "Audio/Sound/placeplant/selectcard";
     public const string sound_placeplant_plant = "Audio/Sound/placeplant/plant";
     public const string sound_placeplant_plant2 = "Audio/Sound/placeplant/plant2";
+
+    public const string sound_plant_snowyPea = "Audio/Sound/plant/snow_pea_sparkles";
+
     public const string sound_plantshoot_throw = "Audio/Sound/plantshoot/throw";
 
     public static readonly string[] sound_bullethit_splats = new string[]
@@ -71,6 +74,8 @@ public class ResourceConfig
     };
     public const string sound_other_lawnmower = "Audio/Sound/other/lawnmower";
 
+    public const string sound_zombie_frozen = "Audio/Sound/zombie/frozen";
+
     public static readonly string[] sound_zombieeat_chomps = new string[]
     {
         "Audio/Sound/zombieeat/chomp",
@@ -98,4 +103,7 @@ public class ResourceConfig
     public const string sound_lose_losemusic = "Audio/Sound/lose/losemusic";
     public const string sound_lose_scream = "Audio/Sound/lose/scream";
 
+
+    public const string image_plants = "Images/Plants/";
+    public const string image_props = "Images/Props/";
 }

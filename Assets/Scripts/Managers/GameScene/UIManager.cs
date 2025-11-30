@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static JSONSaveSystem;
 
 public class UIManager : MonoBehaviour
 {
@@ -89,6 +90,7 @@ public class UIManager : MonoBehaviour
             case GameState.Winning:
                 MenuButton.GetComponent<Button>().enabled = false;
                 PauseAndContinue.GetComponent<Button>().enabled = false;
+                setWinAward();
                 WinAward.SetActive(true);
                 break;
             default:
@@ -300,5 +302,25 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_gravebutton);
         Menu.SetActive(false);
         if (GameManager.Instance.state == GameState.Paused) GameManager.Instance.Continue();
+    }
+
+    private void setWinAward()
+    {
+        Image image = WinAward.GetComponent<Image>();
+        if (GameManager.Instance.currLevelConfig.awardPlantID != PlantID.None) // Ö²Îï½±Àø
+        {
+            image.sprite = Resources.Load<Sprite>(ResourceConfig.image_plants + $"{GameManager.Instance.currLevelConfig.awardPlantID}" + "/Icon");
+            return;
+        }
+        switch (GameManager.Instance.currLevelConfig.awardPropID) // µÀ¾ß½±Àø
+        {
+            case PropID.None:
+                break;
+            case PropID.Shovel:
+                image.sprite = Resources.Load<Sprite>(ResourceConfig.image_props + $"{GameManager.Instance.currLevelConfig.awardPropID}");
+                break;
+            default:
+                break;
+        }
     }
 }

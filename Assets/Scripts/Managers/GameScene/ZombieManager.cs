@@ -41,7 +41,6 @@ public class ZombieManager : MonoBehaviour
     private int[] orderInLayers;
     public int[] spawnProtection;
 
-    public List<Zombie> zombiePrefabList;
 
     private List<Zombie> zombiePreviewingList;
     private int currWaveNumber = 0;
@@ -118,7 +117,7 @@ public class ZombieManager : MonoBehaviour
                 Vector2 randomPoint = new Vector2(Random.Range(bounds.min.x, bounds.max.x), Random.Range(bounds.min.y, bounds.max.y));
                 if (zombiePreviewingPlace.OverlapPoint(randomPoint))
                 {
-                    foreach (Zombie zombie in zombiePrefabList)
+                    foreach (Zombie zombie in PrefabSystem.Instance.zombiePrefabs)
                     {
                         if (zombie.zombieID == zombieID[i])
                         {
@@ -275,7 +274,7 @@ public class ZombieManager : MonoBehaviour
         float minWeight = 9999;
         foreach (ZombieID id in zombieWaves[currWaveNumber].zombieIDs)
         {
-            foreach (Zombie zombie in zombiePrefabList)
+            foreach (Zombie zombie in PrefabSystem.Instance.zombiePrefabs)
             {
                 if (zombie.zombieID != id) continue;
                 minWeight = Mathf.Min(minWeight, zombie.spawnWeight);
@@ -317,7 +316,7 @@ public class ZombieManager : MonoBehaviour
             // 随机僵尸
             ZombieID zombieID = zombieWaves[currWaveNumber].zombieIDs[Random.Range(0, zombieWaves[currWaveNumber].zombieIDs.Count)];
             
-            foreach (var go in zombiePrefabList)
+            foreach (var go in PrefabSystem.Instance.zombiePrefabs)
             {
                 if (go.GetComponent<Zombie>().zombieID == zombieID) zombiePrefab = go.GetComponent<Zombie>();
             }
@@ -326,7 +325,7 @@ public class ZombieManager : MonoBehaviour
         }
         else
         {
-            foreach (var go in zombiePrefabList)
+            foreach (var go in PrefabSystem.Instance.zombiePrefabs)
             {
                 if (go.GetComponent<Zombie>().zombieID == ID) zombiePrefab = go.GetComponent<Zombie>();
             }
@@ -341,13 +340,6 @@ public class ZombieManager : MonoBehaviour
             spawnOneZombie(ID); // 有出怪保护则重新生成
             return;
         }
-        //int row = 0;
-        //while (true)
-        //{
-        //    // 随机行
-        //    row = Random.Range(0, zombieSpawnPlaceList.Count);
-        //    if (spawnProtection[row] == 0) break;
-        //}
 
         Zombie zombie = GameObject.Instantiate(zombiePrefab, zombieSpawnPlaceList[row].position, Quaternion.identity);
         if (zombie)

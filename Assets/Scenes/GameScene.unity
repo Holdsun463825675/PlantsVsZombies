@@ -3263,6 +3263,7 @@ GameObject:
   - component: {fileID: 861452399}
   - component: {fileID: 861452401}
   - component: {fileID: 861452402}
+  - component: {fileID: 861452403}
   m_Layer: 0
   m_Name: Systems
   m_TagString: Untagged
@@ -3330,6 +3331,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdaa70d56be42dd49ac9e0147b0ad0fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &861452403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861452398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ee540c9f688bda4cb4f67239f4bc085, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  plantPrefabs:
+  - {fileID: 6887143416125917739, guid: 1771ad7523830004eacbcd321deb8caa, type: 3}
+  - {fileID: -4638361324433351693, guid: 0c396e80d2de9d948ab1d00fd71c3ea8, type: 3}
+  - {fileID: 7036460182125828511, guid: 5c1dc6f7eb1536242b742cfdde393981, type: 3}
+  - {fileID: 5459288263359265142, guid: 8c22e88f415e65b40aecb71bb80b60ca, type: 3}
+  - {fileID: 1679876859013710056, guid: f5be80db7a8b96c418f37736cfdf27d0, type: 3}
+  - {fileID: 8216147691541978102, guid: 478015088786f8146ad5d2469efd54d8, type: 3}
+  - {fileID: 388422102326476367, guid: 3aa618f0b9d8b884e8106ddf0f352883, type: 3}
+  - {fileID: 5782396182658083644, guid: 2929f88b545ab8c489e6be577a2489af, type: 3}
+  - {fileID: 9158677797198406897, guid: 85f529cd1ca3b354493c86bfbc05239c, type: 3}
+  - {fileID: 8367331716224398203, guid: bba76f3c9f3b8e34aaf8acf0783b6233, type: 3}
+  zombiePrefabs:
+  - {fileID: 7900433183329532398, guid: f1de0af5d6f76f643a5558edacfe8ab6, type: 3}
+  - {fileID: 4534829649902018784, guid: d69466af9e3c81b489354aaf2fbb8f2c, type: 3}
+  - {fileID: 504547403546643421, guid: 9590230576f69ae40920a592e878d279, type: 3}
+  - {fileID: 2442252531836697981, guid: d7d6159f0fb4c4842b0e6f82f5fe7a74, type: 3}
+  - {fileID: 1138112822486411719, guid: 9fdf5b5b440379e42848e4b55db609d1, type: 3}
 --- !u!1 &870795249
 GameObject:
   m_ObjectHideFlags: 0
@@ -4691,12 +4721,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnProtection: 
-  zombiePrefabList:
-  - {fileID: 7900433183329532398, guid: f1de0af5d6f76f643a5558edacfe8ab6, type: 3}
-  - {fileID: 4534829649902018784, guid: d69466af9e3c81b489354aaf2fbb8f2c, type: 3}
-  - {fileID: 504547403546643421, guid: 9590230576f69ae40920a592e878d279, type: 3}
-  - {fileID: 2442252531836697981, guid: d7d6159f0fb4c4842b0e6f82f5fe7a74, type: 3}
-  - {fileID: 1138112822486411719, guid: 9fdf5b5b440379e42848e4b55db609d1, type: 3}
 --- !u!114 &1315778095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4722,17 +4746,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b6dd4a18a1425f45bacb4e65a0e6e20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantPrefabList:
-  - {fileID: 6887143416125917739, guid: 1771ad7523830004eacbcd321deb8caa, type: 3}
-  - {fileID: -4638361324433351693, guid: 0c396e80d2de9d948ab1d00fd71c3ea8, type: 3}
-  - {fileID: 7036460182125828511, guid: 5c1dc6f7eb1536242b742cfdde393981, type: 3}
-  - {fileID: 5459288263359265142, guid: 8c22e88f415e65b40aecb71bb80b60ca, type: 3}
-  - {fileID: 1679876859013710056, guid: f5be80db7a8b96c418f37736cfdf27d0, type: 3}
-  - {fileID: 8216147691541978102, guid: 478015088786f8146ad5d2469efd54d8, type: 3}
-  - {fileID: 388422102326476367, guid: 3aa618f0b9d8b884e8106ddf0f352883, type: 3}
-  - {fileID: 5782396182658083644, guid: 2929f88b545ab8c489e6be577a2489af, type: 3}
-  - {fileID: 9158677797198406897, guid: 85f529cd1ca3b354493c86bfbc05239c, type: 3}
-  - {fileID: 8367331716224398203, guid: bba76f3c9f3b8e34aaf8acf0783b6233, type: 3}
 --- !u!114 &1315778099
 MonoBehaviour:
   m_ObjectHideFlags: 0
