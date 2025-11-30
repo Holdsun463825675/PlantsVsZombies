@@ -217,9 +217,9 @@ public class ZombieManager : MonoBehaviour
         }
         else // 大波
         {
-            if (spawnTimer >= spawnMaxTime || currWaveNumber > 0 && getZombieHealthPercentage() < 1e-10) // 大波，达到最大出怪时间或场上僵尸全部死亡
+            if (spawnTimer >= spawnMaxTime || currWaveNumber > 0 && getZombieHealthPercentage() == 0.0f) // 大波，达到最大出怪时间或场上僵尸全部死亡
             {
-                spawnTimer = spawnTime;
+                spawnTimer = spawnMaxTime;
                 if (currWaveNumber == 0) UIManager.Instance.activateLevelProcess();
                 if (!isPlayingHugeWave)
                 {
@@ -237,7 +237,7 @@ public class ZombieManager : MonoBehaviour
         spawnTimer += Time.deltaTime;
         getSpawnTime();
         levelProcessUpdate();
-        if (getZombieHealthPercentage() >= 1e-10) lastDeadZombiePosition = zombieList[0].transform.position;
+        if (getZombieHealthPercentage() > 0.0f) lastDeadZombiePosition = zombieList[0].transform.position;
         else // 出怪结束且僵尸全部死亡
         {
             // TODO: 转成UI坐标
