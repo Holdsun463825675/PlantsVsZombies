@@ -142,6 +142,7 @@ public class Zombie : MonoBehaviour, IClickable
         anim.SetFloat(AnimatorConfig.zombie_speedLevel, speedLevel);
         // ¼õËÙ±ÈÀý
         anim.SetFloat(AnimatorConfig.zombie_speedRatio, speedRatio);
+        if (lostHeadAnim) lostHeadAnim.SetFloat(AnimatorConfig.zombie_speedRatio, speedRatio);
         if (currentMoveTween != null) currentMoveTween.timeScale = speedRatio;
 
         if (HealthPercentage >= lostArmHealthPercentage) setHealthState(ZombieHealthState.Healthy);

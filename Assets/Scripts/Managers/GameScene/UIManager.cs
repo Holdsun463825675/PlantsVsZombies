@@ -310,6 +310,7 @@ public class UIManager : MonoBehaviour
         if (GameManager.Instance.currLevelConfig.awardPlantID != PlantID.None) // Ö²Îï½±Àø
         {
             image.sprite = Resources.Load<Sprite>(ResourceConfig.image_plants + $"{GameManager.Instance.currLevelConfig.awardPlantID}" + "/Icon");
+            image.SetNativeSize();
             return;
         }
         switch (GameManager.Instance.currLevelConfig.awardPropID) // µÀ¾ß½±Àø
@@ -318,6 +319,7 @@ public class UIManager : MonoBehaviour
                 break;
             case PropID.Shovel:
                 image.sprite = Resources.Load<Sprite>(ResourceConfig.image_props + $"{GameManager.Instance.currLevelConfig.awardPropID}");
+                image.SetNativeSize();
                 break;
             default:
                 break;

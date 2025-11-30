@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  BulletHitPrefab: {fileID: 0}
+  BulletHitPrefab: {fileID: -2485962915469677168, guid: cca29b6c705743e4d807865b00115be5, type: 3}
   hitSound: 0
   hitSoundPriority: 0
 --- !u!1 &8158129502334043264

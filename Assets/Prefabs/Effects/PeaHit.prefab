@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8323321330754089152}
   - component: {fileID: -2485962915469677168}
   m_Layer: 0
-  m_Name: PeaBulletHit
+  m_Name: PeaHit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
