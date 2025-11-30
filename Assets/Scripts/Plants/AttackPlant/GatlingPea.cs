@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GtalingPea : AttackPlant
+public class GatlingPea : AttackPlant
 {
     public Pea peaPrefab;
     private int attackPeaNum = 4;
@@ -13,7 +13,7 @@ public class GtalingPea : AttackPlant
     protected override void Awake()
     {
         base.Awake();
-        id = PlantID.GtalingPea;
+        id = PlantID.GatlingPea;
         type = PlantType.Normal;
         prePlantID = PlantID.Repeater;
         attackTime = 1.5f;

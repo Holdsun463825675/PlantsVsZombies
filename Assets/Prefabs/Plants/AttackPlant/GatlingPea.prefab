@@ -96,7 +96,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 41
   type: 0
-  prePlantID: 6
+  prePlantID: 8
   anim: {fileID: 0}
   attackPlaceName: AttackPlace
   peaPrefab: {fileID: 4430288491352510757, guid: c8c007efe54e53a4cb7f50c82c384f2d, type: 3}

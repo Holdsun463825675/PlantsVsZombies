@@ -15,7 +15,7 @@ public enum PlantID
     Repeater = 8,
     TallNut = 24,
     Pumpkin = 31,
-    GtalingPea = 41,
+    GatlingPea = 41,
     TwinSunflower = 42,
 }
 
