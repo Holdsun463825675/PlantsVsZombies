@@ -78,7 +78,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8837471348827803026, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
       propertyPath: underAttackSoundPriority
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -2582886588925053531, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}

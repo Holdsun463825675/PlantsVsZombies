@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SnowyPea : Pea
 {
-    private float speedRatio; // ¼õËÙ±ÈÀı
+    private float speedRatio;
 
     protected override void Awake()
     {

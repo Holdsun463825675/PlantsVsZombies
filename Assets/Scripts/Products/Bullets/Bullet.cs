@@ -14,14 +14,16 @@ public enum BulletHitSound
     None,
     Kernelpult,
     Butter,
-    Melon
+    Melon,
+    FirePea,
 }
 
 public class Bullet : Product
 {
-    private int attackPoint;
+    protected int attackPoint;
     public float speed;
     protected int targetNum; // 最多可攻击的目标（-1为无限）
+    protected bool sputter; // 是否溅射
     public Effect BulletHitPrefab;
 
     public BulletHitSound hitSound;
@@ -32,9 +34,12 @@ public class Bullet : Product
     private Transform shadow;
     private SpriteRenderer sr;
     private Collider2D c2d;
+    private Collider2D sputterC2d;
 
     protected Zombie targetZombie;
     protected Armor2 targetArmor2;
+    protected List<Zombie> sputterTargetZombie;
+    protected List<Armor2> sputterTargetArmor2;
 
     protected override void Awake()
     {
@@ -42,25 +47,21 @@ public class Bullet : Product
         attackPoint = 20;
         speed = 5.0f;
         targetNum = 1;
+        sputter = false;
         hitSound = BulletHitSound.None;
         hitSoundPriority = 0;
 
         shadow = transform.Find("Shadow");
         sr = GetComponent<SpriteRenderer>();
         c2d = GetComponent<Collider2D>();
-        Transform child = transform.Find("PeaBulletHit");
+        Transform child = transform.Find("SputterPlace");
+        if (child) sputterC2d = child.GetComponent<Collider2D>();
+        if (sputterC2d) sputterC2d.GetComponent<TriggerForwarder>().SetBulletParentHandler(this);
+
+        sputterTargetZombie = new List<Zombie>();
+        sputterTargetArmor2 = new List<Armor2>();
+
         setState(BulletState.ToBeUsed);
-    }
-
-    // 暂停继续功能
-    public override void Pause()
-    {
-        transform.DOPause();
-    }
-
-    public override void Continue()
-    {
-        transform.DOPlay();
     }
 
     protected virtual void Update()
@@ -86,6 +87,41 @@ public class Bullet : Product
         }
     }
 
+    // 父物体处理触发事件的方法
+    public virtual void OnChildTriggerEnter2D(Collider2D collision)
+    {
+        switch (collision.tag)
+        {
+            case TagConfig.zombie:
+                targetZombie = collision.GetComponent<Zombie>();
+                if (targetZombie && !sputterTargetZombie.Contains(targetZombie)) sputterTargetZombie.Add(targetZombie);
+                break;
+            case TagConfig.armor2:
+                targetArmor2 = collision.GetComponent<Armor2>();
+                if (targetArmor2 && !sputterTargetArmor2.Contains(targetArmor2)) sputterTargetArmor2.Add(targetArmor2);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public virtual void OnChildTriggerExit2D(Collider2D collision)
+    {
+        switch (collision.tag)
+        {
+            case TagConfig.zombie:
+                targetZombie = collision.GetComponent<Zombie>();
+                if (targetZombie && sputterTargetZombie.Contains(targetZombie)) sputterTargetZombie.Remove(targetZombie);
+                break;
+            case TagConfig.armor2:
+                targetArmor2 = collision.GetComponent<Armor2>();
+                if (targetArmor2 && sputterTargetArmor2.Contains(targetArmor2)) sputterTargetArmor2.Remove(targetArmor2);
+                break;
+            default:
+                break;
+        }
+    }
+
     protected virtual void AttackZombie()
     {
         if (!targetZombie || targetNum == 0) return;
@@ -96,6 +132,7 @@ public class Bullet : Product
         if (targetNum > 0) targetNum--;
         targetZombie.UnderAttack(attackPoint);
         AudioManager.Instance.playHitClip(this, targetZombie);
+        if (sputter) Sputter(); // 造成溅射伤害
         if (BulletHitPrefab) GameObject.Instantiate(BulletHitPrefab, transform.position, Quaternion.identity);
     }
 
@@ -107,6 +144,15 @@ public class Bullet : Product
         AudioManager.Instance.playHitClip(this, targetArmor2);
         targetArmor2 = null; // 攻击防具后清空防具目标
         if (BulletHitPrefab) GameObject.Instantiate(BulletHitPrefab, transform.position, Quaternion.identity);
+    }
+
+    protected virtual void Sputter() // 溅射伤害根据目标数量进行衰减
+    {
+        if (!sputter || sputterTargetZombie.Count + sputterTargetArmor2.Count - 1 == 0) return;
+        int totalAttackPoint = attackPoint / 2;
+        int point = Mathf.Max(1, totalAttackPoint / (sputterTargetZombie.Count + sputterTargetArmor2.Count - 1)); // 溅射伤害至少1点
+        foreach (Zombie zombie in sputterTargetZombie) if (zombie != targetZombie) zombie.UnderAttack(point);
+        foreach (Armor2 armor2 in sputterTargetArmor2) armor2.UnderAttack(point);
     }
 
     public void setState(BulletState state)

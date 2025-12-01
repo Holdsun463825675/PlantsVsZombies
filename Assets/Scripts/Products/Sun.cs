@@ -25,8 +25,6 @@ public class Sun : Product, IClickable
     private float producedbySunflowerMoveTime = 1.0f;
     private float target_y;
 
-    private Animator anim;
-
     protected override void Awake()
     {
         base.Awake();
@@ -34,7 +32,6 @@ public class Sun : Product, IClickable
         survivalTime = 30.0f; autoCollectedTime = 1.0f; collectedTime = 0.5f;
         survivalTimer = 0.0f; autoCollectedTimer = 0.0f;
         target_y = 0.0f;
-        anim = GetComponent<Animator>();
     }
 
     void Start()
@@ -62,19 +59,6 @@ public class Sun : Product, IClickable
                 Destroy(gameObject);
             }
         }
-    }
-
-    // ÔÝÍ£¼ÌÐø¹¦ÄÜ
-    public override void Pause()
-    {
-        transform.DOPause();
-        anim.enabled = false;
-    }
-
-    public override void Continue()
-    {
-        transform.DOPlay();
-        anim.enabled = true;
     }
 
     public void setTargetY(float y)

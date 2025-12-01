@@ -68,6 +68,11 @@ public class AudioManager : MonoBehaviour
             case BulletHitSound.Melon:
                 hitSound = ResourceConfig.sound_bullethit_melonimpacts[Random.Range(0, ResourceConfig.sound_bullethit_melonimpacts.Length)];
                 break;
+            case BulletHitSound.FirePea:
+                hitSound = ResourceConfig.sound_fire_firepea;
+                break;
+            default:
+                break;
         }
         switch (zombie.underAttackSound)
         {
@@ -79,6 +84,8 @@ public class AudioManager : MonoBehaviour
                 break;
             case ZombieUnderAttackSound.Shield:
                 underAttackSound = ResourceConfig.sound_bullethit_shieldhits[Random.Range(0, ResourceConfig.sound_bullethit_shieldhits.Length)];
+                break;
+            default:
                 break;
         }
         if (bullet.hitSoundPriority == zombie.underAttackSoundPriority)
@@ -105,6 +112,11 @@ public class AudioManager : MonoBehaviour
             case BulletHitSound.Melon:
                 hitSound = ResourceConfig.sound_bullethit_melonimpacts[Random.Range(0, ResourceConfig.sound_bullethit_melonimpacts.Length)];
                 break;
+            case BulletHitSound.FirePea:
+                hitSound = ResourceConfig.sound_fire_firepea;
+                break;
+            default:
+                break;
         }
         switch (armor2.underAttackSound)
         {
@@ -116,6 +128,8 @@ public class AudioManager : MonoBehaviour
                 break;
             case ZombieUnderAttackSound.Shield:
                 underAttackSound = ResourceConfig.sound_bullethit_shieldhits[Random.Range(0, ResourceConfig.sound_bullethit_shieldhits.Length)];
+                break;
+            default:
                 break;
         }
         if (bullet.hitSoundPriority == armor2.underAttackSoundPriority)

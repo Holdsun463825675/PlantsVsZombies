@@ -6,6 +6,7 @@ public class TriggerForwarder : MonoBehaviour, IClickable
 {
     private Plant plantParentHandler;
     private Zombie zombieParentHandler;
+    private Bullet bulletParentHandler;
     private Shovel shovelParentHandler;
 
     void Start()
@@ -25,6 +26,11 @@ public class TriggerForwarder : MonoBehaviour, IClickable
         zombieParentHandler = handler;
     }
 
+    public void SetBulletParentHandler(Bullet handler)
+    {
+        bulletParentHandler = handler;
+    }
+
     public void SetShovelParentHandler(Shovel handler)
     {
         shovelParentHandler = handler;
@@ -34,6 +40,7 @@ public class TriggerForwarder : MonoBehaviour, IClickable
     {
         plantParentHandler?.OnChildTriggerEnter2D(collision);
         zombieParentHandler?.OnChildTriggerEnter2D(collision);
+        bulletParentHandler?.OnChildTriggerEnter2D(collision);
         shovelParentHandler?.OnChildTriggerEnter2D(collision);
     }
 
@@ -41,6 +48,7 @@ public class TriggerForwarder : MonoBehaviour, IClickable
     {
         plantParentHandler?.OnChildTriggerExit2D(collision);
         zombieParentHandler?.OnChildTriggerExit2D(collision);
+        bulletParentHandler?.OnChildTriggerExit2D(collision);
         shovelParentHandler?.OnChildTriggerExit2D(collision);
     }
 

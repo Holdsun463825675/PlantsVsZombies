@@ -62,6 +62,7 @@ public class ResourceConfig
         "Audio/Sound/bullethit/kernelpult2",
     };
     public const string sound_bullethit_butter = "Audio/Sound/bullethit/butter";
+    public const string sound_fire_firepea = "Audio/Sound/fire/firepea";
 
     public static readonly string[] sound_other_groans = new string[]
     {
@@ -102,7 +103,6 @@ public class ResourceConfig
     public const string sound_win_winmusic = "Audio/Sound/win/winmusic";
     public const string sound_lose_losemusic = "Audio/Sound/lose/losemusic";
     public const string sound_lose_scream = "Audio/Sound/lose/scream";
-
 
     public const string image_plants = "Images/Plants/";
     public const string image_props = "Images/Props/";
