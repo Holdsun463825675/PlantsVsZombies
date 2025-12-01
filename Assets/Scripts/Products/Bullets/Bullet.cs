@@ -63,22 +63,23 @@ public class Bullet : Product
         transform.DOPlay();
     }
 
+    protected virtual void Update()
+    {
+        if (targetNum == 0) setState(BulletState.Used);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (targetNum == 0) return; // 攻击次数用完
         switch (collision.tag)
         {
             case TagConfig.armor2: // 先判定防具
-                if (targetArmor2 == collision.GetComponent<Armor2>()) return; // 不攻击重复目标
                 targetArmor2 = collision.GetComponent<Armor2>();
                 AttackArmor2();
-                if (targetNum == 0) setState(BulletState.Used);
                 break;
             case TagConfig.zombie:
-                if (targetZombie == collision.GetComponent<Zombie>()) return; // 不攻击重复目标
                 targetZombie = collision.GetComponent<Zombie>();
                 AttackZombie();
-                if (targetNum == 0) setState(BulletState.Used);
                 break;
             default:
                 break;
@@ -87,21 +88,24 @@ public class Bullet : Product
 
     protected virtual void AttackZombie()
     {
-        if (!targetZombie) return;
+        if (!targetZombie || targetNum == 0) return;
+        if (targetArmor2 && targetArmor2.zombie == targetZombie) // 优先攻击防具
+        {
+            AttackArmor2(); return;
+        }
         if (targetNum > 0) targetNum--;
         targetZombie.UnderAttack(attackPoint);
         AudioManager.Instance.playHitClip(this, targetZombie);
-        //生成特效
         if (BulletHitPrefab) GameObject.Instantiate(BulletHitPrefab, transform.position, Quaternion.identity);
     }
 
     protected virtual void AttackArmor2()
     {
-        if (!targetArmor2) return;
+        if (!targetArmor2 || targetNum == 0) return;
         if (targetNum > 0) targetNum--;
         targetArmor2.UnderAttack(attackPoint);
         AudioManager.Instance.playHitClip(this, targetArmor2);
-        //生成特效
+        targetArmor2 = null; // 攻击防具后清空防具目标
         if (BulletHitPrefab) GameObject.Instantiate(BulletHitPrefab, transform.position, Quaternion.identity);
     }
 
@@ -117,8 +121,8 @@ public class Bullet : Product
         }
         if (state == BulletState.Used)
         {
-            transform.DOKill();
             c2d.enabled = false;
+            transform.DOKill();
             if (shadow) shadow.gameObject.SetActive(false);
             sr.enabled = false;
             ProductManager.Instance.removeProduct(this);
