@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Plant
   - Zombie
+  - Armor2
   layers:
   - Default
   - TransparentFX

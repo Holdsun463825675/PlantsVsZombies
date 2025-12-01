@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8109065997994719241
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 984688679779067579, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4eab6815bbb9e354c8027692866b7f22, type: 3}
+    - target: {fileID: 3238239314153529066, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 66ab6f322b9211c4992f1b37ec82017a, type: 2}
+    - target: {fileID: 3320218275039556615, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3320218275039556615, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3320218275039556615, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3320218275039556615, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3320218275039556615, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3320218275039556615, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3320218275039556615, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3320218275039556615, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3320218275039556615, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3320218275039556615, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700417702789560628, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+      propertyPath: m_Name
+      value: ScreenDoorZombie
+      objectReference: {fileID: 0}
+    - target: {fileID: 7919880383354875374, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.x
+      value: 0.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 7919880383354875374, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.y
+      value: 0.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 8837471348827803026, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+      propertyPath: zombie
+      value: 
+      objectReference: {fileID: 7815668448873337649}
+    - target: {fileID: 8837471348827803026, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+      propertyPath: underAttackSound
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8837471348827803026, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+      propertyPath: underAttackSoundPriority
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: -2582886588925053531, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7700417702789560628, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7815668448873337649}
+  m_SourcePrefab: {fileID: 100100000, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+--- !u!1 &1897231046010388797 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7700417702789560628, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+  m_PrefabInstance: {fileID: 8109065997994719241}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7815668448873337649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897231046010388797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d66cc3de23c64b4482b7ff013f9e040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zombieID: 7
+  speedRatio: 0
+  spawnWeight: 4
+  zombieHeadPrefab: {fileID: 1143894914790227004, guid: 7cb14b8ed54ed8a43a393cba0fb33cc6, type: 3}
+  underAttackSound: 0
+  underAttackSoundPriority: 0

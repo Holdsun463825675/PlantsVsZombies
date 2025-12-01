@@ -33,7 +33,8 @@ public class Bullet : Product
     private SpriteRenderer sr;
     private Collider2D c2d;
 
-    protected Zombie target;
+    protected Zombie targetZombie;
+    protected Armor2 targetArmor2;
 
     protected override void Awake()
     {
@@ -65,21 +66,41 @@ public class Bullet : Product
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (targetNum == 0) return; // 攻击次数用完
-        if (collision.tag == TagConfig.zombie)
+        switch (collision.tag)
         {
-            if (target == collision.GetComponent<Zombie>()) return; // 不攻击重复目标
-            target = collision.GetComponent<Zombie>();
-            Attack();
-            if (targetNum == 0) setState(BulletState.Used);
+            case TagConfig.armor2: // 先判定防具
+                if (targetArmor2 == collision.GetComponent<Armor2>()) return; // 不攻击重复目标
+                targetArmor2 = collision.GetComponent<Armor2>();
+                AttackArmor2();
+                if (targetNum == 0) setState(BulletState.Used);
+                break;
+            case TagConfig.zombie:
+                if (targetZombie == collision.GetComponent<Zombie>()) return; // 不攻击重复目标
+                targetZombie = collision.GetComponent<Zombie>();
+                AttackZombie();
+                if (targetNum == 0) setState(BulletState.Used);
+                break;
+            default:
+                break;
         }
     }
 
-    protected virtual void Attack()
+    protected virtual void AttackZombie()
     {
-        if (!target) return;
+        if (!targetZombie) return;
         if (targetNum > 0) targetNum--;
-        target.UnderAttack(attackPoint);
-        AudioManager.Instance.playHitClip(this, target);
+        targetZombie.UnderAttack(attackPoint);
+        AudioManager.Instance.playHitClip(this, targetZombie);
+        //生成特效
+        if (BulletHitPrefab) GameObject.Instantiate(BulletHitPrefab, transform.position, Quaternion.identity);
+    }
+
+    protected virtual void AttackArmor2()
+    {
+        if (!targetArmor2) return;
+        if (targetNum > 0) targetNum--;
+        targetArmor2.UnderAttack(attackPoint);
+        AudioManager.Instance.playHitClip(this, targetArmor2);
         //生成特效
         if (BulletHitPrefab) GameObject.Instantiate(BulletHitPrefab, transform.position, Quaternion.identity);
     }
@@ -92,7 +113,7 @@ public class Bullet : Product
         {
             c2d.enabled = true;
             if (shadow) shadow.gameObject.SetActive(true);
-            target = null;
+            targetZombie = null;
         }
         if (state == BulletState.Used)
         {

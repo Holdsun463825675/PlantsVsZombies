@@ -11,6 +11,7 @@ public enum ZombieID
     FlagZombie = 2,
     ConeHeadZombie = 3,
     BucketZombie = 5,
+    ScreenDoorZombie = 7,
     FootballZombie = 8,
 }
 
@@ -75,6 +76,7 @@ public class Zombie : MonoBehaviour, IClickable
 
     private Animator anim;
     private Collider2D c2d;
+    private Collider2D Armor2_c2d;
 
     private Tween currentMoveTween;
 
@@ -115,6 +117,9 @@ public class Zombie : MonoBehaviour, IClickable
         if (HPText) HPText.gameObject.SetActive(true);
         child = transform.Find("LostHeadPlace");
         if (child) lostHeadPlace = child.GetComponent<Transform>();
+        child = transform.Find("Armor2");
+        if (child) Armor2_c2d = child.GetComponent<Collider2D>();
+        if (Armor2_c2d) Armor2_c2d.enabled = false;
     }
 
     private void Start()
@@ -129,6 +134,7 @@ public class Zombie : MonoBehaviour, IClickable
         HPText.text = $"HP: {currHealth}/{maxHealth}";
         if (currArmor1Health > 0) HPText.text = $"A1: {currArmor1Health}/{maxArmor1Health}\n" + HPText.text;
         if (currArmor2Health > 0) HPText.text = $"A2: {currArmor2Health}/{maxArmor2Health}\n" + HPText.text;
+        if (Armor2_c2d) Armor2_c2d.enabled = currArmor2Health > 0;
 
         HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.zombieHealth);
         if (GameManager.Instance.state == GameState.Paused || GameManager.Instance.state == GameState.Losing) return;
@@ -138,6 +144,7 @@ public class Zombie : MonoBehaviour, IClickable
         anim.SetFloat(AnimatorConfig.zombie_healthPercentage, HealthPercentage);
 
         anim.SetFloat(AnimatorConfig.zombie_armor1HealthPercentage, maxArmor1Health == 0.0f ? 0.0f : (float)currArmor1Health / (float)maxArmor1Health);
+        anim.SetFloat(AnimatorConfig.zombie_armor2HealthPercentage, maxArmor2Health == 0.0f ? 0.0f : (float)currArmor2Health / (float)maxArmor2Health);
 
         anim.SetFloat(AnimatorConfig.zombie_speedLevel, speedLevel);
         // 减速比例
@@ -168,6 +175,7 @@ public class Zombie : MonoBehaviour, IClickable
     public void setGameMode()
     {
         c2d.enabled = true;
+        if (currArmor2Health > 0 && Armor2_c2d) Armor2_c2d.enabled = true;
         anim.SetBool(AnimatorConfig.zombie_game, true);
         losingGame = MapManager.Instance.currMap.endlinePositions[0];
         Vector3 target = new Vector3(losingGame.position.x, transform.position.y, transform.position.z);
@@ -262,13 +270,21 @@ public class Zombie : MonoBehaviour, IClickable
         {
             zombieHead = GameObject.Instantiate(zombieHeadPrefab, lostHeadPlace.position, Quaternion.identity);
             zombieHead.GetComponent<SpriteRenderer>().sortingOrder = this.GetComponent<SpriteRenderer>().sortingOrder + 1;
+            // 掉头动画
             lostHeadAnim = zombieHead.GetComponent<Animator>();
             AudioManager.Instance.playClip(ResourceConfig.sound_zombiedie_limbsPop);
         }
         if (state == ZombieHealthState.Die)
         {
+            if (dieMode == 0 && !lostHeadAnim) // 掉头动画
+            {
+                lostHeadAnim = zombieHead.GetComponent<Animator>();
+                AudioManager.Instance.playClip(ResourceConfig.sound_zombiedie_limbsPop);
+            }
+            currArmor2Health = 0;
             transform.DOKill();
             c2d.enabled = false;
+            if (Armor2_c2d) Armor2_c2d.enabled = false;
             anim.SetInteger(AnimatorConfig.zombie_dieMode, dieMode);
         }
     }
@@ -327,6 +343,13 @@ public class Zombie : MonoBehaviour, IClickable
             return res;
         }
         return 0;
+    }
+
+    public void AddArmor2Health(int point)
+    {
+        currArmor2Health += point;
+        if (currArmor2Health > maxArmor2Health) currArmor2Health = maxArmor2Health;
+        if (currArmor2Health < 0) currArmor2Health = 0;
     }
 
     public void UnderAttack(int point, int mode=0)
@@ -421,5 +444,16 @@ public class Zombie : MonoBehaviour, IClickable
         currArmor2Health = 0;
         currArmor1Health = 0;
         currHealth = 0;
+    }
+
+    // 父物体处理触发事件的方法
+    public virtual void OnChildTriggerEnter2D(Collider2D collision)
+    {
+
+    }
+
+    public virtual void OnChildTriggerExit2D(Collider2D collision)
+    {
+
     }
 }

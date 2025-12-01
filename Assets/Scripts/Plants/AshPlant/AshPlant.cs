@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,13 +19,15 @@ public class AshPlant : Plant
 
     public string attackPlaceName = "AttackPlace";
     protected Collider2D attackPlaceCollider;
-    protected List<Zombie> targets;
+    protected List<Zombie> targetZombie;
+    protected List<Armor2> targetArmor2;
 
     protected override void Awake()
     {
         base.Awake();
         attackPoint = 1800;
-        targets = new List<Zombie>();
+        targetZombie = new List<Zombie>();
+        targetArmor2 = new List<Armor2>();
         // 设置子物体碰撞器
         attackPlaceCollider = transform.Find(attackPlaceName).GetComponent<Collider2D>();
         attackPlaceCollider.GetComponent<TriggerForwarder>().SetPlantParentHandler(this);
@@ -67,12 +70,15 @@ public class AshPlant : Plant
     protected virtual void setExplode()
     {
         anim.SetTrigger(AnimatorConfig.plant_Explode);
+        // 移动一点点激活碰撞体判定
+        transform.DOMove(new Vector3(transform.position.x, transform.position.y + 1e-3f, transform.position.z), 1f);
     }
 
     protected virtual void Explode()
     {
         if (explodeEffect) GameObject.Instantiate(explodeEffect, transform.position, Quaternion.identity);
-        foreach (Zombie zombie in targets) zombie.UnderAttack(attackPoint, attackDieMode);
+        foreach (Armor2 armor2 in targetArmor2) armor2.UnderAttack(attackPoint, attackDieMode);
+        foreach (Zombie zombie in targetZombie) zombie.UnderAttack(attackPoint, attackDieMode);
         setState(PlantState.Die);
     }
 
@@ -99,19 +105,35 @@ public class AshPlant : Plant
 
     public override void OnChildTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == TagConfig.zombie)
+        switch (collision.tag)
         {
-            Zombie target = collision.GetComponent<Zombie>();
-            if (target && !targets.Contains(target)) targets.Add(target);
+            case TagConfig.zombie:
+                Zombie zombie = collision.GetComponent<Zombie>();
+                if (zombie && !targetZombie.Contains(zombie)) targetZombie.Add(zombie);
+                break;
+            case TagConfig.armor2:
+                Armor2 armor2 = collision.GetComponent<Armor2>();
+                if (armor2 && !targetArmor2.Contains(armor2)) targetArmor2.Add(armor2);
+                break;
+            default:
+                break;
         }
     }
 
     public override void OnChildTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == TagConfig.zombie)
+        switch (collision.tag)
         {
-            Zombie target = collision.GetComponent<Zombie>();
-            if (target) targets.Remove(target);
+            case TagConfig.zombie:
+                Zombie zombie = collision.GetComponent<Zombie>();
+                if (zombie) targetZombie.Remove(zombie);
+                break;
+            case TagConfig.armor2:
+                Armor2 armor2 = collision.GetComponent<Armor2>();
+                if (armor2) targetArmor2.Remove(armor2);
+                break;
+            default:
+                break;
         }
     }
 }

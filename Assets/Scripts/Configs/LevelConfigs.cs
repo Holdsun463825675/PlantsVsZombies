@@ -27,15 +27,15 @@ public class LevelConfigs
             music = ResourceConfig.music_day,
             dropSun = false,
             startingSun = 8000,
-            cardType = TypeOfCard.Conveyor,
+            cardType = TypeOfCard.Fixation,
             fixedCards = new List<PlantID> { PlantID.PeaShooter, PlantID.CherryBomb, PlantID.WallNut, PlantID.SnowPea, PlantID.Repeater, PlantID.TallNut, PlantID.Pumpkin},
 
-            zombieID = new List<ZombieID> { ZombieID.NormalZombie },
+            zombieID = new List<ZombieID> { ZombieID.ScreenDoorZombie },
             zombieWaves = new List<ZombieWave> {
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 1.0f,largeWave = false},
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 1.0f,largeWave = true},
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 1.0f,largeWave = false},
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 2.0f,largeWave = true},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ScreenDoorZombie},spawnWeight = 1,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ScreenDoorZombie},spawnWeight = 1,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ScreenDoorZombie},spawnWeight = 1,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ScreenDoorZombie},spawnWeight = 100,largeWave = true},
             },
             spawnTimer = 28.0f,
         });

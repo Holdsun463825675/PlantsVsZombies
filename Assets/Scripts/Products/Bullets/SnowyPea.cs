@@ -12,9 +12,9 @@ public class SnowyPea : Pea
         speedRatio = 0.5f;
     }
 
-    protected override void Attack()
+    protected override void AttackZombie()
     {
-        base.Attack();
-        if (target.speedRatio >= speedRatio) target.setSpeedRatio(speedRatio);
+        base.AttackZombie();
+        if (targetZombie.speedRatio >= speedRatio) targetZombie.setSpeedRatio(speedRatio);
     }
 }
