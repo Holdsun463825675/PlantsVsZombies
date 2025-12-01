@@ -9,6 +9,8 @@ public class SnowyPea : Pea
     protected override void Awake()
     {
         base.Awake();
+        id = BulletID.SnowyPea;
+        igniteID = BulletID.Pea;
         speedRatio = 0.5f;
     }
 

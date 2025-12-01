@@ -58,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: f42669e8ab06bbd4d87d395779a640d5, type: 3}
     - target: {fileID: 6523516816906713441, guid: c8c007efe54e53a4cb7f50c82c384f2d, type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.x
-      value: 0.5
+      value: 0.72
       objectReference: {fileID: 0}
     - target: {fileID: 6523516816906713441, guid: c8c007efe54e53a4cb7f50c82c384f2d, type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.y
@@ -90,7 +90,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b3896866022fe41b686cc1054b432d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 2
   speed: 5
+  target_position: {x: 0, y: 0, z: 0}
   BulletHitPrefab: {fileID: 5764662578443112504, guid: 037257f125335664595847c7fd66c54c, type: 3}
   hitSound: 0
   hitSoundPriority: 0

@@ -9,6 +9,14 @@ public enum BulletState
     Used
 }
 
+public enum BulletID
+{
+    None,
+    Pea,
+    SnowyPea,
+    FirePea,
+}
+
 public enum BulletHitSound
 {
     None,
@@ -20,8 +28,11 @@ public enum BulletHitSound
 
 public class Bullet : Product
 {
+    public BulletID id;
+    protected BulletID igniteID; // 点燃后的子弹
     protected int attackPoint;
     public float speed;
+    public Vector3 target_position; // 目标位置
     protected int targetNum; // 最多可攻击的目标（-1为无限）
     protected bool sputter; // 是否溅射
     public Effect BulletHitPrefab;
@@ -56,7 +67,11 @@ public class Bullet : Product
         c2d = GetComponent<Collider2D>();
         Transform child = transform.Find("SputterPlace");
         if (child) sputterC2d = child.GetComponent<Collider2D>();
-        if (sputterC2d) sputterC2d.GetComponent<TriggerForwarder>().SetBulletParentHandler(this);
+        if (sputterC2d)
+        {
+            sputterC2d.enabled = false;
+            sputterC2d.GetComponent<TriggerForwarder>().SetBulletParentHandler(this);
+        } 
 
         sputterTargetZombie = new List<Zombie>();
         sputterTargetArmor2 = new List<Armor2>();
@@ -162,12 +177,14 @@ public class Bullet : Product
         if (state == BulletState.ToBeUsed)
         {
             c2d.enabled = true;
+            if (sputterC2d) sputterC2d.enabled = true;
             if (shadow) shadow.gameObject.SetActive(true);
             targetZombie = null;
         }
         if (state == BulletState.Used)
         {
             c2d.enabled = false;
+            if (sputterC2d) sputterC2d.enabled= false;
             transform.DOKill();
             if (shadow) shadow.gameObject.SetActive(false);
             sr.enabled = false;
@@ -178,11 +195,27 @@ public class Bullet : Product
 
     public void moveToPlace(Vector3 position, float speed = 5.0f)
     {
-        transform.DOMove(position, Vector3.Distance(transform.position, position) / speed)
+        target_position = position;
+        transform.DOMove(position, Vector3.Distance(transform.position, target_position) / speed)
             .SetEase(Ease.Linear)
             .OnComplete(() => {
                 ProductManager.Instance.removeProduct(this);
                 Destroy(gameObject);
             });
+    }
+
+    public virtual Bullet Ignite()
+    {
+        Bullet bulletPrefab = null;
+        foreach (Bullet bullet in PrefabSystem.Instance.bulletPrefabs)
+        {
+            if (bullet.id == igniteID) bulletPrefab = bullet;
+        }
+        if (!bulletPrefab) return null;
+        Bullet newBullet = GameObject.Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        newBullet.setState(BulletState.ToBeUsed);
+        newBullet.moveToPlace(target_position);
+        setState(BulletState.Used);
+        return newBullet;
     }
 }

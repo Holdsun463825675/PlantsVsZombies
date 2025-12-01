@@ -13,6 +13,7 @@ public enum PlantID
     WallNut = 4,
     SnowPea = 6,
     Repeater = 8,
+    Torchwood = 23,
     TallNut = 24,
     Pumpkin = 31,
     GatlingPea = 41,

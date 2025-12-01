@@ -6,5 +6,10 @@ using UnityEngine;
 
 public class Pea : Bullet
 {
-
+    protected override void Awake()
+    {
+        base.Awake();
+        id = BulletID.Pea;
+        igniteID = BulletID.FirePea;
+    }
 }

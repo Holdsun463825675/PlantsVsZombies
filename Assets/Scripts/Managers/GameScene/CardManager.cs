@@ -40,6 +40,7 @@ public class CardManager : MonoBehaviour
         Instance = this;
         generateCardTimer = 0.0f;
         showCards();
+        fixedCards = new List<PlantID>();
         setState(GameState.NotStarted);
     }
 
@@ -270,6 +271,7 @@ public class CardManager : MonoBehaviour
 
     private void generateCard()
     {
+        if (fixedCards.Count == 0) return;
         PlantID ID = fixedCards[Random.Range(0, fixedCards.Count)];
         Card cardPrefab = null;
         foreach (Card card in cardPanel)

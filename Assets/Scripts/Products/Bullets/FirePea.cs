@@ -9,6 +9,8 @@ public class FirePea : Pea
     protected override void Awake()
     {
         base.Awake();
+        id = BulletID.FirePea;
+        igniteID = BulletID.None;
         speedRatio = 1.0f;
         attackPoint = 40;
         sputter = true;

@@ -680,6 +680,7 @@ MonoBehaviour:
   - {fileID: 5459288263359265142, guid: 8c22e88f415e65b40aecb71bb80b60ca, type: 3}
   - {fileID: 1679876859013710056, guid: f5be80db7a8b96c418f37736cfdf27d0, type: 3}
   - {fileID: 8216147691541978102, guid: 478015088786f8146ad5d2469efd54d8, type: 3}
+  - {fileID: 3632046051520876233, guid: 787b19fa4d456a34880f9c07051bcbb9, type: 3}
   - {fileID: 388422102326476367, guid: 3aa618f0b9d8b884e8106ddf0f352883, type: 3}
   - {fileID: 5782396182658083644, guid: 2929f88b545ab8c489e6be577a2489af, type: 3}
   - {fileID: 9158677797198406897, guid: 85f529cd1ca3b354493c86bfbc05239c, type: 3}
@@ -691,6 +692,10 @@ MonoBehaviour:
   - {fileID: 2442252531836697981, guid: d7d6159f0fb4c4842b0e6f82f5fe7a74, type: 3}
   - {fileID: 7815668448873337649, guid: 0d75dacd98aa8784eadeb7462bd049c7, type: 3}
   - {fileID: 1138112822486411719, guid: 9fdf5b5b440379e42848e4b55db609d1, type: 3}
+  bulletPrefabs:
+  - {fileID: 4430288491352510757, guid: c8c007efe54e53a4cb7f50c82c384f2d, type: 3}
+  - {fileID: 3212708800064457141, guid: 194aa976332684942a841ba0a085759c, type: 3}
+  - {fileID: 600105056586738214, guid: 20e6ecf9ab9ea6b439f93112ab873229, type: 3}
 --- !u!1 &622160001
 GameObject:
   m_ObjectHideFlags: 0

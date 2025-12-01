@@ -195,7 +195,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b960eab863197f7409570fc94d1e654b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 3
   speed: 0
+  target_position: {x: 0, y: 0, z: 0}
   BulletHitPrefab: {fileID: 1433471302221288213, guid: 91afb05ae356576459ef4497c33bcc36, type: 3}
   hitSound: 0
   hitSoundPriority: 0

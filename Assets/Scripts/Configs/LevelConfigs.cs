@@ -27,8 +27,7 @@ public class LevelConfigs
             music = ResourceConfig.music_day,
             dropSun = false,
             startingSun = 8000,
-            cardType = TypeOfCard.Fixation,
-            fixedCards = new List<PlantID> { PlantID.PeaShooter, PlantID.CherryBomb, PlantID.WallNut, PlantID.SnowPea, PlantID.Repeater, PlantID.TallNut, PlantID.Pumpkin},
+            cardType = TypeOfCard.Autonomy,
 
             zombieID = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ScreenDoorZombie },
             zombieWaves = new List<ZombieWave> {
