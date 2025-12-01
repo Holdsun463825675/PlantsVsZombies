@@ -21,6 +21,7 @@ public class CardManager : MonoBehaviour
     public GameObject cardPanelUI;
     public GameObject slotUI;
     public GameObject ConveyorUI;
+    public Animator conveyorBeltAnim;
 
     private List<Card> cardList = new List<Card>();
     public List<Transform> cardListCardPlace;
@@ -62,11 +63,13 @@ public class CardManager : MonoBehaviour
     public void Pause()
     {
         foreach (Card card in cardList) if (card) card.transform.DOPause();
+        if (conveyorBeltAnim) conveyorBeltAnim.enabled = false;
     }
 
     public void Continue()
     {
         foreach (Card card in cardList) if (card) card.transform.DOPlay();
+        if (conveyorBeltAnim) conveyorBeltAnim.enabled = true;
     }
 
     private void MoveCardWithTween(Card card, Transform targetPlace, float moveTime, Ease ease=Ease.OutCubic)
@@ -184,6 +187,7 @@ public class CardManager : MonoBehaviour
                 cardListUI.SetActive(false);
                 cardPanelUI.SetActive(false);
                 slotUI.SetActive(false);
+                ConveyorUI.SetActive(false);
                 cardListUI.transform.position = cardListUIBeginPlace.position;
                 cardPanelUI.transform.position = cardPanelUIBeginPlace.position;
                 break;
@@ -198,9 +202,11 @@ public class CardManager : MonoBehaviour
                     .OnComplete(() => {
                         if (GameManager.Instance.currLevelConfig.cardType != TypeOfCard.Autonomy) setState(GameState.Ready);
                     });
+                ConveyorUI.SetActive(false);
                 break;
             case GameState.Ready:
                 slotUI.SetActive(false);
+                ConveyorUI.SetActive(false);
                 foreach (Card card in cardList)
                 {
                     if (card)

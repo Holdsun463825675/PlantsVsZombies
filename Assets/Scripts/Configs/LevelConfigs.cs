@@ -25,9 +25,9 @@ public class LevelConfigs
             mapID = 3,
             time = TimeOfDay.Day,
             music = ResourceConfig.music_day,
-            dropSun = true,
+            dropSun = false,
             startingSun = 8000,
-            cardType = TypeOfCard.Fixation,
+            cardType = TypeOfCard.Conveyor,
             fixedCards = new List<PlantID> { PlantID.PeaShooter, PlantID.CherryBomb, PlantID.WallNut, PlantID.SnowPea, PlantID.Repeater, PlantID.TallNut, PlantID.Pumpkin},
 
             zombieID = new List<ZombieID> { ZombieID.NormalZombie },
