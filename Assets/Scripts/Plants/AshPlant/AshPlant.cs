@@ -17,8 +17,6 @@ public class AshPlant : Plant
     protected int attackDieMode = 1;
     protected AshPlantState ashState;
 
-    public string attackPlaceName = "AttackPlace";
-    protected Collider2D attackPlaceCollider;
     protected List<Zombie> targetZombie;
     protected List<Armor2> targetArmor2;
 
@@ -28,29 +26,6 @@ public class AshPlant : Plant
         attackPoint = 1800;
         targetZombie = new List<Zombie>();
         targetArmor2 = new List<Armor2>();
-        // 设置子物体碰撞器
-        attackPlaceCollider = transform.Find(attackPlaceName).GetComponent<Collider2D>();
-        attackPlaceCollider.GetComponent<TriggerForwarder>().SetPlantParentHandler(this);
-        attackPlaceCollider.enabled = false;
-    }
-
-    public override void setState(PlantState state)
-    {
-        base.setState(state);
-        switch (state)
-        {
-            case PlantState.Suspension:
-                attackPlaceCollider.enabled = false;
-                break;
-            case PlantState.Idle:
-                attackPlaceCollider.enabled = true;
-                break;
-            case PlantState.Die:
-                attackPlaceCollider.enabled = false;
-                break;
-            default:
-                break;
-        }
     }
 
     public virtual void setAshState(AshPlantState state)

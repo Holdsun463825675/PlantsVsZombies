@@ -28,7 +28,7 @@ public class LevelConfigs
             dropSun = false,
             startingSun = 8000,
             cardType = TypeOfCard.Fixation,
-            fixedCards = new List<PlantID> { PlantID.Repeater, PlantID.Torchwood },
+            fixedCards = new List<PlantID> { PlantID.BowlingWallNut, PlantID.BowlingRedWallNut, PlantID.BowlingBigWallNut },
 
             zombieID = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ScreenDoorZombie },
             zombieWaves = new List<ZombieWave> {

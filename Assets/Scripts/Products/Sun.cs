@@ -73,7 +73,8 @@ public class Sun : Product, IClickable
         switch (state)
         {
             case SunState.Vertical:
-                transform.DOMove(new Vector2(transform.position.x, target_y), Mathf.Abs(transform.position.y - target_y) / verticalSpeed)
+                transform.DOMove(new Vector2(transform.position.x, target_y), verticalSpeed)
+                    .SetSpeedBased()
                     .SetEase(Ease.Linear)
                     .OnComplete(() => setState(SunState.Stop));
                 break;

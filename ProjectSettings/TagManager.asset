@@ -8,6 +8,7 @@ TagManager:
   - Zombie
   - Armor2
   - Bullet
+  - Bowling
   layers:
   - Default
   - TransparentFX
@@ -57,11 +58,14 @@ TagManager:
   - name: Zombie
     uniqueID: 512235905
     locked: 0
-  - name: Props
+  - name: Prop
     uniqueID: 2897448025
     locked: 0
-  - name: Product
+  - name: Bullet
     uniqueID: 3872407057
+    locked: 0
+  - name: Sun
+    uniqueID: 4172558895
     locked: 0
   - name: Hand
     uniqueID: 2850321921

@@ -36,10 +36,10 @@ public class GatlingPea : AttackPlant
     private void shootPea()
     {
         AudioManager.Instance.playClip(ResourceConfig.sound_plantshoot_throw);
-        Pea pea = GameObject.Instantiate(peaPrefab, attackPlace.position, Quaternion.identity);
+        Pea pea = GameObject.Instantiate(peaPrefab, effectPlace.position, Quaternion.identity);
         pea.setState(BulletState.ToBeUsed);
         float target_x = MapManager.Instance.currMap.endlinePositions[1].position.x;
-        pea.moveToPlace(new Vector3(target_x, attackPlace.position.y, attackPlace.position.z));
+        pea.moveToPlace(new Vector3(target_x, effectPlace.position.y, effectPlace.position.z));
     }
 
     private void shoot(int num)

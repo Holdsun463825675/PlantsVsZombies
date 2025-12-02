@@ -85,10 +85,8 @@ public class Zombie : MonoBehaviour, IClickable
         zombieID = ZombieID.None;
         baseSpeed = 0.2f;
         speed = Random.Range(1.0f, 2.0f) * baseSpeed;
-        //speedRatio = 1.0f;
-        //speedChangeDuration = 0.0f;
-        speedRatio = 0.5f;
-        speedChangeDuration = 999.0f;
+        speedRatio = 1.0f;
+        speedChangeDuration = 0.0f;
 
         maxHealth = 270; currHealth = maxHealth;
         maxArmor1Health = 0; currArmor1Health = maxArmor1Health;
@@ -181,7 +179,8 @@ public class Zombie : MonoBehaviour, IClickable
         anim.SetBool(AnimatorConfig.zombie_game, true);
         losingGame = MapManager.Instance.currMap.endlinePositions[0];
         Vector3 target = new Vector3(losingGame.position.x, transform.position.y, transform.position.z);
-        currentMoveTween = transform.DOMove(target, Vector3.Distance(target, transform.position) / speed)
+        currentMoveTween = transform.DOMove(target, speed)
+            .SetSpeedBased()
             .SetEase(Ease.Linear)
             .OnComplete(() => {
                 if (healthState == ZombieHealthState.Healthy || healthState == ZombieHealthState.LostArm) GameManager.Instance.setState(GameState.Losing);
@@ -270,19 +269,11 @@ public class Zombie : MonoBehaviour, IClickable
         }
         if (state == ZombieHealthState.LostHead)
         {
-            zombieHead = GameObject.Instantiate(zombieHeadPrefab, lostHeadPlace.position, Quaternion.identity);
-            zombieHead.GetComponent<SpriteRenderer>().sortingOrder = this.GetComponent<SpriteRenderer>().sortingOrder + 1;
-            // 掉头动画
-            lostHeadAnim = zombieHead.GetComponent<Animator>();
-            AudioManager.Instance.playClip(ResourceConfig.sound_zombiedie_limbsPop);
+            setLostHeadAnim();
         }
         if (state == ZombieHealthState.Die)
         {
-            if (dieMode == 0 && !lostHeadAnim) // 掉头动画
-            {
-                lostHeadAnim = zombieHead.GetComponent<Animator>();
-                AudioManager.Instance.playClip(ResourceConfig.sound_zombiedie_limbsPop);
-            }
+            if (dieMode == 0 && !lostHeadAnim) setLostHeadAnim();
             currArmor2Health = 0;
             transform.DOKill();
             c2d.enabled = false;
@@ -369,6 +360,14 @@ public class Zombie : MonoBehaviour, IClickable
         this.speedChangeDuration = speedChangeDuration;
         if (speedRatio < this.speedRatio) AudioManager.Instance.playClip(ResourceConfig.sound_zombie_frozen);
         this.speedRatio = speedRatio;
+    }
+
+    private void setLostHeadAnim()
+    {
+        zombieHead = GameObject.Instantiate(zombieHeadPrefab, lostHeadPlace.position, Quaternion.identity);
+        zombieHead.GetComponent<SpriteRenderer>().sortingOrder = this.GetComponent<SpriteRenderer>().sortingOrder + 1;
+        lostHeadAnim = zombieHead.GetComponent<Animator>();
+        AudioManager.Instance.playClip(ResourceConfig.sound_zombiedie_limbsPop);
     }
 
     private Plant getAttackTarget()

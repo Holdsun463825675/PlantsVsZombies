@@ -18,6 +18,9 @@ public enum PlantID
     Pumpkin = 31,
     GatlingPea = 41,
     TwinSunflower = 42,
+    BowlingWallNut = 49,
+    BowlingRedWallNut = 50,
+    BowlingBigWallNut = 51,
 }
 
 public enum PlantState
@@ -42,14 +45,18 @@ public class Plant : MonoBehaviour, IClickable
 
     protected int maxHealth, currHealth;
     protected int underAttackSound; // 受击音效，0正常，1轻柔，2子弹
-    private TextMeshPro HPText;
+    protected TextMeshPro HPText;
     private Transform shadow;
 
     private Cell cell;
 
-    private SpriteRenderer spriteRenderer;
+    protected SpriteRenderer spriteRenderer;
     public Animator anim;
     private Collider2D c2d;
+
+    protected string effectPlaceName = "EffectPlace";
+    protected Transform effectPlace;
+    protected Collider2D effectPlaceCollider;
 
     protected virtual void Awake()
     {
@@ -65,6 +72,15 @@ public class Plant : MonoBehaviour, IClickable
         shadow = transform.Find("Shadow");
         if (shadow) shadow.gameObject.SetActive(false);
         PlantManager.Instance.addPlant(this);
+
+        // 设置子物体碰撞器
+        effectPlace = transform.Find(effectPlaceName);
+        if (effectPlace)
+        {
+            effectPlaceCollider = effectPlace.GetComponent<Collider2D>();
+            effectPlaceCollider.GetComponent<TriggerForwarder>().SetPlantParentHandler(this);
+            effectPlaceCollider.enabled = false;
+        }
     }
 
     void Start()
@@ -128,28 +144,28 @@ public class Plant : MonoBehaviour, IClickable
         switch (state)
         {
             case PlantState.Suspension:
-                this.state = state;
                 if (HPText) HPText.gameObject.SetActive(false);
                 if (shadow) shadow.gameObject.SetActive(false);
                 anim.enabled = false;
                 c2d.enabled = false;
+                if (effectPlaceCollider) effectPlaceCollider.enabled = false;
                 if (cell) cell.removePlant(this);
                 spriteRenderer.sortingLayerName = "Hand";
                 break;
             case PlantState.Idle:
-                this.state = state;
                 if (HPText) HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.plantHealth);
                 if (shadow) shadow.gameObject.SetActive(true);
                 if (cell) cell.addPlant(this);
                 if (GameManager.Instance.state != GameState.Paused) anim.enabled = true;
                 c2d.enabled = true;
+                if (effectPlaceCollider) effectPlaceCollider.enabled = true;
                 spriteRenderer.sortingLayerName = "Plant";
                 break;
             case PlantState.Die:
-                this.state = state;
                 if (HPText) HPText.gameObject.SetActive(false);
                 if (shadow) shadow.gameObject.SetActive(false);
                 if (cell) cell.removePlant(this);
+                if (effectPlaceCollider) effectPlaceCollider.enabled = false;
                 spriteRenderer.sortingLayerName = "Plant";
                 Destroy(gameObject);
                 break;

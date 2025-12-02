@@ -197,13 +197,12 @@ public class Bullet : Product
 
     public void moveToPlace(Vector3 position, float speed = 5.0f)
     {
+        this.speed = speed;
         target_position = position;
-        transform.DOMove(position, Vector3.Distance(transform.position, target_position) / speed)
+        transform.DOMove(position, this.speed)
+            .SetSpeedBased()
             .SetEase(Ease.Linear)
-            .OnComplete(() => {
-                ProductManager.Instance.removeProduct(this);
-                Destroy(gameObject);
-            });
+            .OnComplete(() => setState(BulletState.Used));
     }
 
     public virtual Bullet Ignite()
