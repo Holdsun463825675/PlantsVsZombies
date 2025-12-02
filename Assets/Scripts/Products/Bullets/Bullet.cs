@@ -25,6 +25,7 @@ public enum BulletHitSound
     Butter,
     Melon,
     FirePea,
+    Bowling,
 }
 
 public class Bullet : Product
@@ -147,7 +148,7 @@ public class Bullet : Product
         }
         if (targetNum > 0) targetNum--;
         targetZombie.UnderAttack(attackPoint);
-        AudioManager.Instance.playHitClip(this, targetZombie);
+        AudioManager.Instance.playHitClip(hitSound, hitSoundPriority, targetZombie.underAttackSound, targetZombie.underAttackSoundPriority);
         if (sputter) Sputter(); // 造成溅射伤害
         if (BulletHitPrefab) GameObject.Instantiate(BulletHitPrefab, transform.position, Quaternion.identity);
     }
@@ -157,7 +158,7 @@ public class Bullet : Product
         if (!targetArmor2 || targetNum == 0) return;
         if (targetNum > 0) targetNum--;
         targetArmor2.UnderAttack(attackPoint);
-        AudioManager.Instance.playHitClip(this, targetArmor2);
+        AudioManager.Instance.playHitClip(hitSound, hitSoundPriority, targetArmor2.underAttackSound, targetArmor2.underAttackSoundPriority);
         targetArmor2 = null; // 攻击防具后清空防具目标
         if (BulletHitPrefab) GameObject.Instantiate(BulletHitPrefab, transform.position, Quaternion.identity);
     }

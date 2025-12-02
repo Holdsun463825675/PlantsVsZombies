@@ -10,11 +10,16 @@ public class BowlingPlant : Plant
     protected float speed;
     protected Vector3 target_position;
 
+    public BulletHitSound hitSound;
+    public int hitSoundPriority;
+
     protected override void Awake()
     {
         base.Awake();
         attackPoint = 1800;
         speed = 3.0f;
+        hitSound = BulletHitSound.Bowling;
+        hitSoundPriority = 2;
     }
 
     public override void Pause()
@@ -70,6 +75,8 @@ public class BowlingPlant : Plant
             .SetSpeedBased()
             .SetEase(Ease.Linear)
             .OnComplete(() => setState(PlantState.Die));
+        if (GameManager.Instance.state == GameState.Paused) transform.DOPause();
+        AudioManager.Instance.playClip(ResourceConfig.sound_plant_bowling);
     }
 
 }

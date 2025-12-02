@@ -52,91 +52,50 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void playHitClip(Bullet bullet, Zombie zombie)
+    public void playHitClip(BulletHitSound hitSound, int hitSoundPriority, ZombieUnderAttackSound underAttackSound, int underAttackSoundPriority)
     {
-        string hitSound = "", underAttackSound = "";
-        switch (bullet.hitSound)
+        string hitSoundPath = "", underAttackSoundPath = "";
+        switch (hitSound)
         {
             case BulletHitSound.None:
                 break;
             case BulletHitSound.Kernelpult:
-                hitSound = ResourceConfig.sound_bullethit_kernelpults[Random.Range(0, ResourceConfig.sound_bullethit_kernelpults.Length)];
+                hitSoundPath = ResourceConfig.sound_bullethit_kernelpults[Random.Range(0, ResourceConfig.sound_bullethit_kernelpults.Length)];
                 break;
             case BulletHitSound.Butter:
-                hitSound = ResourceConfig.sound_bullethit_butter;
+                hitSoundPath = ResourceConfig.sound_bullethit_butter;
                 break;
             case BulletHitSound.Melon:
-                hitSound = ResourceConfig.sound_bullethit_melonimpacts[Random.Range(0, ResourceConfig.sound_bullethit_melonimpacts.Length)];
+                hitSoundPath = ResourceConfig.sound_bullethit_melonimpacts[Random.Range(0, ResourceConfig.sound_bullethit_melonimpacts.Length)];
                 break;
             case BulletHitSound.FirePea:
-                hitSound = ResourceConfig.sound_fire_ignites[Random.Range(0, ResourceConfig.sound_fire_ignites.Length)];
+                hitSoundPath = ResourceConfig.sound_fire_ignites[Random.Range(0, ResourceConfig.sound_fire_ignites.Length)];
+                break;
+            case BulletHitSound.Bowling:
+                hitSoundPath = ResourceConfig.sound_plant_bowlingimpact;
                 break;
             default:
                 break;
         }
-        switch (zombie.underAttackSound)
+        switch (underAttackSound)
         {
             case ZombieUnderAttackSound.Splat:
-                underAttackSound = ResourceConfig.sound_bullethit_splats[Random.Range(0, ResourceConfig.sound_bullethit_splats.Length)];
+                underAttackSoundPath = ResourceConfig.sound_bullethit_splats[Random.Range(0, ResourceConfig.sound_bullethit_splats.Length)];
                 break;
             case ZombieUnderAttackSound.Plastic:
-                underAttackSound = ResourceConfig.sound_bullethit_plastichits[Random.Range(0, ResourceConfig.sound_bullethit_plastichits.Length)];
+                underAttackSoundPath = ResourceConfig.sound_bullethit_plastichits[Random.Range(0, ResourceConfig.sound_bullethit_plastichits.Length)];
                 break;
             case ZombieUnderAttackSound.Shield:
-                underAttackSound = ResourceConfig.sound_bullethit_shieldhits[Random.Range(0, ResourceConfig.sound_bullethit_shieldhits.Length)];
+                underAttackSoundPath = ResourceConfig.sound_bullethit_shieldhits[Random.Range(0, ResourceConfig.sound_bullethit_shieldhits.Length)];
                 break;
             default:
                 break;
         }
-        if (bullet.hitSoundPriority == zombie.underAttackSoundPriority)
+        if (hitSoundPriority == underAttackSoundPriority)
         {
-            playClip(hitSound); playClip(underAttackSound);
+            playClip(hitSoundPath); playClip(underAttackSoundPath);
         }
-        else if (bullet.hitSoundPriority > zombie.underAttackSoundPriority) playClip(hitSound);
-        else playClip(underAttackSound);
-    }
-
-    public void playHitClip(Bullet bullet, Armor2 armor2)
-    {
-        string hitSound = "", underAttackSound = "";
-        switch (bullet.hitSound)
-        {
-            case BulletHitSound.None:
-                break;
-            case BulletHitSound.Kernelpult:
-                hitSound = ResourceConfig.sound_bullethit_kernelpults[Random.Range(0, ResourceConfig.sound_bullethit_kernelpults.Length)];
-                break;
-            case BulletHitSound.Butter:
-                hitSound = ResourceConfig.sound_bullethit_butter;
-                break;
-            case BulletHitSound.Melon:
-                hitSound = ResourceConfig.sound_bullethit_melonimpacts[Random.Range(0, ResourceConfig.sound_bullethit_melonimpacts.Length)];
-                break;
-            case BulletHitSound.FirePea:
-                hitSound = ResourceConfig.sound_fire_ignites[Random.Range(0, ResourceConfig.sound_fire_ignites.Length)];
-                break;
-            default:
-                break;
-        }
-        switch (armor2.underAttackSound)
-        {
-            case ZombieUnderAttackSound.Splat:
-                underAttackSound = ResourceConfig.sound_bullethit_splats[Random.Range(0, ResourceConfig.sound_bullethit_splats.Length)];
-                break;
-            case ZombieUnderAttackSound.Plastic:
-                underAttackSound = ResourceConfig.sound_bullethit_plastichits[Random.Range(0, ResourceConfig.sound_bullethit_plastichits.Length)];
-                break;
-            case ZombieUnderAttackSound.Shield:
-                underAttackSound = ResourceConfig.sound_bullethit_shieldhits[Random.Range(0, ResourceConfig.sound_bullethit_shieldhits.Length)];
-                break;
-            default:
-                break;
-        }
-        if (bullet.hitSoundPriority == armor2.underAttackSoundPriority)
-        {
-            playClip(hitSound); playClip(underAttackSound);
-        }
-        else if (bullet.hitSoundPriority > armor2.underAttackSoundPriority) playClip(hitSound);
-        else playClip(underAttackSound);
+        else if (hitSoundPriority > underAttackSoundPriority) playClip(hitSoundPath);
+        else playClip(underAttackSoundPath);
     }
 }

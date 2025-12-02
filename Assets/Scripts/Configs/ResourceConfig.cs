@@ -32,6 +32,9 @@ public class ResourceConfig
     public const string sound_placeplant_plant2 = "Audio/Sound/placeplant/plant2";
 
     public const string sound_plant_snowyPea = "Audio/Sound/plant/snow_pea_sparkles";
+    public const string sound_plant_bowling = "Audio/Sound/plant/bowling";
+    public const string sound_plant_bowlingimpact = "Audio/Sound/plant/bowlingimpact";
+    public const string sound_plant_bowlingimpact2 = "Audio/Sound/plant/bowlingimpact2";
 
     public const string sound_plantshoot_throw = "Audio/Sound/plantshoot/throw";
 
