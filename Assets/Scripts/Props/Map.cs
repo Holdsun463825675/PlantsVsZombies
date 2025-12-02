@@ -7,6 +7,7 @@ public class Map : MonoBehaviour
     public int mapID;
     private string cellListName = "CellList";
     private string stripeListName = "StripeList";
+    public int maxRow, maxCol; // ´Ó1¿ªÊ¼
 
     public List<Cell> cellList;
     public List<GameObject> stripeList;
@@ -21,6 +22,7 @@ public class Map : MonoBehaviour
 
     private void Awake()
     {
+        maxRow = 0; maxCol = 0;
         cellList = new List<Cell>();
         stripeList = new List<GameObject>();
         Transform parentCell = transform.Find(cellListName);
@@ -31,8 +33,11 @@ public class Map : MonoBehaviour
 
     public void setRestrictedArea(int restrictedArea=0)
     {
-        int maxCol = 0;
-        foreach (Cell cell in cellList) maxCol = Mathf.Max(maxCol, cell.col);
+        foreach (Cell cell in cellList)
+        {
+            maxRow = Mathf.Max(maxCol, cell.col);
+            maxCol = Mathf.Max(maxCol, cell.col);
+        } 
         int stripeIdx = (restrictedArea + maxCol) % maxCol;
         for (int i = 0; i < stripeList.Count; i++)
         {

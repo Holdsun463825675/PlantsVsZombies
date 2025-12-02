@@ -33,7 +33,7 @@ public enum PlantState
 
 public enum PlantType
 {
-    Normal, Carrier, Surrounding, Flight
+    None, Normal, Carrier, Surrounding, Flight
 }
 
 public class Plant : MonoBehaviour, IClickable
@@ -42,6 +42,8 @@ public class Plant : MonoBehaviour, IClickable
     public PlantID id = PlantID.None;
     public PlantType type = PlantType.Normal;
     public PlantID prePlantID = PlantID.None; // 种植的前置植物
+
+    public int row;
 
     protected int maxHealth, currHealth;
     protected int underAttackSound; // 受击音效，0正常，1轻柔，2子弹
@@ -60,6 +62,7 @@ public class Plant : MonoBehaviour, IClickable
 
     protected virtual void Awake()
     {
+        row = 0;
         spriteRenderer = GetComponent<SpriteRenderer>();
         c2d = GetComponent<Collider2D>();
         maxHealth = 300; currHealth = maxHealth;
@@ -144,6 +147,7 @@ public class Plant : MonoBehaviour, IClickable
         switch (state)
         {
             case PlantState.Suspension:
+                row = 0;
                 if (HPText) HPText.gameObject.SetActive(false);
                 if (shadow) shadow.gameObject.SetActive(false);
                 anim.enabled = false;
@@ -155,13 +159,18 @@ public class Plant : MonoBehaviour, IClickable
             case PlantState.Idle:
                 if (HPText) HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.plantHealth);
                 if (shadow) shadow.gameObject.SetActive(true);
-                if (cell) cell.addPlant(this);
+                if (cell)
+                {
+                    cell.addPlant(this);
+                    row = cell.row;
+                } 
                 if (GameManager.Instance.state != GameState.Paused) anim.enabled = true;
                 c2d.enabled = true;
                 if (effectPlaceCollider) effectPlaceCollider.enabled = true;
                 spriteRenderer.sortingLayerName = "Plant";
                 break;
             case PlantState.Die:
+                row = 0;
                 if (HPText) HPText.gameObject.SetActive(false);
                 if (shadow) shadow.gameObject.SetActive(false);
                 if (cell) cell.removePlant(this);

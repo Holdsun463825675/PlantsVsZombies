@@ -63,12 +63,15 @@ public class Zombie : MonoBehaviour, IClickable
     protected float speedLevel;
     private Transform losingGame;
 
+    public int row; // 所处行，游戏模式下大于0
+
     private ZombieMoveState moveState;
     private ZombieHealthState healthState;
 
     public ZombieUnderAttackSound underAttackSound;
     public int underAttackSoundPriority;
 
+    public Armor2 armor2;
     private TextMeshPro HPText;
     private Transform lostHeadPlace;
     private List<Plant> targets;
@@ -98,6 +101,7 @@ public class Zombie : MonoBehaviour, IClickable
         spawnWeight = 1.0f;
 
         speedLevel = (speed - baseSpeed) / baseSpeed;
+        row = 0;
         HealthPercentage = 1.0f;
         groanTime = 24.0f; groanTimer = 19.0f + Random.Range(0.0f, 2.0f);
         healthLossTime = 0.05f; healthLossTimer = 0.0f;
@@ -112,6 +116,7 @@ public class Zombie : MonoBehaviour, IClickable
         anim.SetBool(AnimatorConfig.zombie_game, false);
         c2d = GetComponent<Collider2D>();
         c2d.enabled = false;
+        armor2 = transform.Find("Armor2").GetComponent<Armor2>();
         Transform child = transform.Find("HPText");
         if (child) HPText = child.GetComponent<TextMeshPro>();
         if (HPText) HPText.gameObject.SetActive(true);
@@ -172,8 +177,9 @@ public class Zombie : MonoBehaviour, IClickable
         }
     }
 
-    public void setGameMode()
+    public void setGameMode(int row=0)
     {
+        this.row = row;
         c2d.enabled = true;
         if (currArmor2Health > 0 && Armor2_c2d) Armor2_c2d.enabled = true;
         anim.SetBool(AnimatorConfig.zombie_game, true);
@@ -323,6 +329,12 @@ public class Zombie : MonoBehaviour, IClickable
         currHealth += point;
         if (currHealth > maxHealth) currHealth = maxHealth;
         if (currHealth <= 0) currHealth = 0;
+        // 状态判定
+        HealthPercentage = (float)currHealth / (float)maxHealth;
+        if (HealthPercentage >= lostArmHealthPercentage) setHealthState(ZombieHealthState.Healthy);
+        if (HealthPercentage >= lostHeadPercentage && HealthPercentage < lostArmHealthPercentage) setHealthState(ZombieHealthState.LostArm);
+        if (HealthPercentage >= dieHealthPercentage && HealthPercentage < lostHeadPercentage) setHealthState(ZombieHealthState.LostHead);
+        if (HealthPercentage < dieHealthPercentage) setHealthState(ZombieHealthState.Die);
     }
 
     public int AddArmor1Health(int point) // 返回溢出的扣血伤害
@@ -442,9 +454,9 @@ public class Zombie : MonoBehaviour, IClickable
     public void kill(int dieMode=0)
     {
         this.dieMode = dieMode;
-        currArmor2Health = 0;
-        currArmor1Health = 0;
-        currHealth = 0;
+        AddArmor2Health(-currArmor2Health);
+        AddArmor1Health(-currArmor1Health);
+        AddCurrHealth(-currHealth);
     }
 
     // 父物体处理触发事件的方法

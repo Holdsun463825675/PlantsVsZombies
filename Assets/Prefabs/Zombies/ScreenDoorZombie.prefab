@@ -89,6 +89,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7815668448873337649}
   m_SourcePrefab: {fileID: 100100000, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+--- !u!114 &733015616650130843 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8837471348827803026, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+  m_PrefabInstance: {fileID: 8109065997994719241}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adc6f846e0bad14eb401f3a70c51535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1897231046010388797 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7700417702789560628, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
@@ -110,5 +121,7 @@ MonoBehaviour:
   speedRatio: 0
   spawnWeight: 4
   zombieHeadPrefab: {fileID: 1143894914790227004, guid: 7cb14b8ed54ed8a43a393cba0fb33cc6, type: 3}
+  row: 0
   underAttackSound: 0
   underAttackSoundPriority: 0
+  armor2: {fileID: 733015616650130843}

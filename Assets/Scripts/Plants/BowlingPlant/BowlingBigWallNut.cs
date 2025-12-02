@@ -8,7 +8,6 @@ public class BowlingBigWallNut : BowlingPlant
     {
         base.Awake();
         id = PlantID.BowlingBigWallNut;
-        type = PlantType.Normal;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

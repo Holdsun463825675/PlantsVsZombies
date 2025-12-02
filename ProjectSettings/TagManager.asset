@@ -8,7 +8,6 @@ TagManager:
   - Zombie
   - Armor2
   - Bullet
-  - Bowling
   layers:
   - Default
   - TransparentFX

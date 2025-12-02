@@ -9,6 +9,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2471237257151784739, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_Size.y
+      value: 0.12522358
+      objectReference: {fileID: 0}
+    - target: {fileID: 2471237257151784739, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.6369144
+      objectReference: {fileID: 0}
+    - target: {fileID: 2471237257151784739, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.x
       value: 0.5
       objectReference: {fileID: 0}
@@ -42,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4749402821575749281, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
       propertyPath: m_TagString
-      value: Bowling
+      value: Plant
       objectReference: {fileID: 0}
     - target: {fileID: 5275848274595824352, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
       propertyPath: m_Controller
@@ -117,4 +125,7 @@ MonoBehaviour:
   id: 0
   type: 0
   prePlantID: 0
+  row: 0
   anim: {fileID: 0}
+  hitSound: 0
+  hitSoundPriority: 0

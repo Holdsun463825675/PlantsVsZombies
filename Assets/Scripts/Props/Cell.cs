@@ -41,12 +41,14 @@ public class Cell : MonoBehaviour, IClickable
 
     public void addPlant(Plant plant)
     {
+        if (plant.type == PlantType.None) return;
         if (!plants.ContainsKey(plant.type)) plants.Add(plant.type, new List<Plant>());
         if (!plants[plant.type].Contains(plant)) plants[plant.type].Add(plant);
     }
 
     public void removePlant(Plant plant)
     {
+        if (plant.type == PlantType.None) return;
         if (!plants.ContainsKey(plant.type)) return;
         plants[plant.type].Remove(plant);
     }
@@ -66,6 +68,7 @@ public class Cell : MonoBehaviour, IClickable
     // 判断是否可种植植物
     public bool PlantAvailable(Plant plant)
     {
+        if (plant.type == PlantType.None) return true;
         if (plant.prePlantID == PlantID.None) // 不需要前置植物
         {
             if (plants.ContainsKey(plant.type) && plants[plant.type].Count > 0) return false;
@@ -83,6 +86,9 @@ public class Cell : MonoBehaviour, IClickable
         float target_y = transform.position.y;
         switch (plant.type)
         {
+            case PlantType.None:
+                target_y += 0.3f;
+                break;
             case PlantType.Carrier:
                 target_y += 0.1f;
                 break;
@@ -106,6 +112,9 @@ public class Cell : MonoBehaviour, IClickable
         int res = row * rowMaxSortingOrder;
         switch (plant.type)
         {
+            case PlantType.None:
+                res += 8;
+                break;
             case PlantType.Carrier:
                 res += 4;
                 break;

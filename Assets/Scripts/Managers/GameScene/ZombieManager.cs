@@ -349,7 +349,8 @@ public class ZombieManager : MonoBehaviour
             lastWaveZombieList.Add(zombie);
             int count = zombie.setSortingOrder(orderInLayers[row]);
             orderInLayers[row] += count;
-            zombie.setGameMode(); // 设置游戏模式
+            zombie.setGameMode(row + 1); // 设置游戏模式
+            Debug.Log(row+1);
         }
     }
 

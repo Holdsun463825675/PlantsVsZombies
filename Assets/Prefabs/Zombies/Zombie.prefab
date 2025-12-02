@@ -621,5 +621,7 @@ MonoBehaviour:
   speedRatio: 0
   spawnWeight: 0
   zombieHeadPrefab: {fileID: 1143894914790227004, guid: 7cb14b8ed54ed8a43a393cba0fb33cc6, type: 3}
+  row: 0
   underAttackSound: 0
   underAttackSoundPriority: 0
+  armor2: {fileID: 8837471348827803026}

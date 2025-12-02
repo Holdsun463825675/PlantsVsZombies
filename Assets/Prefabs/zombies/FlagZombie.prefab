@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlagZombie
       objectReference: {fileID: 0}
+    - target: {fileID: 8837471348827803026, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+      propertyPath: zombie
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -2582886588925053531, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
     m_RemovedGameObjects: []
@@ -87,7 +91,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zombieID: 2
+  speedRatio: 0
   spawnWeight: 1
   zombieHeadPrefab: {fileID: 1143894914790227004, guid: 7cb14b8ed54ed8a43a393cba0fb33cc6, type: 3}
+  row: 0
   underAttackSound: 0
   underAttackSoundPriority: 0
+  armor2: {fileID: 1753647625788591945}
+--- !u!114 &1753647625788591945 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8837471348827803026, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+  m_PrefabInstance: {fileID: 7130100252576891611}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adc6f846e0bad14eb401f3a70c51535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

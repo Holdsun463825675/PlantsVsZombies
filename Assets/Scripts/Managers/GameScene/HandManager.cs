@@ -61,8 +61,8 @@ public class HandManager : MonoBehaviour
     public void PlantPlant(Cell cell)
     {
         if (!cell.PlantPlant(currPlant)) return;
-        currPlant.setState(PlantState.Idle);
         currPlant.setCell(cell);
+        currPlant.setState(PlantState.Idle);
         currPlant = null;
         AudioManager.Instance.playClip(ResourceConfig.sound_placeplant_plant);
         if (currCard)

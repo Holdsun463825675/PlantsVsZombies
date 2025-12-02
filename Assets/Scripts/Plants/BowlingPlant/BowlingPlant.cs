@@ -18,6 +18,7 @@ public class BowlingPlant : Plant
         base.Awake();
         attackPoint = 1800;
         speed = 3.0f;
+        type = PlantType.None; // 无种植类型
         hitSound = BulletHitSound.Bowling;
         hitSoundPriority = 2;
     }
