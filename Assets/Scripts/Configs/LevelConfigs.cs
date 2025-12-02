@@ -32,10 +32,10 @@ public class LevelConfigs
 
             zombieID = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ScreenDoorZombie },
             zombieWaves = new List<ZombieWave> {
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 10,largeWave = false},
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ScreenDoorZombie},spawnWeight = 10,largeWave = true},
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 10,largeWave = false},
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ScreenDoorZombie},spawnWeight = 10,largeWave = true},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ScreenDoorZombie},spawnWeight = 20,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ScreenDoorZombie},spawnWeight = 20,largeWave = true},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ScreenDoorZombie},spawnWeight = 20,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ScreenDoorZombie},spawnWeight = 20,largeWave = true},
             },
             spawnTimer = 28.0f,
             restrictedArea = 0,
@@ -123,8 +123,8 @@ public class LevelConfigs
         {
             levelID = 4,
             levelName = "1-4",
-            nextLevelID = new List<int> { 8 },
-            awardPlantID = PlantID.TallNut,
+            nextLevelID = new List<int> { 5 },
+            awardPlantID = PlantID.None,
             awardPropID = PropID.Shovel,
             mapID = 3,
             time = TimeOfDay.Day,
@@ -152,6 +152,32 @@ public class LevelConfigs
         {
             levelID = 5,
             levelName = "1-5",
+            nextLevelID = new List<int> { 8 },
+            awardPlantID = PlantID.TallNut,
+            awardPropID = PropID.None,
+            mapID = 3,
+            time = TimeOfDay.Day,
+            music = ResourceConfig.music_loon,
+            dropSun = false,
+            startingSun = 0,
+            cardType = TypeOfCard.Conveyor,
+            fixedCards = new List<PlantID> { PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingRedWallNut },
+
+            zombieID = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ConeHeadZombie },
+            zombieWaves = new List<ZombieWave> {
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie},spawnWeight = 3,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie},spawnWeight = 3,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie},spawnWeight = 4,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ConeHeadZombie, ZombieID.NormalZombie},spawnWeight = 4,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie},spawnWeight = 5,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie},spawnWeight = 5,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie},spawnWeight = 6,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie},spawnWeight = 7,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie},spawnWeight = 8,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ConeHeadZombie, ZombieID.NormalZombie},spawnWeight = 15,largeWave = true},
+            },
+            spawnTimer = 30.0f,
+            restrictedArea = 3,
         });
         // 1-6
         levelConfigs.Add(new LevelConfig

@@ -43,12 +43,12 @@ public class BowlingWallNut : BowlingPlant
         if (!targetZombie || preTargetRow == targetZombie.row) return;
         targetZombie.UnderAttack(attackPoint);
         transMove(targetZombie.row); // 攻击后改变运动方向
-        preTargetRow = targetZombie.row;
         AudioManager.Instance.playHitClip(hitSound, hitSoundPriority, targetZombie.underAttackSound, targetZombie.underAttackSoundPriority);
     }
 
     protected virtual void AttackArmor2()
     {
+        Debug.Log(targetArmor2.zombie.row);
         if (!targetArmor2 || preTargetRow == targetArmor2.zombie.row) return;
         if (targetZombie && targetZombie.armor2 == targetArmor2) // 优先攻击僵尸
         {
@@ -56,7 +56,6 @@ public class BowlingWallNut : BowlingPlant
         }
         targetArmor2.UnderAttack(attackPoint);
         transMove(targetArmor2.zombie.row); // 攻击后改变运动方向
-        preTargetRow = targetArmor2.zombie.row;
         AudioManager.Instance.playHitClip(hitSound, hitSoundPriority, targetArmor2.underAttackSound, targetArmor2.underAttackSoundPriority);
     }
 
