@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.PreviewingText.GetComponent<TextMeshProUGUI>().text = "¹Ø¿¨£º" + currLevelConfig.levelName;
         UIManager.Instance.LevelText.GetComponent<TextMeshProUGUI>().text = "¹Ø¿¨£º" + currLevelConfig.levelName;
         // µØÍ¼
-        MapManager.Instance.setMap(currLevelConfig.mapID);
+        MapManager.Instance.setMap(currLevelConfig.mapID, currLevelConfig.restrictedArea);
         CameraManager.Instance.getMap();
         CleanerManager.Instance.getMap();
         SunManager.Instance.getMap();

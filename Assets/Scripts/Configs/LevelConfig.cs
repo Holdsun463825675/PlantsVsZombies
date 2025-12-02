@@ -27,6 +27,7 @@ public class LevelConfig
     // 其他
     public bool cleaner = true; // 是否有小推车
     public bool shovel = true; // 是否可用铲子
+    public int restrictedArea = 0; // 可种植区域，0为全可种植，大于0为靠近家的可种，小于0为靠近出怪位置可种
     public float generateCardTime = 6.0f; // 传送带出生成植物间隔
     public float gameSpeed = -1; // 固定游戏速度
 }

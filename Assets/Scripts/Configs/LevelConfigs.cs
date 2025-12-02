@@ -38,6 +38,7 @@ public class LevelConfigs
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ScreenDoorZombie},spawnWeight = 100,largeWave = true},
             },
             spawnTimer = 28.0f,
+            restrictedArea = 3,
         });
         // 1-1
         levelConfigs.Add(new LevelConfig

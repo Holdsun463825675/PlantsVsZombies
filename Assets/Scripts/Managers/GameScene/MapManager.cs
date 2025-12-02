@@ -15,7 +15,7 @@ public class MapManager : MonoBehaviour
         Instance = this;
     }
 
-    public void setMap(int mapID = 0)
+    public void setMap(int mapID = 0, int restrictedArea=0)
     {
         foreach (Map map in MapList)
         {
@@ -23,6 +23,7 @@ public class MapManager : MonoBehaviour
             {
                 currMap = map;
                 map.gameObject.SetActive(true);
+                map.setRestrictedArea(restrictedArea);
             } 
             else map.gameObject.SetActive(false);
         }
