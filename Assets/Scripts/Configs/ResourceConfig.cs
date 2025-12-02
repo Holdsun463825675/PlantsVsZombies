@@ -63,6 +63,11 @@ public class ResourceConfig
     };
     public const string sound_bullethit_butter = "Audio/Sound/bullethit/butter";
     public const string sound_fire_firepea = "Audio/Sound/fire/firepea";
+    public static readonly string[] sound_fire_ignites = new string[]
+{
+        "Audio/Sound/fire/ignite",
+        "Audio/Sound/fire/ignite2",
+};
 
     public static readonly string[] sound_other_groans = new string[]
     {

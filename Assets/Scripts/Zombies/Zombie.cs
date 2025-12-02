@@ -85,8 +85,10 @@ public class Zombie : MonoBehaviour, IClickable
         zombieID = ZombieID.None;
         baseSpeed = 0.2f;
         speed = Random.Range(1.0f, 2.0f) * baseSpeed;
-        speedRatio = 1.0f;
-        speedChangeDuration = 0.0f;
+        //speedRatio = 1.0f;
+        //speedChangeDuration = 0.0f;
+        speedRatio = 0.5f;
+        speedChangeDuration = 999.0f;
 
         maxHealth = 270; currHealth = maxHealth;
         maxArmor1Health = 0; currArmor1Health = maxArmor1Health;

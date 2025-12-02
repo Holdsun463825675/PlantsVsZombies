@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum BulletState
 {
+    None,
     ToBeUsed,
     Used
 }
@@ -180,11 +181,12 @@ public class Bullet : Product
             if (sputterC2d) sputterC2d.enabled = true;
             if (shadow) shadow.gameObject.SetActive(true);
             targetZombie = null;
+            targetArmor2 = null;
         }
         if (state == BulletState.Used)
         {
             c2d.enabled = false;
-            if (sputterC2d) sputterC2d.enabled= false;
+            if (sputterC2d) sputterC2d.enabled = false;
             transform.DOKill();
             if (shadow) shadow.gameObject.SetActive(false);
             sr.enabled = false;
@@ -212,6 +214,7 @@ public class Bullet : Product
             if (bullet.id == igniteID) bulletPrefab = bullet;
         }
         if (!bulletPrefab) return null;
+        AudioManager.Instance.playClip(ResourceConfig.sound_fire_firepea); // µ„»º“Ù–ß
         Bullet newBullet = GameObject.Instantiate(bulletPrefab, transform.position, Quaternion.identity);
         newBullet.setState(BulletState.ToBeUsed);
         newBullet.moveToPlace(target_position);

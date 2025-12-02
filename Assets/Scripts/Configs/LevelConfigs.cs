@@ -27,13 +27,14 @@ public class LevelConfigs
             music = ResourceConfig.music_day,
             dropSun = false,
             startingSun = 8000,
-            cardType = TypeOfCard.Autonomy,
+            cardType = TypeOfCard.Fixation,
+            fixedCards = new List<PlantID> { PlantID.Repeater, PlantID.Torchwood },
 
             zombieID = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ScreenDoorZombie },
             zombieWaves = new List<ZombieWave> {
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ScreenDoorZombie},spawnWeight = 100,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 100,largeWave = false},
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ScreenDoorZombie},spawnWeight = 100,largeWave = true},
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ScreenDoorZombie},spawnWeight = 100,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 100,largeWave = false},
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ScreenDoorZombie},spawnWeight = 100,largeWave = true},
             },
             spawnTimer = 28.0f,

@@ -69,7 +69,7 @@ public class AudioManager : MonoBehaviour
                 hitSound = ResourceConfig.sound_bullethit_melonimpacts[Random.Range(0, ResourceConfig.sound_bullethit_melonimpacts.Length)];
                 break;
             case BulletHitSound.FirePea:
-                hitSound = ResourceConfig.sound_fire_firepea;
+                hitSound = ResourceConfig.sound_fire_ignites[Random.Range(0, ResourceConfig.sound_fire_ignites.Length)];
                 break;
             default:
                 break;
@@ -113,7 +113,7 @@ public class AudioManager : MonoBehaviour
                 hitSound = ResourceConfig.sound_bullethit_melonimpacts[Random.Range(0, ResourceConfig.sound_bullethit_melonimpacts.Length)];
                 break;
             case BulletHitSound.FirePea:
-                hitSound = ResourceConfig.sound_fire_firepea;
+                hitSound = ResourceConfig.sound_fire_ignites[Random.Range(0, ResourceConfig.sound_fire_ignites.Length)];
                 break;
             default:
                 break;
