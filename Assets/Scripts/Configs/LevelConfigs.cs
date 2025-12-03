@@ -32,10 +32,10 @@ public class LevelConfigs
 
             zombieID = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ScreenDoorZombie },
             zombieWaves = new List<ZombieWave> {
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ScreenDoorZombie},spawnWeight = 20,largeWave = false},
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ScreenDoorZombie},spawnWeight = 20,largeWave = true},
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ScreenDoorZombie},spawnWeight = 20,largeWave = false},
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ScreenDoorZombie},spawnWeight = 20,largeWave = true},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 20,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ScreenDoorZombie},spawnWeight = 20,largeWave = true},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 20,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ScreenDoorZombie},spawnWeight = 20,largeWave = true},
             },
             spawnTimer = 28.0f,
             restrictedArea = 0,

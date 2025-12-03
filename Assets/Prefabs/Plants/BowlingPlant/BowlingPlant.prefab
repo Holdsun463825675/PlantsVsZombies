@@ -58,12 +58,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4749402821575749281, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
       propertyPath: m_TagString
-      value: Plant
+      value: Bowling
       objectReference: {fileID: 0}
     - target: {fileID: 5275848274595824352, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: d0a4b1fb18e16ee449eb9b7d50e18da8, type: 2}
+      objectReference: {fileID: 9100000, guid: 5decd28d6a7488942a9ccfe8a10d953e, type: 2}
     - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

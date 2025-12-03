@@ -16,6 +16,7 @@ public class BowlingWallNut : BowlingPlant
     {
         base.Awake();
         id = PlantID.BowlingWallNut;
+        type = PlantType.Normal;
         attackPoint = 500;
         currMoveDirection = 0;
         preTargetRow = 0;
@@ -48,7 +49,6 @@ public class BowlingWallNut : BowlingPlant
 
     protected virtual void AttackArmor2()
     {
-        Debug.Log(targetArmor2.zombie.row);
         if (!targetArmor2 || preTargetRow == targetArmor2.zombie.row) return;
         if (targetZombie && targetZombie.armor2 == targetArmor2) // ”≈œ»π•ª˜Ω© ¨
         {

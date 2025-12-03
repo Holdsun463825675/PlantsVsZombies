@@ -15,6 +15,7 @@ public class BowlingRedWallNut : BowlingPlant
     {
         base.Awake();
         id = PlantID.BowlingRedWallNut;
+        type = PlantType.Normal;
         targetZombie = new List<Zombie>();
         targetArmor2 = new List<Armor2>();
     }

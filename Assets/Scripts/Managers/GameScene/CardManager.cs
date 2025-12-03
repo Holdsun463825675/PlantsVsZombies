@@ -56,6 +56,9 @@ public class CardManager : MonoBehaviour
             case GameState.Processing:
                 ProcessingUpdate();
                 break;
+            case GameState.Winning:
+                ProcessingUpdate();
+                break;
             default:
                 break;
         }
@@ -125,16 +128,17 @@ public class CardManager : MonoBehaviour
 
     private void ProcessingUpdate()
     {
+        for (int i = 0; i < cardList.Count; i++)
+        {
+            float moveTime = Vector3.Distance(cardList[i].transform.position, cardListCardPlace[i].transform.position) / conveyorCardMoveSpeed;
+            MoveCardWithTween(cardList[i], cardListCardPlace[i], moveTime, Ease.Linear);
+        }
+        if (GameManager.Instance.state != GameState.Processing) return;
         generateCardTimer += Time.deltaTime;
         if (generateCardTimer >= generateCardTime)
         {
             generateCard();
             generateCardTimer = 0.0f;
-        }
-        for (int i = 0; i < cardList.Count; i++)
-        {
-            float moveTime = Vector3.Distance(cardList[i].transform.position, cardListCardPlace[i].transform.position) / conveyorCardMoveSpeed;
-            MoveCardWithTween(cardList[i], cardListCardPlace[i], moveTime, Ease.Linear);
         }
     }
 

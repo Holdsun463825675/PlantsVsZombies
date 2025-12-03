@@ -18,7 +18,7 @@ public class BowlingPlant : Plant
         base.Awake();
         attackPoint = 1800;
         speed = 3.0f;
-        type = PlantType.None; // 无种植类型
+        type = PlantType.Normal;
         hitSound = BulletHitSound.Bowling;
         hitSoundPriority = 2;
     }
@@ -70,6 +70,7 @@ public class BowlingPlant : Plant
 
     public void moveToPlace(Vector3 position, float speed = 3.0f)
     {
+        if (cell) cell.removePlant(this); // 移除种植
         this.speed = speed;
         target_position = position;
         transform.DOMove(position, this.speed)

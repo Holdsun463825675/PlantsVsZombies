@@ -67,7 +67,7 @@ PrefabInstance:
     - target: {fileID: 977178006838331983, guid: 0d90167497f564d4b97c749147742fb6, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 8bd14c120f65e664bace0731b6840671, type: 2}
+      objectReference: {fileID: 9100000, guid: 1041e87ecd2a6ef428f4258b2ad4db27, type: 2}
     - target: {fileID: 7418465446815739788, guid: 0d90167497f564d4b97c749147742fb6, type: 3}
       propertyPath: m_Size.x
       value: 0.31
@@ -113,6 +113,7 @@ MonoBehaviour:
   id: 51
   type: 0
   prePlantID: 0
+  row: 0
   anim: {fileID: 0}
   hitSound: 0
   hitSoundPriority: 0

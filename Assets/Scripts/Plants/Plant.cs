@@ -50,7 +50,7 @@ public class Plant : MonoBehaviour, IClickable
     protected TextMeshPro HPText;
     private Transform shadow;
 
-    private Cell cell;
+    protected Cell cell;
 
     protected SpriteRenderer spriteRenderer;
     public Animator anim;
