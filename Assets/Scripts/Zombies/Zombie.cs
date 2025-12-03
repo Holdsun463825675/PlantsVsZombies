@@ -78,8 +78,8 @@ public class Zombie : MonoBehaviour, IClickable
     private Animator lostHeadAnim;
 
     private Animator anim;
-    private Collider2D c2d;
-    private Collider2D Armor2_c2d;
+    private Collider2D c2d, bowling_c2d;
+    private Collider2D Armor2_c2d, Armor2_bowling_c2d;
 
     private Tween currentMoveTween;
 
@@ -116,6 +116,8 @@ public class Zombie : MonoBehaviour, IClickable
         anim.SetBool(AnimatorConfig.zombie_game, false);
         c2d = GetComponent<Collider2D>();
         c2d.enabled = false;
+        bowling_c2d = transform.Find("Bowling").GetComponent<Collider2D>();
+        bowling_c2d.enabled = false;
         armor2 = transform.Find("Armor2").GetComponent<Armor2>();
         Transform child = transform.Find("HPText");
         if (child) HPText = child.GetComponent<TextMeshPro>();
@@ -123,8 +125,14 @@ public class Zombie : MonoBehaviour, IClickable
         child = transform.Find("LostHeadPlace");
         if (child) lostHeadPlace = child.GetComponent<Transform>();
         child = transform.Find("Armor2");
-        if (child) Armor2_c2d = child.GetComponent<Collider2D>();
-        if (Armor2_c2d) Armor2_c2d.enabled = false;
+        if (child)
+        {
+            Armor2_c2d = child.GetComponent<Collider2D>();
+            if (Armor2_c2d) Armor2_c2d.enabled = false;
+            Armor2_bowling_c2d = child.Find("Armor2_Bowling").GetComponent<Collider2D>();
+            if (Armor2_bowling_c2d) Armor2_bowling_c2d.enabled = false;
+        } 
+        
     }
 
     private void Start()
@@ -140,6 +148,7 @@ public class Zombie : MonoBehaviour, IClickable
         if (currArmor1Health > 0) HPText.text = $"A1: {currArmor1Health}/{maxArmor1Health}\n" + HPText.text;
         if (currArmor2Health > 0) HPText.text = $"A2: {currArmor2Health}/{maxArmor2Health}\n" + HPText.text;
         if (Armor2_c2d) Armor2_c2d.enabled = currArmor2Health > 0;
+        if (Armor2_bowling_c2d) Armor2_bowling_c2d.enabled = currArmor2Health > 0;
 
         HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.zombieHealth);
         if (GameManager.Instance.state == GameState.Paused || GameManager.Instance.state == GameState.Losing) return;
@@ -181,7 +190,12 @@ public class Zombie : MonoBehaviour, IClickable
     {
         this.row = row;
         c2d.enabled = true;
-        if (currArmor2Health > 0 && Armor2_c2d) Armor2_c2d.enabled = true;
+        bowling_c2d.enabled = true;
+        if (currArmor2Health > 0)
+        {
+            if (Armor2_c2d) Armor2_c2d.enabled = true;
+            if (Armor2_bowling_c2d) Armor2_bowling_c2d.enabled = true;
+        } 
         anim.SetBool(AnimatorConfig.zombie_game, true);
         losingGame = MapManager.Instance.currMap.endlinePositions[0];
         Vector3 target = new Vector3(losingGame.position.x, transform.position.y, transform.position.z);
@@ -283,7 +297,9 @@ public class Zombie : MonoBehaviour, IClickable
             currArmor2Health = 0;
             transform.DOKill();
             c2d.enabled = false;
+            bowling_c2d.enabled = false;
             if (Armor2_c2d) Armor2_c2d.enabled = false;
+            if (Armor2_bowling_c2d) Armor2_bowling_c2d.enabled = false;
             anim.SetInteger(AnimatorConfig.zombie_dieMode, dieMode);
         }
     }

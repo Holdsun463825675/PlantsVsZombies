@@ -30,12 +30,12 @@ public class LevelConfigs
             cardType = TypeOfCard.Fixation,
             fixedCards = new List<PlantID> { PlantID.BowlingWallNut, PlantID.BowlingRedWallNut, PlantID.BowlingBigWallNut },
 
-            zombieID = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ScreenDoorZombie },
+            zombieID = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.BucketZombie, ZombieID.ScreenDoorZombie, ZombieID.FootballZombie },
             zombieWaves = new List<ZombieWave> {
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 20,largeWave = false},
-                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ScreenDoorZombie},spawnWeight = 20,largeWave = true},
-                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 20,largeWave = false},
-                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ScreenDoorZombie},spawnWeight = 20,largeWave = true},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.BucketZombie, ZombieID.ScreenDoorZombie, ZombieID.FootballZombie},spawnWeight = 30,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.BucketZombie, ZombieID.ScreenDoorZombie, ZombieID.FootballZombie},spawnWeight = 30,largeWave = true},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.BucketZombie, ZombieID.ScreenDoorZombie, ZombieID.FootballZombie},spawnWeight = 30,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.BucketZombie, ZombieID.ScreenDoorZombie, ZombieID.FootballZombie},spawnWeight = 30,largeWave = true},
             },
             spawnTimer = 28.0f,
             restrictedArea = 0,
@@ -176,6 +176,7 @@ public class LevelConfigs
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie},spawnWeight = 8,largeWave = false},
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ConeHeadZombie, ZombieID.NormalZombie},spawnWeight = 15,largeWave = true},
             },
+            shovel = false,
             spawnTimer = 30.0f,
             restrictedArea = 3,
         });

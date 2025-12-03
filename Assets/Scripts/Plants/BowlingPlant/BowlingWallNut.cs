@@ -26,13 +26,19 @@ public class BowlingWallNut : BowlingPlant
     {
         switch (collision.tag)
         {
-            case TagConfig.zombie: // 先判定僵尸
-                targetZombie = collision.GetComponent<Zombie>();
-                AttackZombie();
-                break;
-            case TagConfig.armor2: 
-                targetArmor2 = collision.GetComponent<Armor2>();
-                AttackArmor2();
+            case TagConfig.bowling_zombie:
+                targetZombie = collision.GetComponent<Transform>().parent.GetComponent<Zombie>();
+                if (targetZombie != null)
+                {
+                    AttackZombie();
+                    return;
+                } 
+                targetArmor2 = collision.GetComponent<Transform>().parent.GetComponent<Armor2>();
+                if (targetArmor2 != null)
+                {
+                    AttackArmor2();
+                    return;
+                } 
                 break;
             default:
                 break;
@@ -41,15 +47,16 @@ public class BowlingWallNut : BowlingPlant
 
     protected virtual void AttackZombie()
     {
-        if (!targetZombie || preTargetRow == targetZombie.row) return;
+        if (targetZombie == null || preTargetRow == targetZombie.row) return;
         targetZombie.UnderAttack(attackPoint);
         transMove(targetZombie.row); // 攻击后改变运动方向
         AudioManager.Instance.playHitClip(hitSound, hitSoundPriority, targetZombie.underAttackSound, targetZombie.underAttackSoundPriority);
+        targetZombie = null; targetArmor2 = null; // 清空目标
     }
 
     protected virtual void AttackArmor2()
     {
-        if (!targetArmor2 || preTargetRow == targetArmor2.zombie.row) return;
+        if (targetArmor2 == null || preTargetRow == targetArmor2.zombie.row) return;
         if (targetZombie && targetZombie.armor2 == targetArmor2) // 优先攻击僵尸
         {
             AttackZombie(); return;
@@ -57,6 +64,7 @@ public class BowlingWallNut : BowlingPlant
         targetArmor2.UnderAttack(attackPoint);
         transMove(targetArmor2.zombie.row); // 攻击后改变运动方向
         AudioManager.Instance.playHitClip(hitSound, hitSoundPriority, targetArmor2.underAttackSound, targetArmor2.underAttackSoundPriority);
+        targetZombie = null; targetArmor2 = null; // 清空目标
     }
 
     private void transMove(int preTargetRow=0)

@@ -25,4 +25,6 @@ public class AnimatorConfig
     public const string pea_used = "Used";
 
     public const string clicked = "Clicked";
+
+    public const string conveyor_moveSpeed = "MoveSpeed";
 }

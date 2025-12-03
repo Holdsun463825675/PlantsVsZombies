@@ -8,7 +8,8 @@ TagManager:
   - Zombie
   - Armor2
   - Bullet
-  - Bowling
+  - Bowling_plant
+  - Bowling_zombie
   layers:
   - Default
   - TransparentFX
@@ -30,7 +31,7 @@ TagManager:
   - Bullet
   - Sun
   - Card
-  - 
+  - Bowling
   - 
   - 
   - 

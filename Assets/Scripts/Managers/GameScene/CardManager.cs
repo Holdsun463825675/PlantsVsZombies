@@ -13,7 +13,7 @@ public class CardManager : MonoBehaviour
     private float UIMoveTime = 0.2f;
     private float selectionCardMoveTime = 0.2f;
     private float generateCardTime, generateCardTimer;
-    private float conveyorCardMoveSpeed = 0.5f;
+    private float conveyorCardMoveSpeed;
 
     private List<PlantID> fixedCards;
 
@@ -180,6 +180,9 @@ public class CardManager : MonoBehaviour
         isShovel = shovel;
         if (JSONSaveSystem.Instance) isShovel &= JSONSaveSystem.Instance.userData.shovel;
         this.generateCardTime = generateCardTime;
+        // 传送带速度与出卡速度同步
+        conveyorCardMoveSpeed = 3.0f / generateCardTime;
+        conveyorBeltAnim.SetFloat(AnimatorConfig.conveyor_moveSpeed, conveyorCardMoveSpeed);
     }
 
     public void setState(GameState state)

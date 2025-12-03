@@ -8,21 +8,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 82407299631692643, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2471237257151784739, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
       propertyPath: m_Size.x
-      value: 0.1323576
+      value: 0.22179046
       objectReference: {fileID: 0}
     - target: {fileID: 2471237257151784739, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
       propertyPath: m_Size.y
-      value: 0.10598588
+      value: 0.08827841
       objectReference: {fileID: 0}
     - target: {fileID: 2471237257151784739, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
       propertyPath: m_Offset.x
-      value: 0.0016253293
+      value: -0.028774604
       objectReference: {fileID: 0}
     - target: {fileID: 2471237257151784739, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
       propertyPath: m_Offset.y
-      value: 0.5343127
+      value: -0.0394461
       objectReference: {fileID: 0}
     - target: {fileID: 2471237257151784739, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.x
@@ -39,6 +43,10 @@ PrefabInstance:
     - target: {fileID: 2471237257151784739, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 1.6666666
+      objectReference: {fileID: 0}
+    - target: {fileID: 3086684593348818781, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3211362565714934121, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
       propertyPath: m_Sprite
@@ -57,8 +65,12 @@ PrefabInstance:
       value: BowlingPlant
       objectReference: {fileID: 0}
     - target: {fileID: 4749402821575749281, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749402821575749281, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
       propertyPath: m_TagString
-      value: Bowling
+      value: Bowling_plant
       objectReference: {fileID: 0}
     - target: {fileID: 5275848274595824352, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
       propertyPath: m_Controller
@@ -102,6 +114,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8331213625222948287, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:

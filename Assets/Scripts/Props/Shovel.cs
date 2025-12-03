@@ -97,7 +97,7 @@ public class Shovel : MonoBehaviour, IClickable
     // 父物体处理触发事件的方法
     public void OnChildTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == TagConfig.plant || collision.tag == TagConfig.bowling) // 植物或保龄球植物
+        if (collision.tag == TagConfig.plant || collision.tag == TagConfig.bowling_plant) // 植物或保龄球植物
         {
             if (target) target.anim.SetBool(AnimatorConfig.plant_selected, false);
             target = collision.GetComponent<Plant>();
@@ -107,7 +107,7 @@ public class Shovel : MonoBehaviour, IClickable
 
     public void OnChildTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == TagConfig.plant || collision.tag == TagConfig.bowling)
+        if (collision.tag == TagConfig.plant || collision.tag == TagConfig.bowling_plant)
         {
             if (target)
             {

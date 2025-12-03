@@ -8,5 +8,6 @@ public class TagConfig
     public const string zombie = "Zombie";
     public const string armor2 = "Armor2";
     public const string bullet = "Bullet";
-    public const string bowling = "Bowling";
+    public const string bowling_plant = "Bowling_plant";
+    public const string bowling_zombie = "Bowling_zombie";
 }

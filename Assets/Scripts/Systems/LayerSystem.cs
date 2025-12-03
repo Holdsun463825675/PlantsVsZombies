@@ -16,6 +16,7 @@ public class LayerSystem : MonoBehaviour
     public const int Bullet_layer = 17;
     public const int Sun_layer = 18;
     public const int Card_layer = 19;
+    public const int Bowling_layer = 20;
 
     private void Awake()
     {
@@ -31,6 +32,8 @@ public class LayerSystem : MonoBehaviour
     {
         Physics2D.IgnoreLayerCollision(Bullet_layer, Bullet_layer, true); // 子弹不与子弹碰撞
         Physics2D.IgnoreLayerCollision(AttackPlace_layer, Shovel_layer, true); // 铲子不与植物攻击范围碰撞
+        Physics2D.IgnoreLayerCollision(Bowling_layer, Plant_layer, true); // 保龄球不与植物碰撞
+        Physics2D.IgnoreLayerCollision(Bowling_layer, Zombie_layer, true); // 保龄球不与僵尸碰撞
         Physics2D.IgnoreLayerCollision(AttackPlace_layer, Zombie_layer, false); // 植物攻击范围与僵尸碰撞
         Physics2D.IgnoreLayerCollision(AttackPlace_layer, Default_layer, false); // 植物攻击范围与僵尸碰撞
     }
