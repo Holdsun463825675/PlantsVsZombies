@@ -46,6 +46,7 @@ public class JSONSaveSystem : MonoBehaviour
         public List<LevelData> levelDatas = new List<LevelData>(); // 关卡数据
         public SettingsData settingsData = new SettingsData(); // 设置数据
         public bool shovel; // 是否解锁铲子
+        public bool miniGame; // 是否解锁迷你游戏
     }
 
     [System.Serializable]
@@ -134,6 +135,7 @@ public class JSONSaveSystem : MonoBehaviour
                 plantHealth = false, 
                 zombieHealth = false },
             shovel = false,
+            miniGame = false,
         };
         metadata.userIDs.Add(newUserID);
         metadata.userNames[newUserID] = newUserData.name;
@@ -235,20 +237,26 @@ public class JSONSaveSystem : MonoBehaviour
 
     public void CompleteLevel(int levelID)
     {
+        bool contained = false;
         foreach (LevelData level in userData.levelDatas)
         {
-            if (level.levelID == levelID) level.completed = true;
+            if (level.levelID == levelID)
+            {
+                level.completed = true;
+                contained = true;
+            } 
         }
+        if (!contained) UnlockLevel(levelID, true);
         SaveGameData();
     }
 
-    public void UnlockLevel(int levelID)
+    public void UnlockLevel(int levelID, bool completed=false)
     {
         foreach (LevelData level in userData.levelDatas)
         {
             if (level.levelID == levelID) return;
         }
-        userData.levelDatas.Add(new LevelData { levelID = levelID, unlocked = true, completed = false });
+        userData.levelDatas.Add(new LevelData { levelID = levelID, unlocked = true, completed = completed });
         SaveGameData();
     }
 
@@ -266,6 +274,9 @@ public class JSONSaveSystem : MonoBehaviour
                 break;
             case PropID.Shovel:
                 userData.shovel = true;
+                break;
+            case PropID.MiniGame:
+                userData.miniGame = true;
                 break;
             default:
                 break;

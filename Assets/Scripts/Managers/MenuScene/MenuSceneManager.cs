@@ -17,9 +17,20 @@ public class MenuSceneManager : MonoBehaviour
 
     }
 
-    public void onAdventureButtonClick()
+    public void onLevelButtonClick(LevelListKind kind=LevelListKind.Adventure_Day)
     {
         AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
-        SceneManager.LoadScene("AdventureScene");
+        LevelConfigManager.Instance.setCurrLevelListKind(kind);
+        SceneManager.LoadScene("LevelScene");
+    }
+
+    public void onAdventureButtonClick()
+    {
+        onLevelButtonClick(LevelListKind.Adventure_Day);
+    }
+
+    public void onMiniGameButtonClick()
+    {
+        onLevelButtonClick(LevelListKind.MiniGame_1);
     }
 }

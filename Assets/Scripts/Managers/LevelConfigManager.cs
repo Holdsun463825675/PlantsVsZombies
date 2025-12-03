@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class LevelConfigManager : MonoBehaviour
 {
     public static LevelConfigManager Instance { get; private set; }
@@ -9,6 +10,7 @@ public class LevelConfigManager : MonoBehaviour
     private List<LevelConfig> levelConfigs;
     private Dictionary<int, LevelConfig> levelConfigDict;
 
+    public LevelListKind currLevelListKind;
     public LevelConfig currLevelConfig;
 
     void Awake()
@@ -34,6 +36,11 @@ public class LevelConfigManager : MonoBehaviour
                 levelConfigDict.Add(config.levelID, config);
             }
         }
+    }
+
+    public void setCurrLevelListKind(LevelListKind kind)
+    {
+        currLevelListKind = kind;
     }
 
     public LevelConfig GetLevelConfig(int levelID)

@@ -27,6 +27,6 @@ public class WinAward : MonoBehaviour
     public void onCompleteEnlarge()
     {
         AudioManager.Instance.playBgm(ResourceConfig.music_mainMenu);
-        SceneManager.LoadScene("AdventureScene");
+        SceneManager.LoadScene("LevelScene");
     }
 }

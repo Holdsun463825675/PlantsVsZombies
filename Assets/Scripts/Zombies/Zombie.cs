@@ -132,7 +132,6 @@ public class Zombie : MonoBehaviour, IClickable
             Armor2_bowling_c2d = child.Find("Armor2_Bowling").GetComponent<Collider2D>();
             if (Armor2_bowling_c2d) Armor2_bowling_c2d.enabled = false;
         } 
-        
     }
 
     private void Start()

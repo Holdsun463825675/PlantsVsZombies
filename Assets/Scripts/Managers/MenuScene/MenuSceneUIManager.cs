@@ -11,6 +11,8 @@ public class MenuSceneUIManager : MonoBehaviour
 {
     public static MenuSceneUIManager Instance { get; private set; }
 
+    public GameObject AdventureButton;
+    public GameObject MiniGameButton;
     public GameObject SettingsMenu;
     public GameObject Users;
     public GameObject UsersMenu;
@@ -24,8 +26,10 @@ public class MenuSceneUIManager : MonoBehaviour
         Instance = this;
 
         if (!SettingsMenu) return;
+        AdventureButton.SetActive(true);
+        MiniGameButton.SetActive(JSONSaveSystem.Instance ? JSONSaveSystem.Instance.userData.miniGame : true);
         SettingsMenu.SetActive(false);
-        Users.transform.Find("UserLabel/Text").GetComponent<TextMeshProUGUI>().text = JSONSaveSystem.Instance.userData.name;
+        Users.transform.Find("UserLabel/Text").GetComponent<TextMeshProUGUI>().text = JSONSaveSystem.Instance ? JSONSaveSystem.Instance.userData.name : "Test";
         Users.SetActive(true);
         UsersMenu.SetActive(false);
         UsersDropdown = UsersMenu.transform.Find("UsersDropdown").GetComponent<TMP_Dropdown>();
@@ -34,8 +38,8 @@ public class MenuSceneUIManager : MonoBehaviour
     private void Start()
     {
         if (!SettingsMenu) return;
-        currUserID = JSONSaveSystem.Instance.metadata.currentUserID;
-        selectedUserID = JSONSaveSystem.Instance.metadata.currentUserID;
+        currUserID = JSONSaveSystem.Instance ? JSONSaveSystem.Instance.metadata.currentUserID : "Test";
+        selectedUserID = JSONSaveSystem.Instance ? JSONSaveSystem.Instance.metadata.currentUserID : "Test";
         LoadSettingsToMenu();
         LoadUsersToMenu();
     }
@@ -155,7 +159,7 @@ public class MenuSceneUIManager : MonoBehaviour
 
     private void LoadUsersToMenu()
     {
-        if (UsersDropdown == null || JSONSaveSystem.Instance.metadata == null) return;
+        if (UsersDropdown == null || !JSONSaveSystem.Instance || JSONSaveSystem.Instance.metadata == null) return;
 
         UsersDropdown.ClearOptions();
         if (JSONSaveSystem.Instance.metadata.userIDs == null || JSONSaveSystem.Instance.metadata.userIDs.Count == 0)

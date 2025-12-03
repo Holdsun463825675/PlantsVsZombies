@@ -32,6 +32,7 @@ public class LayerSystem : MonoBehaviour
     {
         Physics2D.IgnoreLayerCollision(Bullet_layer, Bullet_layer, true); // 子弹不与子弹碰撞
         Physics2D.IgnoreLayerCollision(AttackPlace_layer, Shovel_layer, true); // 铲子不与植物攻击范围碰撞
+        Physics2D.IgnoreLayerCollision(Bowling_layer, Default_layer, true); // 保龄球不与默认碰撞
         Physics2D.IgnoreLayerCollision(Bowling_layer, Plant_layer, true); // 保龄球不与植物碰撞
         Physics2D.IgnoreLayerCollision(Bowling_layer, Zombie_layer, true); // 保龄球不与僵尸碰撞
         Physics2D.IgnoreLayerCollision(AttackPlace_layer, Zombie_layer, false); // 植物攻击范围与僵尸碰撞

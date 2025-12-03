@@ -52,8 +52,10 @@ public class AshPlant : Plant
     protected virtual void Explode()
     {
         if (explodeEffect) GameObject.Instantiate(explodeEffect, transform.position, Quaternion.identity);
-        foreach (Armor2 armor2 in targetArmor2) armor2.UnderAttack(attackPoint, attackDieMode);
-        foreach (Zombie zombie in targetZombie) zombie.UnderAttack(attackPoint, attackDieMode);
+        List<Armor2> targetArmor2s = new List<Armor2>(targetArmor2);
+        List<Zombie> targetZombies = new List<Zombie>(targetZombie);
+        foreach (Armor2 armor2 in targetArmor2s) armor2.UnderAttack(attackPoint, attackDieMode);
+        foreach (Zombie zombie in targetZombies) zombie.UnderAttack(attackPoint, attackDieMode);
         setState(PlantState.Die);
     }
 
