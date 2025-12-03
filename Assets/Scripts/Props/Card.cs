@@ -29,6 +29,7 @@ public class Card : MonoBehaviour
     public TextMeshProUGUI costText;
     public Image Card_Mask_Unavailable;
     public Image Card_Mask_CoolingDown;
+    public int page; // ËùÊôÑ¡¿¨Ò³
 
     private void Start()
     {

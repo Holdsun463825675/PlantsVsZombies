@@ -112,6 +112,6 @@ public class ResourceConfig
     public const string sound_lose_losemusic = "Audio/Sound/lose/losemusic";
     public const string sound_lose_scream = "Audio/Sound/lose/scream";
 
-    public const string image_plants = "Images/Plants/";
+    public const string image_cards = "Images/Cards/Plants/";
     public const string image_props = "Images/Props/";
 }

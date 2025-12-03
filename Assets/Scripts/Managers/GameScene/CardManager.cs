@@ -10,6 +10,7 @@ public class CardManager : MonoBehaviour
 
     public bool isShovel;
 
+    private int currCardPage = 0; // 默认显示初始页
     private float UIMoveTime = 0.2f;
     private float selectionCardMoveTime = 0.2f;
     private float generateCardTime, generateCardTimer;
@@ -19,6 +20,7 @@ public class CardManager : MonoBehaviour
 
     public GameObject cardListUI;
     public GameObject cardPanelUI;
+    public List<GameObject> cardPages;
     public GameObject slotUI;
     public GameObject ConveyorUI;
     public Animator conveyorBeltAnim;
@@ -106,6 +108,8 @@ public class CardManager : MonoBehaviour
 
     private void SelectingCardUpdate()
     {
+        showCards(); // 更新卡片显示
+
         for (int i = 0; i < cardList.Count; i++)
         {
             MoveCardWithTween(cardList[i], cardListCardPlace[i], selectionCardMoveTime);
@@ -142,17 +146,32 @@ public class CardManager : MonoBehaviour
         }
     }
 
+    public void prevCardPage()
+    {
+        currCardPage = (currCardPage + cardPages.Count - 1) % cardPages.Count;
+    }
+
+    public void nextCardPage()
+    {
+        currCardPage = (currCardPage + 1) % cardPages.Count;
+    }
+
     private void showCards()
     {
         if (!JSONSaveSystem.Instance) // 测试用
         {
-            foreach (Card card in cardPanel) if (card) card.gameObject.SetActive(true);
+            foreach (Card card in cardPanel) if (card) card.gameObject.SetActive(cardList.Contains(card) || card.page == currCardPage);
             return;
         }
 
         foreach (Card card in cardPanel)
         {
-            if (JSONSaveSystem.Instance.userData.unlockedPlants.Contains(card.plantID)) card.gameObject.SetActive(true);
+            if (cardList.Contains(card))
+            {
+                card.gameObject.SetActive(true);
+                continue;
+            }
+            if (JSONSaveSystem.Instance.userData.unlockedPlants.Contains(card.plantID)) card.gameObject.SetActive(card.page == currCardPage);
             else card.gameObject.SetActive(false);
         }
     }

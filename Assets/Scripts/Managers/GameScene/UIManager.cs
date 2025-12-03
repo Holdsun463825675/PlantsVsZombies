@@ -311,7 +311,7 @@ public class UIManager : MonoBehaviour
         {
             // 已解锁则不掉落
             if (JSONSaveSystem.Instance && JSONSaveSystem.Instance.userData.unlockedPlants.Contains(GameManager.Instance.currLevelConfig.awardPlantID)) return;
-            image.sprite = Resources.Load<Sprite>(ResourceConfig.image_plants + $"{GameManager.Instance.currLevelConfig.awardPlantID}" + "/Icon");
+            image.sprite = Resources.Load<Sprite>(ResourceConfig.image_cards + $"{GameManager.Instance.currLevelConfig.awardPlantID}");
             image.SetNativeSize();
             return;
         }
