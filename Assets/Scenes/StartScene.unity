@@ -267,6 +267,7 @@ MonoBehaviour:
   isShovel: 0
   cardListUI: {fileID: 0}
   cardPanelUI: {fileID: 0}
+  cardPages: []
   slotUI: {fileID: 0}
   ConveyorUI: {fileID: 0}
   conveyorBeltAnim: {fileID: 0}
@@ -932,6 +933,7 @@ MonoBehaviour:
       plantHealth: 0
       zombieHealth: 0
     shovel: 0
+    miniGame: 0
 --- !u!114 &957503947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -995,6 +997,7 @@ MonoBehaviour:
   - {fileID: 7036460182125828511, guid: 5c1dc6f7eb1536242b742cfdde393981, type: 3}
   - {fileID: 5459288263359265142, guid: 8c22e88f415e65b40aecb71bb80b60ca, type: 3}
   - {fileID: 1679876859013710056, guid: f5be80db7a8b96c418f37736cfdf27d0, type: 3}
+  - {fileID: 2659835241792267471, guid: 3814c016f82e34c4ba3f743239ad8dc1, type: 3}
   - {fileID: 8216147691541978102, guid: 478015088786f8146ad5d2469efd54d8, type: 3}
   - {fileID: 3632046051520876233, guid: 787b19fa4d456a34880f9c07051bcbb9, type: 3}
   - {fileID: 388422102326476367, guid: 3aa618f0b9d8b884e8106ddf0f352883, type: 3}
@@ -1142,6 +1145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958841da64f991c4c86d35b8745da873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelLists: []
 --- !u!4 &1082999616
 Transform:
   m_ObjectHideFlags: 0
@@ -1199,6 +1203,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d3f04457c208084a9c253744d1ccdd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AdventureButton: {fileID: 0}
+  MiniGameButton: {fileID: 0}
   SettingsMenu: {fileID: 0}
   Users: {fileID: 0}
   UsersMenu: {fileID: 0}
@@ -1246,6 +1252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 820ee976f4eebba4d9199d596db22ac6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currLevelListKind: 0
 --- !u!4 &1200156127
 Transform:
   m_ObjectHideFlags: 0

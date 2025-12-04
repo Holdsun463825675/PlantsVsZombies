@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class AnimatorConfig
 {
-    public const string plant_Attack = "Attack";
-    public const string plant_Produce = "Produce";
-    public const string plant_Explode = "Explode";
-    public const string plant_HealthPercentage = "HealthPercentage";
+    public const string plant_attack = "Attack";
+    public const string plant_produce = "Produce";
+    public const string plant_explode = "Explode";
+    public const string plant_healthPercentage = "HealthPercentage";
     public const string plant_underAttack = "UnderAttack";
     public const string plant_selected = "Selected";
     public const string plant_twinkle = "Twinkle";
+    public const string plant_coolingDown = "CoolingDown";
+    public const string plant_recovery = "Recovery";
+    public const string plant_ready = "Ready";
 
     public const string zombie_game = "Game";
     public const string zombie_isAttack = "isAttack";

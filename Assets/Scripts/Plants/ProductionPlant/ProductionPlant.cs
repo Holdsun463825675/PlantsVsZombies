@@ -33,7 +33,7 @@ public class ProductionPlant : Plant
 
     protected virtual void setProduce()
     {
-        anim.SetTrigger(AnimatorConfig.plant_Produce);
+        anim.SetTrigger(AnimatorConfig.plant_produce);
     }
 
     protected virtual void Produce()

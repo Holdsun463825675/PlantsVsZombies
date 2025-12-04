@@ -29,7 +29,7 @@ public class DefensePlant : Plant
     {
         base.IdleUpdate();
         float healthPercentage = (float)currHealth / (float)maxHealth;
-        anim.SetFloat(AnimatorConfig.plant_HealthPercentage, healthPercentage);
+        anim.SetFloat(AnimatorConfig.plant_healthPercentage, healthPercentage);
         if (healthPercentage >= middlingHealthPercentage) setDefenseHealthState(DefensePlantHealthState.Healthy);
         else if (healthPercentage >= unwellHealthPercentage && healthPercentage < middlingHealthPercentage) setDefenseHealthState(DefensePlantHealthState.Middling);
         else if (healthPercentage >= dieHealthPercentage && healthPercentage < unwellHealthPercentage) setDefenseHealthState(DefensePlantHealthState.Unwell);

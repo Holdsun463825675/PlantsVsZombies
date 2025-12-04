@@ -12,6 +12,7 @@ public enum PlantID
     CherryBomb = 3,
     WallNut = 4,
     SnowPea = 6,
+    Chomper = 7,
     Repeater = 8,
     Torchwood = 23,
     TallNut = 24,

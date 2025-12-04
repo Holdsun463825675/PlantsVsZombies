@@ -33,7 +33,7 @@ public class AttackPlant : Plant
 
     protected virtual void setAttack()
     {
-        anim.SetTrigger(AnimatorConfig.plant_Attack);
+        anim.SetTrigger(AnimatorConfig.plant_attack);
     }
 
     protected virtual void Attack()

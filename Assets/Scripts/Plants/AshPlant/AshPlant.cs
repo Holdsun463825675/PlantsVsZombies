@@ -44,7 +44,7 @@ public class AshPlant : Plant
 
     protected virtual void setExplode()
     {
-        anim.SetTrigger(AnimatorConfig.plant_Explode);
+        anim.SetTrigger(AnimatorConfig.plant_explode);
         // 移动一点点激活碰撞体判定
         transform.DOMove(new Vector3(transform.position.x, transform.position.y + 1e-3f, transform.position.z), 1f);
     }

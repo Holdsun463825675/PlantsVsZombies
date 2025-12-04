@@ -64,6 +64,7 @@ public class Zombie : MonoBehaviour, IClickable
     private Transform losingGame;
 
     public int row; // 所处行，游戏模式下大于0
+    public bool isPlantKill; // 是否能被植物机制杀，大嘴花、水草之类的
 
     private ZombieMoveState moveState;
     private ZombieHealthState healthState;
@@ -101,7 +102,6 @@ public class Zombie : MonoBehaviour, IClickable
         spawnWeight = 1.0f;
 
         speedLevel = (speed - baseSpeed) / baseSpeed;
-        row = 0;
         HealthPercentage = 1.0f;
         groanTime = 24.0f; groanTimer = 19.0f + Random.Range(0.0f, 2.0f);
         healthLossTime = 0.05f; healthLossTimer = 0.0f;
@@ -110,6 +110,9 @@ public class Zombie : MonoBehaviour, IClickable
 
         underAttackSound = ZombieUnderAttackSound.Splat;
         underAttackSoundPriority = 1;
+
+        row = 0;
+        isPlantKill = true;
 
         targets = new List<Plant>();
         anim = GetComponent<Animator>();
