@@ -6233,6 +6233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currPlant: {fileID: 0}
+  plantEffectPrefab: {fileID: 3827857333668371948, guid: 9e42d36af0aa9364e9587a36a5a9f338, type: 3}
 --- !u!114 &1315778090
 MonoBehaviour:
   m_ObjectHideFlags: 0

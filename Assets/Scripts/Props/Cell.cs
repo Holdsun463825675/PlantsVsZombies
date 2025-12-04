@@ -6,7 +6,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Cell : MonoBehaviour, IClickable
 {
-    private int rowMaxSortingOrder = 5000;
+    private int rowMaxSortingOrder = 5000, colMaxSortingOrder = 500;
     public int row, col;
     public Dictionary<PlantType, List<Plant>> plants = new Dictionary<PlantType, List<Plant>>();
     private Plant virtualPlant;
@@ -109,7 +109,7 @@ public class Cell : MonoBehaviour, IClickable
 
     private int getPlantSortingOrder(Plant plant)
     {
-        int res = row * rowMaxSortingOrder;
+        int res = (row + 1) * rowMaxSortingOrder - (col + 1) * colMaxSortingOrder;
         switch (plant.type)
         {
             case PlantType.None:

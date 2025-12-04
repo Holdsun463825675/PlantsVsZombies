@@ -10,6 +10,8 @@ public class HandManager : MonoBehaviour
     private Card currCard = null;
     private Shovel currShovel = null;
 
+    public GameObject plantEffectPrefab;
+
     void Awake()
     {
         Instance = this;
@@ -63,6 +65,7 @@ public class HandManager : MonoBehaviour
         if (!cell.PlantPlant(currPlant)) return;
         currPlant.setCell(cell);
         currPlant.setState(PlantState.Idle);
+        GameObject.Instantiate(plantEffectPrefab, currPlant.transform.position, Quaternion.identity); // ÷÷÷≤Ãÿ–ß
         currPlant = null;
         AudioManager.Instance.playClip(ResourceConfig.sound_placeplant_plant);
         if (currCard)
