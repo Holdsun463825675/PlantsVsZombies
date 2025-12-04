@@ -11,6 +11,7 @@ public enum PlantID
     Sunflower = 2,
     CherryBomb = 3,
     WallNut = 4,
+    PotatoMine = 5,
     SnowPea = 6,
     Chomper = 7,
     Repeater = 8,

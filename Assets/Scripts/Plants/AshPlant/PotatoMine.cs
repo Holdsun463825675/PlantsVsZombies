@@ -1,0 +1,105 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
+
+public enum PotatoMineState
+{
+    None, CoolingDown, Recovery, Ready
+}
+
+public class PotatoMine : AshPlant
+{
+    protected float coolingDownTime, coolingDownTimer;
+    protected int dieMode = 2;
+    protected PotatoMineState potatoMineState;
+    protected List<Zombie> explodeTargets;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        id = PlantID.PotatoMine;
+        type = PlantType.Normal;
+        attackDieMode = 2;
+        coolingDownTime = 15.0f; coolingDownTimer = 0.0f;
+        explodeTargets = new List<Zombie>();
+        potatoMineState = PotatoMineState.None;
+    }
+
+    protected override void IdleUpdate()
+    {
+        switch (potatoMineState)
+        {
+            case PotatoMineState.None:
+                setPotatoMineState(PotatoMineState.CoolingDown); // ÖÖÏÂ¼´ÀäÈ´
+                break;
+            case PotatoMineState.CoolingDown:
+                coolingDownTimer += Time.deltaTime;
+                if (coolingDownTimer >= coolingDownTime)
+                {
+                    setPotatoMineState(PotatoMineState.Recovery);
+                    coolingDownTimer = 0.0f;
+                }
+                break;
+            case PotatoMineState.Recovery:
+                break;
+            case PotatoMineState.Ready:
+                if (explodeTargets.Count > 0) Explode();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void setPotatoMineState(PotatoMineState state)
+    {
+        if (potatoMineState == state) return;
+        potatoMineState = state;
+        switch (state)
+        {
+            case PotatoMineState.CoolingDown:
+                anim.SetTrigger(AnimatorConfig.plant_coolingDown);
+                break;
+            case PotatoMineState.Recovery:
+                anim.SetTrigger(AnimatorConfig.plant_recovery);
+                break;
+            case PotatoMineState.Ready:
+                anim.SetTrigger(AnimatorConfig.plant_ready);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        switch (collision.tag)
+        {
+            case TagConfig.zombie:
+                Zombie zombie = collision.GetComponent<Zombie>();
+                if (zombie && !explodeTargets.Contains(zombie)) explodeTargets.Add(zombie);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        switch (collision.tag)
+        {
+            case TagConfig.zombie:
+                Zombie zombie = collision.GetComponent<Zombie>();
+                if (zombie) explodeTargets.Remove(zombie);
+                break;
+            default:
+                break;
+        }
+    }
+
+    protected override void Explode()
+    {
+        AudioManager.Instance.playClip(ResourceConfig.sound_bomb_potatoMine);
+        base.Explode();
+    }
+}

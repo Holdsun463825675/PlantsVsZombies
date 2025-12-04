@@ -12,7 +12,7 @@ public class Chomper : AttackPlant
 {
     protected int attackPoint;
     protected float coolingDownTime, coolingDownTimer;
-    protected int dieMode = 2;
+    protected int attackDieMode = 2;
     protected ChomperState chomperState;
 
     protected override void Awake()
@@ -23,19 +23,26 @@ public class Chomper : AttackPlant
         attackPoint = 40;
         coolingDownTime = 30.0f; coolingDownTimer = 0.0f;
         attackTime = 0.0f;
+        setChomperState(ChomperState.Ready);
     }
 
     protected override void IdleUpdate()
     {
-        base.IdleUpdate();
-        if (chomperState == ChomperState.CoolingDown)
+        switch (chomperState)
         {
-            coolingDownTimer += Time.deltaTime;
-            if (coolingDownTimer >= coolingDownTime)
-            {
-                setChomperState(ChomperState.Recovery);
-                coolingDownTimer = 0.0f;
-            }
+            case ChomperState.Ready:
+                if (targets.Count > 0) setAttack();
+                break;
+            case ChomperState.CoolingDown:
+                coolingDownTimer += Time.deltaTime;
+                if (coolingDownTimer >= coolingDownTime)
+                {
+                    setChomperState(ChomperState.Recovery);
+                    coolingDownTimer = 0.0f;
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -65,7 +72,7 @@ public class Chomper : AttackPlant
         Zombie target_isPlantKill = targets.FirstOrDefault(zombie => zombie.isPlantKill);
         if (target_isPlantKill != null) // 能吃则机制杀
         {
-            target_isPlantKill.kill(dieMode);
+            target_isPlantKill.kill(attackDieMode);
             setChomperState(ChomperState.CoolingDown);
         }
         else // 不能吃则打伤害

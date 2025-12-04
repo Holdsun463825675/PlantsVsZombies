@@ -28,7 +28,7 @@ public class LevelConfigs
             dropSun = false,
             startingSun = 8000,
             cardType = TypeOfCard.Fixation,
-            fixedCards = new List<PlantID> {PlantID.Chomper, PlantID.WallNut, PlantID.TallNut, PlantID.Pumpkin},
+            fixedCards = new List<PlantID> {PlantID.PotatoMine, PlantID.Chomper, PlantID.WallNut, PlantID.TallNut, PlantID.Pumpkin},
 
             zombieID = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.BucketZombie, ZombieID.ScreenDoorZombie, ZombieID.FootballZombie },
             zombieWaves = new List<ZombieWave> {
@@ -152,7 +152,7 @@ public class LevelConfigs
             levelID = 5,
             levelName = "1-5",
             nextLevelID = new List<int> { 8 },
-            awardPlantID = PlantID.None,
+            awardPlantID = PlantID.PotatoMine,
             awardPropID = PropID.None,
             mapID = 3,
             time = TimeOfDay.Day,
