@@ -23,7 +23,7 @@ public class Chomper : AttackPlant
         attackPoint = 40;
         coolingDownTime = 30.0f; coolingDownTimer = 0.0f;
         attackTime = 0.0f;
-        setChomperState(ChomperState.Ready);
+        chomperState = ChomperState.Ready;
     }
 
     protected override void IdleUpdate()
@@ -53,6 +53,7 @@ public class Chomper : AttackPlant
         switch (state)
         {
             case ChomperState.Ready:
+                anim.SetTrigger(AnimatorConfig.plant_ready);
                 break;
             case ChomperState.CoolingDown:
                 anim.SetTrigger(AnimatorConfig.plant_coolingDown);

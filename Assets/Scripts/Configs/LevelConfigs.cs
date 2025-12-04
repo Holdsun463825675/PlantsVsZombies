@@ -366,7 +366,7 @@ public class LevelConfigs
             levelID = 10004,
             levelName = "内测专属-全军出击",
             nextLevelID = new List<int> { },
-            awardPlantID = PlantID.None,
+            awardPlantID = PlantID.Chomper,
             mapID = 3,
             time = TimeOfDay.Day,
             music = ResourceConfig.music_ultimateBattle,

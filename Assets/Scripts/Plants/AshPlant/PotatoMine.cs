@@ -23,16 +23,13 @@ public class PotatoMine : AshPlant
         attackDieMode = 2;
         coolingDownTime = 15.0f; coolingDownTimer = 0.0f;
         explodeTargets = new List<Zombie>();
-        potatoMineState = PotatoMineState.None;
+        setPotatoMineState(PotatoMineState.CoolingDown); // 种下即冷却
     }
 
     protected override void IdleUpdate()
     {
         switch (potatoMineState)
         {
-            case PotatoMineState.None:
-                setPotatoMineState(PotatoMineState.CoolingDown); // 种下即冷却
-                break;
             case PotatoMineState.CoolingDown:
                 coolingDownTimer += Time.deltaTime;
                 if (coolingDownTimer >= coolingDownTime)
