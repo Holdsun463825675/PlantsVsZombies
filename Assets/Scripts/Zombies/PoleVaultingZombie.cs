@@ -75,6 +75,7 @@ public class PoleVaultingZombie : Zombie
                 anim.SetTrigger(AnimatorConfig.zombie_effect);
                 break;
             case PoleVaultingZombieState.StopEffect:
+                anim.SetTrigger(AnimatorConfig.zombie_stopEffect);
                 transform.DOKill(); currentMoveTween = null;
                 if (realPosition)
                 {
@@ -84,7 +85,6 @@ public class PoleVaultingZombie : Zombie
                 isPlantKill = true; isBulletHit = true;
                 shadow.SetActive(true);
 
-                anim.SetTrigger(AnimatorConfig.zombie_stopEffect);
                 baseSpeed = 0.2f;
                 speed = Random.Range(1.0f, 2.0f) * baseSpeed;
                 speedLevel = (speed - baseSpeed) / baseSpeed;
