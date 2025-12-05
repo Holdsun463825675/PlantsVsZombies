@@ -324,6 +324,10 @@ public class UIManager : MonoBehaviour
                 image.sprite = Resources.Load<Sprite>(ResourceConfig.image_props + $"{GameManager.Instance.currLevelConfig.awardPropID}");
                 image.SetNativeSize();
                 break;
+            case PropID.Note:
+                image.sprite = Resources.Load<Sprite>(ResourceConfig.image_props + $"{GameManager.Instance.currLevelConfig.awardPropID}");
+                image.SetNativeSize();
+                break;
             default:
                 break;
         }
