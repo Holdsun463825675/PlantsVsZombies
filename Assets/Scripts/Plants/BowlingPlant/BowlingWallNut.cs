@@ -48,6 +48,7 @@ public class BowlingWallNut : BowlingPlant
     protected virtual void AttackZombie()
     {
         if (targetZombie == null || preTargetRow == targetZombie.row) return;
+        if (!targetZombie.isBulletHit) return;
         targetZombie.UnderAttack(attackPoint);
         transMove(targetZombie.row); // 攻击后改变运动方向
         AudioManager.Instance.playHitClip(hitSound, hitSoundPriority, targetZombie.underAttackSound, targetZombie.underAttackSoundPriority);

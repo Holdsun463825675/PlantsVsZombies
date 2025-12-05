@@ -76,10 +76,10 @@ public class Chomper : AttackPlant
             target_isPlantKill.kill(attackDieMode);
             setChomperState(ChomperState.CoolingDown);
         }
-        else // 不能吃则打伤害
+        else // 不能吃则打伤害，算子弹伤害
         {
             Zombie target = targets.FirstOrDefault(zombie => !zombie.isPlantKill);
-            if (target != null) target.UnderAttack(attackPoint); 
+            if (target != null && target.isBulletHit) target.UnderAttack(attackPoint); 
             anim.SetTrigger(AnimatorConfig.plant_ready); // 返回Idle动画
         }
         anim.ResetTrigger(AnimatorConfig.plant_attack); // 取消攻击触发器

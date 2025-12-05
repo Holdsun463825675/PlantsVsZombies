@@ -74,7 +74,7 @@ public class PotatoMine : AshPlant
         {
             case TagConfig.zombie:
                 Zombie zombie = collision.GetComponent<Zombie>();
-                if (zombie && !explodeTargets.Contains(zombie)) explodeTargets.Add(zombie);
+                if (zombie && zombie.isBulletHit && !explodeTargets.Contains(zombie)) explodeTargets.Add(zombie);
                 break;
             default:
                 break;

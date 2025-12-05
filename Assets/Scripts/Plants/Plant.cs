@@ -45,10 +45,13 @@ public class Plant : MonoBehaviour, IClickable
     public PlantType type = PlantType.Normal;
     public PlantID prePlantID = PlantID.None; // 种植的前置植物
 
-    public int row;
+    public int row, col;
 
     protected int maxHealth, currHealth;
     protected int underAttackSound; // 受击音效，0正常，1轻柔，2子弹
+    public bool isZombieJumpOver; // 僵尸是否能越过
+
+    public Transform jumpOverPlace; // 僵尸越过的落点
     protected TextMeshPro HPText;
     private Transform shadow;
 
@@ -64,11 +67,14 @@ public class Plant : MonoBehaviour, IClickable
 
     protected virtual void Awake()
     {
-        row = 0;
+        row = 0; col = 0;
         spriteRenderer = GetComponent<SpriteRenderer>();
         c2d = GetComponent<Collider2D>();
         maxHealth = 300; currHealth = maxHealth;
         underAttackSound = 0;
+        isZombieJumpOver = true;
+        jumpOverPlace = transform.Find("JumpOverPlace").GetComponent<Transform>();
+
         cell = null;
         anim = GetComponent<Animator>();
         Transform child = transform.Find("HPText");
@@ -149,7 +155,7 @@ public class Plant : MonoBehaviour, IClickable
         switch (state)
         {
             case PlantState.Suspension:
-                row = 0;
+                row = 0; col = 0;
                 if (HPText) HPText.gameObject.SetActive(false);
                 if (shadow) shadow.gameObject.SetActive(false);
                 anim.enabled = false;
@@ -164,7 +170,7 @@ public class Plant : MonoBehaviour, IClickable
                 if (cell)
                 {
                     cell.addPlant(this);
-                    row = cell.row;
+                    row = cell.row; col = cell.col;
                 } 
                 if (GameManager.Instance.state != GameState.Paused) anim.enabled = true;
                 c2d.enabled = true;
@@ -172,7 +178,7 @@ public class Plant : MonoBehaviour, IClickable
                 spriteRenderer.sortingLayerName = "Plant";
                 break;
             case PlantState.Die:
-                row = 0;
+                row = 0; col = 0;
                 if (HPText) HPText.gameObject.SetActive(false);
                 if (shadow) shadow.gameObject.SetActive(false);
                 if (cell) cell.removePlant(this);

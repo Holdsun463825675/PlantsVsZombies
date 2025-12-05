@@ -10,6 +10,7 @@ public enum ZombieID
     NormalZombie = 1,
     FlagZombie = 2,
     ConeHeadZombie = 3,
+    PoleVaultingZombie = 4,
     BucketZombie = 5,
     ScreenDoorZombie = 7,
     FootballZombie = 8,
@@ -61,13 +62,15 @@ public class Zombie : MonoBehaviour, IClickable
     private float HealthPercentage;
     private int dieMode;
     protected float speedLevel;
-    private Transform losingGame;
+    protected Transform losingGame;
+    protected GameObject shadow;
 
     public int row; // 所处行，游戏模式下大于0
     public bool isPlantKill; // 是否能被植物机制杀，大嘴花、水草之类的
+    public bool isBulletHit; // 是否能被子弹造成伤害
 
-    private ZombieMoveState moveState;
-    private ZombieHealthState healthState;
+    protected ZombieMoveState moveState;
+    protected ZombieHealthState healthState;
 
     public ZombieUnderAttackSound underAttackSound;
     public int underAttackSoundPriority;
@@ -77,18 +80,21 @@ public class Zombie : MonoBehaviour, IClickable
     private Transform lostHeadPlace;
     private List<Plant> targets;
     private Animator lostHeadAnim;
+    protected List<Plant> effectTargets, effectBowlingTargets;
 
-    private Animator anim;
+    protected Animator anim;
     private Collider2D c2d, bowling_c2d;
     private Collider2D Armor2_c2d, Armor2_bowling_c2d;
+    protected Collider2D effect_c2d, effect_bowling_c2d;
 
-    private Tween currentMoveTween;
+    protected Tween currentMoveTween;
 
     protected virtual void Awake()
     {
         zombieID = ZombieID.None;
         baseSpeed = 0.2f;
         speed = Random.Range(1.0f, 2.0f) * baseSpeed;
+        speedLevel = (speed - baseSpeed) / baseSpeed;
         speedRatio = 1.0f;
         speedChangeDuration = 0.0f;
 
@@ -101,7 +107,6 @@ public class Zombie : MonoBehaviour, IClickable
         isLostHealth = false;
         spawnWeight = 1.0f;
 
-        speedLevel = (speed - baseSpeed) / baseSpeed;
         HealthPercentage = 1.0f;
         groanTime = 24.0f; groanTimer = 19.0f + Random.Range(0.0f, 2.0f);
         healthLossTime = 0.05f; healthLossTimer = 0.0f;
@@ -113,8 +118,10 @@ public class Zombie : MonoBehaviour, IClickable
 
         row = 0;
         isPlantKill = true;
+        isBulletHit = true;
 
         targets = new List<Plant>();
+        effectTargets = new List<Plant>(); effectBowlingTargets = new List<Plant>();
         anim = GetComponent<Animator>();
         anim.SetBool(AnimatorConfig.zombie_game, false);
         c2d = GetComponent<Collider2D>();
@@ -122,6 +129,7 @@ public class Zombie : MonoBehaviour, IClickable
         bowling_c2d = transform.Find("Bowling").GetComponent<Collider2D>();
         bowling_c2d.enabled = false;
         armor2 = transform.Find("Armor2").GetComponent<Armor2>();
+        shadow = transform.Find("Shadow").gameObject; shadow.SetActive(true);
         Transform child = transform.Find("HPText");
         if (child) HPText = child.GetComponent<TextMeshPro>();
         if (HPText) HPText.gameObject.SetActive(true);
@@ -134,6 +142,20 @@ public class Zombie : MonoBehaviour, IClickable
             if (Armor2_c2d) Armor2_c2d.enabled = false;
             Armor2_bowling_c2d = child.Find("Armor2_Bowling").GetComponent<Collider2D>();
             if (Armor2_bowling_c2d) Armor2_bowling_c2d.enabled = false;
+        }
+        child = transform.Find("EffectPlace");
+        if (child)
+        {
+            effect_c2d = child.GetComponent<Collider2D>();
+            effect_c2d.enabled = false;
+            effect_c2d.GetComponent<TriggerForwarder>().SetZombieParentHandler(this);
+        }
+        child = transform.Find("EffectPlace_Bowling");
+        if (child)
+        {
+            effect_bowling_c2d = child.GetComponent<Collider2D>();
+            effect_bowling_c2d.enabled = false;
+            effect_bowling_c2d.GetComponent<TriggerForwarder>().SetZombieParentHandler(this);
         } 
     }
 
@@ -176,9 +198,9 @@ public class Zombie : MonoBehaviour, IClickable
         switch (healthState)
         {
             case ZombieHealthState.Healthy:
-                HealthyUpdate(); break;
+                HealthyAndLostArmUpdate(); break;
             case ZombieHealthState.LostArm:
-                LostArmUpdate(); break;
+                HealthyAndLostArmUpdate(); break;
             case ZombieHealthState.LostHead:
                 LostHeadUpdate(); break;
             case ZombieHealthState.Die:
@@ -191,33 +213,28 @@ public class Zombie : MonoBehaviour, IClickable
     public void setGameMode(int row=0)
     {
         this.row = row;
-        c2d.enabled = true;
-        bowling_c2d.enabled = true;
+        c2d.enabled = true; bowling_c2d.enabled = true;
         if (currArmor2Health > 0)
         {
             if (Armor2_c2d) Armor2_c2d.enabled = true;
             if (Armor2_bowling_c2d) Armor2_bowling_c2d.enabled = true;
-        } 
+        }
+        if (effect_c2d) effect_c2d.enabled = true;
+        if (effect_bowling_c2d) effect_bowling_c2d.enabled = true;
         anim.SetBool(AnimatorConfig.zombie_game, true);
         losingGame = MapManager.Instance.currMap.endlinePositions[0];
-        Vector3 target = new Vector3(losingGame.position.x, transform.position.y, transform.position.z);
-        currentMoveTween = transform.DOMove(target, speed)
-            .SetSpeedBased()
-            .SetEase(Ease.Linear)
-            .OnComplete(() => {
-                if (healthState == ZombieHealthState.Healthy || healthState == ZombieHealthState.LostArm) GameManager.Instance.setState(GameState.Losing);
-            });
+        moveToHouse();
     }
 
     // 暂停继续功能
-    public void Pause()
+    public virtual void Pause()
     {
         if (moveState == ZombieMoveState.Move) transform.DOPause();
         anim.enabled = false;
         if ((healthState == ZombieHealthState.LostHead || healthState == ZombieHealthState.Die) && lostHeadAnim) lostHeadAnim.enabled = false;
     }
 
-    public void Continue()
+    public virtual void Continue()
     {
         if (moveState == ZombieMoveState.Move) transform.DOPlay();
         anim.enabled = true;
@@ -302,11 +319,24 @@ public class Zombie : MonoBehaviour, IClickable
             bowling_c2d.enabled = false;
             if (Armor2_c2d) Armor2_c2d.enabled = false;
             if (Armor2_bowling_c2d) Armor2_bowling_c2d.enabled = false;
+            if (effect_c2d) effect_c2d.enabled = false;
+            if (effect_bowling_c2d) effect_bowling_c2d.enabled = false;
             anim.SetInteger(AnimatorConfig.zombie_dieMode, dieMode);
         }
     }
 
-    private void kinematicsUpdate()
+    protected void moveToHouse()
+    {
+        Vector3 target = new Vector3(losingGame.position.x, transform.position.y, transform.position.z);
+        currentMoveTween = transform.DOMove(target, speed)
+            .SetSpeedBased()
+            .SetEase(Ease.Linear)
+            .OnComplete(() => {
+                if (healthState == ZombieHealthState.Healthy || healthState == ZombieHealthState.LostArm) GameManager.Instance.setState(GameState.Losing);
+            });
+    }
+
+    protected virtual void kinematicsUpdate()
     {
         if (anim.GetBool(AnimatorConfig.zombie_game) == false) return;
         Plant target = getAttackTarget();
@@ -400,7 +430,7 @@ public class Zombie : MonoBehaviour, IClickable
         AudioManager.Instance.playClip(ResourceConfig.sound_zombiedie_limbsPop);
     }
 
-    private Plant getAttackTarget()
+    protected Plant getAttackTarget()
     {
         foreach (Plant plant in targets) if (plant.type == PlantType.Surrounding) return plant;
         foreach (Plant plant in targets) if (plant.type == PlantType.Normal) return plant;
@@ -415,21 +445,14 @@ public class Zombie : MonoBehaviour, IClickable
         if (target) target.UnderAttack(attackPoint);
     }
 
-    private void HealthyUpdate()
+    protected virtual void HealthyAndLostArmUpdate()
     {
         kinematicsUpdate();
         groanUpdate();
         speedChangeUpdate();
     }
 
-    private void LostArmUpdate()
-    {
-        kinematicsUpdate();
-        groanUpdate();
-        speedChangeUpdate();
-    }
-
-    private void LostHeadUpdate()
+    protected virtual void LostHeadUpdate()
     {
         dieMode = 0;
         kinematicsUpdate();
@@ -448,7 +471,7 @@ public class Zombie : MonoBehaviour, IClickable
         }
     }
 
-    private void DieUpdate()
+    protected virtual void DieUpdate()
     {
         
     }
@@ -480,11 +503,35 @@ public class Zombie : MonoBehaviour, IClickable
     // 父物体处理触发事件的方法
     public virtual void OnChildTriggerEnter2D(Collider2D collision)
     {
-
+        switch (collision.tag)
+        {
+            case TagConfig.plant:
+                Plant effectTarget = collision.GetComponent<Plant>();
+                if (effectTarget && !effectTargets.Contains(effectTarget)) effectTargets.Add(effectTarget);
+                break;
+            case TagConfig.bowling_plant:
+                Plant effectBowlingTarget = collision.GetComponent<Plant>();
+                if (effectBowlingTarget && !effectBowlingTargets.Contains(effectBowlingTarget)) effectBowlingTargets.Add(effectBowlingTarget);
+                break;
+            default:
+                break;
+        }
     }
 
     public virtual void OnChildTriggerExit2D(Collider2D collision)
     {
-
+        switch (collision.tag)
+        {
+            case TagConfig.plant:
+                Plant effectTarget = collision.GetComponent<Plant>();
+                if (effectTarget) effectTargets.Remove(effectTarget);
+                break;
+            case TagConfig.bowling_plant:
+                Plant effectBowlingTarget = collision.GetComponent<Plant>();
+                if (effectBowlingTarget) effectBowlingTargets.Remove(effectBowlingTarget);
+                break;
+            default:
+                break;
+        }
     }
 }

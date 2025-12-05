@@ -298,6 +298,7 @@ Transform:
   - {fileID: 7443762896852908816}
   - {fileID: 4772986300197714523}
   - {fileID: 2428073766358369807}
+  - {fileID: 2952071648228868474}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3211362565714934121
@@ -445,6 +446,10 @@ MonoBehaviour:
   id: 0
   type: 0
   prePlantID: 0
+  row: 0
+  col: 0
+  isZombieJumpOver: 0
+  jumpOverPlace: {fileID: 2952071648228868474}
   anim: {fileID: 0}
 --- !u!1 &8331213625222948287
 GameObject:
@@ -530,3 +535,34 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &9156383159965034029
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2952071648228868474}
+  m_Layer: 0
+  m_Name: JumpOverPlace
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2952071648228868474
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9156383159965034029}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.6, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5529970206016496012}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

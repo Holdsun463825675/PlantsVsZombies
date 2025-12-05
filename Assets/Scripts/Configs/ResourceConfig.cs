@@ -86,6 +86,8 @@ public class ResourceConfig
     public const string sound_other_lawnmower = "Audio/Sound/other/lawnmower";
 
     public const string sound_zombie_frozen = "Audio/Sound/zombie/frozen";
+    public const string sound_zombie_poleVault = "Audio/Sound/zombie/polevault";
+    public const string sound_zombie_bonk = "Audio/Sound/zombie/bonk";
 
     public static readonly string[] sound_zombieeat_chomps = new string[]
     {

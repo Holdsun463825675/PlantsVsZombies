@@ -237,7 +237,7 @@ public class ZombieManager : MonoBehaviour
         spawnTimer += Time.deltaTime;
         getSpawnTime();
         levelProcessUpdate();
-        if (getZombieHealthPercentage() > 0.0f) lastDeadZombiePosition = zombieList[0].transform.position;
+        if (getZombieHealthPercentage(zombieList) > 0.0f) lastDeadZombiePosition = zombieList[0].transform.position;
         else // 出怪结束且僵尸全部死亡
         {
             // TODO: 转成UI坐标
@@ -246,15 +246,17 @@ public class ZombieManager : MonoBehaviour
         }
     }
 
-    private float getZombieHealthPercentage()
+    private float getZombieHealthPercentage(List<Zombie> zombies=null)
     {
+        if (zombies == null) zombies = lastWaveZombieList;
         int currZombieHealth = 0;
-        foreach (Zombie zombie in lastWaveZombieList)
+        foreach (Zombie zombie in zombies)
         {
             if (zombie) currZombieHealth += zombie.getCurrHealth();
         }
         return (float)currZombieHealth / (float)lastWaveZombieHealth;
     }
+
 
     private void getSpawnTime() // 根据当前波僵尸血量调整出怪时间
     {

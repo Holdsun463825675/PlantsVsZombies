@@ -146,6 +146,7 @@ public class Bullet : Product
         {
             AttackArmor2(); return;
         }
+        if (!targetZombie.isBulletHit) return; // 不能被子弹造成伤害
         if (targetNum > 0) targetNum--;
         targetZombie.UnderAttack(attackPoint);
         AudioManager.Instance.playHitClip(hitSound, hitSoundPriority, targetZombie.underAttackSound, targetZombie.underAttackSoundPriority);
@@ -168,7 +169,7 @@ public class Bullet : Product
         if (!sputter || sputterTargetZombie.Count + sputterTargetArmor2.Count - 1 == 0) return;
         int totalAttackPoint = attackPoint / 2;
         int point = Mathf.Max(1, totalAttackPoint / (sputterTargetZombie.Count + sputterTargetArmor2.Count - 1)); // 溅射伤害至少1点
-        foreach (Zombie zombie in sputterTargetZombie) if (zombie != targetZombie) zombie.UnderAttack(point);
+        foreach (Zombie zombie in sputterTargetZombie) if (zombie != targetZombie && zombie.isBulletHit) zombie.UnderAttack(point);
         foreach (Armor2 armor2 in sputterTargetArmor2) armor2.UnderAttack(point);
     }
 

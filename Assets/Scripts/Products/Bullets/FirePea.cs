@@ -21,12 +21,12 @@ public class FirePea : Pea
     protected override void AttackZombie()
     {
         base.AttackZombie();
-        if (targetZombie.speedRatio < speedRatio) targetZombie.setSpeedRatio(speedRatio); // 解除减速
+        if (targetZombie && targetZombie.isBulletHit && targetZombie.speedRatio < speedRatio) targetZombie.setSpeedRatio(speedRatio); // 解除减速
     }
 
     protected override void Sputter()
     {
         base.Sputter();
-        foreach (Zombie zombie in sputterTargetZombie) if (zombie.speedRatio < speedRatio) zombie.setSpeedRatio(speedRatio); // 解除减速
+        foreach (Zombie zombie in sputterTargetZombie) if (zombie && zombie.isBulletHit && zombie.speedRatio < speedRatio) zombie.setSpeedRatio(speedRatio); // 解除减速
     }
 }
