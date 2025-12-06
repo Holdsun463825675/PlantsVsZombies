@@ -11,6 +11,7 @@ public class Armor2 : MonoBehaviour
 
     public void UnderAttack(int point, int mode=0)
     {
-        zombie.AddArmor2Health(-point);
+        int hurtPoint = (int)((float)point * SettingSystem.Instance.settingsData.hurtRate); // 根据受伤比例计算伤害
+        zombie.AddArmor2Health(-hurtPoint);
     }
 }

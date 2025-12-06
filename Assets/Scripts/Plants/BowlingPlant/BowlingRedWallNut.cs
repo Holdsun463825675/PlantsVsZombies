@@ -41,7 +41,8 @@ public class BowlingRedWallNut : BowlingPlant
         switch (collision.tag)
         {
             case TagConfig.zombie:
-                Explode();
+                Zombie zombie = collision.GetComponent<Zombie>();
+                if (zombie && zombie.isHealthy() && zombie.isBulletHit) Explode();
                 break;
             case TagConfig.armor2:
                 Explode();
