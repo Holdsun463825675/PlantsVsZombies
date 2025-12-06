@@ -239,11 +239,21 @@ public class MenuSceneUIManager : MonoBehaviour
     {
         JSONSaveSystem.Instance.CreateNewUser(true);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        DialogManager.Instance.createDialog(DialogType.Message, DialogConfig.menu_new_user_success);
     }
 
     public void onDeleteClick()
     {
-        if (selectedUserID == currUserID) return; // 无法删除当前活跃的用户
+        if (selectedUserID == currUserID) // 无法删除当前活跃的用户
+        {
+            DialogManager.Instance.createDialog(DialogType.Message, DialogConfig.menu_cant_delete_user);
+            return;
+        }
+        DialogManager.Instance.createDialog(DialogType.Confirmation, DialogConfig.menu_delete_user, deleteUser);
+    }
+
+    private void deleteUser()
+    {
         JSONSaveSystem.Instance.DeleteUser(selectedUserID);
         selectedUserID = JSONSaveSystem.Instance.metadata.currentUserID;
         LoadUsersToMenu();

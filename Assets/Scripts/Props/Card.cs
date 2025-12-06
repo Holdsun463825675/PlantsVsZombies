@@ -140,6 +140,7 @@ public class Card : MonoBehaviour
         switch (state)
         {
             case CardState.SelectingCard_NotSelected:
+                if (GameManager.Instance.state != GameState.SelectingCard) return;
                 bool f0 = CardManager.Instance.addCard(this);
                 if (f0)
                 {
@@ -148,6 +149,7 @@ public class Card : MonoBehaviour
                 } 
                 break;
             case CardState.SelectingCard_Selected:
+                if (GameManager.Instance.state != GameState.SelectingCard) return;
                 bool f1 = CardManager.Instance.removeCard(this);
                 if (f1)
                 {

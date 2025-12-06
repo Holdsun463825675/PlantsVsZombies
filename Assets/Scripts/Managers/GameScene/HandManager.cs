@@ -79,7 +79,9 @@ public class HandManager : MonoBehaviour
             }
             // 其他关卡种植
             SunManager.Instance.AddSun(-currCard.cost);
-            currCard.setState(CardState.CoolingDown);
+            // 是否有冷却
+            if (GameManager.Instance.currLevelConfig.cardCoolingDown) currCard.setState(CardState.CoolingDown);
+            else currCard.setState(CardState.Ready);
             currCard = null;
         }
     }

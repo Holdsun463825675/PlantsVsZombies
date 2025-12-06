@@ -231,14 +231,14 @@ public class Zombie : MonoBehaviour, IClickable
     {
         if (moveState == ZombieMoveState.Move) transform.DOPause();
         anim.enabled = false;
-        if ((healthState == ZombieHealthState.LostHead || healthState == ZombieHealthState.Die) && lostHeadAnim) lostHeadAnim.enabled = false;
+        if (!isHealthy() && lostHeadAnim) lostHeadAnim.enabled = false;
     }
 
     public virtual void Continue()
     {
         if (moveState == ZombieMoveState.Move) transform.DOPlay();
         anim.enabled = true;
-        if ((healthState == ZombieHealthState.LostHead || healthState == ZombieHealthState.Die) && lostHeadAnim) lostHeadAnim.enabled = true;
+        if (!isHealthy() && lostHeadAnim) lostHeadAnim.enabled = true;
     }
 
     public void OnClick()
@@ -274,9 +274,9 @@ public class Zombie : MonoBehaviour, IClickable
         return currHealth + currArmor1Health + currArmor2Health;
     }
 
-    public ZombieHealthState getHealthState()
+    public bool isHealthy()
     {
-        return healthState; 
+        return healthState == ZombieHealthState.Healthy || healthState == ZombieHealthState.LostArm; 
     }
 
     public int setSortingOrder(int sortingOrder)
@@ -332,7 +332,7 @@ public class Zombie : MonoBehaviour, IClickable
             .SetSpeedBased()
             .SetEase(Ease.Linear)
             .OnComplete(() => {
-                if (healthState == ZombieHealthState.Healthy || healthState == ZombieHealthState.LostArm) GameManager.Instance.setState(GameState.Losing);
+                if (isHealthy()) GameManager.Instance.setState(GameState.Losing);
             });
     }
 

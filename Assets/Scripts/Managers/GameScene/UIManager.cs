@@ -88,6 +88,7 @@ public class UIManager : MonoBehaviour
                 AudioManager.Instance.playClip(ResourceConfig.sound_lose_scream);
                 break;
             case GameState.Winning:
+                CloseMenu();
                 MenuButton.GetComponent<Button>().enabled = false;
                 PauseAndContinue.GetComponent<Button>().enabled = false;
                 setWinAward();
@@ -299,7 +300,6 @@ public class UIManager : MonoBehaviour
 
     public void CloseMenu()
     {
-        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_gravebutton);
         Menu.SetActive(false);
         if (GameManager.Instance.state == GameState.Paused) GameManager.Instance.Continue();
     }
@@ -331,5 +331,23 @@ public class UIManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void onRestartClick()
+    {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_gravebutton);
+        DialogManager.Instance.createDialog(DialogType.Confirmation, DialogConfig.game_restart, GameManager.Instance.Restart);
+    }
+
+    public void onSkipLevelClick()
+    {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_gravebutton);
+        DialogManager.Instance.createDialog(DialogType.Confirmation, DialogConfig.game_skipLevel, GameManager.Instance.SkipLevel);
+    }
+
+    public void onBacktoHomeClick()
+    {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_gravebutton);
+        DialogManager.Instance.createDialog(DialogType.Confirmation, DialogConfig.game_backtoHome, GameManager.Instance.BacktoHome);
     }
 }

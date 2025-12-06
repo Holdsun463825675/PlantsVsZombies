@@ -39,4 +39,14 @@ public class LevelList : MonoBehaviour
             go.SetActive(unlocked || !needUnlocked);
         }
     }
+
+    public void SkipLevel()
+    {
+        if (!JSONSaveSystem.Instance) return;
+        foreach (GameObject go in levelList)
+        {
+            LevelConfig levelConfig = LevelConfigManager.Instance.GetLevelConfig(int.Parse(go.name));
+            JSONSaveSystem.Instance.CompleteLevel(levelConfig);
+        }
+    }
 }

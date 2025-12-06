@@ -137,13 +137,9 @@ public class GameManager : MonoBehaviour
                 UIManager.Instance.setState(GameState.Winning);
                 SunManager.Instance.setState(SunSpawnState.Disable);
                 CardManager.Instance.setState(GameState.Winning);
-                if (JSONSaveSystem.Instance) // 通关处理
-                {
-                    JSONSaveSystem.Instance.CompleteLevel(currLevelConfig.levelID);
-                    foreach (int id in currLevelConfig.nextLevelID) JSONSaveSystem.Instance.UnlockLevel(id);
-                    JSONSaveSystem.Instance.unlockPlant(currLevelConfig.awardPlantID);
-                    JSONSaveSystem.Instance.unlockProp(currLevelConfig.awardPropID);
-                }
+                ZombieManager.Instance.setState(ZombieSpawnState.End);
+                ZombieManager.Instance.killAllZombie(); // 胜利后击杀所有场上僵尸
+                if (JSONSaveSystem.Instance) JSONSaveSystem.Instance.CompleteLevel(currLevelConfig); // 通关处理
                 break;
             default:
                 break;
@@ -187,5 +183,11 @@ public class GameManager : MonoBehaviour
         AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_gravebutton);
         string currentSceneName = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene(currentSceneName);
+    }
+
+    public void SkipLevel()
+    {
+        Continue();
+        setState(GameState.Winning);
     }
 }

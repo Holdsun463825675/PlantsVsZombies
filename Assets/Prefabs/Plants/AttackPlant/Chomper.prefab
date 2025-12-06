@@ -58,11 +58,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5630122229078168725, guid: 70880adf956cbdc449054f1db7bff5e4, type: 3}
       propertyPath: m_Size.x
-      value: 1.4669187
+      value: 1.5390706
       objectReference: {fileID: 0}
     - target: {fileID: 5630122229078168725, guid: 70880adf956cbdc449054f1db7bff5e4, type: 3}
       propertyPath: m_Offset.x
-      value: 0.7331618
+      value: 0.76923776
       objectReference: {fileID: 0}
     - target: {fileID: 7462937934433805655, guid: 70880adf956cbdc449054f1db7bff5e4, type: 3}
       propertyPath: m_Sprite
@@ -106,4 +106,7 @@ MonoBehaviour:
   type: 1
   prePlantID: 0
   row: 0
+  col: 0
+  isZombieJumpOver: 0
+  jumpOverPlace: {fileID: 0}
   anim: {fileID: 0}

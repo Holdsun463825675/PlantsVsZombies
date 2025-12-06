@@ -30,6 +30,7 @@ public class LevelConfig
     public int restrictedArea = 0; // 可种植区域，0为全可种植，大于0为靠近家的可种，小于0为靠近出怪位置可种
     public float generateCardTime = 6.0f; // 传送带出生成植物间隔
     public float gameSpeed = -1; // 固定游戏速度
+    public bool cardCoolingDown = true; // 卡片是否有冷却
 }
 
 public enum TimeOfDay

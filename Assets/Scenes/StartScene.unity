@@ -1021,6 +1021,9 @@ MonoBehaviour:
   - {fileID: 4430288491352510757, guid: c8c007efe54e53a4cb7f50c82c384f2d, type: 3}
   - {fileID: 3212708800064457141, guid: 194aa976332684942a841ba0a085759c, type: 3}
   - {fileID: 600105056586738214, guid: 20e6ecf9ab9ea6b439f93112ab873229, type: 3}
+  dialogPrefabs:
+  - {fileID: 636808781410165295, guid: 03dd4a58e1cf7754f971f9dac908effd, type: 3}
+  - {fileID: 6236037906778253252, guid: b1565293e2773684cb1fb95552b9678c, type: 3}
 --- !u!1 &1005267034
 GameObject:
   m_ObjectHideFlags: 0
@@ -1126,16 +1129,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca4d2928c796b341b2a9cce45552e72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelList:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &1082999615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1236,8 +1229,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1200156127}
   - component: {fileID: 1200156126}
+  - component: {fileID: 1200156128}
   m_Layer: 0
-  m_Name: LevelConfigManager
+  m_Name: Managers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1271,6 +1265,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1200156128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200156125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67b7af9918890be49ac984b42eb1951e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currDialog: {fileID: 0}
 --- !u!1 &1545559049
 GameObject:
   m_ObjectHideFlags: 0
@@ -1725,6 +1732,6 @@ SceneRoots:
   - {fileID: 1697863723}
   - {fileID: 1102624510}
   - {fileID: 1082999616}
-  - {fileID: 1200156127}
   - {fileID: 124511145}
+  - {fileID: 1200156127}
   - {fileID: 957503944}

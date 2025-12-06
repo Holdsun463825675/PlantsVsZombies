@@ -246,7 +246,14 @@ public class CardManager : MonoBehaviour
                 cardPanelUI.transform.DOMove(cardPanelUIBeginPlace.position, UIMoveTime).OnComplete(() => GameManager.Instance.setState(GameState.Ready));
                 break;
             case GameState.Processing:
-                foreach (Card card in cardList) if (card) card.setState(CardState.CoolingDown);
+                foreach (Card card in cardList)
+                {
+                    if (card) //  «∑Ò”–¿‰»¥
+                    {
+                        if (GameManager.Instance.currLevelConfig.cardCoolingDown) card.setState(CardState.CoolingDown);
+                        else card.setState(CardState.Ready);
+                    } 
+                } 
                 if (GameManager.Instance.currLevelConfig.cardType == TypeOfCard.Conveyor) ConveyorUI.SetActive(true);
                 else cardListUI.SetActive(true);
                 cardPanelUI.SetActive(false);
@@ -261,6 +268,7 @@ public class CardManager : MonoBehaviour
                 ConveyorUI.SetActive(false);
                 break;
             case GameState.Winning:
+                readyButton.enabled = false;
                 break;
             default:
                 break;

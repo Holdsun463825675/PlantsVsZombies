@@ -32,8 +32,7 @@ public class Chomper : AttackPlant
         {
             case ChomperState.Ready:
                 bool attack = false;
-                foreach (Zombie zombie in targets)
-                    if (zombie.getHealthState() == ZombieHealthState.Healthy || zombie.getHealthState() == ZombieHealthState.LostArm) attack = true;
+                foreach (Zombie zombie in targets) if (zombie.isHealthy() && (zombie.isPlantKill || zombie.isBulletHit)) attack = true;
                 if (attack) setAttack(); // 不掉头时才攻击
                 break;
             case ChomperState.CoolingDown:
@@ -74,9 +73,7 @@ public class Chomper : AttackPlant
         base.Attack();
         AudioManager.Instance.playClip(ResourceConfig.sound_plant_bigchomp);
         // 不掉头且能被机制杀的僵尸作为目标
-        Zombie target_isPlantKill = targets.FirstOrDefault(zombie => 
-            (zombie.getHealthState() == ZombieHealthState.Healthy || zombie.getHealthState() == ZombieHealthState.LostArm)
-            && zombie.isPlantKill);
+        Zombie target_isPlantKill = targets.FirstOrDefault(zombie => zombie.isHealthy() && zombie.isPlantKill);
         if (target_isPlantKill != null) // 能吃则机制杀
         {
             target_isPlantKill.kill(attackDieMode);
@@ -85,9 +82,7 @@ public class Chomper : AttackPlant
         else // 不能吃则打伤害，算子弹伤害
         {
             // 不掉头的僵尸作为目标
-            Zombie target = targets.FirstOrDefault(zombie =>
-                (zombie.getHealthState() == ZombieHealthState.Healthy || zombie.getHealthState() == ZombieHealthState.LostArm) &&
-                !zombie.isPlantKill);
+            Zombie target = targets.FirstOrDefault(zombie => zombie.isHealthy() && !zombie.isPlantKill);
             if (target != null && target.isBulletHit) target.UnderAttack(attackPoint); 
             anim.SetTrigger(AnimatorConfig.plant_ready); // 返回Idle动画
         }

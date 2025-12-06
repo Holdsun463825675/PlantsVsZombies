@@ -66,7 +66,7 @@ public class ZombieManager : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.state == GameState.Paused || GameManager.Instance.state == GameState.Losing) return;
+        if (GameManager.Instance.state == GameState.Paused || GameManager.Instance.state == GameState.Losing || GameManager.Instance.state == GameState.Winning) return;
         switch (state)
         {
             case ZombieSpawnState.NotStarted:
@@ -164,6 +164,11 @@ public class ZombieManager : MonoBehaviour
     public void setState(ZombieSpawnState state)
     {
         this.state = state;
+    }
+
+    public void killAllZombie()
+    {
+        foreach (Zombie zombie in zombieList) if (zombie) zombie.kill();
     }
 
     private void levelProcessUpdate()

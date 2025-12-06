@@ -235,18 +235,25 @@ public class JSONSaveSystem : MonoBehaviour
         SaveGameData();
     }
 
-    public void CompleteLevel(int levelID)
+    public void CompleteLevel(LevelConfig levelConfig)
     {
+        if (levelConfig == null) return;
         bool contained = false;
         foreach (LevelData level in userData.levelDatas)
         {
-            if (level.levelID == levelID)
+            if (level.levelID == levelConfig.levelID)
             {
                 level.completed = true;
                 contained = true;
             } 
         }
-        if (!contained) UnlockLevel(levelID, true);
+        if (!contained) UnlockLevel(levelConfig.levelID, true);
+
+        // ½âËø
+        foreach (int id in levelConfig.nextLevelID) UnlockLevel(id);
+        unlockPlant(levelConfig.awardPlantID);
+        unlockProp(levelConfig.awardPropID);
+
         SaveGameData();
     }
 

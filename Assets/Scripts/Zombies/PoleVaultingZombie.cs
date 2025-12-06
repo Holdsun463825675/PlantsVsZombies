@@ -15,7 +15,7 @@ public class PoleVaultingZombie : Zombie
     private PoleVaultingZombieState poleVaultingZombieState;
     private Transform realPosition; // 跳跃时真实位置
     private float jumpTime = 2.2f;
-    private float jumpPositionXOffset = 2.5f; // 跳跃时x位置的偏移
+    private float jumpPositionXOffset = 2.6f; // 跳跃时x位置的偏移
     private Vector3 target;
 
     protected override void Awake()
@@ -150,6 +150,6 @@ public class PoleVaultingZombie : Zombie
         {
             realPosition.DOKill();
             transform.position = realPosition.position;
-        } 
+        }
     }
 }

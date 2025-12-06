@@ -9,6 +9,7 @@ public class PrefabSystem : MonoBehaviour
     public List<Plant> plantPrefabs;
     public List<Zombie> zombiePrefabs;
     public List<Bullet> bulletPrefabs;
+    public List<Dialog> dialogPrefabs;
 
     private void Awake()
     {

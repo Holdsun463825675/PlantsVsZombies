@@ -49,4 +49,24 @@ public class LevelSceneManager : MonoBehaviour
         LevelConfigManager.Instance.GetLevelConfig(LevelID);
         SceneManager.LoadScene("GameScene");
     }
+
+    public void onSkipLevelClick()
+    {
+        AudioManager.Instance.playClip(ResourceConfig.sound_buttonandputdown_bleep);
+        DialogManager.Instance.createDialog(DialogType.Confirmation, DialogConfig.level_skipLevel, SkipLevel);
+    }
+
+    public void SkipLevel()
+    {
+        LevelListKind kind = LevelConfigManager.Instance ? LevelConfigManager.Instance.currLevelListKind : LevelListKind.Adventure_Day;
+        foreach (LevelList levelList in levelLists)
+        {
+            if (levelList.kind == kind)
+            {
+                levelList.SkipLevel();
+                break;
+            }
+        }
+        showLevelList(kind);
+    }
 }
