@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using System;
 using System.Text;
 
+
 public class MenuSceneUIManager : MonoBehaviour
 {
     public static MenuSceneUIManager Instance { get; private set; }
@@ -243,9 +244,11 @@ public class MenuSceneUIManager : MonoBehaviour
         if (string.IsNullOrEmpty(text)) length = 0;
         else
         {
-            // GB2312编码，中文占2字节，英文数字占1字节
-            Encoding gb2312 = Encoding.GetEncoding("GB2312");
-            length = gb2312.GetByteCount(text);
+            foreach (char c in text)
+            {
+                if (c <= 0x7F) length += 1;
+                else length += 2;
+            }
         }
         if (length == 0)
         {
@@ -262,9 +265,12 @@ public class MenuSceneUIManager : MonoBehaviour
 
     public void onNewClick()
     {
-        DialogManager.Instance.createDialog(DialogType.Input, DialogConfig.menu_new_user);
-        Action action = () => { newUser(DialogManager.Instance.currDialog.getInputText()); };
-        DialogManager.Instance.currDialog.addConfirmAction(action);
+        DialogManager.Instance.createDialog(DialogType.Input, DialogConfig.menu_new_user, newUserAction);
+    }
+
+    public void newUserAction()
+    {
+        newUser(DialogManager.Instance.currDialog.getInputText());
     }
 
     private void newUser(string name)
@@ -277,9 +283,12 @@ public class MenuSceneUIManager : MonoBehaviour
 
     public void onRenameClick()
     {
-        DialogManager.Instance.createDialog(DialogType.Input, DialogConfig.menu_new_user);
-        Action action = () => { renameUser(DialogManager.Instance.currDialog.getInputText()); };
-        DialogManager.Instance.currDialog.addConfirmAction(action);
+        DialogManager.Instance.createDialog(DialogType.Input, DialogConfig.menu_new_user, renameUserAction);
+    }
+
+    public void renameUserAction()
+    {
+        renameUser(DialogManager.Instance.currDialog.getInputText());
     }
 
     private void renameUser(string name)
