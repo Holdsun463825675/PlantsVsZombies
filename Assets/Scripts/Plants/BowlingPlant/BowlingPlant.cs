@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class BowlingPlant : Plant
 {
     protected int attackPoint;
+    protected List<int> targetRows; // 可攻击的行，0为任意，大于0为行数
     protected float speed;
     protected Vector3 target_position;
 
@@ -17,6 +18,7 @@ public class BowlingPlant : Plant
     {
         base.Awake();
         attackPoint = 1800;
+        targetRows = new List<int> { 0 }; // 默认为任意行都可攻击
         speed = 3.0f;
         hitSound = BulletHitSound.Bowling;
         hitSoundPriority = 2;
@@ -78,6 +80,21 @@ public class BowlingPlant : Plant
             .OnComplete(() => setState(PlantState.Die));
         if (GameManager.Instance.state == GameState.Paused) transform.DOPause();
         AudioManager.Instance.playClip(ResourceConfig.sound_plant_bowling);
+    }
+
+    protected virtual bool HaveAttackTarget()
+    {
+        return true;
+    }
+
+    protected virtual bool CanAttack(Zombie zombie)
+    {
+        return zombie.row == 0 || targetRows.Contains(0) || targetRows.Contains(zombie.row);
+    }
+
+    protected virtual bool CanAttack(Armor2 armor2)
+    {
+        return armor2.zombie.row == 0 || targetRows.Contains(0) || targetRows.Contains(armor2.zombie.row);
     }
 
 }

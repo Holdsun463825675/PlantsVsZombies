@@ -47,8 +47,7 @@ public class BowlingWallNut : BowlingPlant
 
     protected virtual void AttackZombie()
     {
-        if (targetZombie == null || preTargetRow == targetZombie.row) return;
-        if (!targetZombie.isHealthy() || !targetZombie.isBulletHit) return;
+        if (targetZombie == null || !CanAttack(targetZombie)) return;
         targetZombie.UnderAttack(attackPoint);
         transMove(targetZombie.row); // 攻击后改变运动方向
         AudioManager.Instance.playHitClip(hitSound, hitSoundPriority, targetZombie.underAttackSound, targetZombie.underAttackSoundPriority);
@@ -57,7 +56,7 @@ public class BowlingWallNut : BowlingPlant
 
     protected virtual void AttackArmor2()
     {
-        if (targetArmor2 == null || preTargetRow == targetArmor2.zombie.row) return;
+        if (targetArmor2 == null || !CanAttack(targetArmor2)) return;
         if (targetZombie && targetZombie.armor2 == targetArmor2) // 优先攻击僵尸
         {
             AttackZombie(); return;
@@ -75,8 +74,9 @@ public class BowlingWallNut : BowlingPlant
         if (currMoveDirection == 0) // 根据所在行改变运动方向
         {
             if (row == 1) currMoveDirection = -1;
-            else if (row == MapManager.Instance.currMap.maxRow) currMoveDirection = 1;
+            else if (row == CellManager.Instance.maxRow) currMoveDirection = 1;
             else currMoveDirection = Random.Range(0, 2) * 2 - 1; // 随机方向
+            row = 0; // 不再属于任何一行
         } 
         else currMoveDirection = -currMoveDirection;
 
@@ -99,5 +99,15 @@ public class BowlingWallNut : BowlingPlant
             });
         if (GameManager.Instance.state == GameState.Paused) transform.DOPause();
         AudioManager.Instance.playClip(ResourceConfig.sound_plant_bowling);
+    }
+
+    protected override bool CanAttack(Zombie zombie)
+    {
+        return base.CanAttack(zombie) && zombie.row != preTargetRow && zombie.isHealthy() && zombie.isBulletHit;
+    }
+
+    protected override bool CanAttack(Armor2 armor2)
+    {
+        return base.CanAttack(armor2) && armor2.zombie.row != preTargetRow;
     }
 }

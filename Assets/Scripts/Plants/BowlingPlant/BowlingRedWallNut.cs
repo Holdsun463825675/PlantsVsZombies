@@ -23,16 +23,26 @@ public class BowlingRedWallNut : BowlingPlant
     public override void setState(PlantState state)
     {
         base.setState(state);
-        // 提前激活碰撞体
-        if (state == PlantState.Suspension) effectPlaceCollider.enabled = true;
+        switch (state)
+        {
+            case PlantState.Suspension:
+                // 提前激活碰撞体
+                if (state == PlantState.Suspension) effectPlaceCollider.enabled = true;
+                break;
+            case PlantState.Idle:
+                targetRows = new List<int> { Mathf.Max(1, row - 1), row, Mathf.Min(row + 1, CellManager.Instance.maxRow) }; // 只能攻击本行、上一行、下一行
+                break;
+            default:
+                break;
+        }
     }
 
     protected virtual void Explode()
     {
         AudioManager.Instance.playClip(ResourceConfig.sound_plant_bowlingimpact2);
         if (explodeEffect) GameObject.Instantiate(explodeEffect, transform.position, Quaternion.identity);
-        foreach (Armor2 armor2 in targetArmor2) armor2.UnderAttack(attackPoint, attackDieMode);
-        foreach (Zombie zombie in targetZombie) zombie.UnderAttack(attackPoint, attackDieMode);
+        foreach (Armor2 armor2 in targetArmor2) if (CanAttack(armor2)) armor2.UnderAttack(attackPoint, attackDieMode);
+        foreach (Zombie zombie in targetZombie) if (CanAttack(zombie)) zombie.UnderAttack(attackPoint, attackDieMode);
         setState(PlantState.Die);
     }
 
@@ -42,10 +52,11 @@ public class BowlingRedWallNut : BowlingPlant
         {
             case TagConfig.zombie:
                 Zombie zombie = collision.GetComponent<Zombie>();
-                if (zombie && zombie.isHealthy() && zombie.isBulletHit) Explode();
+                if ((zombie.row == 0 || zombie.row == row) && zombie.isHealthy() && zombie.isBulletHit) Explode();
                 break;
             case TagConfig.armor2:
-                Explode();
+                Armor2 armor2 = collision.GetComponent<Armor2>();
+                if (armor2.zombie.row == 0 || armor2.zombie.row == row) Explode();
                 break;
             default:
                 break;

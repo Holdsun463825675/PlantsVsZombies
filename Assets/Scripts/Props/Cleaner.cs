@@ -38,9 +38,9 @@ public class Cleaner : MonoBehaviour
                 break;
             case CleanerState.Enable:
                 c2d.enabled = true;
-                ZombieManager.Instance.spawnProtection[row] += 3; // 出怪保护
+                ZombieManager.Instance.spawnProtection[row - 1] += 3; // 出怪保护
                 AudioManager.Instance.playClip(ResourceConfig.sound_other_lawnmower);
-                Tween tween = transform.DOMove(CleanerManager.Instance.cleanerPositions_end[row].position, 3f)
+                Tween tween = transform.DOMove(CleanerManager.Instance.cleanerPositions_end[row - 1].position, 3f)
                         .SetEase(Ease.Linear)
                         .OnComplete(() =>{
                             CleanerManager.Instance.cleaners.Remove(this);
@@ -60,8 +60,8 @@ public class Cleaner : MonoBehaviour
         {
             Zombie zombie = collision.GetComponent<Zombie>();
             // 僵尸不掉头时触发
-            if (zombie.isHealthy()) setState(CleanerState.Enable);
-            if (state == CleanerState.Enable) zombie.kill(dieMode); // 生效时机制杀
+            if (zombie && zombie.row == row && zombie.isHealthy()) setState(CleanerState.Enable);
+            if (state == CleanerState.Enable && zombie && zombie.row == row) zombie.kill(dieMode); // 生效时机制杀
         }
     }
 

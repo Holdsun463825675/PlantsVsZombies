@@ -33,6 +33,8 @@ public class Bullet : Product
     public BulletID id;
     protected BulletID igniteID; // 点燃后的子弹
     protected int attackPoint;
+    protected List<int> targetRows; // 可攻击的行，0为任意，大于0为行数
+    protected List<int> sputterRows; // 可溅射的行
     public float speed;
     public Vector3 target_position; // 目标位置
     protected int targetNum; // 最多可攻击的目标（-1为无限）
@@ -58,6 +60,7 @@ public class Bullet : Product
     {
         base.Awake();
         attackPoint = 20;
+        targetRows = new List<int>();
         speed = 5.0f;
         targetNum = 1;
         sputter = false;
@@ -141,7 +144,7 @@ public class Bullet : Product
 
     protected virtual void AttackZombie()
     {
-        if (!targetZombie || targetNum == 0) return;
+        if (!targetZombie || targetNum == 0 || !CanAttack(targetZombie)) return;
         if (targetArmor2 && targetArmor2.zombie == targetZombie) // 优先攻击防具
         {
             AttackArmor2(); return;
@@ -156,7 +159,7 @@ public class Bullet : Product
 
     protected virtual void AttackArmor2()
     {
-        if (!targetArmor2 || targetNum == 0) return;
+        if (!targetArmor2 || targetNum == 0 || !CanAttack(targetArmor2)) return;
         if (targetNum > 0) targetNum--;
         targetArmor2.UnderAttack(attackPoint);
         AudioManager.Instance.playHitClip(hitSound, hitSoundPriority, targetArmor2.underAttackSound, targetArmor2.underAttackSoundPriority);
@@ -169,8 +172,8 @@ public class Bullet : Product
         if (!sputter || sputterTargetZombie.Count + sputterTargetArmor2.Count - 1 == 0) return;
         int totalAttackPoint = attackPoint / 2;
         int point = Mathf.Max(1, totalAttackPoint / (sputterTargetZombie.Count + sputterTargetArmor2.Count - 1)); // 溅射伤害至少1点
-        foreach (Zombie zombie in sputterTargetZombie) if (zombie != targetZombie && zombie.isBulletHit) zombie.UnderAttack(point);
-        foreach (Armor2 armor2 in sputterTargetArmor2) armor2.UnderAttack(point);
+        foreach (Zombie zombie in sputterTargetZombie) if (zombie != targetZombie && CanSputter(zombie)) zombie.UnderAttack(point);
+        foreach (Armor2 armor2 in sputterTargetArmor2) if (CanSputter(armor2)) armor2.UnderAttack(point);
     }
 
     public void setState(BulletState state)
@@ -197,6 +200,12 @@ public class Bullet : Product
         }
     }
 
+    public virtual void setTargetRows(List<int> targetRows)
+    {
+        this.targetRows = targetRows;
+        sputterRows = targetRows;
+    }
+
     public void moveToPlace(Vector3 position, float speed = 5.0f)
     {
         this.speed = speed;
@@ -217,9 +226,30 @@ public class Bullet : Product
         if (!bulletPrefab) return null;
         AudioManager.Instance.playClip(ResourceConfig.sound_fire_firepea); // 点燃音效
         Bullet newBullet = GameObject.Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        newBullet.setTargetRows(targetRows);
         newBullet.setState(BulletState.ToBeUsed);
         newBullet.moveToPlace(target_position);
         setState(BulletState.Used);
         return newBullet;
+    }
+
+    protected virtual bool CanAttack(Zombie zombie)
+    {
+        return (zombie.row == 0 || targetRows.Contains(0) || targetRows.Contains(zombie.row)) && zombie.isBulletHit;
+    }
+
+    protected virtual bool CanAttack(Armor2 armor2)
+    {
+        return armor2.zombie.row == 0 || targetRows.Contains(0) || targetRows.Contains(armor2.zombie.row);
+    }
+
+    protected virtual bool CanSputter(Zombie zombie)
+    {
+        return (zombie.row == 0 || sputterRows.Contains(0) || sputterRows.Contains(zombie.row)) && zombie.isBulletHit;
+    }
+
+    protected virtual bool CanSputter(Armor2 armor2)
+    {
+        return armor2.zombie.row == 0 || sputterRows.Contains(0) || sputterRows.Contains(armor2.zombie.row);
     }
 }

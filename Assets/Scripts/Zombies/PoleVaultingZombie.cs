@@ -58,8 +58,8 @@ public class PoleVaultingZombie : Zombie
                 shadow.SetActive(false);
 
                 Vector3 jumpOverplace = transform.position;
-                foreach (Plant plant in effectTargets) if (plant) jumpOverplace = plant.jumpOverPlace.position;
-                foreach (Plant plant in effectBowlingTargets) if (plant) jumpOverplace = plant.jumpOverPlace.position;
+                foreach (Plant plant in effectTargets) if (plant && CanEffect(plant)) jumpOverplace = plant.jumpOverPlace.position;
+                foreach (Plant plant in effectBowlingTargets) if (plant && CanEffect(plant)) jumpOverplace = plant.jumpOverPlace.position;
 
                 target = new Vector3(jumpOverplace.x, transform.position.y, transform.position.z);
                 // 创建真实位置
@@ -101,7 +101,7 @@ public class PoleVaultingZombie : Zombie
         switch (poleVaultingZombieState)
         {
             case PoleVaultingZombieState.NotEffect:
-                if (effectTargets.Count > 0 || effectBowlingTargets.Count > 0) setPoleVaultingZombieState(PoleVaultingZombieState.Effect);
+                if (HaveEffectTarget()) setPoleVaultingZombieState(PoleVaultingZombieState.Effect);
                 break;
             case PoleVaultingZombieState.Effect:
                 break;
@@ -128,8 +128,8 @@ public class PoleVaultingZombie : Zombie
     private void effectJudge()
     {
         bool judge = true;
-        foreach (Plant plant in effectTargets) if (plant && !plant.isZombieJumpOver) judge = false;
-        foreach (Plant plant in effectBowlingTargets) if (plant && !plant.isZombieJumpOver) judge = false;
+        foreach (Plant plant in effectTargets) if (plant && CanAttack(plant) && !plant.isZombieJumpOver) judge = false;
+        foreach (Plant plant in effectBowlingTargets) if (plant && CanAttack(plant) && !plant.isZombieJumpOver) judge = false;
         if (!judge)
         {
             AudioManager.Instance.playClip(ResourceConfig.sound_zombie_bonk);

@@ -26,6 +26,12 @@ public class PotatoMine : AshPlant
         setPotatoMineState(PotatoMineState.CoolingDown); // 种下即冷却
     }
 
+    public override void setState(PlantState state)
+    {
+        base.setState(state);
+        if (state == PlantState.Idle) targetRows = new List<int> { row }; // 只能攻击本行
+    }
+
     protected override void IdleUpdate()
     {
         switch (potatoMineState)
@@ -41,13 +47,7 @@ public class PotatoMine : AshPlant
             case PotatoMineState.Recovery:
                 break;
             case PotatoMineState.Ready:
-                foreach (Zombie zombie in explodeTargets)
-                {
-                    if (zombie && zombie.isHealthy() && zombie.isBulletHit) // 有健康目标且能被子弹锁定则爆炸
-                    {
-                        Explode(); return;
-                    }
-                }
+                if (HaveAttackTarget()) Explode();
                 break;
             default:
                 break;
@@ -98,6 +98,16 @@ public class PotatoMine : AshPlant
             default:
                 break;
         }
+    }
+
+    protected override bool HaveAttackTarget()
+    {
+        foreach (Zombie zombie in explodeTargets)
+        {
+            // 只能被本行触发，有健康目标且能被子弹锁定
+            if ((zombie.row == 0 || zombie.row == row) && zombie.isHealthy() && zombie.isBulletHit) return true;
+        }
+        return false;
     }
 
     protected override void Explode()

@@ -20,6 +20,7 @@ public class SnowPea : AttackPlant
         AudioManager.Instance.playClip(ResourceConfig.sound_plantshoot_throw);
         AudioManager.Instance.playClip(ResourceConfig.sound_plant_snowyPea);
         Pea pea = GameObject.Instantiate(peaPrefab, effectPlace.position, Quaternion.identity);
+        pea.setTargetRows(targetRows);
         pea.setState(BulletState.ToBeUsed);
         float target_x = MapManager.Instance.currMap.endlinePositions[1].position.x;
         pea.moveToPlace(new Vector3(target_x, effectPlace.position.y, effectPlace.position.z));

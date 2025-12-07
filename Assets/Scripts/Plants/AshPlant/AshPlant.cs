@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public enum AshPlantState
 {
@@ -15,6 +16,7 @@ public class AshPlant : Plant
 
     protected int attackPoint;
     protected int attackDieMode = 1;
+    protected List<int> targetRows; // 可攻击的行，0为任意，大于0为行数
     protected AshPlantState ashState;
 
     protected List<Zombie> targetZombie;
@@ -24,6 +26,7 @@ public class AshPlant : Plant
     {
         base.Awake();
         attackPoint = 1800;
+        targetRows = new List<int> { 0 }; // 默认为任意行都可攻击
         targetZombie = new List<Zombie>();
         targetArmor2 = new List<Armor2>();
     }
@@ -42,6 +45,21 @@ public class AshPlant : Plant
         }
     }
 
+    protected virtual bool HaveAttackTarget()
+    {
+        return true;
+    }
+
+    protected virtual bool CanAttack(Zombie zombie)
+    {
+        return zombie.row == 0 || targetRows.Contains(0) || targetRows.Contains(zombie.row);
+    }
+
+    protected virtual bool CanAttack(Armor2 armor2)
+    {
+        return armor2.zombie.row == 0 || targetRows.Contains(0) || targetRows.Contains(armor2.zombie.row);
+    }
+
     protected virtual void setExplode()
     {
         anim.SetTrigger(AnimatorConfig.plant_explode);
@@ -54,8 +72,8 @@ public class AshPlant : Plant
         if (explodeEffect) GameObject.Instantiate(explodeEffect, transform.position, Quaternion.identity);
         List<Armor2> targetArmor2s = new List<Armor2>(targetArmor2);
         List<Zombie> targetZombies = new List<Zombie>(targetZombie);
-        foreach (Armor2 armor2 in targetArmor2s) armor2.UnderAttack(attackPoint, attackDieMode);
-        foreach (Zombie zombie in targetZombies) zombie.UnderAttack(attackPoint, attackDieMode);
+        foreach (Armor2 armor2 in targetArmor2s) if (CanAttack(armor2)) armor2.UnderAttack(attackPoint, attackDieMode);
+        foreach (Zombie zombie in targetZombies) if (CanAttack(zombie)) zombie.UnderAttack(attackPoint, attackDieMode);
         setState(PlantState.Die);
     }
 

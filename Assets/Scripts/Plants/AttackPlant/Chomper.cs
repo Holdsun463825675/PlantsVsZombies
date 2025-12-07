@@ -31,9 +31,7 @@ public class Chomper : AttackPlant
         switch (chomperState)
         {
             case ChomperState.Ready:
-                bool attack = false;
-                foreach (Zombie zombie in targets) if (zombie.isHealthy() && (zombie.isPlantKill || zombie.isBulletHit)) attack = true;
-                if (attack) setAttack(); // 不掉头时才攻击
+                if (HaveAttackTarget()) setAttack();
                 break;
             case ChomperState.CoolingDown:
                 coolingDownTimer += Time.deltaTime;
@@ -68,12 +66,33 @@ public class Chomper : AttackPlant
         }
     }
 
+    protected override bool HaveAttackTarget()
+    {
+        foreach (Zombie target in targets)
+        {
+            if (!(target.row == 0 || targetRows.Contains(0) || targetRows.Contains(target.row))) continue; // 只攻击可攻击行的僵尸
+            if (target.isHealthy() && (target.isPlantKill || target.isBulletHit)) return true; // 不掉头时才攻击
+        }
+        return false;
+    }
+
+    private bool CanKill(Zombie zombie)
+    {
+        return (zombie.row == 0 || targetRows.Contains(0) || targetRows.Contains(zombie.row)) && zombie.isHealthy() && zombie.isPlantKill;
+    }
+
+    private bool CanAttack(Zombie zombie)
+    {
+        return (zombie.row == 0 || targetRows.Contains(0) || targetRows.Contains(zombie.row)) && zombie.isHealthy() && !zombie.isPlantKill && zombie.isBulletHit;
+    }
+
+
     protected override void Attack()
     {
         base.Attack();
         AudioManager.Instance.playClip(ResourceConfig.sound_plant_bigchomp);
         // 不掉头且能被机制杀的僵尸作为目标
-        Zombie target_isPlantKill = targets.FirstOrDefault(zombie => zombie.isHealthy() && zombie.isPlantKill);
+        Zombie target_isPlantKill = targets.FirstOrDefault(zombie => CanKill(zombie));
         if (target_isPlantKill != null) // 能吃则机制杀
         {
             target_isPlantKill.kill(attackDieMode);
@@ -82,8 +101,8 @@ public class Chomper : AttackPlant
         else // 不能吃则打伤害，算子弹伤害
         {
             // 不掉头的僵尸作为目标
-            Zombie target = targets.FirstOrDefault(zombie => zombie.isHealthy() && !zombie.isPlantKill);
-            if (target != null && target.isBulletHit) target.UnderAttack(attackPoint); 
+            Zombie target = targets.FirstOrDefault(zombie => CanAttack(zombie));
+            if (target != null) target.UnderAttack(attackPoint); 
             anim.SetTrigger(AnimatorConfig.plant_ready); // 返回Idle动画
         }
         anim.ResetTrigger(AnimatorConfig.plant_attack); // 取消攻击触发器

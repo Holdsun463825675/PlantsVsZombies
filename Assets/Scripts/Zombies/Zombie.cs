@@ -52,6 +52,8 @@ public class Zombie : MonoBehaviour, IClickable
     protected float lostArmHealthPercentage, lostHeadPercentage, dieHealthPercentage;
 
     protected int attackPoint;
+    protected List<int> targetRows; // 可攻击的行，0为任意，大于0为行数
+    protected List<int> effectRows; // 可起作用的行，0为任意，大于0为行数
     protected bool isLostHealth;
     public float spawnWeight;
     public GameObject zombieHeadPrefab;
@@ -76,7 +78,7 @@ public class Zombie : MonoBehaviour, IClickable
     public int underAttackSoundPriority;
 
     public Armor2 armor2;
-    private TextMeshPro HPText;
+    protected TextMeshPro HPText;
     private Transform lostHeadPlace;
     private List<Plant> targets;
     private Animator lostHeadAnim;
@@ -104,6 +106,7 @@ public class Zombie : MonoBehaviour, IClickable
         lostArmHealthPercentage = 0.666f; lostHeadPercentage = 0.333f; dieHealthPercentage = 1e-10f;
 
         attackPoint = 50;
+        targetRows = new List<int>();
         isLostHealth = false;
         spawnWeight = 1.0f;
 
@@ -213,6 +216,8 @@ public class Zombie : MonoBehaviour, IClickable
     public void setGameMode(int row=0)
     {
         this.row = row;
+        targetRows = new List<int> { this.row }; // 默认只能攻击本行
+        effectRows = new List<int> { this.row };
         c2d.enabled = true; bowling_c2d.enabled = true;
         if (currArmor2Health > 0)
         {
@@ -430,11 +435,16 @@ public class Zombie : MonoBehaviour, IClickable
         AudioManager.Instance.playClip(ResourceConfig.sound_zombiedie_limbsPop);
     }
 
+    protected virtual bool CanAttack(Plant plant)
+    {
+        return (plant.row == 0 || targetRows.Contains(0) || targetRows.Contains(plant.row)) && plant.type != PlantType.Flight;
+    }
+
     protected Plant getAttackTarget()
     {
-        foreach (Plant plant in targets) if (plant.type == PlantType.Surrounding) return plant;
-        foreach (Plant plant in targets) if (plant.type == PlantType.Normal) return plant;
-        foreach (Plant plant in targets) if (plant.type == PlantType.Carrier) return plant;
+        foreach (Plant plant in targets) if (plant.type == PlantType.Surrounding && CanAttack(plant)) return plant;
+        foreach (Plant plant in targets) if (plant.type == PlantType.Normal && CanAttack(plant)) return plant;
+        foreach (Plant plant in targets) if (plant.type == PlantType.Carrier && CanAttack(plant)) return plant;
         return null; // 不吃飞行类植物
     }
 
@@ -443,6 +453,18 @@ public class Zombie : MonoBehaviour, IClickable
         if (anim.GetBool(AnimatorConfig.zombie_game) == false || healthState == ZombieHealthState.LostHead || healthState == ZombieHealthState.Die) return;
         Plant target = getAttackTarget();
         if (target) target.UnderAttack(attackPoint);
+    }
+
+    protected virtual bool CanEffect(Plant plant)
+    {
+        return (plant.row == 0 || effectRows.Contains(0) || effectRows.Contains(plant.row)) && plant.type != PlantType.Flight;
+    }
+
+    protected virtual bool HaveEffectTarget()
+    {
+        foreach (Plant plant in effectTargets) if (plant && CanEffect(plant)) return true;
+        foreach (Plant plant in effectBowlingTargets) if (plant && CanEffect(plant)) return true;
+        return false;
     }
 
     protected virtual void HealthyAndLostArmUpdate()
