@@ -67,7 +67,7 @@ public class Zombie : MonoBehaviour, IClickable
     protected Transform losingGame;
     protected GameObject shadow;
 
-    public int row; // 所处行，游戏模式下大于0
+    public int row, col; // 所处行列，游戏模式下大于0
     public bool isPlantKill; // 是否能被植物机制杀，大嘴花、水草之类的
     public bool isBulletHit; // 是否能被子弹造成伤害
 
@@ -119,7 +119,7 @@ public class Zombie : MonoBehaviour, IClickable
         underAttackSound = ZombieUnderAttackSound.Splat;
         underAttackSoundPriority = 1;
 
-        row = 0;
+        row = 0; col = 0;
         isPlantKill = true;
         isBulletHit = true;
 
@@ -213,9 +213,9 @@ public class Zombie : MonoBehaviour, IClickable
         }
     }
 
-    public void setGameMode(int row=0)
+    public void setGameMode(int row, int col)
     {
-        this.row = row;
+        this.row = row; this.col = col;
         targetRows = new List<int> { this.row }; // 默认只能攻击本行
         effectRows = new List<int> { this.row };
         c2d.enabled = true; bowling_c2d.enabled = true;
@@ -330,15 +330,25 @@ public class Zombie : MonoBehaviour, IClickable
         }
     }
 
-    protected void moveToHouse()
+    protected void moveToHouse() // 移动到下一格
     {
         Vector3 target = new Vector3(losingGame.position.x, transform.position.y, transform.position.z);
-        currentMoveTween = transform.DOMove(target, speed)
-            .SetSpeedBased()
-            .SetEase(Ease.Linear)
-            .OnComplete(() => {
+        Cell targetCell = CellManager.Instance.getCell(row, col - 1);
+        if (targetCell == null)
+        {
+            currentMoveTween = transform.DOMove(target, speed).SetSpeedBased().SetEase(Ease.Linear).OnComplete(() =>
+            {
                 if (isHealthy()) GameManager.Instance.setState(GameState.Losing);
             });
+        }
+        else
+        {
+            target = targetCell.transform.position;
+            currentMoveTween = transform.DOMove(target, speed).SetSpeedBased().SetEase(Ease.Linear).OnComplete(() =>
+            {
+                col -= 1; moveToHouse();
+            });
+        }
     }
 
     protected virtual void kinematicsUpdate()

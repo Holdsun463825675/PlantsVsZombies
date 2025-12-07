@@ -57,9 +57,24 @@ public class PoleVaultingZombie : Zombie
                 isPlantKill = false; isBulletHit = false; // 无法被机制杀、子弹命中
                 shadow.SetActive(false);
 
+                int nextCol = col;
                 Vector3 jumpOverplace = transform.position;
-                foreach (Plant plant in effectTargets) if (plant && CanEffect(plant)) jumpOverplace = plant.jumpOverPlace.position;
-                foreach (Plant plant in effectBowlingTargets) if (plant && CanEffect(plant)) jumpOverplace = plant.jumpOverPlace.position;
+                foreach (Plant plant in effectTargets)
+                {
+                    if (plant && CanEffect(plant))
+                    {
+                        col = plant.col;
+                        jumpOverplace = plant.jumpOverPlace.position;
+                    }
+                }
+                foreach (Plant plant in effectBowlingTargets)
+                {
+                    if (plant && CanEffect(plant))
+                    {
+                        col = plant.col;
+                        jumpOverplace = plant.jumpOverPlace.position;
+                    } 
+                } 
 
                 target = new Vector3(jumpOverplace.x, transform.position.y, transform.position.z);
                 // 创建真实位置

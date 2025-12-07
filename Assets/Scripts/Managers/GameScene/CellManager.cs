@@ -14,10 +14,6 @@ public class CellManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-    }
-
-    private void Start()
-    {
         maxRow = 0; maxCol = 0;
         cellList = new List<Cell>();
         stripeList = new List<GameObject>();
@@ -31,7 +27,7 @@ public class CellManager : MonoBehaviour
         if (parentStripe != null) foreach (Transform child in parentStripe) stripeList.Add(child.gameObject);
         foreach (Cell cell in cellList)
         {
-            maxRow = Mathf.Max(maxCol, cell.col);
+            maxRow = Mathf.Max(maxRow, cell.row);
             maxCol = Mathf.Max(maxCol, cell.col);
         }
         setRestrictedArea(restrictedArea);
@@ -58,5 +54,14 @@ public class CellManager : MonoBehaviour
                 else cell.gameObject.SetActive(false);
             }
         }
+    }
+
+    public Cell getCell(int row, int col)
+    {
+        foreach (Cell cell in cellList)
+        {
+            if (cell.row == row && cell.col == col) return cell;
+        }
+        return null;
     }
 }
