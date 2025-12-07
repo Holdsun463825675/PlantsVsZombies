@@ -18,9 +18,21 @@ public enum BulletHitSound
     None, Kernelpult, Butter, Melon, FirePea, Bowling,
 }
 
+public enum BulletType
+{
+    None, Shoot, Cast
+}
+
+public enum BulletDirection
+{
+    None, Left, Right
+}
+
 public class Bullet : Product
 {
     public BulletID id;
+    public BulletType bulletType;
+    public BulletDirection bulletDirection;
     protected BulletID igniteID; // 点燃后的子弹
     protected int attackPoint;
     public List<int> targetRows; // 可攻击的行，0为任意，大于0为行数
@@ -49,6 +61,8 @@ public class Bullet : Product
     protected override void Awake()
     {
         base.Awake();
+        bulletType = BulletType.None;
+        bulletDirection = BulletDirection.None;
         attackPoint = 20;
         targetRows = new List<int>();
         speed = 5.0f;
@@ -130,6 +144,16 @@ public class Bullet : Product
             default:
                 break;
         }
+    }
+
+    public void setBulletType(BulletType type)
+    {
+        bulletType = type;
+    }
+
+    public void setBulletDirection(BulletDirection direction)
+    {
+        bulletDirection = direction;
     }
 
     protected virtual void AttackZombie()
@@ -216,7 +240,7 @@ public class Bullet : Product
         if (!bulletPrefab) return null;
         AudioManager.Instance.playClip(ResourceConfig.sound_fire_firepea); // 点燃音效
         Bullet newBullet = GameObject.Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-        newBullet.setTargetRows(targetRows);
+        newBullet.setBulletType(bulletType); newBullet.setBulletDirection(bulletDirection); newBullet.setTargetRows(targetRows);
         newBullet.setState(BulletState.ToBeUsed);
         newBullet.moveToPlace(target_position);
         setState(BulletState.Used);

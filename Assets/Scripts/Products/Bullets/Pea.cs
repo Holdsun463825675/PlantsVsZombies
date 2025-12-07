@@ -10,6 +10,8 @@ public class Pea : Bullet
     {
         base.Awake();
         id = BulletID.Pea;
+        bulletType = BulletType.Shoot;
+        bulletDirection = BulletDirection.Right;
         igniteID = BulletID.FirePea;
     }
 }

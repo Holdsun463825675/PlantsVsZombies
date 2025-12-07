@@ -37,7 +37,7 @@ public class LevelConfigs
                 new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.BucketZombie, ZombieID.PoleVaultingZombie},spawnWeight = 20,largeWave = false},
                 new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.BucketZombie, ZombieID.PoleVaultingZombie},spawnWeight = 20,largeWave = false},
                 },
-            spawnTimer = -99999,
+            spawnTimer = 30,
             cardCoolingDown = false,
         });
         // 1-1

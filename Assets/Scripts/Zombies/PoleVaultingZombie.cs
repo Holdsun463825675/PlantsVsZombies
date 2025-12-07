@@ -16,7 +16,7 @@ public class PoleVaultingZombie : Zombie
     private Transform realPosition; // 跳跃时真实位置
     private float jumpTime = 2.2f;
     private float jumpPositionXOffset = 2.6f; // 跳跃时x位置的偏移
-    private Vector3 target;
+    private Vector3 target; // 跳跃目标位置
 
     protected override void Awake()
     {
@@ -59,12 +59,14 @@ public class PoleVaultingZombie : Zombie
 
                 int nextCol = col;
                 Vector3 jumpOverplace = transform.position;
+                float minY = transform.position.y;
                 foreach (Plant plant in effectTargets)
                 {
                     if (plant && CanEffect(plant))
                     {
                         col = plant.col;
                         jumpOverplace = plant.jumpOverPlace.position;
+                        minY = Mathf.Min(minY, plant.jumpOverPlace.position.y);
                     }
                 }
                 foreach (Plant plant in effectBowlingTargets)
@@ -73,10 +75,11 @@ public class PoleVaultingZombie : Zombie
                     {
                         col = plant.col;
                         jumpOverplace = plant.jumpOverPlace.position;
+                        minY = Mathf.Min(minY, plant.jumpOverPlace.position.y);
                     } 
-                } 
+                }
 
-                target = new Vector3(jumpOverplace.x, transform.position.y, transform.position.z);
+                target = new Vector3(jumpOverplace.x, minY, transform.position.z);
                 // 创建真实位置
                 GameObject newObject = new GameObject($"{zombieID}_realPosition");
                 realPosition = newObject.transform;
@@ -153,7 +156,7 @@ public class PoleVaultingZombie : Zombie
         else
         {
             transform.DOKill();
-            transform.DOMove(new Vector3(target.x + jumpPositionXOffset, transform.position.y, transform.position.z), jumpTime / 2)
+            transform.DOMove(new Vector3(target.x + jumpPositionXOffset, target.y, target.z), jumpTime / 2)
                 .SetEase(Ease.Linear); // 僵尸位置贴合动画移动
         }
     }
