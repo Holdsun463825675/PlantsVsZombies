@@ -86,11 +86,13 @@ public class Shovel : MonoBehaviour, IClickable
 
     private void shovelPlant()
     {
-        if (target)
+        if (target && target.cell.canShovel(target))
         {
             AudioManager.Instance.playClip(ResourceConfig.sound_placeplant_plant2);
+            Cell cell = target.cell;
             target.setState(PlantState.Die);
             target = null;
+            cell.adjustPlantPlace();
         }
     }
 

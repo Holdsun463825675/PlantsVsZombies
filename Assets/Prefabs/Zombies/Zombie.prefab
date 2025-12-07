@@ -182,7 +182,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.3702399, y: 0.6371691}
+  m_Offset: {x: -0.3702399, y: 0.90577316}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -193,7 +193,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6383368, y: 1.163908}
+  m_Size: {x: 0.6383368, y: 1.9490576}
   m_EdgeRadius: 0
 --- !u!50 &373694781496951386
 Rigidbody2D:
@@ -910,7 +910,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.13872522, y: 0.6371691}
+  m_Offset: {x: -0.13872522, y: 0.9020159}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.68, y: 0.18}
@@ -921,7 +921,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.44636023, y: 1.1639085}
+  m_Size: {x: 0.44636023, y: 1.9490571}
   m_EdgeRadius: 0
 --- !u!50 &8675972934703587791
 Rigidbody2D:
@@ -967,6 +967,7 @@ MonoBehaviour:
   spawnWeight: 0
   zombieHeadPrefab: {fileID: 1143894914790227004, guid: 7cb14b8ed54ed8a43a393cba0fb33cc6, type: 3}
   row: 0
+  col: 0
   isPlantKill: 0
   isBulletHit: 0
   underAttackSound: 0

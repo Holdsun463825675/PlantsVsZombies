@@ -19,7 +19,7 @@ public class Torchwood : Plant
         if (collision.tag == TagConfig.bullet)
         {
             Bullet bullet = collision.GetComponent<Bullet>();
-            if (bullet && !ignitedBullets.Contains(bullet))
+            if (bullet && CanIgnite(bullet) && !ignitedBullets.Contains(bullet))
             {
                 ignitedBullets.Add(bullet);
                 Bullet newBullet = bullet.Ignite();
@@ -38,5 +38,10 @@ public class Torchwood : Plant
                 ignitedBullets.Remove(bullet);
             }
         }
+    }
+
+    private bool CanIgnite(Bullet bullet)
+    {
+        return bullet.targetRows.Contains(0) || bullet.targetRows.Contains(row);
     }
 }

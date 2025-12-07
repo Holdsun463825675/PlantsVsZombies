@@ -460,7 +460,7 @@ public class Zombie : MonoBehaviour, IClickable
 
     protected virtual void Attack()
     {
-        if (anim.GetBool(AnimatorConfig.zombie_game) == false || healthState == ZombieHealthState.LostHead || healthState == ZombieHealthState.Die) return;
+        if (anim.GetBool(AnimatorConfig.zombie_game) == false || !isHealthy()) return;
         Plant target = getAttackTarget();
         if (target) target.UnderAttack(attackPoint);
     }

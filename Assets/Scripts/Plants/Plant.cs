@@ -15,9 +15,11 @@ public enum PlantID
     SnowPea = 6,
     Chomper = 7,
     Repeater = 8,
+    LilyPad = 17,
     Torchwood = 23,
     TallNut = 24,
     Pumpkin = 31,
+    FlowerPot = 34,
     GatlingPea = 41,
     TwinSunflower = 42,
     BowlingWallNut = 49,
@@ -56,7 +58,7 @@ public class Plant : MonoBehaviour, IClickable
     protected TextMeshPro HPText;
     private Transform shadow;
 
-    protected Cell cell;
+    public Cell cell;
 
     protected SpriteRenderer spriteRenderer;
     public Animator anim;

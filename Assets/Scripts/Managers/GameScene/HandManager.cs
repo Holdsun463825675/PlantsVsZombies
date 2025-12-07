@@ -65,9 +65,27 @@ public class HandManager : MonoBehaviour
         if (!cell.PlantPlant(currPlant)) return;
         currPlant.setCell(cell);
         currPlant.setState(PlantState.Idle);
-        GameObject.Instantiate(plantEffectPrefab, currPlant.transform.position, Quaternion.identity); // 种植特效
+        
+        string soundPath = "";
+        switch (cell.cellType)
+        {
+            case CellType.Grass:
+                soundPath = ResourceConfig.sound_placeplant_plant;
+                GameObject.Instantiate(plantEffectPrefab, currPlant.transform.position, Quaternion.identity); // 种植特效
+                break;
+            case CellType.Pool:
+                soundPath = ResourceConfig.sound_placeplant_plantWater;
+                break;
+            case CellType.Roof:
+                soundPath = ResourceConfig.sound_placeplant_plant;
+                GameObject.Instantiate(plantEffectPrefab, currPlant.transform.position, Quaternion.identity); // 种植特效
+                break;
+            default:
+                break;
+        }
+        AudioManager.Instance.playClip(soundPath);
         currPlant = null;
-        AudioManager.Instance.playClip(ResourceConfig.sound_placeplant_plant);
+
         if (currCard)
         {
             if (GameManager.Instance.currLevelConfig.cardType == TypeOfCard.Conveyor) // 传送带关种植后销毁卡片

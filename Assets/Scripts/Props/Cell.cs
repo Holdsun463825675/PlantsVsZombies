@@ -94,33 +94,50 @@ public class Cell : MonoBehaviour, IClickable
 
     private Vector3 plantPlace(Plant plant)
     {
-        float target_y = transform.position.y;
+        float baseY = 0.0f, offset = 0.0f, carrier_offset = 0.0f;
+        // 有载体时抬高
+        if (plants.ContainsKey(PlantType.Carrier) && plants[PlantType.Carrier].Count > 0)
+        {
+            switch (cellType)
+            {
+                case CellType.Grass:
+                    carrier_offset = 0.3f;
+                    break;
+                case CellType.Pool:
+                    carrier_offset = 0.15f;
+                    break;
+                case CellType.Roof:
+                    baseY = 0.2f; carrier_offset = 0.3f;
+                    break;
+                default:
+                    break;
+            }
+        }
         switch (plant.type)
         {
-            case PlantType.None:
-                target_y += 0.3f;
+            case PlantType.Normal:
+                offset = 0.2f;
                 break;
             case PlantType.Carrier:
-                target_y += 0.1f;
+                offset = 0.0f;
                 break;
             case PlantType.Surrounding:
-                target_y += 0.2f;
-                break;
-            case PlantType.Normal:
-                target_y += 0.3f;
+                offset = 0.0f;
                 break;
             case PlantType.Flight:
-                target_y += 0.8f;
+                offset = 0.3f;
                 break;
             default:
                 break;
         }
-        return new Vector3(transform.position.x, target_y, transform.position.z);
+        Vector3 newPlace = new Vector3(transform.position.x, transform.position.y + baseY + offset, transform.position.z);
+        if (plant.type != PlantType.Carrier) newPlace.y += carrier_offset;
+        return newPlace;
     }
 
     private int getPlantSortingOrder(Plant plant)
     {
-        int res = (row + 1) * rowMaxSortingOrder - (col + 1) * colMaxSortingOrder;
+        int res = row * rowMaxSortingOrder - col * colMaxSortingOrder;
         switch (plant.type)
         {
             case PlantType.None:
@@ -179,7 +196,28 @@ public class Cell : MonoBehaviour, IClickable
 
         addPlant(plant);
         plant.setSortingOrder(getPlantSortingOrder(plant));
-        plant.transform.position = plantPlace(plant);
+        adjustPlantPlace();
+        return true;
+    }
+
+    public void adjustPlantPlace()
+    {
+        foreach (KeyValuePair<PlantType, List<Plant>> pair in plants)
+        {
+            PlantType plantType = pair.Key;
+            foreach (Plant plant in pair.Value) if (plant) plant.transform.position = plantPlace(plant);
+        }
+    }
+
+    public bool canShovel(Plant plant) // 是否可以铲植物
+    {
+        if (plant.type != PlantType.Carrier) return true;
+        foreach (KeyValuePair<PlantType, List<Plant>> pair in plants)
+        {
+            PlantType plantType = pair.Key;
+            if (plantType == PlantType.Carrier) continue;
+            foreach (Plant pl in pair.Value) if (!pl.cellTypes.Contains(cellType)) return false;
+        }
         return true;
     }
 }

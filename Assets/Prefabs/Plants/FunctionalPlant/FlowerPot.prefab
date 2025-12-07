@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &9067646198265636838
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2471237257151784739, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2471237257151784739, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.y
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3211362565714934121, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0d90cacd3fae2cc4aa3d92b9cbdb463a, type: 3}
+    - target: {fileID: 4749402821575749281, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_Name
+      value: FlowerPot
+      objectReference: {fileID: 0}
+    - target: {fileID: 5275848274595824352, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: ba424cde0e9d1a643889d44dc4a27a9b, type: 2}
+    - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 779738872464982599, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4749402821575749281, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8358228217534735863}
+  m_SourcePrefab: {fileID: 100100000, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+--- !u!1 &4341334385044867399 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4749402821575749281, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+  m_PrefabInstance: {fileID: 9067646198265636838}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8358228217534735863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4341334385044867399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ae7655d45562b4db0bdabfa0c68f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 34
+  type: 2
+  prePlantID: 0
+  cellTypes: 01000000
+  row: 0
+  col: 0
+  isZombieJumpOver: 0
+  jumpOverPlace: {fileID: 0}
+  anim: {fileID: 0}

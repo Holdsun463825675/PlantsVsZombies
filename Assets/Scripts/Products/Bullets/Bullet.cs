@@ -5,27 +5,17 @@ using UnityEngine;
 
 public enum BulletState
 {
-    None,
-    ToBeUsed,
-    Used
+    None, ToBeUsed, Used
 }
 
 public enum BulletID
 {
-    None,
-    Pea,
-    SnowyPea,
-    FirePea,
+    None, Pea, SnowyPea, FirePea,
 }
 
 public enum BulletHitSound
 {
-    None,
-    Kernelpult,
-    Butter,
-    Melon,
-    FirePea,
-    Bowling,
+    None, Kernelpult, Butter, Melon, FirePea, Bowling,
 }
 
 public class Bullet : Product
@@ -33,7 +23,7 @@ public class Bullet : Product
     public BulletID id;
     protected BulletID igniteID; // 点燃后的子弹
     protected int attackPoint;
-    protected List<int> targetRows; // 可攻击的行，0为任意，大于0为行数
+    public List<int> targetRows; // 可攻击的行，0为任意，大于0为行数
     protected List<int> sputterRows; // 可溅射的行
     public float speed;
     public Vector3 target_position; // 目标位置
