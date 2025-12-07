@@ -4,10 +4,16 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
+public enum CellType
+{
+    None = 0, Grass = 1, Pool = 2, Roof = 3,
+}
+
 public class Cell : MonoBehaviour, IClickable
 {
     private int rowMaxSortingOrder = 5000, colMaxSortingOrder = 500;
     public int row, col;
+    public CellType cellType = CellType.None;
     public Dictionary<PlantType, List<Plant>> plants = new Dictionary<PlantType, List<Plant>>();
     private Plant virtualPlant;
 
@@ -68,12 +74,17 @@ public class Cell : MonoBehaviour, IClickable
     // 判断是否可种植植物
     public bool PlantAvailable(Plant plant)
     {
+        if (cellType == CellType.None) return false;
         if (plant.type == PlantType.None) return true;
-        if (plant.prePlantID == PlantID.None) // 不需要前置植物
+        if (plant.prePlantID == PlantID.None) // 不需要前置植物，需判断格子类型
         {
             if (plants.ContainsKey(plant.type) && plants[plant.type].Count > 0) return false;
+            if (!plant.cellTypes.Contains(cellType))
+            {
+                if (!plants.ContainsKey(PlantType.Carrier) || plants[PlantType.Carrier].Count == 0) return false;
+            }
         }
-        else // 需要前置植物
+        else // 需要前置植物，只需判断前置植物
         {
             Plant prePlant = getPlant(plant.prePlantID);
             if (prePlant == null) return false;

@@ -22,9 +22,9 @@ public class LevelConfigs
             nextLevelID = new List<int> { 1 },
             awardPlantID = PlantID.None,
             awardPropID = PropID.Note,
-            mapID = 3,
+            mapID = 7,
             time = TimeOfDay.Day,
-            music = ResourceConfig.music_day,
+            music = ResourceConfig.music_roof,
             dropSun = false,
             startingSun = 8000,
             cardType = TypeOfCard.Fixation,
@@ -38,7 +38,6 @@ public class LevelConfigs
                 new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.BucketZombie, ZombieID.PoleVaultingZombie},spawnWeight = 20,largeWave = false},
                 },
             spawnTimer = 30.0f,
-            cleaner = false,
             cardCoolingDown = false,
         });
         // 1-1

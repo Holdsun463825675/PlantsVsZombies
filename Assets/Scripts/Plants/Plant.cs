@@ -44,6 +44,7 @@ public class Plant : MonoBehaviour, IClickable
     public PlantID id = PlantID.None;
     public PlantType type = PlantType.Normal;
     public PlantID prePlantID = PlantID.None; // 种植的前置植物
+    public List<CellType> cellTypes = new List<CellType> { CellType.Grass }; // 可种植的格子类型
 
     public int row, col;
 
@@ -67,6 +68,7 @@ public class Plant : MonoBehaviour, IClickable
 
     protected virtual void Awake()
     {
+        cellTypes = new List<CellType> { CellType.Grass };
         row = 0; col = 0;
         spriteRenderer = GetComponent<SpriteRenderer>();
         c2d = GetComponent<Collider2D>();
