@@ -1225,6 +1225,7 @@ MonoBehaviour:
   dialogPrefabs:
   - {fileID: 636808781410165295, guid: 03dd4a58e1cf7754f971f9dac908effd, type: 3}
   - {fileID: 6236037906778253252, guid: b1565293e2773684cb1fb95552b9678c, type: 3}
+  - {fileID: 636808781410165295, guid: 0cad670592f03594fb618e86bc9e337e, type: 3}
 --- !u!1 &622160001
 GameObject:
   m_ObjectHideFlags: 0

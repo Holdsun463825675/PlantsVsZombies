@@ -6,6 +6,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
+using System.Text;
 
 public class MenuSceneUIManager : MonoBehaviour
 {
@@ -235,12 +237,61 @@ public class MenuSceneUIManager : MonoBehaviour
         Debug.Log($"用户选择: {selectedUserName} (ID: {selectedUserID})");
     }
 
+    private bool checkUserName(string text)
+    {
+        int length = 0;
+        if (string.IsNullOrEmpty(text)) length = 0;
+        else
+        {
+            // GB2312编码，中文占2字节，英文数字占1字节
+            Encoding gb2312 = Encoding.GetEncoding("GB2312");
+            length = gb2312.GetByteCount(text);
+        }
+        if (length == 0)
+        {
+            DialogManager.Instance.createDialog(DialogType.Message, DialogConfig.menu_new_user_failure_blank);
+            return false;
+        }
+        else if (length > 16)
+        {
+            DialogManager.Instance.createDialog(DialogType.Message, DialogConfig.menu_new_user_failure_overflow);
+            return false;
+        }
+        return true;
+    }
+
     public void onNewClick()
     {
-        JSONSaveSystem.Instance.CreateNewUser(true);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        DialogManager.Instance.createDialog(DialogType.Message, DialogConfig.menu_new_user_success);
+        DialogManager.Instance.createDialog(DialogType.Input, DialogConfig.menu_new_user);
+        Action action = () => { newUser(DialogManager.Instance.currDialog.getInputText()); };
+        DialogManager.Instance.currDialog.addConfirmAction(action);
     }
+
+    private void newUser(string name)
+    {
+        bool flag = checkUserName(name);
+        if (!flag) return;
+        JSONSaveSystem.Instance.CreateNewUser(name, true);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void onRenameClick()
+    {
+        DialogManager.Instance.createDialog(DialogType.Input, DialogConfig.menu_new_user);
+        Action action = () => { renameUser(DialogManager.Instance.currDialog.getInputText()); };
+        DialogManager.Instance.currDialog.addConfirmAction(action);
+    }
+
+    private void renameUser(string name)
+    {
+        bool flag = checkUserName(name);
+        if (!flag) return;
+        flag = JSONSaveSystem.Instance.RenameUser(selectedUserID, name);
+        DialogManager.Instance.createDialog(DialogType.Message, flag ? DialogConfig.menu_rename_user_success : DialogConfig.menu_rename_user_failure);
+        if (flag) if (selectedUserID == currUserID) Users.transform.Find("UserLabel/Text").GetComponent<TextMeshProUGUI>().text = name;
+        LoadUsersToMenu();
+    }
+
 
     public void onDeleteClick()
     {
@@ -254,7 +305,8 @@ public class MenuSceneUIManager : MonoBehaviour
 
     private void deleteUser()
     {
-        JSONSaveSystem.Instance.DeleteUser(selectedUserID);
+        bool flag = JSONSaveSystem.Instance.DeleteUser(selectedUserID);
+        DialogManager.Instance.createDialog(DialogType.Message, flag ? DialogConfig.menu_delete_user_success : DialogConfig.menu_delete_user_failure);
         selectedUserID = JSONSaveSystem.Instance.metadata.currentUserID;
         LoadUsersToMenu();
     }

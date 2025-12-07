@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class DialogManager : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class DialogManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    public void createDialog(DialogType type, string text, System.Action action=null)
+    public void createDialog(DialogType type, string text, Action action=null)
     {
         currDialog = null;
         Dialog prefab = null;
@@ -31,6 +32,9 @@ public class DialogManager : MonoBehaviour
                 break;
             case DialogType.Message:
                 prefab = PrefabSystem.Instance.dialogPrefabs[1];
+                break;
+            case DialogType.Input:
+                prefab = PrefabSystem.Instance.dialogPrefabs[2];
                 break;
             default:
                 break;

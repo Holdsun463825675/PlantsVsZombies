@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public enum DialogType
 {
-    None = 0, Confirmation = 1, Message = 2, 
+    None = 0, Confirmation = 1, Message = 2, Input = 3,
 }
 
 public class Dialog : MonoBehaviour
 {
     public TextMeshProUGUI text;
     public Button confirm;
+    public TMP_InputField inputField;
 
     public void setText(string text)
     {
@@ -26,8 +28,14 @@ public class Dialog : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void addConfirmAction(System.Action action)
+    public void addConfirmAction(Action action)
     {
         confirm.onClick.AddListener(() => action?.Invoke());
+        confirm.onClick.AddListener(() => { onButtonClick(); });
+    }
+
+    public string getInputText()
+    {
+        return inputField.text;
     }
 }

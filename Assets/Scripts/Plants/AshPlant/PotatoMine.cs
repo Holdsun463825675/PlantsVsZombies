@@ -41,7 +41,13 @@ public class PotatoMine : AshPlant
             case PotatoMineState.Recovery:
                 break;
             case PotatoMineState.Ready:
-                if (explodeTargets.Count > 0) Explode();
+                foreach (Zombie zombie in explodeTargets)
+                {
+                    if (zombie && zombie.isHealthy() && zombie.isBulletHit) // 有健康目标且能被子弹锁定则爆炸
+                    {
+                        Explode(); return;
+                    }
+                }
                 break;
             default:
                 break;

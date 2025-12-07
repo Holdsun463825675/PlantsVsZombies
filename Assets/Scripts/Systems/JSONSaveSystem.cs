@@ -79,7 +79,7 @@ public class JSONSaveSystem : MonoBehaviour
     {
         if (string.IsNullOrEmpty(metadata.currentUserID))
         {
-            CreateNewUser(true);
+            CreateNewUser("Player", true);
             return;
         }
 
@@ -112,13 +112,13 @@ public class JSONSaveSystem : MonoBehaviour
         Debug.Log($"游戏数据已保存: {userData.name}");
     }
 
-    public void CreateNewUser(bool selected=false)
+    public void CreateNewUser(string name, bool selected=false)
     {
         UserData prev_userData = userData;
         string newUserID = Guid.NewGuid().ToString();
         UserData newUserData = new UserData { 
             userID = newUserID,
-            name = $"Player_{newUserID.Substring(0, 8)}",
+            name = name,
             unlockedPlants = { PlantID.PeaShooter },
             levelDatas = { new LevelData {
                 levelID = 1, 
@@ -160,7 +160,7 @@ public class JSONSaveSystem : MonoBehaviour
             {
                 string jsonData = PlayerPrefs.GetString(saveKey);
                 UserData userData = JsonUtility.FromJson<UserData>(jsonData);
-                return userData?.name ?? $"Player_{userID.Substring(0, 8)}";
+                return userData?.name ?? $"Player";
             }
             catch (System.Exception e)
             {
@@ -169,13 +169,13 @@ public class JSONSaveSystem : MonoBehaviour
         }
 
         // 默认用户名
-        return $"Player_{userID.Substring(0, 8)}";
+        return $"Player";
     }
 
-    public void DeleteUser(string userID)
+    public bool DeleteUser(string userID)
     {
         // 检查要删除的用户是否存在
-        if (!metadata.userIDs.Contains(userID)) return;
+        if (!metadata.userIDs.Contains(userID)) return false;
 
         // 如果要删除的是当前用户，需要处理当前用户的切换
         if (metadata.currentUserID == userID)
@@ -196,7 +196,7 @@ public class JSONSaveSystem : MonoBehaviour
                 // 如果没有其他用户，清空当前用户数据并创建新用户
                 metadata.currentUserID = null;
                 userData = null;
-                CreateNewUser(true);
+                CreateNewUser("Player", true);
                 Debug.Log("所有用户已删除，创建了新用户");
             }
         }
@@ -217,15 +217,34 @@ public class JSONSaveSystem : MonoBehaviour
 
         // 保存更新后的元数据
         SaveMetadata();
-
         Debug.Log($"用户删除完成: {userID}");
+        return true;
     }
 
-    public void Rename(string name)
+    public bool RenameUser(string userID, string name)
     {
-        if (string.IsNullOrEmpty(name)) return;
+        if (string.IsNullOrEmpty(name)) return false;
+        if (!metadata.userIDs.Contains(userID)) return false;
+
+        if (userID == userData.userID) // 是当前用户则直接修改
+        {
+            userData.name = name;
+            metadata.userNames[userID] = name;
+            SaveMetadata();
+            SaveGameData();
+            return true;
+        }
+
+        UserData prev_userData = userData;
+        LoadUserData(userID);
         userData.name = name;
+        metadata.userNames[userID] = name;
+        SaveMetadata();
         SaveGameData();
+        userData = prev_userData;
+        SaveGameData();
+
+        return true;
     }
 
     public void unlockPlant(PlantID ID)
