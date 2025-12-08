@@ -9,6 +9,11 @@ public enum CellType
     None = 0, Grass = 1, Pool = 2, Roof = 3,
 }
 
+public enum CellProp
+{
+    None = 0, IceTunnel = 1, Crater = 2, Tombstone = 3,
+}
+
 public class Cell : MonoBehaviour, IClickable
 {
     private int rowMaxSortingOrder = 5000, colMaxSortingOrder = 500;
@@ -17,6 +22,21 @@ public class Cell : MonoBehaviour, IClickable
     public Dictionary<PlantType, List<Plant>> plants = new Dictionary<PlantType, List<Plant>>();
     private Plant virtualPlant;
 
+    public bool iceTunnel, crater, tombstone; // 是否有冰道、弹坑、坟墓
+    public float craterTime, craterTimer;
+
+    public GameObject IceTunnel;
+    public List<GameObject> Craters;
+    public List<GameObject> Tombstones;
+    public List<GameObject> TombstoneMounds;
+
+    private void Awake()
+    {
+        craterTime = 120.0f;
+        setCellProp(CellProp.IceTunnel, false);
+        setCellProp(CellProp.Crater, false);
+        setCellProp(CellProp.Tombstone, false);
+    }
 
     void Start()
     {
@@ -28,6 +48,21 @@ public class Cell : MonoBehaviour, IClickable
     private void Update()
     {
         if (!HandManager.Instance.currPlant) unsetVirtualPlant();
+
+        if (crater && GameManager.Instance.state == GameState.Processing) // 弹坑计时
+        {
+            craterTimer += Time.deltaTime;
+            if (craterTimer >= craterTime) setCellProp(CellProp.Crater, false);
+            else
+            {
+                int idx = (int)(craterTimer / craterTime * Craters.Count);
+                for (int i = 0; i < Craters.Count; i++)
+                {
+                    if (i == idx) Craters[i].SetActive(true);
+                    else Craters[i].SetActive(false);
+                }
+            }
+        }
     }
 
     private void OnMouseEnter()
@@ -38,6 +73,65 @@ public class Cell : MonoBehaviour, IClickable
     private void OnMouseExit()
     {
         unsetVirtualPlant();
+    }
+
+    public void setCellProp(CellProp prop, bool flag)
+    {
+        switch (prop)
+        {
+            case CellProp.IceTunnel:
+                if (flag == true)
+                {
+                    iceTunnel = true;
+                    IceTunnel.SetActive(true);
+                }
+                else
+                {
+                    iceTunnel= false;
+                    IceTunnel.SetActive(false);
+                }
+                break;
+            case CellProp.Crater:
+                if (flag == true)
+                {
+                    crater = true;
+                    craterTimer = 0.0f;
+                    Craters[0].SetActive(true);
+                }
+                else
+                {
+                    crater = false;
+                    craterTimer= 0.0f;
+                    foreach (GameObject go in Craters) go.SetActive(false);
+                }
+                break;
+            case CellProp.Tombstone:
+                if (flag == true)
+                {
+                    tombstone = true;
+                    int idx = Random.Range(0, Tombstones.Count);
+                    for (int i = 0; i < Tombstones.Count; i++)
+                    {
+                        if (i == idx)
+                        {
+                            Tombstones[i].SetActive(true); TombstoneMounds[i].SetActive(true);
+                        }
+                        else
+                        {
+                            Tombstones[i].SetActive(false); TombstoneMounds[i].SetActive(false);
+                        }
+                    }
+                }
+                else
+                {
+                    tombstone = false;
+                    foreach (GameObject go in Tombstones) go.SetActive(false);
+                    foreach (GameObject go in TombstoneMounds) go.SetActive(false);
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     public void OnClick()
@@ -75,6 +169,7 @@ public class Cell : MonoBehaviour, IClickable
     public bool PlantAvailable(Plant plant)
     {
         if (cellType == CellType.None) return false;
+        if (iceTunnel || crater || tombstone) return false;
         if (plant.type == PlantType.None) return true;
         if (plant.prePlantID == PlantID.None) // 不需要前置植物，需判断格子类型
         {

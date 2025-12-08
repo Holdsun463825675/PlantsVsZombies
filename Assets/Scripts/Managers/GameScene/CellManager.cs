@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -63,5 +64,66 @@ public class CellManager : MonoBehaviour
             if (cell.row == row && cell.col == col) return cell;
         }
         return null;
+    }
+
+    public void setState(GameState state)
+    {
+        switch (state)
+        {
+            case GameState.NotStarted:
+                break;
+            case GameState.Previewing:
+                break;
+            case GameState.SelectingCard:
+                break;
+            case GameState.Ready:
+                // 生成坟墓
+                int tombstoneNum = GameManager.Instance.currLevelConfig.tombstoneNum, tombstoneArea = GameManager.Instance.currLevelConfig.tombstoneArea;
+                if (tombstoneNum == 0) return;
+                int col = (tombstoneArea + maxCol) % maxCol;
+                if (tombstoneArea < 0) col += 1;
+                int min_col = tombstoneArea > 0 ? 1 : col, max_col = tombstoneArea > 0 ? col : maxCol;
+                int maxTombstoneNum = (max_col - min_col + 1) * maxRow;
+                if (col > 0)
+                {
+                    setTombstone(Random.Range(1, maxRow + 1), col); // 那一行至少生成一个
+                    tombstoneNum--; maxTombstoneNum--;
+                }
+                else
+                {
+                    min_col = 1; max_col = maxCol;
+                    maxTombstoneNum = maxRow * maxCol;
+                }
+                while (tombstoneNum > 0 && maxTombstoneNum > 0)
+                {
+                    bool flag = setTombstone(Random.Range(1, maxRow + 1), Random.Range(min_col, max_col + 1));
+                    if (flag)
+                    {
+                        tombstoneNum--; maxTombstoneNum--;
+                    } 
+                }
+                break;
+            case GameState.Processing:
+                break;
+            case GameState.Paused:
+                break;
+            case GameState.Losing:
+                break;
+            case GameState.Winning:
+                break;
+            default:
+                break;
+        }
+    }
+
+    private bool setTombstone(int row, int col)
+    {
+        Cell cell = getCell(row, col);
+        if (cell && !cell.tombstone)
+        {
+            cell.setCellProp(CellProp.Tombstone, true);
+            return true;
+        }
+        return false;
     }
 }

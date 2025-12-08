@@ -53,6 +53,7 @@ public class CameraManager : MonoBehaviour
                 readyMove();
                 break;
             case GameState.Processing:
+                CellManager.Instance.setState(GameState.Ready);
                 if (GameManager.Instance.currLevelConfig.cleaner) CleanerManager.Instance.setState(GameState.Ready);
                 else UIManager.Instance.playReadytoPlay();
                 break;

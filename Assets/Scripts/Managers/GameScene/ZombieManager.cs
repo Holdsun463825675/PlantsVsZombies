@@ -47,6 +47,7 @@ public class ZombieManager : MonoBehaviour
     private float currWaveSurplusWeight = 0.0f;
     private List<ZombieID> zombieID; // 出现的僵尸
     private List<ZombieWave> zombieWaves; // 每波僵尸
+    private List<ZombieID> specialZombies; // 特殊僵尸
 
     private void Awake()
     {
@@ -95,13 +96,15 @@ public class ZombieManager : MonoBehaviour
 
     public void setConfig(
         List<ZombieID> zombieID, 
-        List<ZombieWave> zombieWaves, 
+        List<ZombieWave> zombieWaves,
+        List<ZombieID> specialZombies,
         float spawnMaxTime = 30.0f,
         float spawnTimer = 15.0f,
         float healthPercentageThreshold = 0.6f)
     {
         this.zombieID = zombieID;
         this.zombieWaves = zombieWaves;
+        this.specialZombies = specialZombies;
         this.spawnMaxTime = spawnMaxTime;
         this.spawnTimer = spawnTimer;
         this.healthPercentageThreshold = healthPercentageThreshold;
@@ -302,9 +305,13 @@ public class ZombieManager : MonoBehaviour
         return minIndices[Random.Range(0, minIndices.Count)];
     }
 
-    private void spawnZombie()
+    private void spawnZombies()
     {
-        if (currWaveNumber + 1 == zombieWaves.Count) UIManager.Instance.playFinalWave(); // 最后一波
+        if (currWaveNumber + 1 == zombieWaves.Count) // 最后一波
+        {
+            UIManager.Instance.playFinalWave();
+            spawnSpecialZombies();
+        } 
         zombieNum = new int[zombieSpawnPlaceList.Count].ToList();
         lastWaveZombieHealth = 0;
         lastWaveZombieList.Clear();
@@ -350,13 +357,52 @@ public class ZombieManager : MonoBehaviour
         Zombie zombie = GameObject.Instantiate(zombiePrefab, zombieSpawnPlaceList[row].position, Quaternion.identity);
         if (zombie)
         {
+            row++;
             addZombie(zombie);
             currWaveSurplusWeight -= zombie.spawnWeight;
             lastWaveZombieHealth += zombie.getMaxHealth();
             lastWaveZombieList.Add(zombie);
-            int count = zombie.setSortingOrder(orderInLayers[row]);
-            orderInLayers[row] += count;
-            zombie.setGameMode(row + 1, CellManager.Instance.maxCol + 1); // 设置游戏模式
+            int count = zombie.setSortingOrder(orderInLayers[row - 1]);
+            orderInLayers[row - 1] += count;
+            zombie.setGameMode(row, CellManager.Instance.maxCol + 1); // 设置游戏模式
+        }
+    }
+
+    private void spawnSpecialZombie(int row, int col) // 在特殊位置生成僵尸，不占出怪权重
+    {
+        if (specialZombies.Count == 0) return;
+        //if (spawnProtection[row - 1] > 0) return; // 有出怪保护则不会出怪
+        Zombie zombiePrefab = null;
+        while (true)
+        {
+            // 随机僵尸
+            ZombieID ID = specialZombies[Random.Range(0, specialZombies.Count)];
+            foreach (var go in PrefabSystem.Instance.zombiePrefabs)
+            {
+                if (go.GetComponent<Zombie>().zombieID == ID) zombiePrefab = go.GetComponent<Zombie>();
+            }
+            if (zombieID.Contains(ID) && zombiePrefab) break;
+        }
+        Cell cell = CellManager.Instance.getCell(row, col);
+        if (cell == null) return;
+        Zombie zombie = GameObject.Instantiate(zombiePrefab, cell.transform.position, Quaternion.identity);
+        if (zombie)
+        {
+            addZombie(zombie);
+            lastWaveZombieHealth += zombie.getMaxHealth();
+            lastWaveZombieList.Add(zombie);
+            int count = zombie.setSortingOrder(orderInLayers[row - 1]);
+            orderInLayers[row - 1] += count;
+            zombie.setGameMode(row, col); // 设置游戏模式
+        }
+    }
+
+    private void spawnSpecialZombies()
+    {
+        // 坟墓生成特殊僵尸
+        foreach (Cell cell in CellManager.Instance.cellList)
+        {
+            if (cell.tombstone) spawnSpecialZombie(cell.row, cell.col);
         }
     }
 
@@ -390,7 +436,7 @@ public class ZombieManager : MonoBehaviour
             UIManager.Instance.Flags[currLargeWave++].GetComponent<Animator>().enabled = true;
             isPlayingHugeWave = false;
         }
-        spawnZombie();
+        spawnZombies();
         currWaveNumber++;
         spawnTime = spawnMaxTime;
         spawnTimer = 0.0f;

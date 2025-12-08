@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
         ZombieManager.Instance.setConfig(
             currLevelConfig.zombieID,
             currLevelConfig.zombieWaves,
+            currLevelConfig.specialZombies,
             currLevelConfig.spawnMaxTime,
             currLevelConfig.spawnTimer,
             currLevelConfig.healthPercentageThreshold);

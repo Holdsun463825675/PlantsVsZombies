@@ -7,6 +7,15 @@ public class BulletObstacle : MonoBehaviour
     public BulletType obstacleBulletType;
     public BulletDirection obstacleBulletDirection;
 
+    private ZombieUnderAttackSound underAttackSound;
+    private int underAttackSoundPriority;
+
+    private void Awake()
+    {
+        underAttackSound = ZombieUnderAttackSound.Splat;
+        underAttackSoundPriority = 1;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == TagConfig.bullet)
@@ -15,6 +24,7 @@ public class BulletObstacle : MonoBehaviour
             if (bullet && bullet.bulletType == obstacleBulletType && bullet.bulletDirection == obstacleBulletDirection)
             {
                 if (bullet.BulletHitPrefab) GameObject.Instantiate(bullet.BulletHitPrefab, bullet.transform.position, Quaternion.identity);
+                AudioManager.Instance.playHitClip(bullet.hitSound, bullet.hitSoundPriority, underAttackSound, underAttackSoundPriority);
                 bullet.setState(BulletState.Used);
             } 
         }
