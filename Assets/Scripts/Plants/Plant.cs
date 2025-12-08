@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -15,6 +16,7 @@ public enum PlantID
     SnowPea = 6,
     Chomper = 7,
     Repeater = 8,
+    GraveBuster = 12,
     LilyPad = 17,
     Torchwood = 23,
     TallNut = 24,
@@ -159,6 +161,7 @@ public class Plant : MonoBehaviour, IClickable
         switch (state)
         {
             case PlantState.Suspension:
+                transform.DOKill();
                 row = 0; col = 0;
                 if (HPText) HPText.gameObject.SetActive(false);
                 if (shadow) shadow.gameObject.SetActive(false);
@@ -182,6 +185,7 @@ public class Plant : MonoBehaviour, IClickable
                 spriteRenderer.sortingLayerName = "Plant";
                 break;
             case PlantState.Die:
+                transform.DOKill();
                 row = 0; col = 0;
                 if (HPText) HPText.gameObject.SetActive(false);
                 if (shadow) shadow.gameObject.SetActive(false);

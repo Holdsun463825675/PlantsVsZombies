@@ -28,7 +28,7 @@ public class LevelConfigs
             dropSun = false,
             startingSun = 8000,
             cardType = TypeOfCard.Fixation,
-            fixedCards = new List<PlantID> { PlantID.CherryBomb, PlantID.PotatoMine, PlantID.SnowPea, PlantID.Chomper, PlantID.Repeater, PlantID.LilyPad, PlantID.Torchwood, PlantID.TallNut, PlantID.Pumpkin, PlantID.FlowerPot },
+            fixedCards = new List<PlantID> { PlantID.CherryBomb, PlantID.PotatoMine, PlantID.SnowPea, PlantID.Chomper, PlantID.Repeater, PlantID.GraveBuster, PlantID.Torchwood, PlantID.TallNut, PlantID.Pumpkin, PlantID.FlowerPot },
 
             zombieID = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.BucketZombie, ZombieID.PoleVaultingZombie },
             zombieWaves = new List<ZombieWave> {

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -91,6 +92,7 @@ public class HandManager : MonoBehaviour
             if (GameManager.Instance.currLevelConfig.cardType == TypeOfCard.Conveyor) // 传送带关种植后销毁卡片
             {
                 CardManager.Instance.removeCard(currCard);
+                currCard.DOKill();
                 Destroy(currCard.gameObject);
                 currCard = null;
                 return;

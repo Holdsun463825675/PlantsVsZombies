@@ -169,6 +169,18 @@ public class Cell : MonoBehaviour, IClickable
     public bool PlantAvailable(Plant plant)
     {
         if (cellType == CellType.None) return false;
+
+        // 特殊植物判定
+        switch (plant.id)
+        {
+            case PlantID.GraveBuster: // 墓碑吞噬者
+                if (tombstone) return true;
+                else return false;
+            default:
+                break;
+        }
+
+        // 常规植物判定
         if (iceTunnel || crater || tombstone) return false;
         if (plant.type == PlantType.None) return true;
         if (plant.prePlantID == PlantID.None) // 不需要前置植物，需判断格子类型
@@ -189,6 +201,17 @@ public class Cell : MonoBehaviour, IClickable
 
     private Vector3 plantPlace(Plant plant)
     {
+        Vector3 place = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        // 特殊植物判定
+        switch (plant.id)
+        {
+            case PlantID.GraveBuster: // 墓碑吞噬者
+                place.y += 1.0f;
+                return place;
+            default:
+                break;
+        }
+
         float baseY = 0.0f, offset = 0.0f, carrier_offset = 0.0f;
         // 有载体时抬高
         if (plants.ContainsKey(PlantType.Carrier) && plants[PlantType.Carrier].Count > 0)
@@ -225,9 +248,9 @@ public class Cell : MonoBehaviour, IClickable
             default:
                 break;
         }
-        Vector3 newPlace = new Vector3(transform.position.x, transform.position.y + baseY + offset, transform.position.z);
-        if (plant.type != PlantType.Carrier) newPlace.y += carrier_offset;
-        return newPlace;
+        place.y = transform.position.y + baseY + offset;
+        if (plant.type != PlantType.Carrier) place.y += carrier_offset;
+        return place;
     }
 
     private int getPlantSortingOrder(Plant plant)
