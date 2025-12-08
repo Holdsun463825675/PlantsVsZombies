@@ -17,6 +17,6 @@ public class SnowyPea : Pea
     protected override void AttackZombie()
     {
         base.AttackZombie();
-        if (targetZombie && CanAttack(targetZombie) && targetZombie.speedRatio >= speedRatio) targetZombie.setSpeedRatio(speedRatio);
+        if (targetZombie && CanAttack(targetZombie)) targetZombie.setDeceleration(speedRatio);
     }
 }

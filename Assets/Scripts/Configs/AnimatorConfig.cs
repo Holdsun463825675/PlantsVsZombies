@@ -9,6 +9,8 @@ public class AnimatorConfig
     public const string plant_explode = "Explode";
     public const string plant_healthPercentage = "HealthPercentage";
     public const string plant_underAttack = "UnderAttack";
+    public const string plant_death = "Death";
+    public const string plant_dieMode = "DieMode";
     public const string plant_selected = "Selected";
     public const string plant_twinkle = "Twinkle";
     public const string plant_coolingDown = "CoolingDown";
@@ -24,6 +26,9 @@ public class AnimatorConfig
     public const string zombie_dieMode = "DieMode";
     public const string zombie_speedLevel = "SpeedLevel";
     public const string zombie_speedRatio = "SpeedRatio";
+    public const string zombie_deceleration = "Deceleration";
+    public const string zombie_frozen = "Frozen";
+    public const string zombie_butter = "Butter";
     public const string zombie_effect = "Effect";
     public const string zombie_stopEffect = "StopEffect";
 

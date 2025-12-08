@@ -90,7 +90,7 @@ public class Shovel : MonoBehaviour, IClickable
         {
             AudioManager.Instance.playClip(ResourceConfig.sound_placeplant_plant2);
             Cell cell = target.cell;
-            target.setState(PlantState.Die);
+            target.kill();
             target = null;
             cell.adjustPlantPlace();
         }

@@ -161,6 +161,25 @@ public class PoleVaultingZombie : Zombie
         }
     }
 
+    protected override void HPTextActiveUpdate()
+    {
+        switch (poleVaultingZombieState)
+        {
+            case PoleVaultingZombieState.NotEffect:
+                HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.zombieHealth);
+                break;
+            case PoleVaultingZombieState.Effect:
+                HPText.gameObject.SetActive(false);
+                break;
+            case PoleVaultingZombieState.StopEffect:
+                HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.zombieHealth);
+                break;
+            default:
+                HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.zombieHealth);
+                break;
+        }
+    }
+
     protected override void DieUpdate()
     {
         base.DieUpdate();

@@ -36,6 +36,7 @@ public class LevelConfigs
                 new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.BucketZombie, ZombieID.PoleVaultingZombie},spawnWeight = 10,largeWave = true},
                 },
             tombstoneNum = 10, tombstoneArea = -4,
+            iceTunnelRows = new List<int> { 1, 2, 3, 4, 5 }, iceTunnelArea = -4,
             specialZombies = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.BucketZombie },
             spawnTimer = 30,
             cardCoolingDown = false,

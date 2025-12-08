@@ -74,7 +74,7 @@ public class AshPlant : Plant
         List<Zombie> targetZombies = new List<Zombie>(targetZombie);
         foreach (Armor2 armor2 in targetArmor2s) if (CanAttack(armor2)) armor2.UnderAttack(attackPoint, attackDieMode);
         foreach (Zombie zombie in targetZombies) if (CanAttack(zombie)) zombie.UnderAttack(attackPoint, attackDieMode);
-        setState(PlantState.Die);
+        kill();
     }
 
     protected override void AddHealth(int point)
@@ -88,14 +88,14 @@ public class AshPlant : Plant
         } 
     }
 
-    public override void UnderAttack(int point, int type=0)
+    public override void UnderAttack(int point, int mode=0)
     {
-        if (ashState == AshPlantState.Explode && type == 0) // 爆炸时不受啃咬伤害，只有音效
+        if (ashState == AshPlantState.Explode && mode == 0) // 爆炸时不受啃咬伤害，只有音效
         {
             playUnderAttackSound();
             return;
         }
-        base.UnderAttack(point, type);
+        base.UnderAttack(point, mode);
     }
 
     public override void OnChildTriggerEnter2D(Collider2D collision)

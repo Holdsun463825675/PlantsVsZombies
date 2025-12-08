@@ -24,6 +24,8 @@ public class Cell : MonoBehaviour, IClickable
 
     public bool iceTunnel, crater, tombstone; // 是否有冰道、弹坑、坟墓
     public float craterTime, craterTimer;
+    public float iceTunnelTime, iceTunnelTimer;
+    public float tombStoneTime, tombStoneTimer;
 
     public GameObject IceTunnel;
     public List<GameObject> Craters;
@@ -32,7 +34,7 @@ public class Cell : MonoBehaviour, IClickable
 
     private void Awake()
     {
-        craterTime = 120.0f;
+        craterTime = 120.0f; iceTunnelTime = 60.0f; tombStoneTime = -1; // 默认持续时间，-1为永久
         setCellProp(CellProp.IceTunnel, false);
         setCellProp(CellProp.Crater, false);
         setCellProp(CellProp.Tombstone, false);
@@ -49,19 +51,11 @@ public class Cell : MonoBehaviour, IClickable
     {
         if (!HandManager.Instance.currPlant) unsetVirtualPlant();
 
-        if (crater && GameManager.Instance.state == GameState.Processing) // 弹坑计时
+        if (crater && GameManager.Instance.state == GameState.Processing) // 计时
         {
-            craterTimer += Time.deltaTime;
-            if (craterTimer >= craterTime) setCellProp(CellProp.Crater, false);
-            else
-            {
-                int idx = (int)(craterTimer / craterTime * Craters.Count);
-                for (int i = 0; i < Craters.Count; i++)
-                {
-                    if (i == idx) Craters[i].SetActive(true);
-                    else Craters[i].SetActive(false);
-                }
-            }
+            IceTunnelUpdate();
+            CraterUpdate();
+            TombstoneUpdate();
         }
     }
 
@@ -75,7 +69,7 @@ public class Cell : MonoBehaviour, IClickable
         unsetVirtualPlant();
     }
 
-    public void setCellProp(CellProp prop, bool flag)
+    public void setCellProp(CellProp prop, bool flag, float time=0)
     {
         switch (prop)
         {
@@ -83,11 +77,14 @@ public class Cell : MonoBehaviour, IClickable
                 if (flag == true)
                 {
                     iceTunnel = true;
+                    if (time != 0) iceTunnelTimer = time;
+                    else iceTunnelTimer = iceTunnelTime;
                     IceTunnel.SetActive(true);
                 }
                 else
                 {
                     iceTunnel= false;
+                    iceTunnelTimer = iceTunnelTime;
                     IceTunnel.SetActive(false);
                 }
                 break;
@@ -95,13 +92,15 @@ public class Cell : MonoBehaviour, IClickable
                 if (flag == true)
                 {
                     crater = true;
+                    if (time != 0) craterTimer = time;
+                    else craterTimer = craterTime;
                     craterTimer = 0.0f;
                     Craters[0].SetActive(true);
                 }
                 else
                 {
                     crater = false;
-                    craterTimer= 0.0f;
+                    craterTimer = craterTime;
                     foreach (GameObject go in Craters) go.SetActive(false);
                 }
                 break;
@@ -109,6 +108,8 @@ public class Cell : MonoBehaviour, IClickable
                 if (flag == true)
                 {
                     tombstone = true;
+                    if (time != 0) tombStoneTimer = time;
+                    else tombStoneTimer = tombStoneTime;
                     int idx = Random.Range(0, Tombstones.Count);
                     for (int i = 0; i < Tombstones.Count; i++)
                     {
@@ -125,6 +126,7 @@ public class Cell : MonoBehaviour, IClickable
                 else
                 {
                     tombstone = false;
+                    tombStoneTimer = tombStoneTime;
                     foreach (GameObject go in Tombstones) go.SetActive(false);
                     foreach (GameObject go in TombstoneMounds) go.SetActive(false);
                 }
@@ -170,18 +172,7 @@ public class Cell : MonoBehaviour, IClickable
     {
         if (cellType == CellType.None) return false;
 
-        // 特殊植物判定
-        switch (plant.id)
-        {
-            case PlantID.GraveBuster: // 墓碑吞噬者
-                if (tombstone) return true;
-                else return false;
-            default:
-                break;
-        }
-
-        // 常规植物判定
-        if (iceTunnel || crater || tombstone) return false;
+        // 重叠判定
         if (plant.type == PlantType.None) return true;
         if (plant.prePlantID == PlantID.None) // 不需要前置植物，需判断格子类型
         {
@@ -196,6 +187,20 @@ public class Cell : MonoBehaviour, IClickable
             Plant prePlant = getPlant(plant.prePlantID);
             if (prePlant == null) return false;
         }
+
+        // 特殊植物判定
+        switch (plant.id)
+        {
+            case PlantID.GraveBuster: // 墓碑吞噬者
+                if (tombstone) return true;
+                else return false;
+            default:
+                break;
+        }
+
+        // 常规植物判定
+        if (iceTunnel || crater || tombstone) return false;
+
         return true;
     }
 
@@ -309,7 +314,7 @@ public class Cell : MonoBehaviour, IClickable
 
         if (plant.prePlantID != PlantID.None) // 需要前置植物
         {
-            getPlant(plant.prePlantID).setState(PlantState.Die); // 替换前置植物
+            getPlant(plant.prePlantID).kill(); // 替换前置植物
         }
 
         addPlant(plant);
@@ -337,5 +342,39 @@ public class Cell : MonoBehaviour, IClickable
             foreach (Plant pl in pair.Value) if (!pl.cellTypes.Contains(cellType)) return false;
         }
         return true;
+    }
+
+    private void IceTunnelUpdate()
+    {
+        if (iceTunnelTimer == -1) return;
+        iceTunnelTimer -= Time.deltaTime;
+        if (iceTunnelTimer <= 0) setCellProp(CellProp.IceTunnel, false);
+    }
+
+    private void CraterUpdate()
+    {
+        if (craterTimer == -1)
+        {
+            Craters[0].SetActive(true);
+            return;
+        } 
+        craterTimer -= Time.deltaTime;
+        if (craterTimer <= 0) setCellProp(CellProp.Crater, false);
+        else
+        {
+            int idx = (int)((craterTime - craterTimer) / craterTime * Craters.Count);
+            for (int i = 0; i < Craters.Count; i++)
+            {
+                if (i == idx) Craters[i].SetActive(true);
+                else Craters[i].SetActive(false);
+            }
+        }
+    }
+
+    private void TombstoneUpdate()
+    {
+        if (tombStoneTimer == -1) return;
+        tombStoneTimer -= Time.deltaTime;
+        if (tombStoneTimer <= 0) setCellProp(CellProp.Tombstone, false);
     }
 }

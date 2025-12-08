@@ -43,8 +43,8 @@ public class Zombie : MonoBehaviour, IClickable
     public ZombieID zombieID;
     protected float baseSpeed;
     protected float speed;
-    public float speedRatio;
-    private float speedChangeDuration;
+    public float deceleration; // 1为无减速，0为冰冻
+    private float decelerationDuration, frozenDuration, butterDuration; // 减速、冰冻、黄油持续时间
 
     protected int maxHealth, currHealth;
     protected int maxArmor1Health, currArmor1Health;
@@ -97,8 +97,8 @@ public class Zombie : MonoBehaviour, IClickable
         baseSpeed = 0.2f;
         speed = Random.Range(1.0f, 2.0f) * baseSpeed;
         speedLevel = (speed - baseSpeed) / baseSpeed;
-        speedRatio = 1.0f;
-        speedChangeDuration = 0.0f;
+        deceleration = 1.0f;
+        decelerationDuration = 0.0f;
 
         maxHealth = 270; currHealth = maxHealth;
         maxArmor1Health = 0; currArmor1Health = maxArmor1Health;
@@ -177,22 +177,18 @@ public class Zombie : MonoBehaviour, IClickable
         if (Armor2_c2d) Armor2_c2d.enabled = currArmor2Health > 0;
         if (Armor2_bowling_c2d) Armor2_bowling_c2d.enabled = currArmor2Health > 0;
 
-        HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.zombieHealth);
+        HPTextActiveUpdate();
         if (GameManager.Instance.state == GameState.Paused || GameManager.Instance.state == GameState.Losing) return;
 
+        AnimUpdate();
+        if (currentMoveTween != null)
+        {
+            float speedRatio = deceleration;
+            if (frozenDuration > 0 || butterDuration > 0) speedRatio = 0;
+            currentMoveTween.timeScale = speedRatio;
+        }
+
         HealthPercentage = (float)currHealth / (float)maxHealth;
-
-        anim.SetFloat(AnimatorConfig.zombie_healthPercentage, HealthPercentage);
-
-        anim.SetFloat(AnimatorConfig.zombie_armor1HealthPercentage, maxArmor1Health == 0.0f ? 0.0f : (float)currArmor1Health / (float)maxArmor1Health);
-        anim.SetFloat(AnimatorConfig.zombie_armor2HealthPercentage, maxArmor2Health == 0.0f ? 0.0f : (float)currArmor2Health / (float)maxArmor2Health);
-
-        anim.SetFloat(AnimatorConfig.zombie_speedLevel, speedLevel);
-        // 减速比例
-        anim.SetFloat(AnimatorConfig.zombie_speedRatio, speedRatio);
-        if (lostHeadAnim) lostHeadAnim.SetFloat(AnimatorConfig.zombie_speedRatio, speedRatio);
-        if (currentMoveTween != null) currentMoveTween.timeScale = speedRatio;
-
         if (HealthPercentage >= lostArmHealthPercentage) setHealthState(ZombieHealthState.Healthy);
         if (HealthPercentage >= lostHeadPercentage && HealthPercentage < lostArmHealthPercentage) setHealthState(ZombieHealthState.LostArm);
         if (HealthPercentage >= dieHealthPercentage && HealthPercentage < lostHeadPercentage) setHealthState(ZombieHealthState.LostHead);
@@ -351,6 +347,32 @@ public class Zombie : MonoBehaviour, IClickable
         }
     }
 
+    protected virtual void AnimUpdate()
+    {
+        HealthPercentage = (float)currHealth / (float)maxHealth;
+
+        anim.SetFloat(AnimatorConfig.zombie_healthPercentage, HealthPercentage);
+
+        anim.SetFloat(AnimatorConfig.zombie_armor1HealthPercentage, maxArmor1Health == 0.0f ? 0.0f : (float)currArmor1Health / (float)maxArmor1Health);
+        anim.SetFloat(AnimatorConfig.zombie_armor2HealthPercentage, maxArmor2Health == 0.0f ? 0.0f : (float)currArmor2Health / (float)maxArmor2Health);
+
+        anim.SetFloat(AnimatorConfig.zombie_speedLevel, speedLevel);
+
+        float speedRatio = deceleration;
+        if (frozenDuration > 0 || butterDuration > 0) speedRatio = 0;
+        anim.SetFloat(AnimatorConfig.zombie_speedRatio, speedRatio);
+        anim.SetBool(AnimatorConfig.zombie_deceleration, deceleration < 1.0f || frozenDuration > 0);
+        anim.SetBool(AnimatorConfig.zombie_frozen, frozenDuration > 0);
+        anim.SetBool(AnimatorConfig.zombie_butter, butterDuration > 0);
+
+        if (lostHeadAnim) lostHeadAnim.SetFloat(AnimatorConfig.zombie_speedRatio, deceleration);
+    }
+
+    protected virtual void HPTextActiveUpdate()
+    {
+        HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.zombieHealth);
+    }
+
     protected virtual void kinematicsUpdate()
     {
         if (anim.GetBool(AnimatorConfig.zombie_game) == false) return;
@@ -377,14 +399,14 @@ public class Zombie : MonoBehaviour, IClickable
         }
     }
 
-    private void speedChangeUpdate()
+    private void DecelerationUpdate()
     {
-        if (speedChangeDuration <= 0.0f)
+        if (decelerationDuration <= 0.0f)
         {
-            speedRatio = 1.0f;
+            deceleration = 1.0f;
             return;
         }
-        speedChangeDuration -= Time.deltaTime;
+        decelerationDuration -= Time.deltaTime;
     }
 
     public void AddCurrHealth(int point)
@@ -430,11 +452,21 @@ public class Zombie : MonoBehaviour, IClickable
         else AddCurrHealth(-hurtPoint);
     }
 
-    public void setSpeedRatio(float speedRatio, float speedChangeDuration=12.0f)
+    public void setDeceleration(float deceleration, float decelerationDuration=12.0f)
     {
-        this.speedChangeDuration = speedChangeDuration;
-        if (speedRatio < this.speedRatio) AudioManager.Instance.playClip(ResourceConfig.sound_zombie_frozen);
-        this.speedRatio = speedRatio;
+        if (deceleration > this.deceleration) return; // 弱于当前减速则无效
+        this.decelerationDuration = decelerationDuration;
+        if (deceleration < this.deceleration)
+        {
+            AudioManager.Instance.playClip(ResourceConfig.sound_zombie_frozen);
+            this.deceleration = deceleration;
+        }
+    }
+
+    public void relieveDeceleration()
+    {
+        deceleration = 1.0f;
+        decelerationDuration = 0.0f;
     }
 
     private void setLostHeadAnim()
@@ -481,14 +513,14 @@ public class Zombie : MonoBehaviour, IClickable
     {
         kinematicsUpdate();
         groanUpdate();
-        speedChangeUpdate();
+        DecelerationUpdate();
     }
 
     protected virtual void LostHeadUpdate()
     {
         dieMode = 0;
         kinematicsUpdate();
-        speedChangeUpdate();
+        DecelerationUpdate();
 
         if (Time.timeScale <= 0) return; // 暂停时不掉血
 

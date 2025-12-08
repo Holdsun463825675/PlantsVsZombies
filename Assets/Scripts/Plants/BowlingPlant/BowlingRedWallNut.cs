@@ -43,7 +43,7 @@ public class BowlingRedWallNut : BowlingPlant
         if (explodeEffect) GameObject.Instantiate(explodeEffect, transform.position, Quaternion.identity);
         foreach (Armor2 armor2 in targetArmor2) if (CanAttack(armor2)) armor2.UnderAttack(attackPoint, attackDieMode);
         foreach (Zombie zombie in targetZombie) if (CanAttack(zombie)) zombie.UnderAttack(attackPoint, attackDieMode);
-        setState(PlantState.Die);
+        kill();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

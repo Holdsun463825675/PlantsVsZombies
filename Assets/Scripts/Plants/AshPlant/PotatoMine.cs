@@ -11,7 +11,7 @@ public enum PotatoMineState
 public class PotatoMine : AshPlant
 {
     protected float coolingDownTime, coolingDownTimer;
-    protected int dieMode = 2;
+    protected int attackMode = 2;
     protected PotatoMineState potatoMineState;
     protected List<Zombie> explodeTargets;
 

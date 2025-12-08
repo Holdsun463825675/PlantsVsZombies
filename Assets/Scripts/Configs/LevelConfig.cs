@@ -24,12 +24,14 @@ public class LevelConfig
     public float spawnTimer = 15.0f; // 初始波冷却
     public float healthPercentageThreshold = 0.6f; // 小波血量阈值
 
-    // 其他
+    // 特殊
     public bool cleaner = true; // 是否有小推车
     public bool shovel = true; // 是否可用铲子
     public List<ZombieID> specialZombies = new List<ZombieID>(); // 特殊出怪
-    public int tombstoneNum = 0, tombstoneArea = 0; // 坟墓数量、坟墓出现区域（与可种植区域一样）
     public int restrictedArea = 0; // 可种植区域，0为全可种植，大于0为靠近家的可种，小于0为靠近出怪位置可种
+    public int tombstoneNum = 0, tombstoneArea = 0; // 坟墓数量、坟墓出现区域（与可种植区域一样）
+    public List<int> iceTunnelRows = new List<int>(); // 存在冰道的行
+    public int iceTunnelArea = 0; // 冰道出现区域（与可种植区域一样）
     public float generateCardTime = 6.0f; // 传送带出生成植物间隔
     public float gameSpeed = -1; // 固定游戏速度
     public bool cardCoolingDown = true; // 卡片是否有冷却

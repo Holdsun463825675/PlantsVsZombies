@@ -77,7 +77,7 @@ public class BowlingPlant : Plant
         transform.DOMove(position, this.speed)
             .SetSpeedBased()
             .SetEase(Ease.Linear)
-            .OnComplete(() => setState(PlantState.Die));
+            .OnComplete(() => kill());
         if (GameManager.Instance.state == GameState.Paused) transform.DOPause();
         AudioManager.Instance.playClip(ResourceConfig.sound_plant_bowling);
     }

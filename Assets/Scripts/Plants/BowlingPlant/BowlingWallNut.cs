@@ -94,7 +94,7 @@ public class BowlingWallNut : BowlingPlant
             .SetEase(Ease.Linear)
             .OnComplete(() => {
                 // 销毁或改变运动方向
-                if (target_position.x >= MapManager.Instance.currMap.endlinePositions[1].position.x) setState(PlantState.Die);
+                if (target_position.x >= MapManager.Instance.currMap.endlinePositions[1].position.x) kill();
                 else transMove();
             });
         if (GameManager.Instance.state == GameState.Paused) transform.DOPause();

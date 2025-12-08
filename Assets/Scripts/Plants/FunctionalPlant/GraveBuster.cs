@@ -12,7 +12,7 @@ public class GraveBuster : Plant
         base.Awake();
         id = PlantID.GraveBuster;
         type = PlantType.Normal;
-        cellTypes = new List<CellType> { };
+        cellTypes = new List<CellType> { CellType.Grass, CellType.Pool, CellType.Roof };
     }
 
     public override void setState(PlantState state)
@@ -30,6 +30,6 @@ public class GraveBuster : Plant
     private void EatGrave()
     {
         cell.setCellProp(CellProp.Tombstone, false);
-        setState(PlantState.Die);
+        kill();
     }
 }

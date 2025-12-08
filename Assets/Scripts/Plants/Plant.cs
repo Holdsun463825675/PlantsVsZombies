@@ -51,6 +51,7 @@ public class Plant : MonoBehaviour, IClickable
     public List<CellType> cellTypes = new List<CellType> { CellType.Grass }; // 可种植的格子类型
 
     public int row, col;
+    protected int dieMode;
 
     protected int maxHealth, currHealth;
     protected int underAttackSound; // 受击音效，0正常，1轻柔，2子弹
@@ -74,6 +75,7 @@ public class Plant : MonoBehaviour, IClickable
     {
         cellTypes = new List<CellType> { CellType.Grass };
         row = 0; col = 0;
+        dieMode = 0;
         spriteRenderer = GetComponent<SpriteRenderer>();
         c2d = GetComponent<Collider2D>();
         maxHealth = 300; currHealth = maxHealth;
@@ -192,6 +194,8 @@ public class Plant : MonoBehaviour, IClickable
                 if (cell) cell.removePlant(this);
                 if (effectPlaceCollider) effectPlaceCollider.enabled = false;
                 spriteRenderer.sortingLayerName = "Plant";
+                anim.SetBool(AnimatorConfig.plant_death, true);
+                anim.SetInteger(AnimatorConfig.plant_dieMode, dieMode);
                 Destroy(gameObject);
                 break;
             default:
@@ -239,8 +243,9 @@ public class Plant : MonoBehaviour, IClickable
         }
     }
 
-    public virtual void UnderAttack(int point, int type=0)
+    public virtual void UnderAttack(int point, int mode=0)
     {
+        dieMode = mode;
         AddHealth(-point);
         anim.SetBool(AnimatorConfig.plant_underAttack, true);
         playUnderAttackSound();
@@ -259,6 +264,17 @@ public class Plant : MonoBehaviour, IClickable
     protected virtual void DieUpdate()
     {
         if (HPText) HPText.gameObject.SetActive(false);
+    }
+
+    private void onDeathAnimComplete()
+    {
+        Destroy(gameObject);
+    }
+
+    public void kill(int mode = 0)
+    {
+        dieMode = mode;
+        setState(PlantState.Die);
     }
 
     // 父物体处理触发事件的方法
