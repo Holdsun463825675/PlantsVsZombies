@@ -14,7 +14,6 @@ public class SnowyPea : Pea
     protected override void AttackZombie()
     {
         base.AttackZombie();
-        //if (targetZombie && CanAttack(targetZombie)) targetZombie.setDeceleration();
-        if (targetZombie && CanAttack(targetZombie)) targetZombie.setFrozen();
+        if (targetZombie && CanAttack(targetZombie)) targetZombie.setDeceleration();
     }
 }

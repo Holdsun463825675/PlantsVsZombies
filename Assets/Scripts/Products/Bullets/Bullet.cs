@@ -228,6 +228,7 @@ public class Bullet : Product
             .SetSpeedBased()
             .SetEase(Ease.Linear)
             .OnComplete(() => setState(BulletState.Used));
+        if (GameManager.Instance.state == GameState.Paused) transform.DOPause();
     }
 
     public virtual Bullet Ignite()

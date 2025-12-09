@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class FirePea : Pea
 {
-    private float speedRatio;
-
     protected override void Awake()
     {
         base.Awake();
         id = BulletID.FirePea;
         igniteID = BulletID.None;
-        speedRatio = 1.0f;
         attackPoint = 40;
         sputter = true;
         hitSound = BulletHitSound.FirePea;
