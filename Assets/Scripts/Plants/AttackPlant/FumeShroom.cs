@@ -24,16 +24,20 @@ public class FumeShroom : AttackPlant
             currAttackEffect = GameObject.Instantiate(attackEffect, effectPlace.position, Quaternion.identity);
         }
         AudioManager.Instance.playClip(ResourceConfig.sound_plant_fume);
+        
+        List<Armor2> targetArmor2s = new List<Armor2>(targetArmor2);
+        List<Zombie> targetZombies = new List<Zombie>(targetZombie);
         bool clip = false;
-        foreach (Zombie zombie in targetZombie)
+        foreach (Zombie zombie in targetZombies)
         {
             if (zombie && CanAttack(zombie))
             {
                 zombie.UnderAttack(attackPoint);
                 clip = true;
-            } 
-        } 
-        foreach (Armor2 armor2 in targetArmor2) if (armor2 && CanAttack(armor2)) armor2.UnderAttack(attackPoint);
+            }
+        }
+        foreach (Armor2 armor2 in targetArmor2s) if (armor2 && CanAttack(armor2)) armor2.UnderAttack(attackPoint);
+
         if (clip) AudioManager.Instance.playHitClip(BulletHitSound.None, 0, ZombieUnderAttackSound.Splat, 1);
     }
 }

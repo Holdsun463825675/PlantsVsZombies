@@ -177,7 +177,7 @@ public class Cell : MonoBehaviour, IClickable
         if (plant.prePlantID == PlantID.None) // 不需要前置植物，需判断格子类型
         {
             if (plants.ContainsKey(plant.type) && plants[plant.type].Count > 0) return false;
-            if (!plant.cellTypes.Contains(cellType))
+            if (!plant.cellTypes.Contains(cellType) && !plant.cellTypes.Contains(CellType.None))
             {
                 if (!plants.ContainsKey(PlantType.Carrier) || plants[PlantType.Carrier].Count == 0) return false;
             }
@@ -197,6 +197,12 @@ public class Cell : MonoBehaviour, IClickable
             case PlantID.GraveBuster: // 墓碑吞噬者
                 if (tombstone) return true;
                 else return false;
+            case PlantID.Coffeebean: // 咖啡豆
+                foreach (KeyValuePair<PlantType, List<Plant>> pair in plants)
+                {
+                    foreach (Plant pl in pair.Value) if (pl && pl.sleep) return true;
+                }
+                return false;
             default:
                 break;
         }
@@ -251,7 +257,7 @@ public class Cell : MonoBehaviour, IClickable
                 offset = 0.0f;
                 break;
             case PlantType.Flight:
-                offset = 0.3f;
+                offset = 1.0f;
                 break;
             default:
                 break;

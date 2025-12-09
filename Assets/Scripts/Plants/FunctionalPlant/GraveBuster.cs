@@ -12,7 +12,7 @@ public class GraveBuster : Plant
         base.Awake();
         id = PlantID.GraveBuster;
         type = PlantType.Normal;
-        cellTypes = new List<CellType> { CellType.Grass, CellType.Pool, CellType.Roof };
+        cellTypes = new List<CellType> { CellType.None };
     }
 
     public override void setState(PlantState state)

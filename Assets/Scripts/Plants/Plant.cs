@@ -23,6 +23,7 @@ public enum PlantID
     TallNut = 24,
     Pumpkin = 31,
     FlowerPot = 34,
+    Coffeebean = 36,
     GatlingPea = 41,
     TwinSunflower = 42,
     BowlingWallNut = 49,

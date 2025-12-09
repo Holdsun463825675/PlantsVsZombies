@@ -201,11 +201,7 @@ public class ZombieManager : MonoBehaviour
 
     private void ProcessingUpdate()
     {
-        if (currWaveNumber >= zombieWaves.Count)
-        {
-            setState(ZombieSpawnState.End);
-            return;
-        } 
+        if (currWaveNumber >= zombieWaves.Count) return;
         if (zombieList.Count > 0) lastDeadZombiePosition = zombieList[0].transform.position;
 
         
@@ -245,7 +241,7 @@ public class ZombieManager : MonoBehaviour
         spawnTimer += Time.deltaTime;
         getSpawnTime();
         levelProcessUpdate();
-        if (getZombieHealthPercentage(zombieList) > 0.0f) lastDeadZombiePosition = zombieList[0].transform.position;
+        if (HaveHealthyZombie()) lastDeadZombiePosition = zombieList[0].transform.position;
         else // 出怪结束且僵尸全部死亡
         {
             // TODO: 转成UI坐标
@@ -263,6 +259,13 @@ public class ZombieManager : MonoBehaviour
             if (zombie) currZombieHealth += zombie.getCurrHealth();
         }
         return (float)currZombieHealth / (float)lastWaveZombieHealth;
+    }
+
+    private bool HaveHealthyZombie(List<Zombie> zombies = null)
+    {
+        if (zombies == null) zombies = zombieList;
+        foreach (Zombie zombie in zombies) if (zombie && zombie.isHealthy()) return true;
+        return false;
     }
 
 
@@ -447,5 +450,6 @@ public class ZombieManager : MonoBehaviour
         spawnTime = spawnMaxTime;
         spawnTimer = 0.0f;
         waveDurationTimer = 0.0f;
+        if (currWaveNumber >= zombieWaves.Count) setState(ZombieSpawnState.End); // 结束出怪
     }
 }

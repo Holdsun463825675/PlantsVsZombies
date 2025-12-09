@@ -28,13 +28,10 @@ public class LevelConfigs
             dropSun = false,
             startingSun = 8000,
             cardType = TypeOfCard.Fixation,
-            fixedCards = new List<PlantID> { PlantID.CherryBomb, PlantID.PotatoMine, PlantID.FumeShroom, PlantID.LilyPad, PlantID.Repeater, PlantID.GraveBuster, PlantID.Torchwood, PlantID.TallNut, PlantID.Pumpkin, PlantID.FlowerPot },
+            fixedCards = new List<PlantID> { PlantID.CherryBomb, PlantID.PotatoMine, PlantID.FumeShroom, PlantID.Coffeebean, PlantID.Repeater, PlantID.GraveBuster, PlantID.Torchwood, PlantID.TallNut, PlantID.Pumpkin, PlantID.FlowerPot },
 
             zombieID = new List<ZombieID> { ZombieID.ScreenDoorZombie },
             zombieWaves = new List<ZombieWave> {
-                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.ScreenDoorZombie },spawnWeight = 20,largeWave = false},
-                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.ScreenDoorZombie },spawnWeight = 40,largeWave = false},
-                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.ScreenDoorZombie },spawnWeight = 60,largeWave = false},
                 new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.ScreenDoorZombie },spawnWeight = 80,largeWave = false},
                 new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.ScreenDoorZombie },spawnWeight = 100,largeWave = true},
                 },

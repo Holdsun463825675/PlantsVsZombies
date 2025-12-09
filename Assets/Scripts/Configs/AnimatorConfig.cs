@@ -7,6 +7,7 @@ public class AnimatorConfig
     public const string plant_attack = "Attack";
     public const string plant_produce = "Produce";
     public const string plant_explode = "Explode";
+    public const string plant_effect = "Effect";
     public const string plant_healthPercentage = "HealthPercentage";
     public const string plant_underAttack = "UnderAttack";
     public const string plant_death = "Death";
