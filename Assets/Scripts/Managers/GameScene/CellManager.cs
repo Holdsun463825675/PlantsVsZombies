@@ -7,7 +7,7 @@ public class CellManager : MonoBehaviour
 {
     public static CellManager Instance { get; private set; }
 
-    public int maxRow, maxCol; // 从1开始
+    public int minRow, minCol, maxRow, maxCol; // 从1开始
 
     public List<Cell> cellList;
     public List<GameObject> stripeList;
@@ -15,7 +15,7 @@ public class CellManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        maxRow = 0; maxCol = 0;
+        minRow = 9999; minCol = 9999; maxRow = 0; maxCol = 0;
         cellList = new List<Cell>();
         stripeList = new List<GameObject>();
     }
@@ -28,6 +28,8 @@ public class CellManager : MonoBehaviour
         if (parentStripe != null) foreach (Transform child in parentStripe) stripeList.Add(child.gameObject);
         foreach (Cell cell in cellList)
         {
+            minRow = Mathf.Min(minRow, cell.row); 
+            minCol = Mathf.Min(minCol, cell.col);
             maxRow = Mathf.Max(maxRow, cell.row);
             maxCol = Mathf.Max(maxCol, cell.col);
         }
@@ -46,13 +48,13 @@ public class CellManager : MonoBehaviour
         {
             if (restrictedArea > 0)
             {
-                if (cell.col <= stripeIdx) cell.gameObject.SetActive(true);
-                else cell.gameObject.SetActive(false);
+                if (cell.col <= stripeIdx) cell.c2d.enabled = true;
+                else cell.c2d.enabled = false;
             }
             else
             {
-                if (cell.col > stripeIdx) cell.gameObject.SetActive(true);
-                else cell.gameObject.SetActive(false);
+                if (cell.col > stripeIdx) cell.c2d.enabled = true;
+                else cell.c2d.enabled = false;
             }
         }
     }
@@ -109,21 +111,21 @@ public class CellManager : MonoBehaviour
         if (tombstoneNum == 0) return;
         int col = (tombstoneArea + maxCol) % maxCol;
         if (tombstoneArea < 0) col += 1;
-        int min_col = tombstoneArea > 0 ? 1 : col, max_col = tombstoneArea > 0 ? col : maxCol;
+        int min_col = tombstoneArea > 0 ? minCol : col, max_col = tombstoneArea > 0 ? col : maxCol;
         int maxTombstoneNum = (max_col - min_col + 1) * maxRow;
         if (col > 0)
         {
-            setTombstone(Random.Range(1, maxRow + 1), col); // 那一行至少生成一个
+            setTombstone(Random.Range(minRow, maxRow + 1), col); // 那一行至少生成一个
             tombstoneNum--; maxTombstoneNum--;
         }
         else
         {
-            min_col = 1; max_col = maxCol;
+            min_col = minCol; max_col = maxCol;
             maxTombstoneNum = maxRow * maxCol;
         }
         while (tombstoneNum > 0 && maxTombstoneNum > 0)
         {
-            bool flag = setTombstone(Random.Range(1, maxRow + 1), Random.Range(min_col, max_col + 1));
+            bool flag = setTombstone(Random.Range(minRow, maxRow + 1), Random.Range(min_col, max_col + 1));
             if (flag)
             {
                 tombstoneNum--; maxTombstoneNum--;
@@ -136,10 +138,10 @@ public class CellManager : MonoBehaviour
         int iceTunnelArea = GameManager.Instance.currLevelConfig.iceTunnelArea;
         int col = (iceTunnelArea + maxCol) % maxCol;
         if (iceTunnelArea < 0) col += 1;
-        int min_col = iceTunnelArea > 0 ? 1 : col, max_col = iceTunnelArea > 0 ? col : maxCol;
+        int min_col = iceTunnelArea > 0 ? minCol : col, max_col = iceTunnelArea > 0 ? col : maxCol;
         if (col == 0)
         {
-            min_col = 1; max_col = maxCol;
+            min_col = minCol; max_col = maxCol;
         }
         List<int> iceTunnelRows = GameManager.Instance.currLevelConfig.iceTunnelRows;
         foreach (Cell cell in cellList)

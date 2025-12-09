@@ -19,6 +19,7 @@ public enum PlantID
     FumeShroom = 11,
     GraveBuster = 12,
     LilyPad = 17,
+    Jalapeno = 21,
     Torchwood = 23,
     TallNut = 24,
     Pumpkin = 31,

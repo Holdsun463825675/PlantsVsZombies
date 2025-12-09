@@ -27,6 +27,8 @@ public class Cell : MonoBehaviour, IClickable
     public float iceTunnelTime, iceTunnelTimer;
     public float tombStoneTime, tombStoneTimer;
 
+    public Collider2D c2d;
+
     public GameObject IceTunnel;
     public List<GameObject> Craters;
     public List<GameObject> Tombstones;
@@ -34,6 +36,7 @@ public class Cell : MonoBehaviour, IClickable
 
     private void Awake()
     {
+        c2d = GetComponent<Collider2D>();
         craterTime = 120.0f; iceTunnelTime = 60.0f; tombStoneTime = -1; // 默认持续时间，-1为永久
         setCellProp(CellProp.IceTunnel, false);
         setCellProp(CellProp.Crater, false);
@@ -80,6 +83,7 @@ public class Cell : MonoBehaviour, IClickable
                     if (time != 0) iceTunnelTimer = time;
                     else iceTunnelTimer = iceTunnelTime;
                     IceTunnel.SetActive(true);
+                    killAllPlants();
                 }
                 else
                 {
@@ -96,6 +100,7 @@ public class Cell : MonoBehaviour, IClickable
                     else craterTimer = craterTime;
                     craterTimer = 0.0f;
                     Craters[0].SetActive(true);
+                    killAllPlants();
                 }
                 else
                 {
@@ -122,6 +127,7 @@ public class Cell : MonoBehaviour, IClickable
                             Tombstones[i].SetActive(false); TombstoneMounds[i].SetActive(false);
                         }
                     }
+                    killAllPlants();
                 }
                 else
                 {

@@ -16,6 +16,7 @@ public class ResourceConfig
 
     public const string sound_bomb_cherrybomb = "Audio/Sound/bomb/cherrybomb";
     public const string sound_bomb_potatoMine = "Audio/Sound/bomb/potato_mine";
+    public const string sound_bomb_jalapeno = "Audio/Sound/bomb/jalapeno";
 
     public const string sound_buttonandputdown_bleep = "Audio/Sound/buttonandputdown/bleep";
     public const string sound_buttonandputdown_buttonclick = "Audio/Sound/buttonandputdown/buttonclick";

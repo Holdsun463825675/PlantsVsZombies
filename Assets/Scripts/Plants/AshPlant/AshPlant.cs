@@ -45,6 +45,16 @@ public class AshPlant : Plant
         }
     }
 
+    public override void Pause()
+    {
+        base.Pause();
+    }
+
+    public override void Continue()
+    {
+        base.Continue();
+    }
+
     protected virtual bool HaveAttackTarget()
     {
         return true;
@@ -67,9 +77,15 @@ public class AshPlant : Plant
         transform.DOMove(new Vector3(transform.position.x, transform.position.y + 1e-3f, transform.position.z), 1f);
     }
 
+    protected virtual void ExplodeEffect()
+    {
+        if (!explodeEffect) return;
+        GameObject.Instantiate(explodeEffect, transform.position, Quaternion.identity);
+    }
+
     protected virtual void Explode()
     {
-        if (explodeEffect) GameObject.Instantiate(explodeEffect, transform.position, Quaternion.identity);
+        ExplodeEffect();
         List<Armor2> targetArmor2s = new List<Armor2>(targetArmor2);
         List<Zombie> targetZombies = new List<Zombie>(targetZombie);
         foreach (Armor2 armor2 in targetArmor2s) if (CanAttack(armor2)) armor2.UnderAttack(attackPoint, attackMode);
