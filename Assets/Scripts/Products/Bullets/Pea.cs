@@ -14,4 +14,10 @@ public class Pea : Bullet
         bulletDirection = BulletDirection.Right;
         igniteID = BulletID.FirePea;
     }
+
+    protected override void AttackZombie()
+    {
+        base.AttackZombie();
+        if (targetZombie && CanAttack(targetZombie)) targetZombie.setButter();
+    }
 }

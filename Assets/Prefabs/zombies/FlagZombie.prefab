@@ -91,10 +91,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zombieID: 2
-  speedRatio: 0
+  deceleration: 0
   spawnWeight: 1
   zombieHeadPrefab: {fileID: 1143894914790227004, guid: 7cb14b8ed54ed8a43a393cba0fb33cc6, type: 3}
+  Debuff:
+  - {fileID: 0}
+  - {fileID: 0}
   row: 0
+  col: 0
+  isPlantKill: 0
+  isBulletHit: 0
   underAttackSound: 0
   underAttackSoundPriority: 0
   armor2: {fileID: 1753647625788591945}

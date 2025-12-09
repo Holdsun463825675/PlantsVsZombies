@@ -119,7 +119,7 @@ public class PoleVaultingZombie : Zombie
         switch (poleVaultingZombieState)
         {
             case PoleVaultingZombieState.NotEffect:
-                if (HaveEffectTarget()) setPoleVaultingZombieState(PoleVaultingZombieState.Effect);
+                if (HaveEffectTarget() && isAction()) setPoleVaultingZombieState(PoleVaultingZombieState.Effect);
                 break;
             case PoleVaultingZombieState.Effect:
                 break;

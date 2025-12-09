@@ -118,10 +118,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zombieID: 7
-  speedRatio: 0
+  deceleration: 0
   spawnWeight: 4
   zombieHeadPrefab: {fileID: 1143894914790227004, guid: 7cb14b8ed54ed8a43a393cba0fb33cc6, type: 3}
+  Debuff:
+  - {fileID: 3594388824421184683}
+  - {fileID: 5021772439823598880}
   row: 0
+  col: 0
+  isPlantKill: 0
+  isBulletHit: 0
   underAttackSound: 0
   underAttackSoundPriority: 0
   armor2: {fileID: 733015616650130843}
+--- !u!1 &3594388824421184683 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4713268902206786722, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+  m_PrefabInstance: {fileID: 8109065997994719241}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5021772439823598880 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3835338324816706857, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+  m_PrefabInstance: {fileID: 8109065997994719241}
+  m_PrefabAsset: {fileID: 0}

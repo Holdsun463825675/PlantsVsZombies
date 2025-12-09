@@ -57,6 +57,7 @@ public class Zombie : MonoBehaviour, IClickable
     protected bool isLostHealth;
     public float spawnWeight;
     public GameObject zombieHeadPrefab;
+    private List<GameObject> Debuff;
     private GameObject zombieHead;
 
     private float groanTime, groanTimer;
@@ -98,7 +99,7 @@ public class Zombie : MonoBehaviour, IClickable
         speed = Random.Range(1.0f, 2.0f) * baseSpeed;
         speedLevel = (speed - baseSpeed) / baseSpeed;
         deceleration = 1.0f;
-        decelerationDuration = 0.0f;
+        decelerationDuration = 0.0f; frozenDuration = 0.0f; butterDuration = 0.0f;
 
         maxHealth = 270; currHealth = maxHealth;
         maxArmor1Health = 0; currArmor1Health = maxArmor1Health;
@@ -159,7 +160,11 @@ public class Zombie : MonoBehaviour, IClickable
             effect_bowling_c2d = child.GetComponent<Collider2D>();
             effect_bowling_c2d.enabled = false;
             effect_bowling_c2d.GetComponent<TriggerForwarder>().SetZombieParentHandler(this);
-        } 
+        }
+        Debuff = new List<GameObject>();
+        Debuff.Add(transform.Find("Debuff/Frozen").gameObject);
+        Debuff.Add(transform.Find("Debuff/Butter").gameObject);
+        foreach (GameObject debuff in Debuff) debuff.SetActive(false);
     }
 
     private void Start()
@@ -180,7 +185,7 @@ public class Zombie : MonoBehaviour, IClickable
         HPTextActiveUpdate();
         if (GameManager.Instance.state == GameState.Paused || GameManager.Instance.state == GameState.Losing) return;
 
-        AnimUpdate();
+        AnimUpdate(); DebuffUpdate();
         if (currentMoveTween != null)
         {
             float speedRatio = deceleration;
@@ -280,10 +285,16 @@ public class Zombie : MonoBehaviour, IClickable
         return healthState == ZombieHealthState.Healthy || healthState == ZombieHealthState.LostArm; 
     }
 
+    public bool isAction() // 是否可行动，运动、啃食、特殊状态转换等
+    {
+        return frozenDuration <= 0 && butterDuration <= 0;
+    }
+
     public int setSortingOrder(int sortingOrder)
     {
         int count = 0;
         this.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder; count++;
+        foreach (GameObject debuff in Debuff) debuff.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder + count++;
         if (HPText) HPText.sortingOrder = sortingOrder + ++count; count++;
         return count;
     }
@@ -309,6 +320,7 @@ public class Zombie : MonoBehaviour, IClickable
         }
         if (state == ZombieHealthState.LostHead)
         {
+            relieveFrozen(); relieveButter(); // 消除减速和黄油
             setLostHeadAnim();
         }
         if (state == ZombieHealthState.Die)
@@ -322,6 +334,8 @@ public class Zombie : MonoBehaviour, IClickable
             if (Armor2_bowling_c2d) Armor2_bowling_c2d.enabled = false;
             if (effect_c2d) effect_c2d.enabled = false;
             if (effect_bowling_c2d) effect_bowling_c2d.enabled = false;
+            relieveFrozen(); relieveButter(); // 消除减速和黄油
+            if (dieMode == 1 || dieMode == 3) relieveDeceleration(); // 消除减速效果
             anim.SetInteger(AnimatorConfig.zombie_dieMode, dieMode);
         }
     }
@@ -362,8 +376,6 @@ public class Zombie : MonoBehaviour, IClickable
         if (frozenDuration > 0 || butterDuration > 0) speedRatio = 0;
         anim.SetFloat(AnimatorConfig.zombie_speedRatio, speedRatio);
         anim.SetBool(AnimatorConfig.zombie_deceleration, deceleration < 1.0f || frozenDuration > 0);
-        anim.SetBool(AnimatorConfig.zombie_frozen, frozenDuration > 0);
-        anim.SetBool(AnimatorConfig.zombie_butter, butterDuration > 0);
 
         if (lostHeadAnim) lostHeadAnim.SetFloat(AnimatorConfig.zombie_speedRatio, deceleration);
     }
@@ -377,13 +389,13 @@ public class Zombie : MonoBehaviour, IClickable
     {
         if (anim.GetBool(AnimatorConfig.zombie_game) == false) return;
         Plant target = getAttackTarget();
-        if (target)
+        if (target && isAction())
         {
             setMoveState(ZombieMoveState.Stop);
             anim.SetBool(AnimatorConfig.zombie_isAttack, true);
             return;
         }
-        anim.SetBool(AnimatorConfig.zombie_isAttack, false);
+        if (isAction()) anim.SetBool(AnimatorConfig.zombie_isAttack, false);
     }
 
     private void groanUpdate()
@@ -399,14 +411,22 @@ public class Zombie : MonoBehaviour, IClickable
         }
     }
 
-    private void DecelerationUpdate()
+    private void DebuffUpdate() // 异常状态更新：减速、冰冻、黄油
     {
-        if (decelerationDuration <= 0.0f)
+        decelerationDuration -= Time.deltaTime;
+        frozenDuration -= Time.deltaTime;
+        butterDuration -= Time.deltaTime;
+        if (decelerationDuration < 0) // 减速
         {
             deceleration = 1.0f;
-            return;
+            decelerationDuration = 0;
         }
-        decelerationDuration -= Time.deltaTime;
+
+        if (frozenDuration < 0) frozenDuration = 0; // 冰冻
+        Debuff[0].SetActive(frozenDuration > 0);
+
+        if (butterDuration < 0) butterDuration = 0; // 黄油
+        Debuff[1].SetActive(butterDuration > 0);    
     }
 
     public void AddCurrHealth(int point)
@@ -452,7 +472,7 @@ public class Zombie : MonoBehaviour, IClickable
         else AddCurrHealth(-hurtPoint);
     }
 
-    public void setDeceleration(float deceleration, float decelerationDuration=12.0f)
+    public void setDeceleration(float deceleration=0.5f, float decelerationDuration=15.0f)
     {
         if (deceleration > this.deceleration) return; // 弱于当前减速则无效
         this.decelerationDuration = decelerationDuration;
@@ -463,10 +483,33 @@ public class Zombie : MonoBehaviour, IClickable
         }
     }
 
+    public void setFrozen(float frozenDuration=5.0f)
+    {
+        if (!isHealthy()) return; // 只对健康状态有效
+        if (this.frozenDuration <= frozenDuration) this.frozenDuration = frozenDuration;
+        setDeceleration(); // 冰冻通常附带减速
+    }
+
+    public void setButter(float butterDuration=5.0f)
+    {
+        if (!isHealthy()) return; // 只对健康状态有效
+        if (this.butterDuration <= butterDuration) this.butterDuration = butterDuration;
+    }
+
     public void relieveDeceleration()
     {
         deceleration = 1.0f;
-        decelerationDuration = 0.0f;
+        decelerationDuration = 0;
+    }
+
+    public void relieveFrozen()
+    {
+        frozenDuration = 0;
+    }
+
+    public void relieveButter()
+    {
+        butterDuration = 0;
     }
 
     private void setLostHeadAnim()
@@ -513,14 +556,12 @@ public class Zombie : MonoBehaviour, IClickable
     {
         kinematicsUpdate();
         groanUpdate();
-        DecelerationUpdate();
     }
 
     protected virtual void LostHeadUpdate()
     {
         dieMode = 0;
         kinematicsUpdate();
-        DecelerationUpdate();
 
         if (Time.timeScale <= 0) return; // 暂停时不掉血
 

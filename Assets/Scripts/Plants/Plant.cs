@@ -138,11 +138,13 @@ public class Plant : MonoBehaviour, IClickable
     // ÔÝÍ£¼ÌÐø¹¦ÄÜ
     public virtual void Pause()
     {
+        transform.DOPause();
         if (state != PlantState.Suspension) anim.enabled = false;
     }
 
     public virtual void Continue()
     {
+        transform.DOPlay();
         if (state != PlantState.Suspension) anim.enabled = true;
     }
 

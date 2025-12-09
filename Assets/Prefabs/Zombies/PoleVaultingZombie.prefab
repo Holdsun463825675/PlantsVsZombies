@@ -105,6 +105,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7216194026205599615}
   m_SourcePrefab: {fileID: 100100000, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+--- !u!1 &544138373353664747 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4713268902206786722, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+  m_PrefabInstance: {fileID: 5108717979915861065}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3186489106447172989 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7700417702789560628, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
@@ -123,12 +128,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zombieID: 4
-  speedRatio: 0
+  deceleration: 0
   spawnWeight: 0
   zombieHeadPrefab: {fileID: 1143894914790227004, guid: 7cb14b8ed54ed8a43a393cba0fb33cc6, type: 3}
+  Debuff:
+  - {fileID: 544138373353664747}
+  - {fileID: 8348569856625148256}
   row: 0
+  col: 0
   isPlantKill: 0
   isBulletHit: 0
   underAttackSound: 0
   underAttackSoundPriority: 0
   armor2: {fileID: 0}
+--- !u!1 &8348569856625148256 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3835338324816706857, guid: 7bfa5b57f4781784a9c9c3c74de43436, type: 3}
+  m_PrefabInstance: {fileID: 5108717979915861065}
+  m_PrefabAsset: {fileID: 0}

@@ -191,6 +191,9 @@ public class Cell : MonoBehaviour, IClickable
         // 特殊植物判定
         switch (plant.id)
         {
+            case PlantID.PotatoMine:
+                if (cellType == CellType.Pool) return false;
+                break;
             case PlantID.GraveBuster: // 墓碑吞噬者
                 if (tombstone) return true;
                 else return false;
@@ -342,6 +345,14 @@ public class Cell : MonoBehaviour, IClickable
             foreach (Plant pl in pair.Value) if (!pl.cellTypes.Contains(cellType)) return false;
         }
         return true;
+    }
+
+    public void killAllPlants(int dieMode=0) // 击杀该格子所有植物
+    {
+        foreach (KeyValuePair<PlantType, List<Plant>> pair in plants)
+        {
+            foreach (Plant pl in pair.Value) if (!pl.cellTypes.Contains(cellType)) pl.kill(dieMode);
+        }
     }
 
     private void IceTunnelUpdate()

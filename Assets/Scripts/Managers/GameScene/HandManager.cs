@@ -11,7 +11,7 @@ public class HandManager : MonoBehaviour
     private Card currCard = null;
     private Shovel currShovel = null;
 
-    public GameObject plantEffectPrefab;
+    public List<GameObject> plantEffectPrefabs;
 
     void Awake()
     {
@@ -72,14 +72,15 @@ public class HandManager : MonoBehaviour
         {
             case CellType.Grass:
                 soundPath = ResourceConfig.sound_placeplant_plant;
-                GameObject.Instantiate(plantEffectPrefab, currPlant.transform.position, Quaternion.identity); // 种植特效
+                GameObject.Instantiate(plantEffectPrefabs[0], currPlant.transform.position, Quaternion.identity); // 种植特效
                 break;
             case CellType.Pool:
                 soundPath = ResourceConfig.sound_placeplant_plantWater;
+                GameObject.Instantiate(plantEffectPrefabs[1], currPlant.transform.position, Quaternion.identity);
                 break;
             case CellType.Roof:
                 soundPath = ResourceConfig.sound_placeplant_plant;
-                GameObject.Instantiate(plantEffectPrefab, currPlant.transform.position, Quaternion.identity); // 种植特效
+                GameObject.Instantiate(plantEffectPrefabs[0], currPlant.transform.position, Quaternion.identity);
                 break;
             default:
                 break;

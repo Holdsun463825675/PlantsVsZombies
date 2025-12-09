@@ -27,8 +27,7 @@ public class AnimatorConfig
     public const string zombie_speedLevel = "SpeedLevel";
     public const string zombie_speedRatio = "SpeedRatio";
     public const string zombie_deceleration = "Deceleration";
-    public const string zombie_frozen = "Frozen";
-    public const string zombie_butter = "Butter";
+    public const string zombie_temptation = "Temptation";
     public const string zombie_effect = "Effect";
     public const string zombie_stopEffect = "StopEffect";
 

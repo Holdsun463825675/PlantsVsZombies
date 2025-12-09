@@ -24,6 +24,7 @@ public class GraveBuster : Plant
             transform.DOMove(cell.transform.position, eatGraveDuration)
                 .SetEase(Ease.Linear)
                 .OnComplete(() => EatGrave());
+            if (GameManager.Instance.state == GameState.Paused) transform.DOPause();
         }
     }
 
