@@ -16,6 +16,7 @@ public enum PlantID
     SnowPea = 6,
     Chomper = 7,
     Repeater = 8,
+    FumeShroom = 11,
     GraveBuster = 12,
     LilyPad = 17,
     Torchwood = 23,
@@ -49,6 +50,8 @@ public class Plant : MonoBehaviour, IClickable
     public PlantType type = PlantType.Normal;
     public PlantID prePlantID = PlantID.None; // 种植的前置植物
     public List<CellType> cellTypes = new List<CellType> { CellType.Grass }; // 可种植的格子类型
+    public bool sleep; // 是否睡觉
+    protected List<TimeOfGame> sleepTime = new List<TimeOfGame>(); // 睡觉时间
 
     public int row, col;
     protected int dieMode;
@@ -70,9 +73,12 @@ public class Plant : MonoBehaviour, IClickable
     protected string effectPlaceName = "EffectPlace";
     protected Transform effectPlace;
     protected Collider2D effectPlaceCollider;
+    protected GameObject sleepEffect;
 
     protected virtual void Awake()
     {
+        sleep = false;
+        sleepTime = new List<TimeOfGame>();
         cellTypes = new List<CellType> { CellType.Grass };
         row = 0; col = 0;
         dieMode = 0;
@@ -100,6 +106,8 @@ public class Plant : MonoBehaviour, IClickable
             effectPlaceCollider.GetComponent<TriggerForwarder>().SetPlantParentHandler(this);
             effectPlaceCollider.enabled = false;
         }
+        sleepEffect = transform.Find("SleepEffect").gameObject;
+        sleepEffect.SetActive(false);
     }
 
     void Start()
@@ -118,6 +126,9 @@ public class Plant : MonoBehaviour, IClickable
         if (GameManager.Instance.state == GameState.Paused ||
             GameManager.Instance.state == GameState.Losing ||
             GameManager.Instance.state == GameState.Winning) return;
+
+        anim.SetBool(AnimatorConfig.plant_sleep, sleep);
+        sleepEffect.gameObject.SetActive(sleep);
 
         switch (state)
         {
@@ -140,12 +151,14 @@ public class Plant : MonoBehaviour, IClickable
     {
         transform.DOPause();
         if (state != PlantState.Suspension) anim.enabled = false;
+        sleepEffect.GetComponent<Animator>().enabled = false;
     }
 
     public virtual void Continue()
     {
         transform.DOPlay();
         if (state != PlantState.Suspension) anim.enabled = true;
+        sleepEffect.GetComponent<Animator>().enabled = true;
     }
 
     public void OnClick()
@@ -153,9 +166,36 @@ public class Plant : MonoBehaviour, IClickable
 
     }
 
+    public void setGameMode(int row=0, int col=0)
+    {
+        this.row = row; this.col = col;
+        if (sleepTime.Contains(GameManager.Instance.currLevelConfig.time)) sleep = true;
+        if (HPText) HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.plantHealth);
+        if (shadow) shadow.gameObject.SetActive(true);
+        if (cell) cell.addPlant(this);
+        if (GameManager.Instance.state != GameState.Paused) anim.enabled = true;
+        c2d.enabled = true;
+        if (effectPlaceCollider) effectPlaceCollider.enabled = true;
+    }
+
+    public void cancelGameMode()
+    {
+        transform.DOKill();
+        row = 0; col = 0;
+        if (HPText) HPText.gameObject.SetActive(false);
+        c2d.enabled = false;
+        if (effectPlaceCollider) effectPlaceCollider.enabled = false;
+        if (cell) cell.removePlant(this);
+    }
+
     public PlantState getState()
     {
         return state; 
+    }
+
+    public bool canAct()
+    {
+        return !sleep;
     }
 
     public virtual void setState(PlantState state)
@@ -165,36 +205,19 @@ public class Plant : MonoBehaviour, IClickable
         switch (state)
         {
             case PlantState.Suspension:
-                transform.DOKill();
-                row = 0; col = 0;
-                if (HPText) HPText.gameObject.SetActive(false);
+                cancelGameMode();
                 if (shadow) shadow.gameObject.SetActive(false);
                 anim.enabled = false;
-                c2d.enabled = false;
-                if (effectPlaceCollider) effectPlaceCollider.enabled = false;
-                if (cell) cell.removePlant(this);
                 spriteRenderer.sortingLayerName = "Hand";
                 break;
             case PlantState.Idle:
-                if (HPText) HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.plantHealth);
-                if (shadow) shadow.gameObject.SetActive(true);
-                if (cell)
-                {
-                    cell.addPlant(this);
-                    row = cell.row; col = cell.col;
-                } 
-                if (GameManager.Instance.state != GameState.Paused) anim.enabled = true;
-                c2d.enabled = true;
-                if (effectPlaceCollider) effectPlaceCollider.enabled = true;
+                if (cell) setGameMode(cell.row, cell.col);
+                else setGameMode();
                 spriteRenderer.sortingLayerName = "Plant";
                 break;
             case PlantState.Die:
-                transform.DOKill();
-                row = 0; col = 0;
-                if (HPText) HPText.gameObject.SetActive(false);
+                cancelGameMode();
                 if (shadow) shadow.gameObject.SetActive(false);
-                if (cell) cell.removePlant(this);
-                if (effectPlaceCollider) effectPlaceCollider.enabled = false;
                 spriteRenderer.sortingLayerName = "Plant";
                 anim.SetBool(AnimatorConfig.plant_death, true);
                 anim.SetInteger(AnimatorConfig.plant_dieMode, dieMode);
@@ -213,9 +236,16 @@ public class Plant : MonoBehaviour, IClickable
     public int setSortingOrder(int sortingOrder)
     {
         int count = 0;
-        this.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder; count++;
-        if (HPText) HPText.sortingOrder = sortingOrder + ++count; count++;
+        this.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder + count++;
+        sleepEffect.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder + count++;
+        if (HPText) HPText.sortingOrder = sortingOrder + count++;
         return count;
+    }
+
+    public void awakeFromSleep()
+    {
+        if (!sleep) return;
+        sleep = false;
     }
 
     protected virtual void AddHealth(int point)

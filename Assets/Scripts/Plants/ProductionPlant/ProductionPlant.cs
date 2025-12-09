@@ -24,7 +24,7 @@ public class ProductionPlant : Plant
 
         produceTimer += Time.deltaTime;
 
-        if (produceTimer >= produceTime)
+        if (canAct() && produceTimer >= produceTime)
         {
             setProduce();
             produceTimer = 0.0f;

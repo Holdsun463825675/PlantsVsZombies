@@ -347,6 +347,14 @@ public class Cell : MonoBehaviour, IClickable
         return true;
     }
 
+    public void AllPlantsUnderAttack(int attackPoint, int dieMode = 0)
+    {
+        foreach (KeyValuePair<PlantType, List<Plant>> pair in plants)
+        {
+            foreach (Plant pl in pair.Value) if (!pl.cellTypes.Contains(cellType)) pl.UnderAttack(attackPoint, dieMode);
+        }
+    }
+
     public void killAllPlants(int dieMode=0) // 击杀该格子所有植物
     {
         foreach (KeyValuePair<PlantType, List<Plant>> pair in plants)

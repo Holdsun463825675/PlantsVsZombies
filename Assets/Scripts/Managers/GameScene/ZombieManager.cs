@@ -371,7 +371,13 @@ public class ZombieManager : MonoBehaviour
     private void spawnSpecialZombie(int row, int col) // 在特殊位置生成僵尸，不占出怪权重
     {
         if (specialZombies.Count == 0) return;
+
+        bool flag = false; // 僵尸列表中是否包含特殊僵尸
+        foreach (ZombieID id in specialZombies) if (zombieID.Contains(id)) flag = true;
+        if (!flag) return; // 不包含则不生成
+
         //if (spawnProtection[row - 1] > 0) return; // 有出怪保护则不会出怪
+
         Zombie zombiePrefab = null;
         while (true)
         {

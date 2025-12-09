@@ -285,7 +285,7 @@ public class Zombie : MonoBehaviour, IClickable
         return healthState == ZombieHealthState.Healthy || healthState == ZombieHealthState.LostArm; 
     }
 
-    public bool isAction() // 是否可行动，运动、啃食、特殊状态转换等
+    public bool canAct() // 是否可行动，运动、啃食、特殊状态转换等
     {
         return frozenDuration <= 0 && butterDuration <= 0;
     }
@@ -293,9 +293,9 @@ public class Zombie : MonoBehaviour, IClickable
     public int setSortingOrder(int sortingOrder)
     {
         int count = 0;
-        this.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder; count++;
+        this.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder + count++;
         foreach (GameObject debuff in Debuff) debuff.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder + count++;
-        if (HPText) HPText.sortingOrder = sortingOrder + ++count; count++;
+        if (HPText) HPText.sortingOrder = sortingOrder + count++;
         return count;
     }
 
@@ -389,13 +389,13 @@ public class Zombie : MonoBehaviour, IClickable
     {
         if (anim.GetBool(AnimatorConfig.zombie_game) == false) return;
         Plant target = getAttackTarget();
-        if (target && isAction())
+        if (target && canAct())
         {
             setMoveState(ZombieMoveState.Stop);
             anim.SetBool(AnimatorConfig.zombie_isAttack, true);
             return;
         }
-        if (isAction()) anim.SetBool(AnimatorConfig.zombie_isAttack, false);
+        if (canAct()) anim.SetBool(AnimatorConfig.zombie_isAttack, false);
     }
 
     private void groanUpdate()

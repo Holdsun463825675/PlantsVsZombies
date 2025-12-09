@@ -10,7 +10,7 @@ public class LevelConfig
     public PropID awardPropID = PropID.None; // 通关奖励道具
     public string levelName; // 关卡名称
     public int mapID; // 地图
-    public TimeOfDay time; // 时间
+    public TimeOfGame time; // 时间
     public string music; // 背景音乐
     public bool dropSun; // 是否掉落阳光
     public int startingSun; // 初始阳光
@@ -37,7 +37,7 @@ public class LevelConfig
     public bool cardCoolingDown = true; // 卡片是否有冷却
 }
 
-public enum TimeOfDay
+public enum TimeOfGame
 {
     Day = 0,
     Night = 1

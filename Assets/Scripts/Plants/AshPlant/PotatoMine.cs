@@ -11,7 +11,6 @@ public enum PotatoMineState
 public class PotatoMine : AshPlant
 {
     protected float coolingDownTime, coolingDownTimer;
-    protected int attackMode = 2;
     protected PotatoMineState potatoMineState;
     protected List<Zombie> explodeTargets;
 
@@ -20,7 +19,7 @@ public class PotatoMine : AshPlant
         base.Awake();
         id = PlantID.PotatoMine;
         type = PlantType.Normal;
-        attackDieMode = 2;
+        attackMode = 2;
         coolingDownTime = 15.0f; coolingDownTimer = 0.0f;
         explodeTargets = new List<Zombie>();
         setPotatoMineState(PotatoMineState.CoolingDown); // ÷÷œ¬º¥¿‰»¥

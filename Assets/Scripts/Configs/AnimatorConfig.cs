@@ -11,6 +11,7 @@ public class AnimatorConfig
     public const string plant_underAttack = "UnderAttack";
     public const string plant_death = "Death";
     public const string plant_dieMode = "DieMode";
+    public const string plant_sleep = "Sleep";
     public const string plant_selected = "Selected";
     public const string plant_twinkle = "Twinkle";
     public const string plant_coolingDown = "CoolingDown";

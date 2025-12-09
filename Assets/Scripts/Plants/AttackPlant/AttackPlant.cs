@@ -6,18 +6,35 @@ using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
 public class AttackPlant : Plant
 {
+    public Effect attackEffect; // 攻击特效
+    protected Effect currAttackEffect;
+
     protected float attackTime;
     protected float attackTimer;
     protected List<int> targetRows; // 可攻击的行，0为任意，大于0为行数
 
-    protected List<Zombie> targets;
+    protected List<Zombie> targetZombie;
+    protected List<Armor2> targetArmor2;
 
     protected override void Awake()
     {
         base.Awake();
         attackTime = 1.5f; attackTimer = Random.Range(0, attackTime);
         targetRows = new List<int>();
-        targets = new List<Zombie>();
+        targetZombie = new List<Zombie>();
+        targetArmor2 = new List<Armor2>();
+    }
+
+    public override void Pause()
+    {
+        base.Pause();
+        if (currAttackEffect) currAttackEffect.GetComponent<Animator>().enabled = false;
+    }
+
+    public override void Continue()
+    {
+        base.Continue();
+        if (currAttackEffect) currAttackEffect.GetComponent<Animator>().enabled = true;
     }
 
     public override void setState(PlantState state)
@@ -33,18 +50,28 @@ public class AttackPlant : Plant
         // TODO: 时间玄学
         if (attackTimer >= attackTime / Time.timeScale)
         {
-            if (effectPlace && HaveAttackTarget()) setAttack();
+            if (canAct() && effectPlace && HaveAttackTarget()) setAttack();
             attackTimer = 0.0f;
         }
     }
 
     protected virtual bool HaveAttackTarget() // 在可攻击的行是否有目标
     {
-        foreach (Zombie target in targets) // 只攻击可攻击行的僵尸
+        foreach (Zombie target in targetZombie) // 只攻击可攻击行的僵尸
         {
-            if (target.row == 0 || targetRows.Contains(0) || targetRows.Contains(target.row)) return true;
+            if ((target.row == 0 || targetRows.Contains(0) || targetRows.Contains(target.row)) && target.isBulletHit) return true;
         }
         return false;
+    }
+
+    protected virtual bool CanAttack(Zombie zombie)
+    {
+        return (zombie.row == 0 || targetRows.Contains(0) || targetRows.Contains(zombie.row)) && zombie.isBulletHit;
+    }
+
+    protected virtual bool CanAttack(Armor2 armor2)
+    {
+        return armor2.zombie.row == 0 || targetRows.Contains(0) || targetRows.Contains(armor2.zombie.row);
     }
 
     protected virtual void setAttack()
@@ -59,19 +86,35 @@ public class AttackPlant : Plant
 
     public override void OnChildTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == TagConfig.zombie)
+        switch (collision.tag)
         {
-            Zombie target = collision.GetComponent<Zombie>();
-            if (target && !targets.Contains(target)) targets.Add(target);
+            case TagConfig.zombie:
+                Zombie target = collision.GetComponent<Zombie>();
+                if (target && !targetZombie.Contains(target)) targetZombie.Add(target);
+                break;
+            case TagConfig.armor2:
+                Armor2 armor2 = collision.GetComponent<Armor2>();
+                if (armor2 && !targetArmor2.Contains(armor2)) targetArmor2.Add(armor2);
+                break;
+            default:
+                break;
         }
     }
 
     public override void OnChildTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == TagConfig.zombie)
+        switch (collision.tag)
         {
-            Zombie target = collision.GetComponent<Zombie>();
-            if (target) targets.Remove(target);
+            case TagConfig.zombie:
+                Zombie target = collision.GetComponent<Zombie>();
+                if (target) targetZombie.Remove(target);
+                break;
+            case TagConfig.armor2:
+                Armor2 armor2 = collision.GetComponent<Armor2>();
+                if (armor2) targetArmor2.Remove(armor2);
+                break;
+            default:
+                break;
         }
     }
 }

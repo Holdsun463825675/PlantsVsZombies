@@ -15,7 +15,7 @@ public class AshPlant : Plant
     public Effect explodeEffect;
 
     protected int attackPoint;
-    protected int attackDieMode = 1;
+    protected int attackMode = 1;
     protected List<int> targetRows; // 可攻击的行，0为任意，大于0为行数
     protected AshPlantState ashState;
 
@@ -72,8 +72,8 @@ public class AshPlant : Plant
         if (explodeEffect) GameObject.Instantiate(explodeEffect, transform.position, Quaternion.identity);
         List<Armor2> targetArmor2s = new List<Armor2>(targetArmor2);
         List<Zombie> targetZombies = new List<Zombie>(targetZombie);
-        foreach (Armor2 armor2 in targetArmor2s) if (CanAttack(armor2)) armor2.UnderAttack(attackPoint, attackDieMode);
-        foreach (Zombie zombie in targetZombies) if (CanAttack(zombie)) zombie.UnderAttack(attackPoint, attackDieMode);
+        foreach (Armor2 armor2 in targetArmor2s) if (CanAttack(armor2)) armor2.UnderAttack(attackPoint, attackMode);
+        foreach (Zombie zombie in targetZombies) if (CanAttack(zombie)) zombie.UnderAttack(attackPoint, attackMode);
         kill();
     }
 

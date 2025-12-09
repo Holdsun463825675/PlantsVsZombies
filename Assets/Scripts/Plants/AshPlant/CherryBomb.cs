@@ -19,7 +19,7 @@ public class CherryBomb : AshPlant
 
     protected override void IdleUpdate()
     {
-        setAshState(AshPlantState.Explode); // 种下即爆炸
+        if (canAct()) setAshState(AshPlantState.Explode); // 可行动即爆炸
     }
 
     protected override void Explode()

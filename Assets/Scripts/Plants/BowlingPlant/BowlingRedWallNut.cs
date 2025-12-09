@@ -6,7 +6,7 @@ using UnityEngine;
 public class BowlingRedWallNut : BowlingPlant
 {
     public Effect explodeEffect;
-    protected int attackDieMode = 1;
+    protected int attackMode = 1;
 
     protected List<Zombie> targetZombie;
     protected List<Armor2> targetArmor2;
@@ -41,8 +41,8 @@ public class BowlingRedWallNut : BowlingPlant
     {
         AudioManager.Instance.playClip(ResourceConfig.sound_plant_bowlingimpact2);
         if (explodeEffect) GameObject.Instantiate(explodeEffect, transform.position, Quaternion.identity);
-        foreach (Armor2 armor2 in targetArmor2) if (CanAttack(armor2)) armor2.UnderAttack(attackPoint, attackDieMode);
-        foreach (Zombie zombie in targetZombie) if (CanAttack(zombie)) zombie.UnderAttack(attackPoint, attackDieMode);
+        foreach (Armor2 armor2 in targetArmor2) if (CanAttack(armor2)) armor2.UnderAttack(attackPoint, attackMode);
+        foreach (Zombie zombie in targetZombie) if (CanAttack(zombie)) zombie.UnderAttack(attackPoint, attackMode);
         kill();
     }
 

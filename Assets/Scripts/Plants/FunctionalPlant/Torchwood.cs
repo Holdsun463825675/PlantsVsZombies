@@ -19,7 +19,7 @@ public class Torchwood : Plant
         if (collision.tag == TagConfig.bullet)
         {
             Bullet bullet = collision.GetComponent<Bullet>();
-            if (bullet && CanIgnite(bullet) && !ignitedBullets.Contains(bullet))
+            if (canAct() && bullet && CanIgnite(bullet) && !ignitedBullets.Contains(bullet))
             {
                 ignitedBullets.Add(bullet);
                 Bullet newBullet = bullet.Ignite();
