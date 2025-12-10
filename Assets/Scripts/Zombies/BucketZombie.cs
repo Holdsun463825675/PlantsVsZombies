@@ -14,14 +14,4 @@ public class BucketZombie : Zombie
         underAttackSound = ZombieUnderAttackSound.Shield;
         underAttackSoundPriority = 2;
     }
-
-    protected override void Update()
-    {
-        base.Update();
-        if (currArmor1Health == 0.0f)
-        {
-            underAttackSound = ZombieUnderAttackSound.Splat;
-            underAttackSoundPriority = 1;
-        }
-    }
 }

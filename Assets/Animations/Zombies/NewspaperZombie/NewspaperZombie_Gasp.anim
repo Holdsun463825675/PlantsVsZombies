@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!74 &7400000
+AnimationClip:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NewspaperZombie_Gasp
+  serializedVersion: 7
+  m_Legacy: 0
+  m_Compressed: 0
+  m_UseHighQualityCurve: 1
+  m_RotationCurves: []
+  m_CompressedRotationCurves: []
+  m_EulerCurves: []
+  m_PositionCurves: []
+  m_ScaleCurves: []
+  m_FloatCurves: []
+  m_PPtrCurves:
+  - serializedVersion: 2
+    curve:
+    - time: 0
+      value: {fileID: 21300000, guid: 69b070c14fe49f54997a098215c7bb51, type: 3}
+    - time: 0.083333336
+      value: {fileID: 21300000, guid: 691face256725924db16e596304fc40d, type: 3}
+    - time: 0.16666667
+      value: {fileID: 21300000, guid: 6942ce0971c2118479e9b4f9b2504e97, type: 3}
+    - time: 0.25
+      value: {fileID: 21300000, guid: 07ba70e7e9c1f9f46a42a62e08d247ee, type: 3}
+    - time: 0.33333334
+      value: {fileID: 21300000, guid: 27b5a780a475eab489365ac37125a315, type: 3}
+    - time: 0.41666666
+      value: {fileID: 21300000, guid: b1bd37dfe321a5b4da656067f9046fc1, type: 3}
+    - time: 0.5
+      value: {fileID: 21300000, guid: 2a2fbac51706ed444aa026bf65980b56, type: 3}
+    - time: 0.5833333
+      value: {fileID: 21300000, guid: 3c6469bfebd1e36458965259d9a5c5d6, type: 3}
+    - time: 0.6666667
+      value: {fileID: 21300000, guid: 02e5698b91f9fc24fb62c8df090f64f2, type: 3}
+    - time: 0.75
+      value: {fileID: 21300000, guid: 6b3a2835f050de749bd0f5a4d67fccf4, type: 3}
+    - time: 0.8333333
+      value: {fileID: 21300000, guid: cb140692c13a64a41b94dd42d804a17a, type: 3}
+    - time: 0.9166667
+      value: {fileID: 21300000, guid: 0764b0c1ec1ab0a48b8066cdc6302097, type: 3}
+    - time: 1
+      value: {fileID: 21300000, guid: ddb637d2250d87a41807dd85942be15f, type: 3}
+    attribute: m_Sprite
+    path: 
+    classID: 212
+    script: {fileID: 0}
+    flags: 2
+  m_SampleRate: 12
+  m_WrapMode: 0
+  m_Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_ClipBindingConstant:
+    genericBindings:
+    - serializedVersion: 2
+      path: 0
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
+    pptrCurveMapping:
+    - {fileID: 21300000, guid: 69b070c14fe49f54997a098215c7bb51, type: 3}
+    - {fileID: 21300000, guid: 691face256725924db16e596304fc40d, type: 3}
+    - {fileID: 21300000, guid: 6942ce0971c2118479e9b4f9b2504e97, type: 3}
+    - {fileID: 21300000, guid: 07ba70e7e9c1f9f46a42a62e08d247ee, type: 3}
+    - {fileID: 21300000, guid: 27b5a780a475eab489365ac37125a315, type: 3}
+    - {fileID: 21300000, guid: b1bd37dfe321a5b4da656067f9046fc1, type: 3}
+    - {fileID: 21300000, guid: 2a2fbac51706ed444aa026bf65980b56, type: 3}
+    - {fileID: 21300000, guid: 3c6469bfebd1e36458965259d9a5c5d6, type: 3}
+    - {fileID: 21300000, guid: 02e5698b91f9fc24fb62c8df090f64f2, type: 3}
+    - {fileID: 21300000, guid: 6b3a2835f050de749bd0f5a4d67fccf4, type: 3}
+    - {fileID: 21300000, guid: cb140692c13a64a41b94dd42d804a17a, type: 3}
+    - {fileID: 21300000, guid: 0764b0c1ec1ab0a48b8066cdc6302097, type: 3}
+    - {fileID: 21300000, guid: ddb637d2250d87a41807dd85942be15f, type: 3}
+  m_AnimationClipSettings:
+    serializedVersion: 2
+    m_AdditiveReferencePoseClip: {fileID: 0}
+    m_AdditiveReferencePoseTime: 0
+    m_StartTime: 0
+    m_StopTime: 1.0833334
+    m_OrientationOffsetY: 0
+    m_Level: 0
+    m_CycleOffset: 0
+    m_HasAdditiveReferencePose: 0
+    m_LoopTime: 0
+    m_LoopBlend: 0
+    m_LoopBlendOrientation: 0
+    m_LoopBlendPositionY: 0
+    m_LoopBlendPositionXZ: 0
+    m_KeepOriginalOrientation: 0
+    m_KeepOriginalPositionY: 1
+    m_KeepOriginalPositionXZ: 0
+    m_HeightFromFeet: 0
+    m_Mirror: 0
+  m_EditorCurves: []
+  m_EulerEditorCurves: []
+  m_HasGenericRootTransform: 0
+  m_HasMotionFloatCurves: 0
+  m_Events:
+  - time: 1
+    functionName: setNewspaperZombieState
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 3
+    messageOptions: 0

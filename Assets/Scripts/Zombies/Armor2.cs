@@ -9,6 +9,11 @@ public class Armor2 : MonoBehaviour
     public ZombieUnderAttackSound underAttackSound = ZombieUnderAttackSound.Splat;
     public int underAttackSoundPriority = 1;
 
+    private void Awake()
+    {
+        zombie = transform.parent.GetComponent<Zombie>();
+    }
+
     public void UnderAttack(int point, int mode=0)
     {
         int hurtPoint = (int)((float)point * SettingSystem.Instance.settingsData.hurtRate); // 根据受伤比例计算伤害

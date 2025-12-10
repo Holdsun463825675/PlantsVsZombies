@@ -14,10 +14,4 @@ public class ConeheadZombie : Zombie
         underAttackSound = ZombieUnderAttackSound.Plastic;
         underAttackSoundPriority = 1;
     }
-
-    protected override void Update()
-    {
-        base.Update();
-        if (currArmor1Health == 0.0f) underAttackSound = ZombieUnderAttackSound.Splat;
-    }
 }

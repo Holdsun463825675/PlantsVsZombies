@@ -24,6 +24,7 @@ public class PoleVaultingZombie : Zombie
         zombieID = ZombieID.PoleVaultingZombie;
         spawnWeight = 2.0f;
         maxHealth = 500; currHealth = maxHealth;
+
         attackPoint = 60;
         setPoleVaultingZombieState(PoleVaultingZombieState.NotEffect);
     }

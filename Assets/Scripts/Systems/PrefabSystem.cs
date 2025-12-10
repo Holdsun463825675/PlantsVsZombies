@@ -11,6 +11,7 @@ public class PrefabSystem : MonoBehaviour
     public List<Bullet> bulletPrefabs;
     public List<Sun> sunPrefabs;
     public List<Dialog> dialogPrefabs;
+    public List<GameObject> others; 
 
     private void Awake()
     {

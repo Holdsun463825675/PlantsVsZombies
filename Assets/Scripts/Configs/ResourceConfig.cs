@@ -95,6 +95,12 @@ public class ResourceConfig
     public const string sound_zombie_frozen = "Audio/Sound/zombie/frozen";
     public const string sound_zombie_poleVault = "Audio/Sound/zombie/polevault";
     public const string sound_zombie_bonk = "Audio/Sound/zombie/bonk";
+    public const string sound_zombie_newspaperRip = "Audio/Sound/zombie/newspaper_rip";
+    public static readonly string[] sound_zombie_newspaperRarrghs = new string[]
+{
+        "Audio/Sound/zombie/newspaper_rarrgh",
+        "Audio/Sound/zombie/newspaper_rarrgh2",
+};
 
     public static readonly string[] sound_zombieeat_chomps = new string[]
     {

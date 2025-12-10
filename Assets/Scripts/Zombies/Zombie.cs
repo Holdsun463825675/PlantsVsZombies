@@ -7,13 +7,8 @@ using UnityEngine;
 public enum ZombieID
 {
     None = 0,
-    NormalZombie = 1,
-    FlagZombie = 2,
-    ConeHeadZombie = 3,
-    PoleVaultingZombie = 4,
-    BucketZombie = 5,
-    ScreenDoorZombie = 7,
-    FootballZombie = 8,
+    NormalZombie = 1, FlagZombie = 2, ConeHeadZombie = 3, PoleVaultingZombie = 4, BucketZombie = 5,
+    NewspaperZombie = 6, ScreenDoorZombie = 7, FootballZombie = 8,
 }
 
 public enum ZombieMoveState
@@ -56,7 +51,7 @@ public class Zombie : MonoBehaviour, IClickable
     protected List<int> effectRows; // 可起作用的行，0为任意，大于0为行数
     protected bool isLostHealth;
     public float spawnWeight;
-    public GameObject zombieHeadPrefab;
+    protected GameObject zombieHeadPrefab;
     private List<GameObject> Debuff;
     private GameObject zombieHead;
 
@@ -124,6 +119,7 @@ public class Zombie : MonoBehaviour, IClickable
         isPlantKill = true;
         isBulletHit = true;
 
+        zombieHeadPrefab = PrefabSystem.Instance.others[0];
         targets = new List<Plant>();
         effectTargets = new List<Plant>(); effectBowlingTargets = new List<Plant>();
         anim = GetComponent<Animator>();
@@ -172,6 +168,8 @@ public class Zombie : MonoBehaviour, IClickable
         ClickPriority priority = gameObject.AddComponent<ClickPriority>();
         priority.priority = 1;
         priority.isClickable = true;
+
+        HPChanged(); AddArmor1Health(0); AddArmor2Health(0);
     }
 
     protected virtual void Update()
@@ -418,7 +416,7 @@ public class Zombie : MonoBehaviour, IClickable
         }
     }
 
-    private void HPChanged()
+    protected void HPChanged()
     {
         HPText.text = $"HP: {currHealth}/{maxHealth}";
         if (currArmor1Health > 0) HPText.text = $"A1: {currArmor1Health}/{maxArmor1Health}\n" + HPText.text;
@@ -454,12 +452,17 @@ public class Zombie : MonoBehaviour, IClickable
             currArmor1Health = 0;
             return res;
         }
+        if (currArmor1Health == 0)
+        {
+            underAttackSound = ZombieUnderAttackSound.Splat;
+            underAttackSoundPriority = 1;
+        } 
         anim.SetFloat(AnimatorConfig.zombie_armor1HealthPercentage, maxArmor1Health == 0.0f ? 0.0f : (float)currArmor1Health / (float)maxArmor1Health);
         HPChanged();
         return 0;
     }
 
-    public void AddArmor2Health(int point)
+    public virtual void AddArmor2Health(int point)
     {
         currArmor2Health += point;
         if (currArmor2Health > maxArmor2Health) currArmor2Health = maxArmor2Health;
