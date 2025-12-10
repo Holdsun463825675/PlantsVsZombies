@@ -45,6 +45,7 @@ public class JSONSaveSystem : MonoBehaviour
         public List<PlantID> unlockedPlants = new List<PlantID>(); // 已解锁的植物
         public List<LevelData> levelDatas = new List<LevelData>(); // 关卡数据
         public SettingsData settingsData = new SettingsData(); // 设置数据
+        public List<LevelListKind> unlockedLevelListKinds = new List<LevelListKind>(); // 已解锁的关卡列表
         public bool shovel; // 是否解锁铲子
         public bool miniGame; // 是否解锁迷你游戏
     }
@@ -134,6 +135,7 @@ public class JSONSaveSystem : MonoBehaviour
                 autoCollected = false, 
                 plantHealth = false, 
                 zombieHealth = false },
+            unlockedLevelListKinds = new List<LevelListKind> { LevelListKind.Adventure_Day },
             shovel = false,
             miniGame = false,
         };
@@ -272,6 +274,7 @@ public class JSONSaveSystem : MonoBehaviour
         foreach (int id in levelConfig.nextLevelID) UnlockLevel(id);
         unlockPlant(levelConfig.awardPlantID);
         unlockProp(levelConfig.awardPropID);
+        unlockLevelListKind(levelConfig.unlockedLevelListKinds);
 
         SaveGameData();
     }
@@ -308,5 +311,14 @@ public class JSONSaveSystem : MonoBehaviour
                 break;
         }
         SaveGameData();
+    }
+
+    public void unlockLevelListKind(List<LevelListKind> kinds)
+    {
+        foreach (LevelListKind kind in kinds)
+        {
+            if (kind == LevelListKind.None || userData.unlockedLevelListKinds.Contains(kind)) continue;
+            userData.unlockedLevelListKinds.Add(kind);
+        }
     }
 }

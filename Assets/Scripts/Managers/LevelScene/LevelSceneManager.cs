@@ -8,7 +8,8 @@ public class LevelSceneManager : MonoBehaviour
 {
     public static LevelSceneManager Instance { get; private set; }
 
-    public List<LevelList> levelLists;
+    public List<LevelList> levelLists_Adventure;
+    public List<LevelList> levelLists_MiniGame;
 
     public void Awake()
     {
@@ -25,7 +26,16 @@ public class LevelSceneManager : MonoBehaviour
 
     private void showLevelList(LevelListKind kind)
     {
-        foreach (LevelList levelList in levelLists)
+        foreach (LevelList levelList in levelLists_Adventure)
+        {
+            if (levelList.kind == kind)
+            {
+                levelList.gameObject.SetActive(true);
+                levelList.showLevels();
+            }
+            else levelList.gameObject.SetActive(false);
+        }
+        foreach (LevelList levelList in levelLists_MiniGame)
         {
             if (levelList.kind == kind)
             {
@@ -59,14 +69,39 @@ public class LevelSceneManager : MonoBehaviour
     public void SkipLevel()
     {
         LevelListKind kind = LevelConfigManager.Instance ? LevelConfigManager.Instance.currLevelListKind : LevelListKind.Adventure_Day;
-        foreach (LevelList levelList in levelLists)
+        foreach (LevelList levelList in levelLists_Adventure) if (levelList.kind == kind) levelList.SkipLevel();
+        foreach (LevelList levelList in levelLists_MiniGame) if (levelList.kind == kind) levelList.SkipLevel();
+        showLevelList(kind);
+    }
+
+    public void onPageButtonsClick(bool nextPage)
+    {
+        LevelListKind kind = LevelConfigManager.Instance ? LevelConfigManager.Instance.currLevelListKind : LevelListKind.Adventure_Day;
+        List<LevelList> lists = null; int currListIdx = 0;
+        for (int i = 0; i < levelLists_Adventure.Count; i++)
         {
-            if (levelList.kind == kind)
+            if (levelLists_Adventure[i].kind == kind)
             {
-                levelList.SkipLevel();
-                break;
+                lists = levelLists_Adventure;
+                currListIdx = i;
             }
         }
-        showLevelList(kind);
+        for (int i = 0; i < levelLists_MiniGame.Count; i++)
+        {
+            if (levelLists_MiniGame[i].kind == kind)
+            {
+                lists = levelLists_MiniGame;
+                currListIdx = i;
+            }
+        }
+        if (lists == null) return;
+        if (nextPage) currListIdx = (currListIdx + 1) % lists.Count;
+        else currListIdx = (currListIdx + lists.Count - 1) % lists.Count;
+        if (LevelConfigManager.Instance) LevelConfigManager.Instance.currLevelListKind = lists[currListIdx].kind;
+        if (JSONSaveSystem.Instance) // 解锁了才显示
+        {
+            if (JSONSaveSystem.Instance.userData.unlockedLevelListKinds.Contains(lists[currListIdx].kind)) showLevelList(lists[currListIdx].kind);
+        }
+        else showLevelList(lists[currListIdx].kind);
     }
 }

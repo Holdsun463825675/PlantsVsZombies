@@ -4,9 +4,9 @@ using UnityEngine;
 
 public enum LevelListKind
 {
-    None,
-    Adventure_Day, Adventure_Night, Adventure_Pool, Adventure_Fog, Adventure_Roof,
-    MiniGame_1,
+    None = 0,
+    Adventure_Day = 1, Adventure_Night = 2, Adventure_Pool = 3, Adventure_Fog = 4, Adventure_Roof = 5,
+    MiniGame_1 = 6,
 }
 
 public class LevelList : MonoBehaviour

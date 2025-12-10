@@ -8,6 +8,7 @@ public class LevelConfig
     public List<int> nextLevelID = new List<int>(); // 通关后解锁的关卡
     public PlantID awardPlantID = PlantID.None; // 通关奖励植物
     public PropID awardPropID = PropID.None; // 通关奖励道具
+    public List<LevelListKind> unlockedLevelListKinds = new List<LevelListKind>(); // 通关后解锁的章节
     public string levelName; // 关卡名称
     public int mapID; // 地图
     public TimeOfGame time; // 时间

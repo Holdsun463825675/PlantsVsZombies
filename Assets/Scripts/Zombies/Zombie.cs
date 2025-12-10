@@ -444,13 +444,13 @@ public class Zombie : MonoBehaviour, IClickable
 
     public int AddArmor1Health(int point) // ·µ»ØÒç³öµÄ¿ÛÑªÉËº¦
     {
+        int res = 0;
         currArmor1Health += point;
         if (currArmor1Health > maxArmor1Health) currArmor1Health = maxArmor1Health;
         if (currArmor1Health < 0)
         {
-            int res = -currArmor1Health;
+            res = -currArmor1Health;
             currArmor1Health = 0;
-            return res;
         }
         if (currArmor1Health == 0)
         {
@@ -459,7 +459,7 @@ public class Zombie : MonoBehaviour, IClickable
         } 
         anim.SetFloat(AnimatorConfig.zombie_armor1HealthPercentage, maxArmor1Health == 0.0f ? 0.0f : (float)currArmor1Health / (float)maxArmor1Health);
         HPChanged();
-        return 0;
+        return res;
     }
 
     public virtual void AddArmor2Health(int point)
