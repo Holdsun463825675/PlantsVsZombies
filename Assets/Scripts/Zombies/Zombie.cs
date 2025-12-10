@@ -176,28 +176,22 @@ public class Zombie : MonoBehaviour, IClickable
 
     protected virtual void Update()
     {
-        HPText.text = $"HP: {currHealth}/{maxHealth}";
-        if (currArmor1Health > 0) HPText.text = $"A1: {currArmor1Health}/{maxArmor1Health}\n" + HPText.text;
-        if (currArmor2Health > 0) HPText.text = $"A2: {currArmor2Health}/{maxArmor2Health}\n" + HPText.text;
-        if (Armor2_c2d) Armor2_c2d.enabled = currArmor2Health > 0;
-        if (Armor2_bowling_c2d) Armor2_bowling_c2d.enabled = currArmor2Health > 0;
-
         HPTextActiveUpdate();
         if (GameManager.Instance.state == GameState.Paused || GameManager.Instance.state == GameState.Losing) return;
 
-        AnimUpdate(); DebuffUpdate();
-        if (currentMoveTween != null)
-        {
-            float speedRatio = deceleration;
-            if (frozenDuration > 0 || butterDuration > 0) speedRatio = 0;
-            currentMoveTween.timeScale = speedRatio;
-        }
+        DebuffUpdate();
 
-        HealthPercentage = (float)currHealth / (float)maxHealth;
-        if (HealthPercentage >= lostArmHealthPercentage) setHealthState(ZombieHealthState.Healthy);
-        if (HealthPercentage >= lostHeadPercentage && HealthPercentage < lostArmHealthPercentage) setHealthState(ZombieHealthState.LostArm);
-        if (HealthPercentage >= dieHealthPercentage && HealthPercentage < lostHeadPercentage) setHealthState(ZombieHealthState.LostHead);
-        if (HealthPercentage < dieHealthPercentage) setHealthState(ZombieHealthState.Die);
+        //HPText.text = $"HP: {currHealth}/{maxHealth}";
+        //if (currArmor1Health > 0) HPText.text = $"A1: {currArmor1Health}/{maxArmor1Health}\n" + HPText.text;
+        //if (currArmor2Health > 0) HPText.text = $"A2: {currArmor2Health}/{maxArmor2Health}\n" + HPText.text;
+        //if (Armor2_c2d) Armor2_c2d.enabled = currArmor2Health > 0;
+        //if (Armor2_bowling_c2d) Armor2_bowling_c2d.enabled = currArmor2Health > 0;
+
+        //HealthPercentage = (float)currHealth / (float)maxHealth;
+        //if (HealthPercentage >= lostArmHealthPercentage) setHealthState(ZombieHealthState.Healthy);
+        //if (HealthPercentage >= lostHeadPercentage && HealthPercentage < lostArmHealthPercentage) setHealthState(ZombieHealthState.LostArm);
+        //if (HealthPercentage >= dieHealthPercentage && HealthPercentage < lostHeadPercentage) setHealthState(ZombieHealthState.LostHead);
+        //if (HealthPercentage < dieHealthPercentage) setHealthState(ZombieHealthState.Die);
 
         switch (healthState)
         {
@@ -228,6 +222,7 @@ public class Zombie : MonoBehaviour, IClickable
         if (effect_c2d) effect_c2d.enabled = true;
         if (effect_bowling_c2d) effect_bowling_c2d.enabled = true;
         anim.SetBool(AnimatorConfig.zombie_game, true);
+        anim.SetFloat(AnimatorConfig.zombie_speedLevel, speedLevel);
         losingGame = MapManager.Instance.currMap.endlinePositions[0];
         moveToHouse();
     }
@@ -361,25 +356,6 @@ public class Zombie : MonoBehaviour, IClickable
         }
     }
 
-    protected virtual void AnimUpdate()
-    {
-        HealthPercentage = (float)currHealth / (float)maxHealth;
-
-        anim.SetFloat(AnimatorConfig.zombie_healthPercentage, HealthPercentage);
-
-        anim.SetFloat(AnimatorConfig.zombie_armor1HealthPercentage, maxArmor1Health == 0.0f ? 0.0f : (float)currArmor1Health / (float)maxArmor1Health);
-        anim.SetFloat(AnimatorConfig.zombie_armor2HealthPercentage, maxArmor2Health == 0.0f ? 0.0f : (float)currArmor2Health / (float)maxArmor2Health);
-
-        anim.SetFloat(AnimatorConfig.zombie_speedLevel, speedLevel);
-
-        float speedRatio = deceleration;
-        if (frozenDuration > 0 || butterDuration > 0) speedRatio = 0;
-        anim.SetFloat(AnimatorConfig.zombie_speedRatio, speedRatio);
-        anim.SetBool(AnimatorConfig.zombie_deceleration, deceleration < 1.0f || frozenDuration > 0);
-
-        if (lostHeadAnim) lostHeadAnim.SetFloat(AnimatorConfig.zombie_speedRatio, deceleration);
-    }
-
     protected virtual void HPTextActiveUpdate()
     {
         HPText.gameObject.SetActive(SettingSystem.Instance.settingsData.zombieHealth);
@@ -426,7 +402,37 @@ public class Zombie : MonoBehaviour, IClickable
         Debuff[0].SetActive(frozenDuration > 0);
 
         if (butterDuration < 0) butterDuration = 0; // »ÆÓÍ
-        Debuff[1].SetActive(butterDuration > 0);    
+        Debuff[1].SetActive(butterDuration > 0);
+
+        float speedRatio = deceleration;
+        if (frozenDuration > 0 || butterDuration > 0) speedRatio = 0;
+        anim.SetFloat(AnimatorConfig.zombie_speedRatio, speedRatio);
+        anim.SetBool(AnimatorConfig.zombie_deceleration, deceleration < 1.0f || frozenDuration > 0);
+
+        if (lostHeadAnim) lostHeadAnim.SetFloat(AnimatorConfig.zombie_speedRatio, deceleration);
+
+        if (currentMoveTween != null)
+        {
+            if (frozenDuration > 0 || butterDuration > 0) speedRatio = 0;
+            currentMoveTween.timeScale = speedRatio;
+        }
+    }
+
+    private void HPChanged()
+    {
+        HPText.text = $"HP: {currHealth}/{maxHealth}";
+        if (currArmor1Health > 0) HPText.text = $"A1: {currArmor1Health}/{maxArmor1Health}\n" + HPText.text;
+        if (currArmor2Health > 0) HPText.text = $"A2: {currArmor2Health}/{maxArmor2Health}\n" + HPText.text;
+        if (Armor2_c2d) Armor2_c2d.enabled = currArmor2Health > 0;
+        if (Armor2_bowling_c2d) Armor2_bowling_c2d.enabled = currArmor2Health > 0;
+
+        HealthPercentage = (float)currHealth / (float)maxHealth;
+        if (HealthPercentage >= lostArmHealthPercentage) setHealthState(ZombieHealthState.Healthy);
+        if (HealthPercentage >= lostHeadPercentage && HealthPercentage < lostArmHealthPercentage) setHealthState(ZombieHealthState.LostArm);
+        if (HealthPercentage >= dieHealthPercentage && HealthPercentage < lostHeadPercentage) setHealthState(ZombieHealthState.LostHead);
+        if (HealthPercentage < dieHealthPercentage) setHealthState(ZombieHealthState.Die);
+
+        anim.SetFloat(AnimatorConfig.zombie_healthPercentage, HealthPercentage);
     }
 
     public void AddCurrHealth(int point)
@@ -434,12 +440,8 @@ public class Zombie : MonoBehaviour, IClickable
         currHealth += point;
         if (currHealth > maxHealth) currHealth = maxHealth;
         if (currHealth <= 0) currHealth = 0;
-        // ×´Ì¬ÅÐ¶¨
-        HealthPercentage = (float)currHealth / (float)maxHealth;
-        if (HealthPercentage >= lostArmHealthPercentage) setHealthState(ZombieHealthState.Healthy);
-        if (HealthPercentage >= lostHeadPercentage && HealthPercentage < lostArmHealthPercentage) setHealthState(ZombieHealthState.LostArm);
-        if (HealthPercentage >= dieHealthPercentage && HealthPercentage < lostHeadPercentage) setHealthState(ZombieHealthState.LostHead);
-        if (HealthPercentage < dieHealthPercentage) setHealthState(ZombieHealthState.Die);
+
+        HPChanged();
     }
 
     public int AddArmor1Health(int point) // ·µ»ØÒç³öµÄ¿ÛÑªÉËº¦
@@ -452,6 +454,8 @@ public class Zombie : MonoBehaviour, IClickable
             currArmor1Health = 0;
             return res;
         }
+        anim.SetFloat(AnimatorConfig.zombie_armor1HealthPercentage, maxArmor1Health == 0.0f ? 0.0f : (float)currArmor1Health / (float)maxArmor1Health);
+        HPChanged();
         return 0;
     }
 
@@ -460,6 +464,8 @@ public class Zombie : MonoBehaviour, IClickable
         currArmor2Health += point;
         if (currArmor2Health > maxArmor2Health) currArmor2Health = maxArmor2Health;
         if (currArmor2Health < 0) currArmor2Health = 0;
+        anim.SetFloat(AnimatorConfig.zombie_armor2HealthPercentage, maxArmor2Health == 0.0f ? 0.0f : (float)currArmor2Health / (float)maxArmor2Health);
+        HPChanged();
     }
 
     public void UnderAttack(int point, int mode=0)
@@ -638,5 +644,10 @@ public class Zombie : MonoBehaviour, IClickable
             default:
                 break;
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (currentMoveTween != null) currentMoveTween.Kill();
     }
 }

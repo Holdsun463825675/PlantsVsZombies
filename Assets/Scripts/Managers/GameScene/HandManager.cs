@@ -61,12 +61,14 @@ public class HandManager : MonoBehaviour
         currCard.setState(CardState.Selected);
     }
 
+
     public void PlantPlant(Cell cell)
     {
         if (!cell.PlantPlant(currPlant)) return;
+
         currPlant.setCell(cell);
         currPlant.setState(PlantState.Idle);
-        
+
         string soundPath = "";
         switch (cell.cellType)
         {
@@ -86,6 +88,26 @@ public class HandManager : MonoBehaviour
                 break;
         }
         AudioManager.Instance.playClip(soundPath);
+
+        if (GameManager.Instance.currLevelConfig.plantCol) // 一次种一列
+        {
+            Plant plantPrefab = PrefabSystem.Instance.GetPlantPrefab(currPlant.id);
+            foreach (Cell c in CellManager.Instance.cellList)
+            {
+                if (c.col == cell.col && c != cell)
+                {
+                    currPlant = GameObject.Instantiate(plantPrefab);
+                    if (!c.PlantPlant(currPlant))
+                    {
+                        Destroy(currPlant.gameObject);
+                        continue;
+                    }
+                    currPlant.setCell(c);
+                    currPlant.setState(PlantState.Idle);
+                }
+            }
+        }
+
         currPlant = null;
 
         if (currCard)

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class GatlingPea : AttackPlant
 {
-    public Pea peaPrefab;
     private int attackPeaNum = 4;
     private float shootInterval = 0.15f;
     private List<GameObject> assList; // ΩË÷˙DOTween µœ÷…‰ª˜º‰∏Ù
@@ -19,6 +18,8 @@ public class GatlingPea : AttackPlant
         attackTime = 1.5f;
         attackTimer = Random.Range(0.0f, attackTime);
         assList = new List<GameObject>();
+        bulletID = BulletID.Pea;
+        bulletPrefab = PrefabSystem.Instance.GetBulletPrefab(bulletID);
     }
 
     public override void Pause()
@@ -36,7 +37,7 @@ public class GatlingPea : AttackPlant
     private void shootPea()
     {
         AudioManager.Instance.playClip(ResourceConfig.sound_plantshoot_throw);
-        Pea pea = GameObject.Instantiate(peaPrefab, effectPlace.position, Quaternion.identity);
+        Bullet pea = GameObject.Instantiate(bulletPrefab, effectPlace.position, Quaternion.identity);
         pea.setBulletType(BulletType.Shoot); pea.setBulletDirection(BulletDirection.Right); pea.setTargetRows(targetRows);
         pea.setState(BulletState.ToBeUsed);
         float target_x = MapManager.Instance.currMap.endlinePositions[1].position.x;
@@ -56,6 +57,7 @@ public class GatlingPea : AttackPlant
                     assList.Remove(ass);
                     Destroy(ass);
                 });
+            if (GameManager.Instance.state == GameState.Paused) ass.transform.DOPause();
         }
     }
 

@@ -10,7 +10,7 @@ public enum BulletState
 
 public enum BulletID
 {
-    None, Pea, SnowyPea, FirePea,
+    None, Pea, SnowyPea, FirePea, Spore
 }
 
 public enum BulletHitSound
@@ -233,11 +233,7 @@ public class Bullet : Product
 
     public virtual Bullet Ignite()
     {
-        Bullet bulletPrefab = null;
-        foreach (Bullet bullet in PrefabSystem.Instance.bulletPrefabs)
-        {
-            if (bullet.id == igniteID) bulletPrefab = bullet;
-        }
+        Bullet bulletPrefab = PrefabSystem.Instance.GetBulletPrefab(igniteID);
         if (!bulletPrefab) return null;
         AudioManager.Instance.playClip(ResourceConfig.sound_fire_firepea); // µ„»º“Ù–ß
         Bullet newBullet = GameObject.Instantiate(bulletPrefab, transform.position, Quaternion.identity);

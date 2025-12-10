@@ -7,29 +7,16 @@ using static UnityEngine.GraphicsBuffer;
 
 public enum PlantID
 {
-    None = 0,
-    PeaShooter = 1,
-    Sunflower = 2,
-    CherryBomb = 3,
-    WallNut = 4,
-    PotatoMine = 5,
-    SnowPea = 6,
-    Chomper = 7,
-    Repeater = 8,
-    FumeShroom = 11,
-    GraveBuster = 12,
+    None = 0, 
+    PeaShooter = 1, Sunflower = 2, CherryBomb = 3, WallNut = 4,
+    PotatoMine = 5, SnowPea = 6, Chomper = 7, Repeater = 8,
+    PuffShroom = 9, SunShroom = 10, FumeShroom = 11, GraveBuster = 12,
     LilyPad = 17,
-    Jalapeno = 21,
-    Torchwood = 23,
-    TallNut = 24,
+    Jalapeno = 21, Torchwood = 23, TallNut = 24,
     Pumpkin = 31,
-    FlowerPot = 34,
-    Coffeebean = 36,
-    GatlingPea = 41,
-    TwinSunflower = 42,
-    BowlingWallNut = 49,
-    BowlingRedWallNut = 50,
-    BowlingBigWallNut = 51,
+    FlowerPot = 34, Coffeebean = 36,
+    GatlingPea = 41, TwinSunflower = 42,
+    BowlingWallNut = 49, BowlingRedWallNut = 50, BowlingBigWallNut = 51,
 }
 
 public enum PlantState
@@ -110,6 +97,8 @@ public class Plant : MonoBehaviour, IClickable
         }
         sleepEffect = transform.Find("SleepEffect").gameObject;
         sleepEffect.SetActive(false);
+
+        setState(PlantState.Suspension);
     }
 
     void Start()
@@ -117,7 +106,6 @@ public class Plant : MonoBehaviour, IClickable
         ClickPriority priority = gameObject.AddComponent<ClickPriority>();
         priority.priority = 1;
         priority.isClickable = true;
-        setState(PlantState.Suspension);
     }
 
     void Update()
@@ -248,6 +236,7 @@ public class Plant : MonoBehaviour, IClickable
     {
         if (!sleep) return;
         sleep = false;
+        AudioManager.Instance.playClip(ResourceConfig.sound_plant_wakeup);
     }
 
     protected virtual void AddHealth(int point)

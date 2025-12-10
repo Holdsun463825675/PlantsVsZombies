@@ -13,10 +13,12 @@ public class CardManager : MonoBehaviour
     private int currCardPage = 0; // 默认显示初始页
     private float UIMoveTime = 0.2f;
     private float selectionCardMoveTime = 0.2f;
+    private int fixedCardIdx = 0;
+    private float fixedCardTime, fixedCardTimer; // 固定出卡时间
     private float generateCardTime, generateCardTimer;
     private float conveyorCardMoveSpeed;
 
-    private List<PlantID> fixedCards;
+    private List<PlantID> fixedCards, conveyorCards;
 
     public GameObject cardListUI;
     public GameObject cardPanelUI;
@@ -40,9 +42,11 @@ public class CardManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        fixedCardTime = 3.0f; fixedCardTimer = 0.0f;
         generateCardTimer = 0.0f;
         showCards();
         fixedCards = new List<PlantID>();
+        conveyorCards = new List<PlantID>();
         setState(GameState.NotStarted);
     }
 
@@ -138,6 +142,18 @@ public class CardManager : MonoBehaviour
             MoveCardWithTween(cardList[i], cardListCardPlace[i], moveTime, Ease.Linear);
         }
         if (GameManager.Instance.state != GameState.Processing) return;
+        // 先生成固定出卡
+        if (fixedCardIdx < fixedCards.Count)
+        {
+            fixedCardTimer += Time.deltaTime;
+            if (fixedCardTimer >= fixedCardTime)
+            {
+                generateCard(fixedCards[fixedCardIdx++]);
+                fixedCardTimer = 0.0f;
+            }
+            return;
+        }
+        // 再随机出卡
         generateCardTimer += Time.deltaTime;
         if (generateCardTimer >= generateCardTime)
         {
@@ -176,10 +192,10 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    public void setConfigs(List<PlantID> fixedCards, bool shovel, float generateCardTime)
+    public void setConfigs(List<PlantID> fixedCards, List<PlantID> conveyorCards, bool shovel, float generateCardTime)
     {
-        this.fixedCards = fixedCards;
-        if (GameManager.Instance.currLevelConfig.cardType == TypeOfCard.Autonomy || GameManager.Instance.currLevelConfig.cardType == TypeOfCard.Fixation)
+        this.fixedCards = fixedCards; this.conveyorCards = conveyorCards;
+        if (GameManager.Instance.currLevelConfig.cardType != TypeOfCard.Conveyor)
         {
             foreach (PlantID ID in this.fixedCards)
             {
@@ -200,7 +216,8 @@ public class CardManager : MonoBehaviour
         if (JSONSaveSystem.Instance) isShovel &= JSONSaveSystem.Instance.userData.shovel;
         this.generateCardTime = generateCardTime;
         // 传送带速度与出卡速度同步
-        conveyorCardMoveSpeed = 3.0f / generateCardTime;
+        //conveyorCardMoveSpeed = 3.0f / generateCardTime;
+        conveyorCardMoveSpeed = 0.5f;
         conveyorBeltAnim.SetFloat(AnimatorConfig.conveyor_moveSpeed, conveyorCardMoveSpeed);
     }
 
@@ -303,10 +320,10 @@ public class CardManager : MonoBehaviour
         return cardList;
     }
 
-    private void generateCard()
+    private void generateCard(PlantID plantID=PlantID.None)
     {
-        if (fixedCards.Count == 0) return;
-        PlantID ID = fixedCards[Random.Range(0, fixedCards.Count)];
+        if (conveyorCards.Count == 0 && plantID == PlantID.None) return;
+        PlantID ID = plantID != PlantID.None ? plantID : conveyorCards[Random.Range(0, conveyorCards.Count)];
         Card cardPrefab = null;
         foreach (Card card in cardPanel)
         {

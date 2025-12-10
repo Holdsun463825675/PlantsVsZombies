@@ -36,6 +36,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 9a4693fb8519a994dadcafd3251e09be, type: 3}
+    - target: {fileID: 3315430934393556766, guid: 1f59dc6c9cb8a4147a91e77549da5726, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3008
+      objectReference: {fileID: 0}
     - target: {fileID: 4862356324495710422, guid: 1f59dc6c9cb8a4147a91e77549da5726, type: 3}
       propertyPath: m_Name
       value: Jalapeno

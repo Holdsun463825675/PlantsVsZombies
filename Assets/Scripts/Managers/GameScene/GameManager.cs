@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        DOTween.SetTweensCapacity(1000, 100);
     }
 
     private void Start()
@@ -62,7 +64,7 @@ public class GameManager : MonoBehaviour
         // 初始阳光
         SunManager.Instance.setSun(currLevelConfig.startingSun);
         // 是否可用铲子
-        CardManager.Instance.setConfigs(currLevelConfig.fixedCards, currLevelConfig.shovel, currLevelConfig.generateCardTime);
+        CardManager.Instance.setConfigs(currLevelConfig.fixedCards, currLevelConfig.conveyorCards, currLevelConfig.shovel, currLevelConfig.generateCardTime);
         // 选卡类型：自选卡0、固定选卡1、传送带2
         // 僵尸
         ZombieManager.Instance.setConfig(

@@ -22,12 +22,14 @@ public class ProductionPlant : Plant
     {
         base.IdleUpdate();
 
-        produceTimer += Time.deltaTime;
-
-        if (canAct() && produceTimer >= produceTime)
+        if (canAct())
         {
-            setProduce();
-            produceTimer = 0.0f;
+            produceTimer += Time.deltaTime;
+            if (produceTimer >= produceTime)
+            {
+                setProduce();
+                produceTimer = 0.0f;
+            }
         }
     }
 

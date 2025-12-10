@@ -8,9 +8,12 @@ public class AttackPlant : Plant
 {
     public Effect attackEffect; // 攻击特效
     protected Effect currAttackEffect;
+    public Transform bulletTarget;
 
     protected float attackTime;
     protected float attackTimer;
+    protected BulletID bulletID;
+    protected Bullet bulletPrefab;
     protected List<int> targetRows; // 可攻击的行，0为任意，大于0为行数
 
     protected List<Zombie> targetZombie;
@@ -20,9 +23,11 @@ public class AttackPlant : Plant
     {
         base.Awake();
         attackTime = 1.5f; attackTimer = Random.Range(0, attackTime);
+        bulletID = BulletID.None;
         targetRows = new List<int>();
         targetZombie = new List<Zombie>();
         targetArmor2 = new List<Armor2>();
+        bulletTarget = transform.Find("BulletTarget");
     }
 
     public override void Pause()

@@ -64,12 +64,26 @@ public class Cell : MonoBehaviour, IClickable
 
     private void OnMouseEnter()
     {
-        setVirtualPlant(HandManager.Instance.currPlant);
+        if (!GameManager.Instance.currLevelConfig.plantCol) setVirtualPlant(HandManager.Instance.currPlant);
+        else // 一次种植一列
+        {
+            foreach (Cell cell in CellManager.Instance.cellList)
+            {
+                if (cell.col == col) cell.setVirtualPlant(HandManager.Instance.currPlant);
+            }
+        }
     }
 
     private void OnMouseExit()
     {
-        unsetVirtualPlant();
+        if (!GameManager.Instance.currLevelConfig.plantCol) unsetVirtualPlant();
+        else // 一次种植一列
+        {
+            foreach (Cell cell in CellManager.Instance.cellList)
+            {
+                if (cell.col == col) cell.unsetVirtualPlant();
+            }
+        }
     }
 
     public void setCellProp(CellProp prop, bool flag, float time=0)

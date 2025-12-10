@@ -16,12 +16,13 @@ public class LevelConfig
     public int startingSun; // 初始阳光
 
     public TypeOfCard cardType; // 选卡类型
-    public List<PlantID> fixedCards = new List<PlantID>(); // 固定选卡/传送带卡
+    public List<PlantID> fixedCards = new List<PlantID>(); // 固定选卡/传送带初始卡
+    public List<PlantID> conveyorCards = new List<PlantID>(); // 传送带出卡
     
     public List<ZombieID> zombieID; // 出现的僵尸
     public List<ZombieWave> zombieWaves; // 每波僵尸
     public float spawnMaxTime = 30.0f; // 每波最大间隔
-    public float spawnTimer = 15.0f; // 初始波冷却
+    public float spawnTimer = 12.0f; // 初始波冷却
     public float healthPercentageThreshold = 0.6f; // 小波血量阈值
 
     // 特殊
@@ -35,6 +36,7 @@ public class LevelConfig
     public float generateCardTime = 6.0f; // 传送带出生成植物间隔
     public float gameSpeed = -1; // 固定游戏速度
     public bool cardCoolingDown = true; // 卡片是否有冷却
+    public bool plantCol = false; // 是否一次种植一列
 }
 
 public enum TimeOfGame

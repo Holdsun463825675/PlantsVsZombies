@@ -28,15 +28,18 @@ public class LevelConfigs
             dropSun = false,
             startingSun = 8000,
             cardType = TypeOfCard.Fixation,
-            fixedCards = new List<PlantID> { PlantID.CherryBomb, PlantID.PotatoMine, PlantID.FumeShroom, PlantID.Coffeebean, PlantID.Jalapeno, PlantID.GraveBuster, PlantID.Torchwood, PlantID.TallNut, PlantID.Pumpkin, PlantID.FlowerPot },
+            fixedCards = new List<PlantID> { PlantID.Sunflower, PlantID.PuffShroom, PlantID.SunShroom, PlantID.FumeShroom, PlantID.Coffeebean, PlantID.Jalapeno, PlantID.PeaShooter, PlantID.SnowPea, PlantID.Repeater, PlantID.GatlingPea },
 
-            zombieID = new List<ZombieID> { ZombieID.ScreenDoorZombie },
+            zombieID = new List<ZombieID> { ZombieID.NormalZombie },
             zombieWaves = new List<ZombieWave> {
-                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.ScreenDoorZombie },spawnWeight = 80,largeWave = false},
-                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.ScreenDoorZombie },spawnWeight = 100,largeWave = true},
-                },
+                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.NormalZombie },spawnWeight = 1,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.NormalZombie },spawnWeight = 2,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.NormalZombie },spawnWeight = 3,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.NormalZombie },spawnWeight = 4,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.NormalZombie },spawnWeight = 5,largeWave = false},
+            },
             tombstoneNum = 10,
-            tombstoneArea = -4,
+            tombstoneArea = -2,
             //iceTunnelRows = new List<int> { 1, 2, 3, 4, 5 },
             //iceTunnelArea = -2,
             specialZombies = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.BucketZombie },
@@ -164,7 +167,7 @@ public class LevelConfigs
             dropSun = false,
             startingSun = 0,
             cardType = TypeOfCard.Conveyor,
-            fixedCards = new List<PlantID> { PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingRedWallNut },
+            conveyorCards = new List<PlantID> { PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingRedWallNut },
 
             zombieID = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ConeHeadZombie },
             zombieWaves = new List<ZombieWave> {
@@ -333,7 +336,7 @@ public class LevelConfigs
             dropSun = false,
             startingSun = 0,
             cardType = TypeOfCard.Conveyor,
-            fixedCards = new List<PlantID> { PlantID.PeaShooter, PlantID.CherryBomb, PlantID.WallNut, PlantID.PotatoMine, PlantID.SnowPea, PlantID.Chomper, PlantID.Repeater},
+            conveyorCards = new List<PlantID> { PlantID.PeaShooter, PlantID.CherryBomb, PlantID.WallNut, PlantID.PotatoMine, PlantID.SnowPea, PlantID.Chomper, PlantID.Repeater},
 
             zombieID = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.PoleVaultingZombie, ZombieID.BucketZombie },
             zombieWaves = new List<ZombieWave> {
@@ -501,7 +504,7 @@ public class LevelConfigs
             dropSun = false,
             startingSun = 0,
             cardType = TypeOfCard.Conveyor,
-            fixedCards = new List<PlantID> { PlantID.PeaShooter, PlantID.CherryBomb, PlantID.WallNut, PlantID.SnowPea, PlantID.Chomper, PlantID.Repeater, PlantID.Torchwood, PlantID.TallNut, PlantID.Pumpkin, PlantID.GatlingPea },
+            conveyorCards = new List<PlantID> { PlantID.PeaShooter, PlantID.CherryBomb, PlantID.WallNut, PlantID.SnowPea, PlantID.Chomper, PlantID.Repeater, PlantID.Torchwood, PlantID.TallNut, PlantID.Pumpkin, PlantID.GatlingPea },
 
             zombieID = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.PoleVaultingZombie, ZombieID.BucketZombie, ZombieID.ScreenDoorZombie, ZombieID.FootballZombie },
             zombieWaves = new List<ZombieWave> {
@@ -640,7 +643,7 @@ public class LevelConfigs
             dropSun = false,
             startingSun = 0,
             cardType = TypeOfCard.Conveyor,
-            fixedCards = new List<PlantID> { PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingRedWallNut },
+            conveyorCards = new List<PlantID> { PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingRedWallNut },
 
             zombieID = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.BucketZombie },
             zombieWaves = new List<ZombieWave>
@@ -683,7 +686,7 @@ public class LevelConfigs
             dropSun = false,
             startingSun = 0,
             cardType = TypeOfCard.Conveyor,
-            fixedCards = new List<PlantID> { PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingRedWallNut },
+            conveyorCards = new List<PlantID> { PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingRedWallNut },
 
             zombieID = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.PoleVaultingZombie, ZombieID.ScreenDoorZombie },
             zombieWaves = new List<ZombieWave>
@@ -726,7 +729,7 @@ public class LevelConfigs
             dropSun = false,
             startingSun = 0,
             cardType = TypeOfCard.Conveyor,
-            fixedCards = new List<PlantID> { PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingRedWallNut, PlantID.BowlingBigWallNut },
+            conveyorCards = new List<PlantID> { PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingWallNut, PlantID.BowlingRedWallNut, PlantID.BowlingBigWallNut },
 
             zombieID = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.PoleVaultingZombie, ZombieID.BucketZombie, ZombieID.ScreenDoorZombie, ZombieID.FootballZombie },
             zombieWaves = new List<ZombieWave>
@@ -829,7 +832,7 @@ public class LevelConfigs
             dropSun = false,
             startingSun = 0,
             cardType = TypeOfCard.Conveyor,
-            fixedCards = new List<PlantID> { PlantID.Chomper, PlantID.Chomper, PlantID.Chomper, PlantID.CherryBomb, PlantID.WallNut, PlantID.Pumpkin },
+            conveyorCards = new List<PlantID> { PlantID.Chomper, PlantID.Chomper, PlantID.Chomper, PlantID.CherryBomb, PlantID.WallNut, PlantID.Pumpkin },
 
             zombieID = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.PoleVaultingZombie, ZombieID.BucketZombie, ZombieID.FootballZombie },
             zombieWaves = new List<ZombieWave>
@@ -856,6 +859,60 @@ public class LevelConfigs
                 new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.BucketZombie, ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.PoleVaultingZombie, ZombieID.FootballZombie},spawnWeight = 30,largeWave = true},
             },
             spawnTimer = 30.0f,
+        });
+        // 内测专属-排山倒海
+        levelConfigs.Add(new LevelConfig
+        {
+            levelID = 10012,
+            levelName = "内测专属-排山倒海",
+            nextLevelID = new List<int> { },
+            awardPlantID = PlantID.Jalapeno,
+            mapID = 3,
+            time = TimeOfGame.Day,
+            music = ResourceConfig.music_ultimateBattle,
+            dropSun = false,
+            startingSun = 0,
+            cardType = TypeOfCard.Conveyor,
+            fixedCards = new List<PlantID> { PlantID.Repeater, PlantID.Torchwood, PlantID.TallNut, PlantID.PotatoMine, PlantID.Pumpkin, PlantID.FumeShroom, PlantID.Coffeebean, PlantID.GatlingPea, PlantID.Repeater },
+            conveyorCards = new List<PlantID> { PlantID.Repeater, PlantID.Chomper, PlantID.Jalapeno, PlantID.Pumpkin, PlantID.GatlingPea, PlantID.BowlingWallNut },
+
+            zombieID = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.PoleVaultingZombie, ZombieID.BucketZombie, ZombieID.ScreenDoorZombie, ZombieID.FootballZombie },
+            zombieWaves = new List<ZombieWave> {
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.PoleVaultingZombie, ZombieID.BucketZombie, ZombieID.ScreenDoorZombie, ZombieID.FootballZombie},spawnWeight = 30,largeWave = true},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie},spawnWeight = 16,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ConeHeadZombie},spawnWeight = 18,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.BucketZombie},spawnWeight = 20,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.PoleVaultingZombie},spawnWeight = 22,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ScreenDoorZombie},spawnWeight = 23,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.FootballZombie},spawnWeight = 25,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.BucketZombie},spawnWeight = 27,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ScreenDoorZombie},spawnWeight = 29,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.PoleVaultingZombie, ZombieID.FootballZombie},spawnWeight = 30,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.PoleVaultingZombie, ZombieID.BucketZombie, ZombieID.ScreenDoorZombie, ZombieID.FootballZombie},spawnWeight = 60,largeWave = true},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie},spawnWeight = 32,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.BucketZombie},spawnWeight = 33,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ConeHeadZombie, ZombieID.PoleVaultingZombie},spawnWeight = 35,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.BucketZombie, ZombieID.ScreenDoorZombie},spawnWeight = 37,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.FootballZombie},spawnWeight = 39,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.BucketZombie},spawnWeight = 40,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.PoleVaultingZombie},spawnWeight = 41,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ScreenDoorZombie},spawnWeight = 43,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.FootballZombie},spawnWeight = 45,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.PoleVaultingZombie, ZombieID.BucketZombie, ZombieID.ScreenDoorZombie, ZombieID.FootballZombie},spawnWeight = 90,largeWave = true},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.PoleVaultingZombie, ZombieID.BucketZombie},spawnWeight = 2,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ConeHeadZombie, ZombieID.ScreenDoorZombie},spawnWeight = 47,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.PoleVaultingZombie, ZombieID.FootballZombie},spawnWeight = 48,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.BucketZombie, ZombieID.PoleVaultingZombie, ZombieID.ScreenDoorZombie},spawnWeight = 50,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ConeHeadZombie, ZombieID.FootballZombie},spawnWeight = 52,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ScreenDoorZombie, ZombieID.FootballZombie},spawnWeight = 54,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.BucketZombie, ZombieID.ScreenDoorZombie},spawnWeight = 56,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ConeHeadZombie, ZombieID.BucketZombie, ZombieID.PoleVaultingZombie, ZombieID.FootballZombie},spawnWeight = 58,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.ConeHeadZombie, ZombieID.ScreenDoorZombie, ZombieID.FootballZombie},spawnWeight = 60,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> {ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.PoleVaultingZombie, ZombieID.BucketZombie, ZombieID.ScreenDoorZombie, ZombieID.FootballZombie},spawnWeight = 120,largeWave = true},
+            },
+            spawnTimer = 3.0f,
+            generateCardTime = 15.0f,
+            plantCol = true,
         });
     }
 }

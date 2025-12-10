@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class TwinSunflower : ProductionPlant
 {
-    public Sun sunPrefab;
+    protected SunID sunID;
+    protected Sun sunPrefab;
 
     protected override void Awake()
     {
@@ -13,6 +14,8 @@ public class TwinSunflower : ProductionPlant
         type = PlantType.Normal;
         prePlantID = PlantID.Sunflower;
         produceTimer = 17.0f + Random.Range(0.0f, 2.0f);
+        sunID = SunID.Medium;
+        sunPrefab = PrefabSystem.Instance.GetSunPrefab(sunID);
     }
 
     private void produceSun()

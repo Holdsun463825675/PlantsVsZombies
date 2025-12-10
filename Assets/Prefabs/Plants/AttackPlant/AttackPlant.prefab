@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5494798929425484209
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8370819642454862786}
+  m_Layer: 0
+  m_Name: BulletTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8370819642454862786
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5494798929425484209}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.8, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 558100168839364018}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5404499597820828734
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -80,12 +111,20 @@ PrefabInstance:
     - {fileID: 2492842361169062626, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
     - {fileID: 779738872464982599, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8370819642454862786}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4749402821575749281, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3141073119189921067}
   m_SourcePrefab: {fileID: 100100000, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+--- !u!4 &558100168839364018 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5529970206016496012, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+  m_PrefabInstance: {fileID: 5404499597820828734}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &786413649074369183 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4749402821575749281, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
@@ -106,8 +145,13 @@ MonoBehaviour:
   id: 0
   type: 0
   prePlantID: 0
+  cellTypes: 01000000
+  sleep: 0
   row: 0
   col: 0
   isZombieJumpOver: 0
   jumpOverPlace: {fileID: 0}
+  cell: {fileID: 0}
   anim: {fileID: 0}
+  attackEffect: {fileID: 0}
+  bulletTarget: {fileID: 0}

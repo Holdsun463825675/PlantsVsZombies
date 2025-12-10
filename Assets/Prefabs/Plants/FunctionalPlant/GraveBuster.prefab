@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: edb0ce2ca8fbfb744a56d9c1bcc9851a, type: 3}
+    - target: {fileID: 3211362565714934121, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
+      propertyPath: m_SortingOrder
+      value: 12008
+      objectReference: {fileID: 0}
     - target: {fileID: 4749402821575749281, guid: b258c0885518f4847b13a25d2b993ecd, type: 3}
       propertyPath: m_Name
       value: GraveBuster
@@ -98,6 +102,7 @@ MonoBehaviour:
   type: 1
   prePlantID: 0
   cellTypes: 01000000
+  sleep: 0
   row: 0
   col: 0
   isZombieJumpOver: 0

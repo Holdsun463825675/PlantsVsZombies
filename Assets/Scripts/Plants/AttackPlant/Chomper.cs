@@ -21,7 +21,7 @@ public class Chomper : AttackPlant
         id = PlantID.Chomper;
         type = PlantType.Normal;
         attackPoint = 40;
-        coolingDownTime = 30.0f; coolingDownTimer = 0.0f;
+        coolingDownTime = 40.0f; coolingDownTimer = 0.0f;
         attackTime = 0.0f;
         chomperState = ChomperState.Ready;
     }
