@@ -40,7 +40,7 @@ public class NewspaperZombie : Zombie
                 anim.SetTrigger(AnimatorConfig.zombie_stopEffect);
                 AudioManager.Instance.playClip(ResourceConfig.sound_zombie_newspaperRarrghs[Random.Range(0, ResourceConfig.sound_zombie_newspaperRarrghs.Length)]);
                 setMoveSpeed(0.5f, 0.6f);
-                moveToHouse();
+                moveToNextCell();
                 break;
             default:
                 break;

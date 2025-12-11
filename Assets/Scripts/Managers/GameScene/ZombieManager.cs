@@ -174,6 +174,26 @@ public class ZombieManager : MonoBehaviour
         return zombieList;
     }
 
+    public Zombie getNearestZombie(Vector3 position, List<int> targetRows = null, List<Zombie> zombies = null)
+    {
+        float minDis = 999999;
+        Zombie res = null;
+        if (zombies == null) zombies = zombieList;
+        foreach (Zombie zombie in zombies)
+        {
+            if (zombie == null) continue;
+            if (targetRows == null || targetRows.Contains(0) || targetRows.Contains(zombie.row))
+            {
+                float newDis = Vector3.Distance(position, zombie.transform.position);
+                if (newDis < minDis)
+                {
+                    res = zombie; minDis = newDis;
+                }
+            }
+        }
+        return res;
+    }
+
     public void killAllZombie()
     {
         foreach (Zombie zombie in zombieList) if (zombie) zombie.kill();

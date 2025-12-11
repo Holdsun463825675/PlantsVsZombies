@@ -208,7 +208,7 @@ public class Zombie : MonoBehaviour, IClickable
         anim.SetBool(AnimatorConfig.zombie_game, true);
         anim.SetFloat(AnimatorConfig.zombie_speedLevel, speedLevel);
         losingGame = MapManager.Instance.currMap.endlinePositions[0];
-        moveToHouse();
+        moveToNextCell();
     }
 
     protected virtual void setMoveSpeed(float minSpeed = 0.2f, float maxSpeed = 0.4f)
@@ -327,7 +327,7 @@ public class Zombie : MonoBehaviour, IClickable
         }
     }
 
-    protected void moveToHouse() // 移动到下一格
+    protected void moveToNextCell()
     {
         Vector3 target = new Vector3(losingGame.position.x, transform.position.y, transform.position.z);
         Cell targetCell = CellManager.Instance.getCell(row, col - 1);
@@ -343,7 +343,7 @@ public class Zombie : MonoBehaviour, IClickable
             target = targetCell.transform.position;
             currentMoveTween = transform.DOMove(target, speed).SetSpeedBased().SetEase(Ease.Linear).OnComplete(() =>
             {
-                col -= 1; moveToHouse();
+                col -= 1; moveToNextCell();
             });
         }
     }

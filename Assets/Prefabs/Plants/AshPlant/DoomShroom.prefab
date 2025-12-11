@@ -128,7 +128,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 3.6
+  m_Radius: 3.75
 --- !u!1 &5035219673633552172 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4862356324495710422, guid: 1f59dc6c9cb8a4147a91e77549da5726, type: 3}

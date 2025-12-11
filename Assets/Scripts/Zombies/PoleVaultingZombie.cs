@@ -103,7 +103,7 @@ public class PoleVaultingZombie : Zombie
                 shadow.SetActive(true);
 
                 setMoveSpeed();
-                moveToHouse();
+                moveToNextCell();
                 break;
             default:
                 break;
