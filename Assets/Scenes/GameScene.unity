@@ -10591,11 +10591,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8849135777268351668, guid: 6909eeeec12b04c439e5767d71914244, type: 3}
       propertyPath: cdTime
-      value: 25
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8849135777268351668, guid: 6909eeeec12b04c439e5767d71914244, type: 3}
       propertyPath: cdTimer
-      value: 0
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8849135777268351668, guid: 6909eeeec12b04c439e5767d71914244, type: 3}
       propertyPath: plantID
@@ -18808,11 +18808,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8849135777268351668, guid: 6909eeeec12b04c439e5767d71914244, type: 3}
       propertyPath: cdTime
-      value: 25
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8849135777268351668, guid: 6909eeeec12b04c439e5767d71914244, type: 3}
       propertyPath: cdTimer
-      value: 0
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8849135777268351668, guid: 6909eeeec12b04c439e5767d71914244, type: 3}
       propertyPath: plantID

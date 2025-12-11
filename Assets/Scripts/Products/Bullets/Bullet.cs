@@ -198,7 +198,7 @@ public class Bullet : Product
         {
             c2d.enabled = true;
             if (sputterC2d) sputterC2d.enabled = true;
-            if (shadow) shadow.gameObject.SetActive(true);
+            //if (shadow) shadow.gameObject.SetActive(true);
             targetZombie = null;
             targetArmor2 = null;
         }

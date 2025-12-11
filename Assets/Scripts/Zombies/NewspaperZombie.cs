@@ -30,9 +30,7 @@ public class NewspaperZombie : Zombie
         switch (state)
         {
             case NewspaperZombieState.ReadPaper:
-                baseSpeed = 0.2f;
-                speed = Random.Range(1.0f, 2.0f) * baseSpeed;
-                speedLevel = (speed - baseSpeed) / baseSpeed;
+                setMoveSpeed();
                 break;
             case NewspaperZombieState.Gasp:
                 transform.DOKill(); currentMoveTween = null;
@@ -41,9 +39,7 @@ public class NewspaperZombie : Zombie
             case NewspaperZombieState.NoPaper:
                 anim.SetTrigger(AnimatorConfig.zombie_stopEffect);
                 AudioManager.Instance.playClip(ResourceConfig.sound_zombie_newspaperRarrghs[Random.Range(0, ResourceConfig.sound_zombie_newspaperRarrghs.Length)]);
-                baseSpeed = 0.1f;
-                speed = Random.Range(0.5f, 0.6f);
-                speedLevel = (speed - 0.5f) / baseSpeed;
+                setMoveSpeed(0.5f, 0.6f);
                 moveToHouse();
                 break;
             default:

@@ -432,7 +432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currPlant: {fileID: 0}
-  plantEffectPrefab: {fileID: 0}
+  plantEffectPrefabs: []
 --- !u!4 &124511145
 Transform:
   m_ObjectHideFlags: 0
@@ -649,6 +649,7 @@ MonoBehaviour:
       autoCollected: 0
       plantHealth: 0
       zombieHealth: 0
+    unlockedLevelListKinds: 
     shovel: 0
     miniGame: 0
 --- !u!1 &335801301
@@ -1049,26 +1050,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1082999616}
   - component: {fileID: 1082999615}
-  - component: {fileID: 1082999614}
   m_Layer: 0
-  m_Name: AdventureSceneManager
+  m_Name: LevelSceneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1082999614
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1082999613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ca4d2928c796b341b2a9cce45552e72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1082999615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1081,7 +1069,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958841da64f991c4c86d35b8745da873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelLists: []
+  levelLists_Adventure: []
+  levelLists_MiniGame: []
 --- !u!4 &1082999616
 Transform:
   m_ObjectHideFlags: 0

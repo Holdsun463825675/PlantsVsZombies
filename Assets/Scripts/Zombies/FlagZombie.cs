@@ -8,8 +8,6 @@ public class FlagZombie : Zombie
     {
         base.Awake();
         zombieID = ZombieID.FlagZombie;
-        baseSpeed = 0.1f;
-        speed = Random.Range(0.4f, 0.5f);
-        speedLevel = (speed - 0.4f) / baseSpeed;
+        setMoveSpeed(0.4f, 0.5f);
     }
 }

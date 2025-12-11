@@ -49,9 +49,7 @@ public class PoleVaultingZombie : Zombie
         {
             case PoleVaultingZombieState.NotEffect:
                 isPlantKill = true; isBulletHit = true;
-                baseSpeed = 0.1f;
-                speed = Random.Range(0.5f, 0.6f);
-                speedLevel = (speed - 0.5f) / baseSpeed;
+                setMoveSpeed(0.5f, 0.6f);
                 break;
             case PoleVaultingZombieState.Effect:
                 transform.DOKill(); currentMoveTween = null;
@@ -104,9 +102,7 @@ public class PoleVaultingZombie : Zombie
                 isPlantKill = true; isBulletHit = true;
                 shadow.SetActive(true);
 
-                baseSpeed = 0.2f;
-                speed = Random.Range(1.0f, 2.0f) * baseSpeed;
-                speedLevel = (speed - baseSpeed) / baseSpeed;
+                setMoveSpeed();
                 moveToHouse();
                 break;
             default:

@@ -90,9 +90,7 @@ public class Zombie : MonoBehaviour, IClickable
     protected virtual void Awake()
     {
         zombieID = ZombieID.None;
-        baseSpeed = 0.2f;
-        speed = Random.Range(1.0f, 2.0f) * baseSpeed;
-        speedLevel = (speed - baseSpeed) / baseSpeed;
+        setMoveSpeed();
         deceleration = 1.0f;
         decelerationDuration = 0.0f; frozenDuration = 0.0f; butterDuration = 0.0f;
 
@@ -179,18 +177,6 @@ public class Zombie : MonoBehaviour, IClickable
 
         DebuffUpdate();
 
-        //HPText.text = $"HP: {currHealth}/{maxHealth}";
-        //if (currArmor1Health > 0) HPText.text = $"A1: {currArmor1Health}/{maxArmor1Health}\n" + HPText.text;
-        //if (currArmor2Health > 0) HPText.text = $"A2: {currArmor2Health}/{maxArmor2Health}\n" + HPText.text;
-        //if (Armor2_c2d) Armor2_c2d.enabled = currArmor2Health > 0;
-        //if (Armor2_bowling_c2d) Armor2_bowling_c2d.enabled = currArmor2Health > 0;
-
-        //HealthPercentage = (float)currHealth / (float)maxHealth;
-        //if (HealthPercentage >= lostArmHealthPercentage) setHealthState(ZombieHealthState.Healthy);
-        //if (HealthPercentage >= lostHeadPercentage && HealthPercentage < lostArmHealthPercentage) setHealthState(ZombieHealthState.LostArm);
-        //if (HealthPercentage >= dieHealthPercentage && HealthPercentage < lostHeadPercentage) setHealthState(ZombieHealthState.LostHead);
-        //if (HealthPercentage < dieHealthPercentage) setHealthState(ZombieHealthState.Die);
-
         switch (healthState)
         {
             case ZombieHealthState.Healthy:
@@ -223,6 +209,14 @@ public class Zombie : MonoBehaviour, IClickable
         anim.SetFloat(AnimatorConfig.zombie_speedLevel, speedLevel);
         losingGame = MapManager.Instance.currMap.endlinePositions[0];
         moveToHouse();
+    }
+
+    protected virtual void setMoveSpeed(float minSpeed = 0.2f, float maxSpeed = 0.4f)
+    {
+        if (minSpeed > maxSpeed) return;
+        baseSpeed = maxSpeed - minSpeed;
+        speed = Random.Range(minSpeed, maxSpeed);
+        speedLevel = baseSpeed == 0 ? 1 : (speed - minSpeed) / baseSpeed;
     }
 
     // ÔÝÍ£¼ÌÐø¹¦ÄÜ
