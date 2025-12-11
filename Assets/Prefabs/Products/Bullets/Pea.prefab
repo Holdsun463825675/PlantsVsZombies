@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6080836984057622671}
   - component: {fileID: 6523516816906713441}
   - component: {fileID: 4430288491352510757}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Pea
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -167,6 +167,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 1
+  bulletType: 0
+  bulletDirection: 0
+  targetRows: 
   speed: 0
   target_position: {x: 0, y: 0, z: 0}
   BulletHitPrefab: {fileID: -2485962915469677168, guid: cca29b6c705743e4d807865b00115be5, type: 3}
@@ -182,7 +185,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3647433311320176902}
   - component: {fileID: 5020286992421657882}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}

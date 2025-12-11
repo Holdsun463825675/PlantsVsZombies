@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6080836984057622671}
   - component: {fileID: 6523516816906713441}
   - component: {fileID: 966151512054044812}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Spore
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -185,7 +185,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3647433311320176902}
   - component: {fileID: 5020286992421657882}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}

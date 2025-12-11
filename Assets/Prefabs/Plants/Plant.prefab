@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2428073766358369807}
   - component: {fileID: 370022949755160747}
   - component: {fileID: 7555924155604993746}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: EffectPlace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 4772986300197714523}
   - component: {fileID: 8575241723745153416}
   - component: {fileID: 3209218925159534003}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: HPText
   m_TagString: Plant
   m_Icon: {fileID: 0}
@@ -275,7 +275,7 @@ GameObject:
   - component: {fileID: 1172616660531236270}
   - component: {fileID: 2471237257151784739}
   - component: {fileID: 779738872464982599}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Plant
   m_TagString: Plant
   m_Icon: {fileID: 0}
@@ -465,7 +465,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7443762896852908816}
   - component: {fileID: 8894017212675687495}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -550,7 +550,7 @@ GameObject:
   - component: {fileID: 8640575862857087597}
   - component: {fileID: 8867332920047442737}
   - component: {fileID: 8667943473331375703}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SleepEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -654,7 +654,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2952071648228868474}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: JumpOverPlace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
