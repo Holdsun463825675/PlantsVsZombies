@@ -28,20 +28,15 @@ public class LevelConfigs
             dropSun = false,
             startingSun = 8000,
             cardType = TypeOfCard.Fixation,
-            fixedCards = new List<PlantID> { PlantID.PeaShooter, PlantID.PuffShroom, PlantID.SunShroom, PlantID.FumeShroom, PlantID.Coffeebean, PlantID.Jalapeno, PlantID.WallNut, PlantID.BowlingWallNut, PlantID.BowlingRedWallNut, PlantID.BowlingBigWallNut },
+            fixedCards = new List<PlantID> { PlantID.IceShroom, PlantID.ScaredyShroom, PlantID.HypnoShroom, PlantID.FumeShroom, PlantID.Coffeebean, PlantID.Jalapeno, PlantID.DoomShroom, PlantID.LilyPad, PlantID.Pumpkin, PlantID.FlowerPot },
 
-            zombieID = new List<ZombieID> { ZombieID.NormalZombie },
+            zombieID = new List<ZombieID> { ZombieID.BucketZombie, ZombieID.ScreenDoorZombie },
             zombieWaves = new List<ZombieWave> {
-                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.NormalZombie },spawnWeight = 100,largeWave = false},
-                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.NormalZombie },spawnWeight = 200,largeWave = false},
-                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.NormalZombie },spawnWeight = 300,largeWave = false},
-                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.NormalZombie },spawnWeight = 400,largeWave = false},
-                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.NormalZombie },spawnWeight = 500,largeWave = false},
-                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.NormalZombie },spawnWeight = 600,largeWave = false},
-                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.NormalZombie },spawnWeight = 700,largeWave = false},
-                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.NormalZombie },spawnWeight = 800,largeWave = false},
-                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.NormalZombie },spawnWeight = 900,largeWave = false},
-                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.NormalZombie },spawnWeight = 1000,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.BucketZombie, ZombieID.ScreenDoorZombie },spawnWeight = 100,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.BucketZombie, ZombieID.ScreenDoorZombie },spawnWeight = 100,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.BucketZombie, ZombieID.ScreenDoorZombie },spawnWeight = 100,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.BucketZombie, ZombieID.ScreenDoorZombie },spawnWeight = 100,largeWave = false},
+                new ZombieWave {zombieIDs = new List<ZombieID> { ZombieID.BucketZombie, ZombieID.ScreenDoorZombie },spawnWeight = 100,largeWave = false},
             },
             //tombstoneNum = 10,
             //tombstoneArea = -2,
@@ -50,7 +45,7 @@ public class LevelConfigs
             specialZombies = new List<ZombieID> { ZombieID.NormalZombie, ZombieID.ConeHeadZombie, ZombieID.BucketZombie },
             spawnTimer = 30,
             cardCoolingDown = false,
-            plantCol = true,
+            //plantCol = true,
         });
         // 1-1
         levelConfigs.Add(new LevelConfig

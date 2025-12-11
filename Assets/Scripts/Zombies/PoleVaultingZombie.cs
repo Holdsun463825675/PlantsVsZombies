@@ -135,6 +135,12 @@ public class PoleVaultingZombie : Zombie
         }
     }
 
+    public override void setFrozen(float frozenDuration = 5)
+    {
+        if (poleVaultingZombieState == PoleVaultingZombieState.Effect) setDeceleration(); // 跳跃状态时只能被减速
+        else base.setFrozen(frozenDuration);
+    }
+
     private void playEffectSound()
     {
         AudioManager.Instance.playClip(ResourceConfig.sound_zombie_poleVault);

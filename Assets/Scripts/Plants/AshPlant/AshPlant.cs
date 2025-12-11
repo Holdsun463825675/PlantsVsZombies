@@ -29,6 +29,23 @@ public class AshPlant : Plant
         targetRows = new List<int> { 0 }; // 默认为任意行都可攻击
         targetZombie = new List<Zombie>();
         targetArmor2 = new List<Armor2>();
+        ashState = AshPlantState.Normal;
+    }
+
+    public override void setState(PlantState state)
+    {
+        base.setState(state);
+        switch (state)
+        {
+            case PlantState.Suspension:
+                // 提前激活碰撞体
+                if (state == PlantState.Suspension) effectPlaceCollider.enabled = true;
+                break;
+            case PlantState.Idle:
+                break;
+            default:
+                break;
+        }
     }
 
     public virtual void setAshState(AshPlantState state)
@@ -74,7 +91,7 @@ public class AshPlant : Plant
     {
         anim.SetTrigger(AnimatorConfig.plant_explode);
         // 移动一点点激活碰撞体判定
-        transform.DOMove(new Vector3(transform.position.x, transform.position.y + 1e-3f, transform.position.z), 1f);
+        //transform.DOMove(new Vector3(transform.position.x, transform.position.y + 1e-3f, transform.position.z), 1f);
     }
 
     protected virtual void ExplodeEffect()

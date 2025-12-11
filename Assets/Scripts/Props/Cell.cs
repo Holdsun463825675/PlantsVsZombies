@@ -112,7 +112,6 @@ public class Cell : MonoBehaviour, IClickable
                     crater = true;
                     if (time != 0) craterTimer = time;
                     else craterTimer = craterTime;
-                    craterTimer = 0.0f;
                     Craters[0].SetActive(true);
                     killAllPlants();
                 }
@@ -377,7 +376,8 @@ public class Cell : MonoBehaviour, IClickable
     {
         foreach (KeyValuePair<PlantType, List<Plant>> pair in plants)
         {
-            foreach (Plant pl in pair.Value) if (!pl.cellTypes.Contains(cellType)) pl.UnderAttack(attackPoint, dieMode);
+            List<Plant> plList = new List<Plant>(pair.Value);
+            foreach (Plant pl in plList) if (pl) pl.UnderAttack(attackPoint, dieMode);
         }
     }
 
@@ -385,7 +385,8 @@ public class Cell : MonoBehaviour, IClickable
     {
         foreach (KeyValuePair<PlantType, List<Plant>> pair in plants)
         {
-            foreach (Plant pl in pair.Value) if (!pl.cellTypes.Contains(cellType)) pl.kill(dieMode);
+            List<Plant> plList = new List<Plant>(pair.Value);
+            foreach (Plant pl in plList) if (pl) pl.kill(dieMode);
         }
     }
 

@@ -11,6 +11,7 @@ public enum PlantID
     PeaShooter = 1, Sunflower = 2, CherryBomb = 3, WallNut = 4,
     PotatoMine = 5, SnowPea = 6, Chomper = 7, Repeater = 8,
     PuffShroom = 9, SunShroom = 10, FumeShroom = 11, GraveBuster = 12,
+    HypnoShroom = 13, ScaredyShroom = 14, IceShroom = 15, DoomShroom = 16,
     LilyPad = 17,
     Jalapeno = 21, Torchwood = 23, TallNut = 24,
     Pumpkin = 31,

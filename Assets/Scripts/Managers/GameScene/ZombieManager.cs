@@ -169,6 +169,11 @@ public class ZombieManager : MonoBehaviour
         this.state = state;
     }
 
+    public List<Zombie> getZombieList()
+    {
+        return zombieList;
+    }
+
     public void killAllZombie()
     {
         foreach (Zombie zombie in zombieList) if (zombie) zombie.kill();

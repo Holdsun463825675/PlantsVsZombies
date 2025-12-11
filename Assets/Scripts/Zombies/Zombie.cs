@@ -486,11 +486,11 @@ public class Zombie : MonoBehaviour, IClickable
         }
     }
 
-    public void setFrozen(float frozenDuration=5.0f)
+    public virtual void setFrozen(float frozenDuration=5.0f)
     {
-        if (!isHealthy()) return; // 只对健康状态有效
-        if (this.frozenDuration <= frozenDuration) this.frozenDuration = frozenDuration;
         setDeceleration(); // 冰冻通常附带减速
+        if (!isHealthy()) return; // 冰冻只对健康状态有效
+        if (this.frozenDuration <= frozenDuration) this.frozenDuration = frozenDuration;
     }
 
     public void setButter(float butterDuration=5.0f)
