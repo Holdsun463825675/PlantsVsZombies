@@ -319,7 +319,7 @@ public class Zombie : MonoBehaviour, IClickable
         if (state == ZombieHealthState.Die)
         {
             if (dieMode == 0 && !lostHeadAnim) setLostHeadAnim();
-            currArmor2Health = 0;
+            AddArmor2Health(-currArmor2Health);
             transform.DOKill();
             c2d.enabled = false;
             bowling_c2d.enabled = false;
