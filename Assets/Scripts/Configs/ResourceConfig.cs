@@ -44,6 +44,8 @@ public class ResourceConfig
     public const string sound_plant_bowlingimpact2 = "Audio/Sound/plant/bowlingimpact2";
     public const string sound_plant_gravebusterchomp = "Audio/Sound/plant/gravebusterchomp";
     public const string sound_plant_wakeup = "Audio/Sound/plant/wakeup";
+    public const string sound_plant_floop = "Audio/Sound/plant/floop";
+    public const string sound_plant_mindcontrolled = "Audio/Sound/plant/mindcontrolled";
     public const string sound_plant_plantgrow = "Audio/Sound/plant/plantgrow";
 
     public const string sound_plantshoot_throw = "Audio/Sound/plantshoot/throw";

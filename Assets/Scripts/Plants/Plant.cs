@@ -267,7 +267,7 @@ public class Plant : MonoBehaviour, IClickable
         }
     }
 
-    public virtual void UnderAttack(int point, int mode=0)
+    public virtual void UnderAttack(int point, int mode=0, Zombie zombie=null)
     {
         dieMode = mode;
         AddHealth(-point);

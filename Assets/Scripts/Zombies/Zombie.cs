@@ -40,6 +40,7 @@ public class Zombie : MonoBehaviour, IClickable
     protected float speed;
     public float deceleration; // 1为无减速，0为冰冻
     private float decelerationDuration, frozenDuration, butterDuration; // 减速、冰冻、黄油持续时间
+    public bool temptation;
 
     protected int maxHealth, currHealth;
     protected int maxArmor1Health, currArmor1Health;
@@ -76,9 +77,11 @@ public class Zombie : MonoBehaviour, IClickable
     public Armor2 armor2;
     protected TextMeshPro HPText;
     private Transform lostHeadPlace;
-    private List<Plant> targets;
+    private List<Plant> targetPlants;
+    private List<Zombie> targetZombies;
     private Animator lostHeadAnim;
-    protected List<Plant> effectTargets, effectBowlingTargets;
+    protected List<Plant> effectTargetPlants, effectBowlingTargetPlants;
+    protected List<Zombie> effectTargetZombies;
 
     protected Animator anim;
     private Collider2D c2d, bowling_c2d;
@@ -93,6 +96,7 @@ public class Zombie : MonoBehaviour, IClickable
         setMoveSpeed();
         deceleration = 1.0f;
         decelerationDuration = 0.0f; frozenDuration = 0.0f; butterDuration = 0.0f;
+        temptation = false;
 
         maxHealth = 270; currHealth = maxHealth;
         maxArmor1Health = 0; currArmor1Health = maxArmor1Health;
@@ -118,8 +122,8 @@ public class Zombie : MonoBehaviour, IClickable
         isBulletHit = true;
 
         zombieHeadPrefab = PrefabSystem.Instance.others[0];
-        targets = new List<Plant>();
-        effectTargets = new List<Plant>(); effectBowlingTargets = new List<Plant>();
+        targetPlants = new List<Plant>(); targetZombies = new List<Zombie>();
+        effectTargetPlants = new List<Plant>(); effectBowlingTargetPlants = new List<Plant>(); effectTargetZombies = new List<Zombie>();
         anim = GetComponent<Animator>();
         anim.SetBool(AnimatorConfig.zombie_game, false);
         c2d = GetComponent<Collider2D>();
@@ -224,37 +228,19 @@ public class Zombie : MonoBehaviour, IClickable
     {
         if (moveState == ZombieMoveState.Move) transform.DOPause();
         anim.enabled = false;
-        if (!isHealthy() && lostHeadAnim) lostHeadAnim.enabled = false;
+        if (lostHeadAnim) lostHeadAnim.enabled = false;
     }
 
     public virtual void Continue()
     {
         if (moveState == ZombieMoveState.Move) transform.DOPlay();
         anim.enabled = true;
-        if (!isHealthy() && lostHeadAnim) lostHeadAnim.enabled = true;
+        if (lostHeadAnim) lostHeadAnim.enabled = true;
     }
 
     public void OnClick()
     {
 
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == TagConfig.plant)
-        {
-            Plant target = collision.GetComponent<Plant>();
-            if (target && !targets.Contains(target)) targets.Add(target);
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == TagConfig.plant)
-        {
-            Plant target = collision.GetComponent<Plant>();
-            targets.Remove(target);
-        }
     }
 
     public int getMaxHealth()
@@ -269,7 +255,7 @@ public class Zombie : MonoBehaviour, IClickable
 
     public bool isHealthy()
     {
-        return healthState == ZombieHealthState.Healthy || healthState == ZombieHealthState.LostArm; 
+        return (healthState == ZombieHealthState.Healthy || healthState == ZombieHealthState.LostArm) && !temptation; 
     }
 
     public bool canAct() // 是否可行动，运动、啃食、特殊状态转换等
@@ -330,12 +316,14 @@ public class Zombie : MonoBehaviour, IClickable
     protected void moveToNextCell()
     {
         Vector3 target = new Vector3(losingGame.position.x, transform.position.y, transform.position.z);
-        Cell targetCell = CellManager.Instance.getCell(row, col - 1);
+        if (temptation) target.x = MapManager.Instance.currMap.endlinePositions[1].position.x;
+        Cell targetCell = CellManager.Instance.getCell(row, temptation ? col + 1 : col - 1);
         if (targetCell == null)
         {
             currentMoveTween = transform.DOMove(target, speed).SetSpeedBased().SetEase(Ease.Linear).OnComplete(() =>
             {
                 if (isHealthy()) GameManager.Instance.setState(GameState.Losing);
+                else kill(dieMode: 2);
             });
         }
         else
@@ -343,7 +331,9 @@ public class Zombie : MonoBehaviour, IClickable
             target = targetCell.transform.position;
             currentMoveTween = transform.DOMove(target, speed).SetSpeedBased().SetEase(Ease.Linear).OnComplete(() =>
             {
-                col -= 1; moveToNextCell();
+                if (temptation) col += 1;
+                else col -= 1;
+                moveToNextCell();
             });
         }
     }
@@ -356,8 +346,9 @@ public class Zombie : MonoBehaviour, IClickable
     protected virtual void kinematicsUpdate()
     {
         if (anim.GetBool(AnimatorConfig.zombie_game) == false) return;
-        Plant target = getAttackTarget();
-        if (target && canAct())
+        Zombie zombie = getAttackTargetZombie();
+        Plant target = getAttackTargetPlant();
+        if ((zombie || target) && canAct())
         {
             setMoveState(ZombieMoveState.Stop);
             anim.SetBool(AnimatorConfig.zombie_isAttack, true);
@@ -400,13 +391,18 @@ public class Zombie : MonoBehaviour, IClickable
         if (frozenDuration > 0 || butterDuration > 0) speedRatio = 0;
         anim.SetFloat(AnimatorConfig.zombie_speedRatio, speedRatio);
         anim.SetBool(AnimatorConfig.zombie_deceleration, deceleration < 1.0f || frozenDuration > 0);
-
-        if (lostHeadAnim) lostHeadAnim.SetFloat(AnimatorConfig.zombie_speedRatio, deceleration);
+        anim.SetBool(AnimatorConfig.zombie_temptation, temptation);
 
         if (currentMoveTween != null)
         {
             if (frozenDuration > 0 || butterDuration > 0) speedRatio = 0;
             currentMoveTween.timeScale = speedRatio;
+        }
+
+        if (lostHeadAnim)
+        {
+            lostHeadAnim.SetFloat(AnimatorConfig.zombie_speedRatio, deceleration);
+            lostHeadAnim.SetBool(AnimatorConfig.zombie_temptation, temptation);
         }
     }
 
@@ -469,7 +465,8 @@ public class Zombie : MonoBehaviour, IClickable
     {
         dieMode = mode;
         anim.SetBool(AnimatorConfig.zombie_underAttack, true);
-        int hurtPoint = (int)((float)point * SettingSystem.Instance.settingsData.hurtRate); // 根据受伤比例计算伤害
+        int hurtPoint = point;
+        if (!temptation) hurtPoint = (int)((float)point * SettingSystem.Instance.settingsData.hurtRate); // 不魅惑的根据受伤比例计算伤害
 
         if (currArmor1Health > 0) AddCurrHealth(-AddArmor1Health(-hurtPoint));
         else AddCurrHealth(-hurtPoint);
@@ -489,14 +486,35 @@ public class Zombie : MonoBehaviour, IClickable
     public virtual void setFrozen(float frozenDuration=5.0f)
     {
         setDeceleration(); // 冰冻通常附带减速
-        if (!isHealthy()) return; // 冰冻只对健康状态有效
+        if (!isHealthy() && !temptation) return; // 冰冻只对健康状态有效
         if (this.frozenDuration <= frozenDuration) this.frozenDuration = frozenDuration;
     }
 
     public void setButter(float butterDuration=5.0f)
     {
-        if (!isHealthy()) return; // 只对健康状态有效
+        if (!isHealthy() && !temptation) return; // 只对健康状态有效
         if (this.butterDuration <= butterDuration) this.butterDuration = butterDuration;
+    }
+
+    public void setTemptation()
+    {
+        if (temptation) return;
+        AudioManager.Instance.playClip(ResourceConfig.sound_plant_mindcontrolled);
+        temptation = true;
+
+        // 图层改为植物
+        gameObject.layer = LayerSystem.Plant_layer;
+        Destroy(GetComponent<Rigidbody2D>()); // 移除刚体
+
+        // 解除所有debuff
+        relieveFrozen(); relieveDeceleration(); relieveButter();
+
+        // 递归修改所有子物体
+        Transform[] children = GetComponentsInChildren<Transform>(true);
+        foreach (Transform child in children) child.gameObject.layer = gameObject.layer;
+
+        transform.DOKill(); currentMoveTween = null;
+        moveToNextCell();
     }
 
     public void relieveDeceleration()
@@ -528,19 +546,39 @@ public class Zombie : MonoBehaviour, IClickable
         return (plant.row == 0 || targetRows.Contains(0) || targetRows.Contains(plant.row)) && plant.type != PlantType.Flight;
     }
 
-    protected Plant getAttackTarget()
+    protected virtual bool CanAttack(Zombie zombie)
     {
-        foreach (Plant plant in targets) if (plant.type == PlantType.Surrounding && CanAttack(plant)) return plant;
-        foreach (Plant plant in targets) if (plant.type == PlantType.Normal && CanAttack(plant)) return plant;
-        foreach (Plant plant in targets) if (plant.type == PlantType.Carrier && CanAttack(plant)) return plant;
+        return (zombie.row == 0 || targetRows.Contains(0) || targetRows.Contains(zombie.row)) && zombie.isBulletHit;
+    }
+
+    protected Plant getAttackTargetPlant()
+    {
+        foreach (Plant plant in targetPlants) if (plant.type == PlantType.Surrounding && CanAttack(plant)) return plant;
+        foreach (Plant plant in targetPlants) if (plant.type == PlantType.Normal && CanAttack(plant)) return plant;
+        foreach (Plant plant in targetPlants) if (plant.type == PlantType.Carrier && CanAttack(plant)) return plant;
         return null; // 不吃飞行类植物
+    }
+
+    protected Zombie getAttackTargetZombie()
+    {
+        foreach (Zombie zombie in targetZombies) if (zombie && CanAttack(zombie)) return zombie;
+        return null;
     }
 
     protected virtual void Attack()
     {
-        if (anim.GetBool(AnimatorConfig.zombie_game) == false || !isHealthy()) return;
-        Plant target = getAttackTarget();
-        if (target) target.UnderAttack(attackPoint);
+        if (anim.GetBool(AnimatorConfig.zombie_game) == false || (!isHealthy() && !temptation)) return;
+
+        Zombie zombie = getAttackTargetZombie(); // 先攻击僵尸
+        if (zombie)
+        {
+            AudioManager.Instance.playClip(ResourceConfig.sound_zombieeat_chomps[Random.Range(0, ResourceConfig.sound_zombieeat_chomps.Length)]);
+            zombie.UnderAttack(attackPoint);
+            return;
+        }
+
+        Plant target = getAttackTargetPlant();
+        if (target) target.UnderAttack(attackPoint, zombie: this);
     }
 
     protected virtual bool CanEffect(Plant plant)
@@ -548,10 +586,21 @@ public class Zombie : MonoBehaviour, IClickable
         return (plant.row == 0 || effectRows.Contains(0) || effectRows.Contains(plant.row)) && plant.type != PlantType.Flight;
     }
 
-    protected virtual bool HaveEffectTarget()
+    protected virtual bool CanEffect(Zombie zombie)
     {
-        foreach (Plant plant in effectTargets) if (plant && CanEffect(plant)) return true;
-        foreach (Plant plant in effectBowlingTargets) if (plant && CanEffect(plant)) return true;
+        return (zombie.row == 0 || effectRows.Contains(0) || effectRows.Contains(zombie.row)) && zombie.isHealthy();
+    }
+
+    protected virtual bool HaveEffectTargetPlant()
+    {
+        foreach (Plant plant in effectTargetPlants) if (plant && CanEffect(plant)) return true;
+        foreach (Plant plant in effectBowlingTargetPlants) if (plant && CanEffect(plant)) return true;
+        return false;
+    }
+
+    protected virtual bool HaveEffectTargetZombie()
+    {
+        foreach (Zombie zombie in effectTargetZombies) if (zombie && CanEffect(zombie)) return true;
         return false;
     }
 
@@ -608,6 +657,40 @@ public class Zombie : MonoBehaviour, IClickable
         AddCurrHealth(-currHealth);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        switch (collision.tag)
+        {
+            case TagConfig.plant:
+                Plant target = collision.GetComponent<Plant>();
+                if (target && !targetPlants.Contains(target)) targetPlants.Add(target);
+                break;
+            case TagConfig.zombie:
+                Zombie zombie = collision.GetComponent<Zombie>();
+                if (zombie && !targetZombies.Contains(zombie)) targetZombies.Add(zombie);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        switch (collision.tag)
+        {
+            case TagConfig.plant:
+                Plant target = collision.GetComponent<Plant>();
+                if (target) targetPlants.Remove(target);
+                break;
+            case TagConfig.zombie:
+                Zombie zombie = collision.GetComponent<Zombie>();
+                if (zombie) targetZombies.Remove(zombie);
+                break;
+            default:
+                break;
+        }
+    }
+
     // 父物体处理触发事件的方法
     public virtual void OnChildTriggerEnter2D(Collider2D collision)
     {
@@ -615,11 +698,15 @@ public class Zombie : MonoBehaviour, IClickable
         {
             case TagConfig.plant:
                 Plant effectTarget = collision.GetComponent<Plant>();
-                if (effectTarget && !effectTargets.Contains(effectTarget)) effectTargets.Add(effectTarget);
+                if (effectTarget && !effectTargetPlants.Contains(effectTarget)) effectTargetPlants.Add(effectTarget);
                 break;
             case TagConfig.bowling_plant:
                 Plant effectBowlingTarget = collision.GetComponent<Plant>();
-                if (effectBowlingTarget && !effectBowlingTargets.Contains(effectBowlingTarget)) effectBowlingTargets.Add(effectBowlingTarget);
+                if (effectBowlingTarget && !effectBowlingTargetPlants.Contains(effectBowlingTarget)) effectBowlingTargetPlants.Add(effectBowlingTarget);
+                break;
+            case TagConfig.zombie:
+                Zombie zombie = GetComponent<Zombie>();
+                if (zombie && !effectTargetZombies.Contains(zombie)) effectTargetZombies.Add(zombie);
                 break;
             default:
                 break;
@@ -632,11 +719,15 @@ public class Zombie : MonoBehaviour, IClickable
         {
             case TagConfig.plant:
                 Plant effectTarget = collision.GetComponent<Plant>();
-                if (effectTarget) effectTargets.Remove(effectTarget);
+                if (effectTarget) effectTargetPlants.Remove(effectTarget);
                 break;
             case TagConfig.bowling_plant:
                 Plant effectBowlingTarget = collision.GetComponent<Plant>();
-                if (effectBowlingTarget) effectBowlingTargets.Remove(effectBowlingTarget);
+                if (effectBowlingTarget) effectBowlingTargetPlants.Remove(effectBowlingTarget);
+                break;
+            case TagConfig.zombie:
+                Zombie zombie = GetComponent<Zombie>();
+                if (zombie) effectTargetZombies.Remove(zombie);
                 break;
             default:
                 break;

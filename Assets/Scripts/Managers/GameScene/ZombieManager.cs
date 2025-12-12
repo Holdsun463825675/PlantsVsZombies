@@ -161,6 +161,7 @@ public class ZombieManager : MonoBehaviour
 
     public void removeZombie(Zombie zombie)
     {
+        lastWaveZombieList.Remove(zombie);
         zombieList.Remove(zombie);
     }
 
@@ -181,7 +182,7 @@ public class ZombieManager : MonoBehaviour
         if (zombies == null) zombies = zombieList;
         foreach (Zombie zombie in zombies)
         {
-            if (zombie == null) continue;
+            if (zombie == null || zombie.temptation) continue; // Ìø¹ý÷È»ó½©Ê¬
             if (targetRows == null || targetRows.Contains(0) || targetRows.Contains(zombie.row))
             {
                 float newDis = Vector3.Distance(position, zombie.transform.position);
@@ -196,7 +197,7 @@ public class ZombieManager : MonoBehaviour
 
     public void killAllZombie()
     {
-        foreach (Zombie zombie in zombieList) if (zombie) zombie.kill();
+        foreach (Zombie zombie in zombieList) if (zombie && !zombie.temptation) zombie.kill();
     }
 
     private void levelProcessUpdate()
@@ -281,7 +282,7 @@ public class ZombieManager : MonoBehaviour
         int currZombieHealth = 0;
         foreach (Zombie zombie in zombies)
         {
-            if (zombie) currZombieHealth += zombie.getCurrHealth();
+            if (zombie && !zombie.temptation) currZombieHealth += zombie.getCurrHealth();
         }
         return (float)currZombieHealth / (float)lastWaveZombieHealth;
     }

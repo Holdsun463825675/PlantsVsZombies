@@ -24,7 +24,7 @@ public class IceShroom : AshPlant
         List<Zombie> zombieList = ZombieManager.Instance.getZombieList();
         foreach (Zombie zombie in zombieList)
         {
-            if (zombie)
+            if (zombie && !zombie.temptation)
             {
                 if (zombie.armor2) zombie.armor2.UnderAttack(attackPoint); // 对二类防具也有伤害
                 zombie.UnderAttack(attackPoint, dieMode);

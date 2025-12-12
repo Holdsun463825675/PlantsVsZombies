@@ -59,7 +59,7 @@ public class PoleVaultingZombie : Zombie
                 int nextCol = col;
                 Vector3 jumpOverplace = transform.position;
                 float minY = transform.position.y;
-                foreach (Plant plant in effectTargets)
+                foreach (Plant plant in effectTargetPlants)
                 {
                     if (plant && CanEffect(plant))
                     {
@@ -68,7 +68,7 @@ public class PoleVaultingZombie : Zombie
                         minY = Mathf.Min(minY, plant.jumpOverPlace.position.y);
                     }
                 }
-                foreach (Plant plant in effectBowlingTargets)
+                foreach (Plant plant in effectBowlingTargetPlants)
                 {
                     if (plant && CanEffect(plant))
                     {
@@ -116,19 +116,12 @@ public class PoleVaultingZombie : Zombie
         switch (poleVaultingZombieState)
         {
             case PoleVaultingZombieState.NotEffect:
-                if (HaveEffectTarget() && canAct()) setPoleVaultingZombieState(PoleVaultingZombieState.Effect);
+                if (HaveEffectTargetPlant() && canAct()) setPoleVaultingZombieState(PoleVaultingZombieState.Effect);
                 break;
             case PoleVaultingZombieState.Effect:
                 break;
             case PoleVaultingZombieState.StopEffect:
-                Plant target = getAttackTarget();
-                if (target)
-                {
-                    setMoveState(ZombieMoveState.Stop);
-                    anim.SetBool(AnimatorConfig.zombie_isAttack, true);
-                    return;
-                }
-                anim.SetBool(AnimatorConfig.zombie_isAttack, false);
+                base.kinematicsUpdate();
                 break;
             default:
                 break;
@@ -149,8 +142,8 @@ public class PoleVaultingZombie : Zombie
     private void effectJudge()
     {
         bool judge = true;
-        foreach (Plant plant in effectTargets) if (plant && CanAttack(plant) && !plant.isZombieJumpOver) judge = false;
-        foreach (Plant plant in effectBowlingTargets) if (plant && CanAttack(plant) && !plant.isZombieJumpOver) judge = false;
+        foreach (Plant plant in effectTargetPlants) if (plant && CanAttack(plant) && !plant.isZombieJumpOver) judge = false;
+        foreach (Plant plant in effectBowlingTargetPlants) if (plant && CanAttack(plant) && !plant.isZombieJumpOver) judge = false;
         if (!judge)
         {
             AudioManager.Instance.playClip(ResourceConfig.sound_zombie_bonk);

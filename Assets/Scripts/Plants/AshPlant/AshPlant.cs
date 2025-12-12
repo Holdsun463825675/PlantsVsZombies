@@ -121,7 +121,7 @@ public class AshPlant : Plant
         } 
     }
 
-    public override void UnderAttack(int point, int mode=0)
+    public override void UnderAttack(int point, int mode=0, Zombie zombie=null)
     {
         if (ashState == AshPlantState.Explode && mode == 0) // 爆炸时不受啃咬伤害，只有音效
         {
