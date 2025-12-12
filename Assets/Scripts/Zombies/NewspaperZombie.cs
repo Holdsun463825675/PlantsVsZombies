@@ -34,7 +34,6 @@ public class NewspaperZombie : Zombie
                 break;
             case NewspaperZombieState.Gasp:
                 transform.DOKill(); currentMoveTween = null;
-                AudioManager.Instance.playClip(ResourceConfig.sound_zombie_newspaperRip);
                 break;
             case NewspaperZombieState.NoPaper:
                 anim.SetTrigger(AnimatorConfig.zombie_stopEffect);
@@ -50,6 +49,11 @@ public class NewspaperZombie : Zombie
     public override void AddArmor2Health(int point)
     {
         base.AddArmor2Health(point);
-        if (currArmor2Health <= 0) setNewspaperZombieState(NewspaperZombieState.Gasp);
+        if (currArmor2Health <= 0 && newspaperZombieState == NewspaperZombieState.ReadPaper) setNewspaperZombieState(NewspaperZombieState.Gasp);
+    }
+
+    public void losePaperSound()
+    {
+        AudioManager.Instance.playClip(ResourceConfig.sound_zombie_newspaperRip);
     }
 }
