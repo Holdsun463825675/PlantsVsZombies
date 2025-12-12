@@ -45,6 +45,7 @@ public class ZombieManager : MonoBehaviour
     private List<Zombie> zombiePreviewingList;
     private int currWaveNumber = 0;
     private float currWaveSurplusWeight = 0.0f;
+    private bool currWaveSpawnFlag = false; // 此波是否可以生成僵尸
     private List<ZombieID> zombieID; // 出现的僵尸
     private List<ZombieWave> zombieWaves; // 每波僵尸
     private List<ZombieID> specialZombies; // 特殊僵尸
@@ -82,6 +83,19 @@ public class ZombieManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    private void FixedUpdate()
+    {
+        // 间隔生成僵尸
+        if (currWaveSurplusWeight > 0)
+        {
+            while (currWaveSpawnFlag)
+            {
+                if (spawnOneZombie()) break;
+            }
+        }
+        else currWaveSpawnFlag = false;
     }
 
     public void getMap()
@@ -267,7 +281,10 @@ public class ZombieManager : MonoBehaviour
         spawnTimer += Time.deltaTime;
         getSpawnTime();
         levelProcessUpdate();
-        if (HaveHealthyZombie()) lastDeadZombiePosition = zombieList[0].transform.position;
+        if (HaveHealthyZombie() || currWaveSpawnFlag)
+        {
+            if (zombieList.Count > 0) lastDeadZombiePosition = zombieList[0].transform.position;
+        } 
         else // 出怪结束且僵尸全部死亡
         {
             // TODO: 转成UI坐标
@@ -336,34 +353,35 @@ public class ZombieManager : MonoBehaviour
 
     private void spawnZombies()
     {
-        if (currWaveNumber + 1 == zombieWaves.Count) // 最后一波
-        {
-            UIManager.Instance.playFinalWave();
-            spawnSpecialZombies();
-        } 
+        if (currWaveNumber == zombieWaves.Count) UIManager.Instance.playFinalWave(); // 最后一波
+
         zombieNum = new int[zombieSpawnPlaceList.Count].ToList();
         lastWaveZombieHealth = 0;
         lastWaveZombieList.Clear();
-        if (zombieWaves[currWaveNumber].largeWave) spawnOneZombie(ZombieID.FlagZombie); // 大波生成旗帜僵尸
-        for (int i = 0; i < zombieWaves[currWaveNumber].certainlySpawn; i++) spawnOneZombie(zombieWaves[currWaveNumber].zombieIDs[i]); // 必定生成的僵尸
-        while (currWaveSurplusWeight > 0.0f) spawnOneZombie();
+
+        if (zombieWaves[currWaveNumber - 1].largeWave) spawnOneZombie(ZombieID.FlagZombie); // 大波生成旗帜僵尸
+        for (int i = 0; i < zombieWaves[currWaveNumber - 1].certainlySpawn; i++) spawnOneZombie(zombieWaves[currWaveNumber - 1].zombieIDs[i]); // 必定生成的僵尸
+        spawnSpecialZombies(); // 生成特殊僵尸
+        currWaveSpawnFlag = true; // 生成剩余僵尸
+
+        //while (currWaveSurplusWeight > 0.0f) spawnOneZombie();
     }
 
-    private void spawnOneZombie(ZombieID ID=ZombieID.None)
+    private bool spawnOneZombie(ZombieID ID=ZombieID.None)
     {
         // 获取预制体
         Zombie zombiePrefab = null;
         if (ID == ZombieID.None)
         {
             // 随机僵尸
-            ZombieID zombieID = zombieWaves[currWaveNumber].zombieIDs[Random.Range(0, zombieWaves[currWaveNumber].zombieIDs.Count)];
+            ZombieID zombieID = zombieWaves[currWaveNumber - 1].zombieIDs[Random.Range(0, zombieWaves[currWaveNumber - 1].zombieIDs.Count)];
             
             foreach (var go in PrefabSystem.Instance.zombiePrefabs)
             {
                 if (go.GetComponent<Zombie>().zombieID == zombieID) zombiePrefab = go.GetComponent<Zombie>();
             }
             // 不符要求重新生成
-            if (!zombiePrefab || zombiePrefab.spawnWeight > currWaveSurplusWeight && zombiePrefab.spawnWeight > getWaveMinZombieWeight()) return;
+            if (!zombiePrefab || zombiePrefab.spawnWeight > currWaveSurplusWeight && zombiePrefab.spawnWeight > getWaveMinZombieWeight()) return false;
         }
         else
         {
@@ -371,30 +389,25 @@ public class ZombieManager : MonoBehaviour
             {
                 if (go.GetComponent<Zombie>().zombieID == ID) zombiePrefab = go.GetComponent<Zombie>();
             }
-            if (!zombiePrefab) return;
+            if (!zombiePrefab) return false;
         }
 
         // 在僵尸数量最少的行生成
         int row = getMinZombieNumRow();
         zombieNum[row]++;
-        if (spawnProtection[row] > 0)
-        {
-            spawnOneZombie(ID); // 有出怪保护则重新生成
-            return;
-        }
+        if (spawnProtection[row] > 0) return spawnOneZombie(ID); // 有出怪保护则重新生成
 
         Zombie zombie = GameObject.Instantiate(zombiePrefab, zombieSpawnPlaceList[row].position, Quaternion.identity);
-        if (zombie)
-        {
-            row++;
-            addZombie(zombie);
-            currWaveSurplusWeight -= zombie.spawnWeight;
-            lastWaveZombieHealth += zombie.getMaxHealth();
-            lastWaveZombieList.Add(zombie);
-            int count = zombie.setSortingOrder(orderInLayers[row - 1]);
-            orderInLayers[row - 1] += count;
-            zombie.setGameMode(row, CellManager.Instance.maxCol + 1); // 设置游戏模式
-        }
+        if (!zombie) return false;
+        row++;
+        addZombie(zombie);
+        currWaveSurplusWeight -= zombie.spawnWeight;
+        lastWaveZombieHealth += zombie.getMaxHealth();
+        lastWaveZombieList.Add(zombie);
+        int count = zombie.setSortingOrder(orderInLayers[row - 1]);
+        orderInLayers[row - 1] += count;
+        zombie.setGameMode(row, CellManager.Instance.maxCol + 1); // 设置游戏模式
+        return true;
     }
 
     private void spawnSpecialZombie(int row, int col) // 在特殊位置生成僵尸，不占出怪权重
@@ -434,11 +447,26 @@ public class ZombieManager : MonoBehaviour
 
     private void spawnSpecialZombies()
     {
-        // 坟墓生成特殊僵尸
-        foreach (Cell cell in CellManager.Instance.cellList)
+        if (zombieWaves[currWaveNumber - 1].specialSpawnType.Count == 0) return;
+        foreach (int type in zombieWaves[currWaveNumber - 1].specialSpawnType)
         {
-            if (cell.tombstone) spawnSpecialZombie(cell.row, cell.col);
+            switch (type)
+            {
+                case 0: // 坟墓
+                    foreach (Cell cell in CellManager.Instance.cellList)
+                    {
+                        if (cell.tombstone) spawnSpecialZombie(cell.row, cell.col);
+                    }
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                default:
+                    break;
+            }
         }
+
     }
 
     private void nextWave()
@@ -471,8 +499,8 @@ public class ZombieManager : MonoBehaviour
             UIManager.Instance.Flags[currLargeWave++].GetComponent<Animator>().enabled = true;
             isPlayingHugeWave = false;
         }
-        spawnZombies();
         currWaveNumber++;
+        spawnZombies();
         spawnTime = spawnMaxTime;
         spawnTimer = 0.0f;
         waveDurationTimer = 0.0f;

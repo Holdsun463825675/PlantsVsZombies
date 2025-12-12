@@ -22,7 +22,7 @@ public class LayerSystem : MonoBehaviour
     private void Awake()
     {
         SetupCustomLayers();
-        Time.fixedDeltaTime = 0.04f;
+        //Time.fixedDeltaTime = 0.04f;
         Physics2D.velocityIterations = 3;
         Physics2D.positionIterations = 1;
         Physics2D.autoSyncTransforms = false; // ∫‹÷ÿ“™£°

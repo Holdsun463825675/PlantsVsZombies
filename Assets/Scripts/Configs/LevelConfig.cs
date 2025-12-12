@@ -59,4 +59,5 @@ public class ZombieWave
     public float spawnWeight; // 出怪权重
     public bool largeWave; // 是否为大波
     public int certainlySpawn = 0; // 必定出现的前几种僵尸
+    public List<int> specialSpawnType = new List<int>(); // 特殊出怪类型，0为坟墓，1为水池，2为空降
 }
